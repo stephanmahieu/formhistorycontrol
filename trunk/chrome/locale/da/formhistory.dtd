@@ -1,0 +1,220 @@
+<!ENTITY fhwin.window.title "Form History Control">
+<!ENTITY historywindow.notification.moreinfo "(mere)">
+<!ENTITY fhwin.historytab.formhistory "Vis historik">
+<!ENTITY fhwin.historytab.formhistory.accesskey "V">
+<!ENTITY fhwin.historytab.cleanup "Ryd op">
+<!ENTITY fhwin.historytab.cleanup.accesskey "o">
+<!ENTITY fhwin.filter.label "Søg">
+<!ENTITY fhwin.filter.advancedsearch "Avanceret søgning">
+<!ENTITY fhwin.filter.simplesearch "Enkel søgning">
+<!ENTITY fhwin.advancedfilter.fromto.from.label "fra">
+<!ENTITY fhwin.advancedfilter.fromto.to.label "til">
+<!ENTITY fhwin.advancedfilter.enterdatetime.tooltip "Indtast en dato og tidspunkt">
+<!ENTITY fhwin.advancedfilter.host.label "Vært">
+<!ENTITY fhwin.menuitem.regexpsearch.title "Regulære udtryk">
+<!ENTITY fhwin.menuitem.regexpsearch.tooltip "Vælg fra en liste med foruddefinerede regulære udtryk">
+<!ENTITY fhwin.menuitem.regexpsearch.manage "Håndter…">
+<!ENTITY fhwin.menuitem.urlmenu.tooltip "Link-menu">
+<!ENTITY fhwin.menuitem.urlmenu.openurl "Åbn link">
+<!ENTITY fhwin.menuitem.urlmenu.openurlnoparam "Åbn link uden parametre">
+<!ENTITY fhwin.menuitem.urlmenu.openurlhost "Åbn vært">
+<!ENTITY fhwin.menuitem.urlmenu.openurlcopy "Kopier link-placering">
+<!ENTITY fhwin.checkbox.matchcase.label "Versalfølsom">
+<!ENTITY fhwin.checkbox.matchcase.accesskey "V">
+<!ENTITY fhwin.treeview.column.description.label "Beskrivelse">
+<!ENTITY fhwin.treeview.column.name.label "Feltnavn">
+<!ENTITY fhwin.treeview.column.value.label "Værdi">
+<!ENTITY fhwin.treeview.column.used.label "Anvendt antal gange">
+<!ENTITY fhwin.treeview.column.first.label "Først anvendt">
+<!ENTITY fhwin.treeview.column.last.label "Senest anvendt">
+<!ENTITY fhwin.treeview.column.agefirst.label "Alder først anvendt">
+<!ENTITY fhwin.treeview.column.agelast.label "Alder senest anvendt">
+<!ENTITY fhwin.treeview.column.guessedhost.label "Vært (bedste gæt)">
+<!ENTITY fhwin.treeview.column.guessedurl.label "URL (bedste gæt)">
+<!ENTITY fhwin.treeview.column.guessedpagetitle.label "Sidetitel (bedste gæt)">
+<!ENTITY fhwin.treeview.column.index.label "Indeks">
+<!ENTITY fhwin.treeview.cleanuppreview.label "Forhåndsvis poster der matcher oprydningskriterier">
+<!ENTITY fhwin.treeview.closecleanuppreview.tooltip "Luk forhåndsvisning">
+<!ENTITY fhwin.checkbox.searchpageonly.label "Vis kun pågældende side">
+<!ENTITY fhwin.checkbox.searchfieldonly.label "Vis kun pågældende felt">
+<!ENTITY fhwin.checkbox.searchcleanuponly.label "Vis kun matchende oprydningskriterier">
+<!ENTITY fhwin.checkbox.searchcleanuponly.tooltip "Vis kun formularhistorikposter der matcher oprydningskriterier">
+<!ENTITY fhwin.checkbox.searchcleanuponly.accesskey "k">
+<!ENTITY fhwin.button.clear.label "Ryd">
+<!ENTITY fhwin.button.clear.accesskey "y">
+<!ENTITY fhwin.button.remove.label "Fjern">
+<!ENTITY fhwin.button.remove.accesskey "F">
+<!ENTITY fhwin.button.removeall.label "Fjern alle">
+<!ENTITY fhwin.button.removeall.accesskey "a">
+<!ENTITY fhwin.button.cleanup.label "Ryd op">
+<!ENTITY fhwin.button.cleanup.accesskey "o">
+<!ENTITY fhwin.button.add.label "Indtast">
+<!ENTITY fhwin.button.add.accesskey "i">
+<!ENTITY fhwin.button.edit.label "Rediger">
+<!ENTITY fhwin.button.edit.accesskey "d">
+<!ENTITY fhwin.button.closepreview.label "Luk forhåndsvisning">
+<!ENTITY fhwin.button.close.label "Luk">
+<!ENTITY fhwin.button.close.accesskey "k">
+<!ENTITY fhwin.menu.file.label "Filer">
+<!ENTITY fhwin.menu.file.accesskey "F">
+<!ENTITY fhwin.menu.edit.label "Rediger">
+<!ENTITY fhwin.menu.edit.accesskey "R">
+<!ENTITY fhwin.menu.view.label "Vis">
+<!ENTITY fhwin.menu.view.accesskey "V">
+<!ENTITY fhwin.menu.tools.label "Funktioner">
+<!ENTITY fhwin.menu.tools.accesskey "u">
+<!ENTITY fhwin.menu.help.label "Hjælp">
+<!ENTITY fhwin.menu.help.accesskey "H">
+<!ENTITY fhwin.menuitem.insert.label "Indtast ny">
+<!ENTITY fhwin.menuitem.insert.accelkey "n">
+<!ENTITY fhwin.menuitem.edit.label "Rediger">
+<!ENTITY fhwin.menuitem.edit.accelkey "R">
+<!ENTITY fhwin.menuitem.delete.label "Slet">
+<!ENTITY fhwin.menuitem.deleteallname.label "Slet alle med samme navn">
+<!ENTITY fhwin.menuitem.deleteallvalue.label "Slet alle med samme værdi">
+<!ENTITY fhwin.menuitem.selectall.label "Vælg alle">
+<!ENTITY fhwin.menuitem.selectall.accelkey "a">
+<!ENTITY fhwin.menuitem.selectnone.label "Vælg ingen">
+<!ENTITY fhwin.menuitem.selectinvert.label "Inverter markering">
+<!ENTITY fhwin.menuitem.addcleanup.label "Tilføj som oprydningskriterium">
+<!ENTITY fhwin.menuitem.exportall.label "Eksporter alle historikposter">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Eksporter poster der matcher søgeresultat">
+<!ENTITY fhwin.menuitem.exportselected.label "Eksporter kun valgte poster">
+<!ENTITY fhwin.menuitem.import.label "Importer historik">
+<!ENTITY fhwin.menuitem.exportcsv.label "Eksporter fuldstændig historik som CSV">
+<!ENTITY fhwin.menuitem.reloadview.label "Genindlæs">
+<!ENTITY fhwin.menuitem.close.label "Luk">
+<!ENTITY fhwin.menuitem.options.label "Indstillinger">
+<!ENTITY fhwin.menuitem.options.accelkey "I">
+<!ENTITY fhwin.menuitem.help.label "Indhold">
+<!ENTITY fhwin.menuitem.releasenotes.label "Udgivelsesnoter">
+<!ENTITY fhwin.menuitem.about.label "Om Form History Control">
+<!ENTITY fhwin.cleanup.menuitem.exportcfg.label "Eksporter konfiguration">
+<!ENTITY fhwin.cleanup.menuitem.importcfg.label "Importer konfiguration">
+<!ENTITY fhwin.cleanup.label "Kriterier til fjernelse af uønskede formularhistorikposter">
+<!ENTITY fhwin.cleanup.timeusage.group.caption "Tids/Anvendelseskriterier">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label "Fjern alle formularhistorikposter der ikke er anvendt i">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label2 "dage">
+<!ENTITY fhwin.cleanup.checkbox.daysused.accesskey "F">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label "Fjern alle formularhistorikposter anvendt færre end">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label2 "gange">
+<!ENTITY fhwin.cleanup.checkbox.timesused.accesskey "j">
+<!ENTITY fhwin.cleanup.automaticcleanup.group.caption "Automatisk oprydning">
+<!ENTITY fhwin.cleanup.namevalue.group.caption "Navn/Værdikriterier">
+<!ENTITY fhwin.cleanup.tab.cleanup.label "Ryd op">
+<!ENTITY fhwin.cleanup.tab.cleanup.accesskey "y">
+<!ENTITY fhwin.cleanup.tab.protect.label "Ryd aldrig op">
+<!ENTITY fhwin.cleanup.tab.protect.accesskey "R">
+<!ENTITY fhwin.cleanup.treeviewprotect.label "Fjern aldrig formularhistorikposter der matcher navn/værdipar">
+<!ENTITY fhwin.cleanup.treeview.label "Fjern formularhistorikposter der matcher navn/værdipar">
+<!ENTITY fhwin.cleanup.button.preview.label "Forhåndsvis matchende poster">
+<!ENTITY fhwin.cleanup.button.preview.accesskey "F">
+<!ENTITY fhmnuovl.menu.main.manager.label "Formularhistorik">
+<!ENTITY fhmnuovl.menuitem.manager.label "Form History Control">
+<!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Slet dette felts nuværende værdi">
+<!ENTITY fhmnuovl.menuitem.deletethis.label "Slet hele dette felts historik">
+<!ENTITY fhmnuovl.menuitem.managethis.label "Håndter poster til dette felt">
+<!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Fyld felter med seneste poster">
+<!ENTITY fhmnuovl.menuitem.fillmostused.label "Fyld felt med oftest anvendte poster">
+<!ENTITY fhmnuovl.menuitem.clearfields.label "Ryd de udfyldte felter">
+<!ENTITY fhmnuovl.menuitem.options.label "Indstillinger">
+<!ENTITY fhentrydlg.windowtitle "Rediger formularhistorik">
+<!ENTITY fhentrydlg.edit.description "Rediger en eksisterende formularhistorikpost">
+<!ENTITY fhentrydlg.add.description "Indtast en ny formularhistorikpost">
+<!ENTITY fhentrydlg.fieldname.label "Feltnavn">
+<!ENTITY fhentrydlg.value.label "Værdi">
+<!ENTITY fhentrydlg.timesused.label "Anvendt antal gange">
+<!ENTITY fhentrydlg.firstused.label "Først anvendt">
+<!ENTITY fhentrydlg.firstusedhistory.img.tooltip "Vis browserhistorik omkring det tidspunkt hvor dette formularfelt først blev indsendt">
+<!ENTITY fhentrydlg.lastused.label "Senest anvendt">
+<!ENTITY fhentrydlg.lastusedhistory.img.tooltip "Vis browserhistorik omkring det tidspunkt hvor dette formularfelt senest blev indsendt">
+<!ENTITY fhentrydlg.place.group.caption "Senest besøgte side">
+<!ENTITY fhentrydlg.pagetitle.label "Titel">
+<!ENTITY fhentrydlg.host.label "Vært">
+<!ENTITY fhentrydlg.url.label "URL">
+<!ENTITY fhentrydlg.blankfielderror.label "Lad ikke nogle af felterne være tomme">
+<!ENTITY fhentrydlg.existerror.label "Et formularhistorikelement med dette navn og værdi findes allerede">
+<!ENTITY fhcriteriadlg.windowtitle "Rediger oprydningskriterier">
+<!ENTITY fhcriteriadlg.edit.description "Rediger eksisterende oprydningskriterier">
+<!ENTITY fhcriteriadlg.add.description "Indtast nyt oprydningskriterium">
+<!ENTITY fhcriteriadlg.description.label "Beskrivelse">
+<!ENTITY fhcriteriadlg.fieldname.label "Feltnavn">
+<!ENTITY fhcriteriadlg.value.label "Værdi">
+<!ENTITY fhcriteriadlg.matchcase.label "Versalfølsom">
+<!ENTITY fhcriteriadlg.namevaluefieldsemptyerror.label "Lad ikke feltnavn og værdifelt være tomme">
+<!ENTITY fhcriteriadlg.existerror.label "Kriterium med disse egenskaber findes allerede">
+<!ENTITY fhcregexpdlg.windowtitle "Håndter regulært udtryk">
+<!ENTITY fhcregexpdlg.edit.description "Rediger regulært udtryk">
+<!ENTITY fhcregexpdlg.add.description "Tilføj regulært udtryk">
+<!ENTITY fhcregexpdlg.description.label "Beskrivelse">
+<!ENTITY fhcregexpdlg.category.label "Kategori">
+<!ENTITY fhcregexpdlg.regexp.label "Regulært udtryk">
+<!ENTITY fhcregexpdlg.matchcase.label "Versalfølsom">
+<!ENTITY fhcregexpdlg.useforname.radiolabel "Feltnavne">
+<!ENTITY fhcregexpdlg.useforvalue.radiolabel "Feltværdier">
+<!ENTITY fhcregexpdlg.useforboth.radiolabel "Begge">
+<!ENTITY fhcregexpdlg.emptyerror.label "Lad ikke beskrivelse og feltet regulært udtryk være tomt">
+<!ENTITY fhcregexpdlg.existerror.label "Et udtryk med disse egenskaber findes allerede">
+<!ENTITY fhdatetimedlg.windowtitle "Dato og tidspunkt">
+<!ENTITY fhdatetimedlg.description "Sæt dato og tidspunkt">
+<!ENTITY fhdatetimedlg.date.label "Dato">
+<!ENTITY fhdatetimedlg.time.label "Tidspunkt">
+<!ENTITY fhdatetimedlg.setzerotime.tooltip "Sæt tidspunkt til 0:00:00">
+<!ENTITY fhbrowsehistorydlg.older.label "Ældre">
+<!ENTITY fhbrowsehistorydlg.older.tooltip "Hent yderligere ældre historik">
+<!ENTITY fhbrowsehistorydlg.newer.label "Nyere">
+<!ENTITY fhbrowsehistorydlg.newer.tooltip "Hent yderligere nyere historik">
+<!ENTITY fhprefs.window.title "Form History Control præferencer">
+<!ENTITY fhprefs.prefpane.miscellaneous.label "Diverse">
+<!ENTITY fhprefs.group.preferences.caption "Indstillinger">
+<!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Søgning er versalfølsom">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.label "Skjul historikelementer der håndteres af Firefox's login-håndtering">
+<!ENTITY fhprefs.group.warnings.caption "Vis advarsler">
+<!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Advar mig før sletning af et enkelt element">
+<!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Advar mig før sletning af flere elementer">
+<!ENTITY fhprefs.prefpane.display.label "Vis">
+<!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Anvend et tilpasset dato/tidsformat">
+<!ENTITY fhprefs.group.taskbar.caption "Statuslinje">
+<!ENTITY fhprefs.checkbox.showtaskbaricon.label "Vis ikon i værktøjslinje">
+<!ENTITY fhprefs.group.toolbar.caption "Værktøjslinje">
+<!ENTITY fhprefs.group.showmenu.caption "Menu">
+<!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skjul menupunktet i menuen Funktioner">
+<!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skjul menupunktet i genvejsmenuen">
+<!ENTITY fhprefs.prefpane.quickfill.label "Kvik-fyld">
+<!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Skift baggrundsfarve">
+<!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Skift rammefarve">
+<!ENTITY fhprefs.checkbox.quickfillborderwidth.label "Skift rammetykkelse">
+<!ENTITY fhprefs.textbox.quickfillpreviewtest.label "Test">
+<!ENTITY fhprefs.textbox.quickfillpreviewtext "Forhåndsvis">
+<!ENTITY fhprefs.prefpane.importexport.label "Importer/Eksporter">
+<!ENTITY fhprefs.group.csvexport.caption "CSV-eksport">
+<!ENTITY fhprefs.textbox.csvexportquote.label "Omgiv værdier med">
+<!ENTITY fhprefs.prefpane.cleanup.label "Ryd op">
+<!ENTITY fhprefs.checkbox.cleanupshutdown.label "Udfør oprydning når browseren lukkes">
+<!ENTITY fhprefs.checkbox.cleanuptabclose.label "Udfør oprydning når et faneblad lukkes">
+<!ENTITY fhprefs.button.cleanupnow.label "Ryd op nu">
+<!ENTITY fhprefs.prefpane.search.label "Søg">
+<!ENTITY fhprefs.label.search.manage "Håndter regulære søgeudtryk i avanceret søgning">
+<!ENTITY fhprefs.checkbox.names.label "Navne">
+<!ENTITY fhprefs.checkbox.values.label "Værdier">
+<!ENTITY fhprefs.treeview.column.description.label "Beskrivelse">
+<!ENTITY fhprefs.treeview.column.category.label "Kategori">
+<!ENTITY fhprefs.treeview.column.regexp.label "Udtryk">
+<!ENTITY fhprefs.treeview.column.usefor.label "Navn/Værdi">
+<!ENTITY fhprefs.treeview.column.index.label "Indeks">
+<!ENTITY fhprefs.prefpane.information.label "Information">
+<!ENTITY fhprefs.textbox.information.filepath.label "Sti">
+<!ENTITY fhprefs.textbox.information.filesize.label "Størrelse">
+<!ENTITY fhprefs.textbox.information.databaserows.label "Rækker">
+<!ENTITY fhprefs.button.information.createnew.label "Opret ny">
+<!ENTITY fhprefs.button.information.recover.label "Opret og genskab">
+<!ENTITY fhprefs.button.information.restoreregexp.label "Gendan RegExp">
+<!ENTITY fhprefs.button.information.restoreregexp.tooltip "Gendan de foruddefinerede regulære udtryk (avanceret søgning)">
+<!ENTITY fhpref.tooltiplabel.dateformat.showhelp "Klik her for mere information">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptioncolumn "Beskrivelse">
+<!ENTITY fhpref.tooltiplabel.dateformat.examplescolumn "Eksempel">
+<!ENTITY fhpref.tooltiplabel.dateformat.year "År">
+<!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisekund">
+<!ENTITY fhprefovl.privacy.button.showhistory.label "Vis historik">
+<!ENTITY fhprefovl.privacy.button.showhistory.accesskey "V">
+<!ENTITY fhabout.label.description "Beskrivelse">

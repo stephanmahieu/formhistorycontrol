@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd">
+
+<overlay id="formhistoryPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" src="chrome://formhistory/content/overlay/FhcPreferencesOverlay.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcShowDialog.js" />
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="formhistory.stringbundle" src="chrome://formhistory/locale/formhistory.properties"/>
+  </stringbundleset>
+
+  <prefpane id="panePrivacy">
+    <groupbox id="historyGroup">
+      <hbox insertafter="rememberForms" id="preferencesFormHistoryControlBox" hidden="true">
+        <button id="preferencesFormHistoryControlButton"
+                label="&fhprefovl.privacy.button.showhistory.label;..."
+                accesskey="&fhprefovl.privacy.button.showhistory.accesskey;"
+                hidden="false"
+                oncommand="FhcShowDialog.doShowFormHistoryControl();" />
+      </hbox>
+    </groupbox>
+  </prefpane>
+</overlay>
