@@ -1,0 +1,29 @@
+<!ENTITY fhwin.window.title "Form History Control">
+<!ENTITY fhwin.historytab.formhistory "Előzmények megjelenítése">
+<!ENTITY fhwin.historytab.cleanup "Törlés">
+<!ENTITY fhwin.filter.label "Keresés">
+<!ENTITY fhwin.treeview.column.value.label "Érték">
+<!ENTITY fhwin.treeview.column.first.label "Első használat">
+<!ENTITY fhwin.treeview.column.last.label "Utolsó használat">
+<!ENTITY fhwin.checkbox.searchpageonly.accesskey "p">
+<!ENTITY fhwin.button.remove.label "Eltávolítás">
+<!ENTITY fhwin.button.removeall.label "Összes eltávolítása">
+<!ENTITY fhwin.button.add.label "Beszúrás">
+<!ENTITY fhwin.button.edit.label "Szerkesztés">
+<!ENTITY fhwin.button.close.label "Bezárás">
+<!ENTITY fhwin.menu.file.label "Fájl">
+<!ENTITY fhwin.menu.edit.label "Szerkesztés">
+<!ENTITY fhwin.menu.tools.label "Eszközök">
+<!ENTITY fhwin.menu.help.label "SúgóÚ">
+<!ENTITY fhwin.menuitem.insert.label "Új beszúrása">
+<!ENTITY fhwin.menuitem.edit.label "Szerkesztés">
+<!ENTITY fhwin.menuitem.delete.label "Törlés">
+<!ENTITY fhwin.menuitem.selectall.label "Összes kijelölése">
+<!ENTITY fhwin.menuitem.close.label "Bezárás">
+<!ENTITY fhwin.menuitem.options.label "Beállítások">
+<!ENTITY fhwin.menuitem.releasenotes.label "Kiadási megjegyzések">
+<!ENTITY fhentrydlg.value.label "Érték">
+<!ENTITY fhentrydlg.firstused.label "Első használat">
+<!ENTITY fhentrydlg.lastused.label "Utolsó használat">
+<!ENTITY fhprefovl.privacy.button.showhistory.label "Előzmények megjelenítése">
+<!ENTITY fhabout.label.description "Leírás">
