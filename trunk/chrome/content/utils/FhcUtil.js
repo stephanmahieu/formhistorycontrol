@@ -771,7 +771,13 @@ const FhcUtil = {
       var recentWindow = wm.getMostRecentWindow("navigator:browser");
       if (recentWindow) {
         // use an existing browser window
-        recentWindow.delayedOpenTab(url, null, null, null, null);
+        try {
+          recentWindow.delayedOpenTab(url, null, null, null, null);
+        } catch(e) {
+          // SeaMonkey
+          recentWindow.gBrowser.addTab(url);
+          recentWindow.gBrowser.selectTabAtIndex(recentWindow.gBrowser.tabs.length-1);
+        }
       }
       else {
         // no browser windows are open, so open a new one.
