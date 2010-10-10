@@ -217,7 +217,7 @@
 <!ENTITY fhdatetimedlg.time.label "Time">
 <!ENTITY fhdatetimedlg.setzerotime.tooltip "Set time to 0:00:00">
 
-<!ENTITY fhbrowsehistorydlg.windowtitle "Browse History for FormField">
+<!ENTITY fhbrowsehistorydlg.windowtitle "Browse History for Form Field">
 <!ENTITY fhbrowsehistorydlg.older.label "Older">
 <!ENTITY fhbrowsehistorydlg.older.tooltip "Get additional older history">
 <!ENTITY fhbrowsehistorydlg.newer.label "Newer">
@@ -237,7 +237,7 @@
 <!ENTITY fhprefs.prefpane.display.label "Display">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Form History Items View">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Use a custom date/time format">
-<!ENTITY fhprefs.checkbox.defaultSearchCurrentPageChecked.label "Default display option is 'Search only current page'">
+<!ENTITY fhprefs.checkbox.defaultSearchCurrentPageChecked.label "Default display option is 'Show only current page'">
 <!ENTITY fhprefs.group.taskbar.caption "Taskbar">
 <!ENTITY fhprefs.checkbox.showtaskbaricon.label "Show icon in the taskbar">
 <!ENTITY fhprefs.group.toolbar.caption "Toolbar">
@@ -269,9 +269,9 @@
 <!ENTITY fhprefs.prefpane.search.label "Search">
 <!ENTITY fhprefs.label.search.manage "Manage Regular Search Expressions used in Advanced Search">
 <!ENTITY fhprefs.checkbox.names.label "Names">
-<!ENTITY fhprefs.checkbox.names.tooltip "Show regular search expressions for FieldNames">
+<!ENTITY fhprefs.checkbox.names.tooltip "Show regular search expressions for Fieldnames">
 <!ENTITY fhprefs.checkbox.values.label "Values">
-<!ENTITY fhprefs.checkbox.values.tooltip "Show regular search expressions for FieldValues">
+<!ENTITY fhprefs.checkbox.values.tooltip "Show regular search expressions for Fieldvalues">
 <!ENTITY fhprefs.treeview.column.description.label "Description">
 <!ENTITY fhprefs.treeview.column.category.label "Category">
 <!ENTITY fhprefs.treeview.column.regexp.label "Expression">
