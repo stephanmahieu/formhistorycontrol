@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-     
+		 xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
 		<em:version>1.2.7</em:version>
@@ -9,7 +9,7 @@
 		
 		<!-- Target Application this extension can install into. -->
 		<em:targetApplication>
-  	  <!-- Firefox -->
+			<!-- Firefox -->
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>3.0.9</em:minVersion>
@@ -17,21 +17,21 @@
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
-      <!-- SeaMonkey -->
+			<!-- SeaMonkey -->
 			<Description>
 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
 				<em:minVersion>2.0a3</em:minVersion>
 				<em:maxVersion>2.1b2</em:maxVersion>
 			</Description>
 		</em:targetApplication>
-    <!-- Flock (version 3.* based on google chrome) -->
-    <em:targetApplication>
-      <Description>
-        <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
-        <em:minVersion>2.*.*</em:minVersion>
-        <em:maxVersion>2.*.*</em:maxVersion>
-      </Description>
-    </em:targetApplication>
+		<!-- Flock (version 3.* based on google chrome) -->
+		<em:targetApplication>
+			<Description>
+				<em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+				<em:minVersion>2.*.*</em:minVersion>
+				<em:maxVersion>2.*.*</em:maxVersion>
+			</Description>
+		</em:targetApplication>
 		
 		<!-- Localized MetaData -->
 		<em:localized>
@@ -46,6 +46,13 @@
 				<em:locale>cs</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Spravuje položky historie formulářů (zobrazení, úprava, mazání, export/import)</em:description>
+			</Description>
+		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>da</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>Håndter formularhistorik (vis, rediger, slet, ryd op, eksporter/importer)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -69,6 +76,15 @@
 				<em:description>Gestion des entrées d'historique de formulaire (affichage, édition, suppression, exportation/importation)</em:description>
 			</Description>
 		</em:localized>
+
+		<!-- UNFINISHED LOCALES WITH DESCRIPTION -->
+		<em:localized>
+			<Description>
+				<em:locale>bg-BG</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>Управлява вписванията в историята на формулярите (преглед, редактиране, изтривае, изнасяне/внасяне)</em:description>
+			</Description>
+		</em:localized>
 		<em:localized>
 			<Description>
 				<em:locale>it-IT</em:locale>
@@ -81,15 +97,6 @@
 				<em:locale>pt-BR</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Gerencie entradas de histórico de formulários (visualize, edite, apague, exporte/importe)</em:description>
-			</Description>
-		</em:localized>
-
-    <!-- UNFINISHED LOCALES WITH DESCRIPTION -->
-		<em:localized>
-			<Description>
-				<em:locale>bg-BG</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description>Управлява вписванията в историята на формулярите (преглед, редактиране, изтривае, изнасяне/внасяне)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -114,14 +121,7 @@
 			</Description>
 		</em:localized>
 		
-  <!-- UNFINISHED DESCRIPTION LOCALES
-		<em:localized>
-			<Description>
-				<em:locale>da</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description></em:description>
-			</Description>
-		</em:localized>
+	<!-- UNFINISHED DESCRIPTION LOCALES
 		<em:localized>
 			<Description>
 				<em:locale>hu</em:locale>
@@ -129,7 +129,7 @@
 				<em:description></em:description>
 			</Description>
 		</em:localized>
-  -->
+	-->
 
 		<!-- if no locale match, revert to these defaults (en-US) -->
 		<em:name>Form History Control</em:name>
@@ -139,23 +139,23 @@
 		<em:creator>Stephan Mahieu</em:creator>
 		<em:homepageURL>http://www.formhistory.blogspot.com</em:homepageURL>
 		<!-- Contributors -->
- 		<em:contributor>Mark James [Menu-icons][http://www.famfamfam.com/lab/icons/silk/]</em:contributor>
-    <em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>
-    <em:translator>57_Homer [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12281] (de-DE)</em:translator>
+		<em:contributor>Mark James [Menu-icons][http://www.famfamfam.com/lab/icons/silk/]</em:contributor>
+		<em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>
+		<em:translator>Jørgen [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=7215] (da)</em:translator>
+		<em:translator>57_Homer [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12281] (de)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (en-US)</em:translator>
-    <em:translator>urko [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=247] (es-ES)</em:translator>
-    <em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
-    <em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it-IT)</em:translator>
+		<em:translator>urko [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=247] (es-ES)</em:translator>
+		<em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
-    <em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
 
 <!-- unfinished contributions - - >
-    <em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
-    <em:translator>Joergen [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=7215] (da)</em:translator>
-    <em:translator>Gusztin Rudolf [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12288] (hu)</em:translator>
-    <em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru-RU)</em:translator>
-    <em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
-    <em:translator>yfdyh000 [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12660] (zh-CN)</em:translator>
+		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
+		<em:translator>Gusztin Rudolf [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12288] (hu)</em:translator>
+		<em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it-IT)</em:translator>
+		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
+		<em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru-RU)</em:translator>
+		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
+		<em:translator>yfdyh000 [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12660] (zh-CN)</em:translator>
 -->
 
 		<!-- Front End Integration Hooks (used by Extension Manager)-->
