@@ -8,7 +8,7 @@ User:
   + History tab: "close preview"-button replaces edit buttons while previewing
   + History tab: Label indicating preview-state on top and bottom of list
   + History tab: Checkbox "Show only matching cleanup criteria" removed in favor of preview-button in cleanup tab
-- Show History: Replaced "Remove All"-button by "Clean Up"-button
+  + Show History: Replaced "Remove All"-button in favor of "Clean Up"-button
 - Added cleanup-options time/usage criteria to preferences dialog
 - Added the automatic cleanup-preferences to the Cleanup-tab
 - Save automatic CleanUp options (shutdown/tab-close) to xml-configuration as well
@@ -19,6 +19,7 @@ Technical:
 - Renamed cs-CZ locale to cs
 - Added da locale
 - Deleted tr-TR locale
+- Unfinished locales it-IT, pt-BR left out
 - maxVersion SM to 2.1b2
 - maxVersion FF to 4.0b8pre
 
