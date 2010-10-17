@@ -814,7 +814,7 @@
           <label value="&fhwin.cleanup.label;:" class="description"/>
           <separator class="thin"/>
 
-          <hbox flex="1">
+          <hbox>
             <groupbox flex="1">
               <caption label="&fhwin.cleanup.timeusage.group.caption;:"/>
               <hbox>
