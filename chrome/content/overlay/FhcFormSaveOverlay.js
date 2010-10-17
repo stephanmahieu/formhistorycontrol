@@ -43,8 +43,6 @@
  */
 
 const FhcFormSaveOverlay = {
-  timer: null,
-  eventQueue: [],
 
   init: function() {
     removeEventListener("load", FhcFormSaveOverlay.init, false);
@@ -52,21 +50,6 @@ const FhcFormSaveOverlay = {
     addEventListener("submit", FhcFormSaveOverlay.submit, false);
     addEventListener("reset", FhcFormSaveOverlay.reset, false);
     addEventListener("keyup", FhcFormSaveOverlay.keyup, false);
-
-    // dispatch event every 5 seconds
-    var timerEvent = {
-      observe: function(subject, topic, data) {
-        FhcFormSaveOverlay.dispatchEvent();
-      }
-    }
-    this.timer = Components.classes["@mozilla.org/timer;1"]
-                  .createInstance(Components.interfaces.nsITimer);
-    this.timer.init(timerEvent, 5*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
-  },
-
-  destroy: function() {
-    this.eventQueue = [];
-    if (this.timer != null) this.timer.cancel();
   },
 
   submit: function(event) {
@@ -78,115 +61,20 @@ const FhcFormSaveOverlay = {
   },
 
   keyup: function(event) {
-    // only handle displayable chars
-    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
-
-    var _this = FhcFormSaveOverlay;
-
     var t = event.originalTarget;
-    var n = t.nodeName.toLowerCase();
-    if ("textarea" == n) {
-      //var id = (t.id) ? t.id : t.name;
-      //dump("textarea with id: " + id + "\n");
-      _this._contentChanged("textarea", t);
+    var n = t.nodeName;
+    if ("textarea" == n.toLowerCase()) {
+      //dump("keyup event from textarea\n");
+      //dump(">>> content\n" + t.value + "\n<<< content\n");
     }
-    else if ("html" == n) {
-      //dump("keyup from html\n");
+    else if ("html" == n.toLowerCase()) {
       var p = t.parentNode;
       if (p && "on" == p.designMode) {
-        _this._contentChanged("html", p);
-      }
-    }
-    else if ("body" == n) {
-      // body of iframe
-      //dump("keyup from body\n");
-      var e = t.ownerDocument.activeElement;
-      if ("true" == e.contentEditable) {
-        _this._contentChanged("iframe", e);
+        //dump("keyup event from rich textbox\n");
+        //dump(">>> content\n" + p.body.innerHTML + "\n<<< content\n");
       }
     }
   },
-
-  _contentChanged: function(type, node) {
-    var uri;
-    var id = (node.id) ? node.id : ((node.name) ? node.name : "");
-    switch(type) {
-      case "textarea":
-        uri = node.ownerDocument.documentURI;
-        break;
-      case "html":
-        uri = node.documentURI;
-        break;
-      case "iframe":
-        uri = node.ownerDocument.documentURI;
-        break;
-    }
-//    dump("Type: " + type + "\n");
-//    dump("Id  : " + id +   "\n");
-//    dump("Uri : " + uri +  "\n");
-//    dump(">>> content\n" + content + "\n<<< content\n");
-
-    // add tot queue (if not already queued)
-    this._queueEvent(type, id, uri, node);
-  },
-
-  _alreadyQueued: function(event) {
-    var e;
-    for (var it=0; it<this.eventQueue.length; it++) {
-      e = this.eventQueue[it];
-      if (e.node == event.node) {
-        return true;
-      }
-    }
-    return false;
-  },
-
-  _queueEvent: function(type, id, uri, node) {
-    var event = {
-        type: type,
-        id: id,
-        uri: uri,
-        node: node
-      };
-    if (!this._alreadyQueued(event)) {
-      this.eventQueue.push(event);
-    }
-  },
-
-  _getContent: function(event) {
-    var content = "";
-    switch(event.type) {
-      case "textarea":
-        content = event.node.value;
-        break;
-      case "html":
-        content = event.node.body.innerHTML;
-        break;
-      case "iframe":
-        content = event.node.innerHTML;
-        break;
-    }
-    return content;
-  },
-
-  _saveContent: function(event) {
-    var content = this._getContent(event);
-    // asynchronous save to db?
-    dump("- Saving for uri: " + event.uri + "\n");
-    dump(">>> content\n" + content + "\n<<< content\n");
-  },
-
-  dispatchEvent: function() {
-    if (0 < this.eventQueue.length) {
-      dump("TimerEvent and queue not empty!\n");
-      for (var it=0; it<this.eventQueue.length; it++) {
-        this._saveContent(this.eventQueue[it]);
-      }
-      this.eventQueue = [];
-      dump("Finished processing queue\n");
-    }
-  }
 };
 
 addEventListener("load", FhcFormSaveOverlay.init, false);
-addEventListener("unload", FhcFormSaveOverlay.destroy, false);
