@@ -71,8 +71,8 @@
 <!ENTITY fhwin.menu.view.accesskey "A">
 <!ENTITY fhwin.menu.tools.label "Outils">
 <!ENTITY fhwin.menu.tools.accesskey "O">
-<!ENTITY fhwin.menu.help.label "Aide">
-<!ENTITY fhwin.menu.help.accesskey "A">
+<!ENTITY fhwin.menu.help.label "?">
+<!ENTITY fhwin.menu.help.accesskey "?">
 <!ENTITY fhwin.menuitem.insert.label "Nouvelle insertion">
 <!ENTITY fhwin.menuitem.insert.accelkey "N">
 <!ENTITY fhwin.menuitem.edit.label "Éditer">
@@ -111,7 +111,7 @@
 <!ENTITY fhwin.cleanup.automaticcleanup.group.caption "Nettoyage automatique">
 <!ENTITY fhwin.cleanup.namevalue.group.caption "Critère nom/valeur">
 <!ENTITY fhwin.cleanup.tab.cleanup.label "Nettoyer">
-<!ENTITY fhwin.cleanup.tab.cleanup.accesskey "N">
+<!ENTITY fhwin.cleanup.tab.cleanup.accesskey "y">
 <!ENTITY fhwin.cleanup.tab.protect.label "Jamais nettoyer">
 <!ENTITY fhwin.cleanup.tab.protect.accesskey "J">
 <!ENTITY fhwin.cleanup.treeviewprotect.label "Ne jamais supprimer les entrées d'historique de formulaire correspondant au binôme nom/valeur">
