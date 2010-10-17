@@ -1,0 +1,116 @@
+windowdragbox radiogroup radio {
+  max-width: 12em !important;
+}
+
+radio {
+  margin: 2px 8px;
+}
+
+radio[pane] {
+  -moz-appearance: none;
+  margin: 0px 1px 0px 1px;
+  padding: 1px 8px 1px 8px;
+  min-width: 4.5em;
+}
+
+.caption-text {
+  font-weight: bold;
+}
+
+.groupbox-title {
+  padding-top: 6px;
+}
+
+.icon-box {
+  width: 16px;
+  height: 16px;
+}
+
+.collapsable {
+  min-height: 1px;
+}
+
+#cleanup-status,
+#recreate-status {
+  background-color: #fdffd9;
+  height: 26px;
+  margin: 0;
+  padding: 5px 8px;
+  font-weight: bold;
+}
+
+.info_icon {
+  width: 16px;
+  height: 16px;
+  margin: 4px;
+}
+
+.tooltipcolumnheader {
+  font-weight: bold;
+  background-color: #EEEEEE;
+}
+
+.tooltipdescription {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+tooltip .descrip {
+  color: #000090;
+  font-weight: 600;
+}
+
+tooltip .info {
+}
+
+tooltip .example {
+  font-style: italic;
+}
+
+.multiline-label:hover {
+  cursor: default;
+}
+
+/* Regular Search Expression */
+
+#manageRegexpTitle {
+  font-weight: bold;
+}
+
+.treecol-text {
+  font-weight: bold;
+}
+
+.flagColumn {
+  text-align: center
+}
+
+treechildren::-moz-tree-row {
+  background-color: #F0F0F0;
+}
+treechildren::-moz-tree-row(selected) {
+  background-color: #C0C0C0;
+}
+treechildren::-moz-tree-row(odd) {
+  background-color: #F6F6F6;
+}
+treechildren::-moz-tree-row(odd, selected) {
+  background-color: #BABABA;
+}
+
+treechildren::-moz-tree-row(hover) {
+  background-color: #D3E8ED;
+}
+treechildren::-moz-tree-row(hover, selected) {
+  background-color: #8AA8B8;
+}
+
+treechildren::-moz-tree-checkbox {
+  /* unchecked checkbox treecells. This style MUST come first. */
+  list-style-image: url("chrome://formhistory/skin/unticked.png");;
+}
+treechildren::-moz-tree-checkbox(checked){
+  /* checked checkbox treecells. */
+  list-style-image: url("chrome://formhistory/skin/ticked.png");
+}

@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/about.css" type="text/css"?>
+
+<!DOCTYPE dialog [
+   <!ENTITY % frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd" >
+   %frmhistDTD;
+   <!ENTITY % systemaboutDTD SYSTEM "chrome://mozapps/locale/extensions/about.dtd" >
+   %systemaboutDTD;
+]>
+
+<dialog id="formhistoryAbout"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept" onload="AboutFhcDialog.init();"
+        onunload="AboutFhcDialog.destroy();">
+
+  <script type="application/x-javascript" src="chrome://formhistory/content/AboutFHC.js"/>
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcRdfExtensionHandler.js" />
+  
+  <stringbundleset id="aboutSet">
+    <stringbundle id="about.stringbundle" src="chrome://mozapps/locale/extensions/extensions.properties"/>
+  </stringbundleset>
+
+  <vbox flex="1">
+    <hbox id="titleBox">
+      <vbox flex="1">
+        <label id="extensionName"/>
+        <label id="extensionVersion" crop="right"/>
+      </vbox>
+      <vbox>
+        <spacer flex="1"/>
+        <image src="chrome://formhistory/skin/fh_icon_big.png"/>
+        <spacer flex="1"/>
+      </vbox>
+    </hbox>
+    
+    <groupbox orient="horizontal">
+      <caption label="&fhabout.label.description;:"/>
+      <hbox flex="1">
+        <description id="extensionDescription"/>
+      </hbox>
+    </groupbox>
+    
+    <groupbox orient="horizontal">
+      <caption label="&creator.label;"/>
+      <hbox id="creatorBox" flex="1">
+        <label id="extensionCreator"/>
+        <spacer flex="1"/>
+        <label id="extensionHomepage" class="text-link" value="&homepage.label;"/>
+      </hbox>
+    </groupbox>
+    
+    <groupbox orient="horizontal" id="extensionContributors">
+      <caption label="&contributors.label;"/>
+      <vbox flex="1" id="contributorsBox">
+        <grid>
+          <columns>
+            <column flex="0" width="99px"/>
+            <column flex="0"/>
+          </columns>
+          <rows id="contributorRows">
+          </rows>
+        </grid>
+      </vbox>
+    </groupbox>
+    
+    <groupbox orient="horizontal" id="extensionTranslators">
+      <caption label="&translators.label;"/>
+      <vbox flex="1" id="translatorsBox" style="overflow: auto; height: 78px">
+        <grid>
+          <columns>
+            <column flex="0"/>
+            <column flex="0"/>
+            <column flex="1"/>
+            <column flex="0"/>
+          </columns>
+          <rows id="translatorRows">
+          </rows>
+        </grid>
+      </vbox>
+    </groupbox>
+    
+  </vbox>
+</dialog>
