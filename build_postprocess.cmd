@@ -14,7 +14,14 @@ goto error
 :continue
 
 rem --(delete incomplete locales)-------------------------------
-7z.exe d %XPI_FILE% chrome\locale\bg-BG chrome\locale\hu chrome\locale\ru-RU chrome\locale\sk-SK chrome\locale\zh-CN
+7z.exe d %XPI_FILE% ^
+          chrome\locale\bg-BG ^
+          chrome\locale\hu ^
+          chrome\locale\it-IT ^
+          chrome\locale\pt-BR ^
+          chrome\locale\ru-RU ^
+          chrome\locale\sk-SK ^
+          chrome\locale\zh-CN
 if errorlevel 1 goto error
 
 rem --(delete all amo.properties)-------------------------------
