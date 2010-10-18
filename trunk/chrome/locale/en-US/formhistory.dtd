@@ -233,6 +233,9 @@
 <!ENTITY fhprefs.group.warnings.caption "Show Warnings">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Warn before deleting a single item">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Warn before deleting multiple items">
+<!ENTITY fhprefs.group.historyview.caption "History view">
+<!ENTITY fhprefs.textbox.exclusions.label "Exclude formfields from view">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Comma separated list of fieldnames">
 
 <!ENTITY fhprefs.prefpane.display.label "Display">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Form History Items View">

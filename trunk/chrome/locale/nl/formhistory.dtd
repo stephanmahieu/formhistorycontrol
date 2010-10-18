@@ -233,6 +233,9 @@
 <!ENTITY fhprefs.group.warnings.caption "Toon Waarschuwingen">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Waarschuw mij als ik 1 waarde ga verwijderen">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Waarschuw mij als ik meerdere waarden ga verwijderen">
+<!ENTITY fhprefs.group.historyview.caption "Historie weergave">
+<!ENTITY fhprefs.textbox.exclusions.label "Formuliervelden niet tonen">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Lijst van veldnamen gescheiden door komma's">
 
 <!ENTITY fhprefs.prefpane.display.label "Weergave">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Formulier Historie Waarden Overzicht">

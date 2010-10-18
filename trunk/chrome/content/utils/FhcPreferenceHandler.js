@@ -76,6 +76,15 @@ FhcPreferenceHandler.prototype = {
     this.prefService.setBoolPref("warnOnDeleteMultiple", newBoolPref);
   },
 
+  getExclusions: function() {
+    var exclString = this.prefService.getCharPref("exclusions");
+    var exclArray = exclString.split(",");
+    for (var i=0; i < exclArray.length; i++) {
+      exclArray[i] = exclArray[i].trim();
+    }
+    return exclArray;
+  },
+
   getLastUsedExportFilename: function() {
     return this.prefService.getCharPref("lastUsedExportFilename");
   },

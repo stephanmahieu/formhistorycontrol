@@ -63,6 +63,7 @@ const HistoryWindowControl = {
   fieldFilter: {active:false, name:""},
   pageFilter: {active:false},
   hideLoginmanagedFields: true,
+  fieldExclusionList: [],
 
   init: function() {
     //dump('\n\nFormhistory extension initializing...\n');
@@ -89,6 +90,7 @@ const HistoryWindowControl = {
     if (this.preferences.isUseCustomDateTimeFormat()) {
       this.dateHandler.setCustomDateFormat(this.preferences.getCustomDateTimeFormat());
     }
+    this.fieldExclusionList = this.preferences.getExclusions();
 
     // set initial case sensitivity
     this._updateSearchElements();
@@ -1693,6 +1695,11 @@ const HistoryWindowControl = {
       entries = this._filterAllLoginmanaged(entries);
     }
 
+    // filter out fields from exclusion list
+    if (0 < this.fieldExclusionList.length) {
+      entries = this._filterExclusions(entries);
+    }
+
     // display entries in tree
     if (entries.length > 0) {
       this.treeView.beginBatch();
@@ -1918,6 +1925,19 @@ const HistoryWindowControl = {
     return filteredEntries;
   },
 
+  // Filter out (exclude) some fields based on the fieldname
+  _filterExclusions: function(entries) {
+    var filteredEntries = [], exclude;
+    for (var i=0; i < entries.length; i++) {
+      exclude = false;
+      for (var ex=0; ex < this.fieldExclusionList.length && !exclude; ex++) {
+        exclude = (entries[i].name == this.fieldExclusionList[ex]);
+      }
+      if (!exclude) filteredEntries.push(entries[i]);
+    }
+    return filteredEntries;
+  },
+
   // Check if tree currently has the focus
   _isTreeFocused: function() {
     return document.getElementById("formHistoryTree").currentIndex > -1;
@@ -1960,6 +1980,13 @@ const HistoryWindowControl = {
           case "hideLoginmanagedFields":
                // adjust local var to reflect new preference value
                thisHwc.hideLoginmanagedFields = thisHwc.preferences.isHideLoginmanagedFields();
+
+               // read all data again
+               thisHwc._repopulateView();
+               break;
+          case "exclusions":
+               // adjust local var to reflect new preference value
+               thisHwc.fieldExclusionList = thisHwc.preferences.getExclusions();
 
                // read all data again
                thisHwc._repopulateView();
