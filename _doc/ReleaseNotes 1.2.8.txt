@@ -1,0 +1,8 @@
+User:
+- Added preference-option to exclude fieldnames from view
+
+Technical:
+
+
+ToDo:
+- Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
