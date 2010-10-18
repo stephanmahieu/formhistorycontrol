@@ -134,6 +134,9 @@
       <preference id="extensions.formhistory.searchCaseSensitive"
                   name="extensions.formhistory.searchCaseSensitive"
                   type="bool" />
+      <preference id="extensions.formhistory.exclusions"
+                  name="extensions.formhistory.exclusions"
+                  type="string" />
     </preferences>
     <vbox>
       <groupbox>
@@ -150,6 +153,16 @@
                   preference="extensions.formhistory.warnOnDeleteOne" />
         <checkbox label="&fhprefs.checkbox.warnOnDeleteMultiple.label;"
                   preference="extensions.formhistory.warnOnDeleteMultiple" />
+      </groupbox>
+      <groupbox>
+        <caption label="&fhprefs.group.historyview.caption;"/>
+        <hbox align="baseline">
+          <label value="&fhprefs.textbox.exclusions.label;:"/>
+          <textbox id="exclusions" flex="1"
+                   preference="extensions.formhistory.exclusions"
+                   emptytext="&fhprefs.textbox.exclusions.tooltip;"
+                   tooltiptext="&fhprefs.textbox.exclusions.tooltip;"/>
+         </hbox>
       </groupbox>
     </vbox>
   </prefpane>
