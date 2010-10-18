@@ -78,10 +78,8 @@ FhcPreferenceHandler.prototype = {
 
   getExclusions: function() {
     var exclString = this.prefService.getCharPref("exclusions");
-    var exclArray = exclString.split(",");
-    for (var i=0; i < exclArray.length; i++) {
-      exclArray[i] = exclArray[i].trim();
-    }
+    var exclArray = exclString.match(/\b\S+\b/g);
+    if (null == exclArray) return [];
     return exclArray;
   },
 
