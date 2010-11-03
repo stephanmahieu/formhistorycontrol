@@ -203,6 +203,20 @@ FhcPreferenceHandler.prototype = {
   },
 
 
+  setKeybindingValue: function(id, stringData) {
+    return this.prefService.setComplexValue(
+      "keybinding." + id,
+      Components.interfaces.nsISupportsString,
+      this._getUnicodeString(stringData)
+    );
+  },
+  getKeybindingValue: function(id) {
+    return this.prefService.getComplexValue(
+      "keybinding." + id,
+      Components.interfaces.nsIPrefLocalizedString
+    )
+  },
+
   //----------------------------------------------------------------------------
   // Global preferences (FireFox's options)
   //----------------------------------------------------------------------------
@@ -211,5 +225,16 @@ FhcPreferenceHandler.prototype = {
            .getService(Components.interfaces.nsIPrefService)
            .getBranch("browser.formfill.");
     return prefServiceFF.getBoolPref("enable");
+  },
+
+
+  // Create an Unicode String
+  _getUnicodeString: function(stringData) {
+    var str = Components.classes['@mozilla.org/supports-string;1']
+                .createInstance(Components.interfaces.nsISupportsString);
+    // Set the String value:
+    str.data = stringData;
+    // Return the Unicode String:
+    return str;
   }
 }

@@ -30,6 +30,11 @@
                   src="chrome://formhistory/locale/formhistory.properties"/>
   </stringbundleset>
 
+  <stringbundleset id="stringbundlesetKeys">
+    <stringbundle id="formhistory.stringbundle.keys"
+                  src="chrome://formhistory/locale/keybinding.properties"/>
+  </stringbundleset>
+
   <!-- Display -->
   <prefpane id="gui" label="&fhprefs.prefpane.display.label;"
             image="chrome://formhistory/skin/display_32.png">
@@ -122,6 +127,7 @@
   <prefpane id="misc" label="&fhprefs.prefpane.miscellaneous.label;"
             image="chrome://formhistory/skin/preferences_32.png">
     <preferences>
+      <!-- Miscellaneous -->
       <preference id="extensions.formhistory.warnOnDeleteOne"
                   name="extensions.formhistory.warnOnDeleteOne"
                   type="bool" />
@@ -137,37 +143,205 @@
       <preference id="extensions.formhistory.exclusions"
                   name="extensions.formhistory.exclusions"
                   type="string" />
+      <!-- Quick Fill -->
+      <preference id="extensions.formhistory.quickfill.changebgcolor"
+                  name="extensions.formhistory.quickfill.changebgcolor"
+                  type="bool" />
+      <preference id="extensions.formhistory.quickfill.changebordrcolor"
+                  name="extensions.formhistory.quickfill.changebordrcolor"
+                  type="bool" />
+      <preference id="extensions.formhistory.quickfill.changebordrthickness"
+                  name="extensions.formhistory.quickfill.changebordrthickness"
+                  type="bool" />
+      <preference id="extensions.formhistory.quickfill.bgcolor"
+                  name="extensions.formhistory.quickfill.bgcolor"
+                  type="string" />
+      <preference id="extensions.formhistory.quickfill.bordrcolor"
+                  name="extensions.formhistory.quickfill.bordrcolor"
+                  type="string" />
+      <preference id="extensions.formhistory.quickfill.bordrthickness"
+                  name="extensions.formhistory.quickfill.bordrthickness"
+                  type="int" />
     </preferences>
-    <vbox>
-      <groupbox>
-        <caption label="&fhprefs.group.preferences.caption;"/>
-        <checkbox label="&fhprefs.checkbox.searchCaseSensitive.label;"
-                  preference="extensions.formhistory.searchCaseSensitive" />
-        <checkbox label="&fhprefs.checkbox.hideLoginmanagedFields.label;"
-                  preference="extensions.formhistory.hideLoginmanagedFields"
-                  tooltiptext="&fhprefs.checkbox.hideLoginmanagedFields.tooltip;"/>
-      </groupbox>
-      <groupbox>
-        <caption label="&fhprefs.group.warnings.caption;"/>
-        <checkbox label="&fhprefs.checkbox.warnOnDeleteOne.label;"
-                  preference="extensions.formhistory.warnOnDeleteOne" />
-        <checkbox label="&fhprefs.checkbox.warnOnDeleteMultiple.label;"
-                  preference="extensions.formhistory.warnOnDeleteMultiple" />
-      </groupbox>
-      <groupbox>
-        <caption label="&fhprefs.group.historyview.caption;"/>
-        <hbox align="baseline">
-          <label value="&fhprefs.textbox.exclusions.label;:"/>
-          <textbox id="exclusions" flex="1"
-                   preference="extensions.formhistory.exclusions"
-                   emptytext="&fhprefs.textbox.exclusions.tooltip;"
-                   tooltiptext="&fhprefs.textbox.exclusions.tooltip;"/>
-         </hbox>
-      </groupbox>
-    </vbox>
+    <tabbox id="myTabList" selectedIndex="0" persist="selectedIndex">
+      <tabs>
+        <tab label="&fhprefs.prefpane.miscellaneous.label;"/>
+        <tab label="Keyboard shortcuts"/>
+        <tab label="&fhprefs.prefpane.quickfill.label;"/>
+      </tabs>
+      <tabpanels>
+        <tabpanel>
+          <!-- Miscellaneous -->
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&fhprefs.group.preferences.caption;"/>
+              <checkbox label="&fhprefs.checkbox.searchCaseSensitive.label;"
+                        preference="extensions.formhistory.searchCaseSensitive" />
+              <checkbox label="&fhprefs.checkbox.hideLoginmanagedFields.label;"
+                        preference="extensions.formhistory.hideLoginmanagedFields"
+                        tooltiptext="&fhprefs.checkbox.hideLoginmanagedFields.tooltip;"/>
+            </groupbox>
+            <groupbox>
+              <caption label="&fhprefs.group.warnings.caption;"/>
+              <checkbox label="&fhprefs.checkbox.warnOnDeleteOne.label;"
+                        preference="extensions.formhistory.warnOnDeleteOne" />
+              <checkbox label="&fhprefs.checkbox.warnOnDeleteMultiple.label;"
+                        preference="extensions.formhistory.warnOnDeleteMultiple" />
+            </groupbox>
+            <groupbox>
+              <caption label="&fhprefs.group.historyview.caption;"/>
+              <hbox align="baseline">
+                <label value="&fhprefs.textbox.exclusions.label;:"/>
+                <textbox id="exclusions" flex="1"
+                         preference="extensions.formhistory.exclusions"
+                         emptytext="&fhprefs.textbox.exclusions.tooltip;"
+                         tooltiptext="&fhprefs.textbox.exclusions.tooltip;"/>
+               </hbox>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+        <tabpanel>
+          <!-- Keyboard shortcuts -->
+          <grid flex="1">
+            <columns>
+              <column/>
+              <column flex="1"/>
+              <column/>
+            </columns>
+            <rows>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.manager.label;"/>
+                <textbox id="shortcutManager" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_shortcutManager" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.managethis.label;"/>
+                <textbox id="shortcutManageThis" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_shortcutManageThis" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.deletevaluethis.label;"/>
+                <textbox id="deleteValueThis" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_deleteValueThis" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.deletethis.label;"/>
+                <textbox id="deleteThis" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_deleteThis" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.fillmostrecent.label;"/>
+                <textbox id="fillMostRecent" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_fillMostRecent" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.fillmostused.label;"/>
+                <textbox id="fillMostUsed" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_fillMostUsed" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.clearfields.label;"/>
+                <textbox id="clearFields" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_clearFields" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+              <row align="center">
+                <label value="&fhmnuovl.menuitem.cleanupnow.label;"/>
+                <textbox id="cleanupNow" flex="1"
+                         class="shortcutTextbox" readonly="true"
+                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                <button id="btn_cleanupNow" flex="0"
+                        label="disable"
+                        oncommand="FhcPreferences.disableKeybinding(event, this)"/>
+              </row>
+            </rows>
+          </grid>
+        </tabpanel>
+        <tabpanel>
+          <!-- Quick Fill -->
+          <groupbox flex="1">
+            <caption label="&fhprefs.group.quickfill.caption;"/>
+            <hbox>
+              <grid>
+                <columns>
+                  <column/>
+                  <column/>
+                </columns>
+                <rows>
+                  <row align="center">
+                    <checkbox id="changebgcolor"
+                              label="&fhprefs.checkbox.quickfillbgcolor.label;"
+                              preference="extensions.formhistory.quickfill.changebgcolor"
+                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                    <colorpicker id="bgcolor" type="button"
+                                 preference="extensions.formhistory.quickfill.bgcolor"
+                                 onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                    <spacer/>
+                  </row>
+                  <row align="center">
+                    <checkbox id="changebordrcolor"
+                              label="&fhprefs.checkbox.quickfillbordercolor.label;"
+                              preference="extensions.formhistory.quickfill.changebordrcolor"
+                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                    <colorpicker id="brdcolor" type="button"
+                                 preference="extensions.formhistory.quickfill.bordrcolor"
+                                 onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                  </row>
+                  <row align="center">
+                    <checkbox id="changebordrthickness"
+                              label="&fhprefs.checkbox.quickfillborderwidth.label;"
+                              preference="extensions.formhistory.quickfill.changebordrthickness"
+                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                    <textbox id="brdsize" maxlength="1" size="2" min="0" max="6" type="number"
+                             preference="extensions.formhistory.quickfill.bordrthickness"
+                             onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                  </row>
+                </rows>
+              </grid>
+              <spacer flex="1"/>
+              <vbox>
+                <!-- use html for preview to avoid xul css -->
+                <span style="background-color: #FFFFFF; padding: 20px 5px 20px 0px; border-width: 2px; border-color: #999999; border-style: inset;">
+                  <label value="&fhprefs.textbox.quickfillpreviewtest.label;:"/>
+                  <input type="text" id="preview" style="display: inline-block">&fhprefs.textbox.quickfillpreviewtext;</input>
+                </span>
+                <spacer/>
+              </vbox>
+            </hbox>
+          </groupbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
   </prefpane>
 
-  <!-- Quick Fill -->
+  <!-- Quick Fill - - >
   <prefpane id="quickfill" label="&fhprefs.prefpane.quickfill.label;"
             image="chrome://formhistory/skin/quickfill_32.png">
     <preferences>
@@ -231,7 +405,7 @@
         </grid>
         <spacer flex="1"/>
         <vbox>
-          <!-- use html for preview to avoid xul css -->
+          <! - - use html for preview to avoid xul css - - >
           <span style="background-color: #FFFFFF; padding: 20px 5px 20px 0px; border-width: 2px; border-color: #999999; border-style: inset;">
             <label value="&fhprefs.textbox.quickfillpreviewtest.label;:"/>
             <input type="text" id="preview" style="display: inline-block">&fhprefs.textbox.quickfillpreviewtext;</input>
@@ -241,6 +415,7 @@
       </hbox>
     </groupbox>
   </prefpane>
+-->
 
   <!-- Import/Export -->
   <prefpane id="export" label="&fhprefs.prefpane.importexport.label;"

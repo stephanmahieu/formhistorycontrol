@@ -114,3 +114,24 @@ treechildren::-moz-tree-checkbox(checked){
   /* checked checkbox treecells. */
   list-style-image: url("chrome://formhistory/skin/ticked.png");
 }
+
+.shortcutTextbox {
+  font-family: monospace;
+  background-color: -moz-Field;
+}
+
+/* -------- tabbox -------- */
+tabbox {
+  background-color: transparent;
+}
+
+tabpanels {
+  -moz-appearance: none;
+  background-image: none !important;
+  background-color: transparent;
+  padding: 2px 10px 10px 10px;
+}
+
+tab[selected="true"] {
+  font-weight: bold;
+}
