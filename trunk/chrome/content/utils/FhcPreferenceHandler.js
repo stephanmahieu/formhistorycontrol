@@ -202,12 +202,11 @@ FhcPreferenceHandler.prototype = {
     return this.prefService.getIntPref("quickfill.bordrthickness");
   },
 
-
   setKeybindingValue: function(id, stringData) {
     return this.prefService.setComplexValue(
       "keybinding." + id,
       Components.interfaces.nsISupportsString,
-      this._getUnicodeString(stringData)
+      this._toUnicodeString(stringData)
     );
   },
   getKeybindingValue: function(id) {
@@ -229,7 +228,7 @@ FhcPreferenceHandler.prototype = {
 
 
   // Create an Unicode String
-  _getUnicodeString: function(stringData) {
+  _toUnicodeString: function(stringData) {
     var str = Components.classes['@mozilla.org/supports-string;1']
                 .createInstance(Components.interfaces.nsISupportsString);
     // Set the String value:

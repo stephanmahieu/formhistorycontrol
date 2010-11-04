@@ -50,8 +50,8 @@ const FhcPreferences = {
   bundle:        null,
   dateHandler:   null,
   cleanupFilter: null,
+  keyBindings:   null,
   timer:         null,
-  stringBundle : null,
 
   /*
    * Initialize on preference window startup.
@@ -66,12 +66,13 @@ const FhcPreferences = {
                                 this.prefHandler,
                                 this.dbHandler,
                                 this.dateHandler);
-    this.stringBundle = document.getElementById("formhistory.stringbundle.keys");
+    this.keyBindings   = new FhcKeyBindings(this.prefHandler);
 
     this.fillInformationPanel();
     this.adjustQuickFillPreview();
     this.toggleCustomDateFormatList();
     this.initCleanupPanel();
+    this.fillKeyBindings();
     
     FhcRegexpView.init(
       this.dbHandler, this.bundle);
@@ -381,139 +382,62 @@ const FhcPreferences = {
   },
 
   /**
+   * Fill the keybinding textboxes (can not use preferences directly).
+   */
+  fillKeyBindings: function() {
+    var txtBoxIds = [
+      "shortcutManager",
+      "shortcutManageThis",
+      "deleteValueThis",
+      "deleteThis",
+      "fillMostRecent",
+      "fillMostUsed",
+      "clearFields",
+      "cleanupNow"];
+    for (var i=0; i<txtBoxIds.length; i++) {
+      document.getElementById(txtBoxIds[i]).value =
+        this.keyBindings.getFormattedKeybinding(
+          this.keyBindings.getKeybinding(txtBoxIds[i])
+        );
+    }
+  },
+
+  /**
    * Create a keybinding.
+   *
+   * @param event {DOM Event}
+   *        the key-event which will be used as shortcut
+   *
+   * @param textboxObj {textbox}
+   *        the textbox for displaying the shortcut
+   *
    */
   createKeybinding: function(event, textboxObj) {
-    var keybinding = this.recognizeKeys(event);
+    var keybinding = this.keyBindings.recognizeKeys(event);
     if (!keybinding) {
       return;
     }
-
-    this.saveKeybinding(textboxObj.id, keybinding);
+    this.keyBindings.saveKeybinding(textboxObj.id, keybinding);
 
     // Update textbox
-    document.getElementById(textboxObj.id).value = this.getFormattedKeybinding(keybinding);
+    document.getElementById(textboxObj.id).value = 
+      this.keyBindings.getFormattedKeybinding(keybinding);
   },
 
-  saveKeybinding: function(textboxId, keybinding) {
-    var stringData = '';
-    if (keybinding) {
-      stringData = keybinding.asString;
-    }
-
-    // Save shortcut as String in preferences
-    this.prefHandler.setKeybindingValue(textboxId, stringData);
-
-    //TEST!
-    var testData = this.prefHandler.getKeybindingValue(textboxId);
-    alert("testData: [" + testData + "]");
-  },
-
-  disableKeybinding: function(event, buttonObj) {
+  /**
+   * Disable a keybinding.
+   *
+   * @param buttonObj {button}
+   *        the button with the same id as the textbox displaying the
+   *        keybinding but prefixed with "btn_"
+   *
+   */
+  disableKeybinding: function(buttonObj) {
     var textboxId = buttonObj.id.replace("btn_", "");
-
-    this.saveKeybinding(textboxId, null);
+    this.keyBindings.saveKeybinding(textboxId, null);
 
     // Update textbox
-    document.getElementById(textboxId).value = '';
-  },
-
-  recognizeKeys: function(event) {
-    var modifiers = [];
-    var key = '';
-    var keycode = '';
-
-    // Get modifiers:
-    if (event.altKey) modifiers.push('alt');
-    if (event.ctrlKey) modifiers.push('control');
-    if (event.metaKey) modifiers.push('meta');
-    if (event.shiftKey) modifiers.push('shift');
-
-    // Get the key or keycode:
-    if (event.charCode) {
-      key = String.fromCharCode(event.charCode).toUpperCase();
-    } else {
-      // Get keycode from keycodes list
-      keycode = this.getKeyCodes()[event.keyCode];
-      if (!keycode) {
-        return null;
-      }
-    }
-
-    // Shortcut may not be a single 'VK_TAB' (without modifiers)
-    // because this button is used to change focus
-    if (modifiers.length > 0 || keycode != 'VK_TAB') {
-      return this.shortcutFactory(modifiers, key, keycode);
-    }
-    return null;
-  },
-
-  getKeyCodes: function() {
-    var keycodes = [];
-
-    // Get keycodes from the KeyEvent object
-    for (var property in KeyEvent) {
-      keycodes[KeyEvent[property]] = property.replace('DOM_','');
-    }
-    keycodes[8] = 'VK_BACK'; // VK_BACK_SPACE (index 8) must be VK_BACK:
-
-    return keycodes;
-  },
-
-  shortcutFactory: function(modifiers, key, keycode) {
-    var shortcut = {
-      modifiers: modifiers ? modifiers : [],
-      key: key,
-      keycode: keycode,
-      asString: key + keycode
-    };
-    if (modifiers.length) {
-      shortcut.asString = modifiers.join('+') + '+' + shortcut.asString;
-    }
-    return shortcut;
-  },
-
-  getFormattedKeybinding: function(keybinding) {
-    var formattedKeybinding = '';
-
-    // Modifiers
-    for (var i=0; i < keybinding.modifiers.length; i++) {
-      try {
-        formattedKeybinding += '<' + this.getKeyString(keybinding.modifiers[i]) + '> + ';
-      } catch(e) {
-        return '';
-      }
-    }
-    
-    // Keys
-    if (keybinding.key) {
-      // Add the key:
-      if(keybinding.key == ' ') {
-        formattedKeybinding += '<' + this.getKeyString('VK_SPACE') + '>';
-      } else {
-        formattedKeybinding += keybinding.key;
-      }
-    } else if(keybinding.keycode) {
-      // Add the keycode (instead of the key)
-      try {
-        formattedKeybinding += '<' + this.getKeyString(keybinding.keycode) + '>';
-      } catch(e) {
-        formattedKeybinding += '<' + keybinding.keycode.replace('VK_', '') + '>';
-      }
-    }
-
-    return formattedKeybinding;
-  },
-
-  getKeyString: function(aKey) {
-    var value;
-    if (this.stringBundle == null) {
-      // no stringbundle defined in the xul
-      value = "<undefined stringBundle>";
-    } else {
-      value = this.stringBundle.getString(aKey);
-    }
-    return value;
+    document.getElementById(textboxId).value = "";
   },
 
   /**

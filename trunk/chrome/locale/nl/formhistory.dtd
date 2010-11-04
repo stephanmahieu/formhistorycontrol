@@ -237,6 +237,9 @@
 <!ENTITY fhprefs.textbox.exclusions.label "Formuliervelden niet tonen">
 <!ENTITY fhprefs.textbox.exclusions.tooltip "Lijst van veldnamen gescheiden door komma's">
 
+<!ENTITY fhprefs.prefpane.keybindings.label "Sneltoetsen">
+<!ENTITY fhprefs.button.keybindingdisable.label "uitschakelen">
+
 <!ENTITY fhprefs.prefpane.display.label "Weergave">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Formulier Historie Waarden Overzicht">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Gebruik een eigen datum/tijd formaat">
