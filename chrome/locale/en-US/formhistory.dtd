@@ -237,6 +237,9 @@
 <!ENTITY fhprefs.textbox.exclusions.label "Exclude formfields from view">
 <!ENTITY fhprefs.textbox.exclusions.tooltip "Comma separated list of fieldnames">
 
+<!ENTITY fhprefs.prefpane.keybindings.label "Keyboard Shortcuts">
+<!ENTITY fhprefs.button.keybindingdisable.label "disable">
+
 <!ENTITY fhprefs.prefpane.display.label "Display">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Form History Items View">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Use a custom date/time format">
