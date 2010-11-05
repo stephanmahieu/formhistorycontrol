@@ -210,10 +210,14 @@ FhcPreferenceHandler.prototype = {
     );
   },
   getKeybindingValue: function(id) {
-    return this.prefService.getComplexValue(
-      "keybinding." + id,
-      Components.interfaces.nsIPrefLocalizedString
-    )
+    var value;
+    try {
+      value = this.prefService.getComplexValue(
+        "keybinding." + id,
+        Components.interfaces.nsIPrefLocalizedString
+      )
+    } catch(e) {}
+    return value;
   },
 
   //----------------------------------------------------------------------------

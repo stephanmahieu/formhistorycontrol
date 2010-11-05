@@ -388,12 +388,12 @@ const FhcPreferences = {
     var txtBoxIds = [
       "shortcutManager",
       "shortcutManageThis",
-      "deleteValueThis",
-      "deleteThis",
-      "fillMostRecent",
-      "fillMostUsed",
-      "clearFields",
-      "cleanupNow"];
+      "shortcutDeleteValueThis",
+      "shortcutDeleteThis",
+      "shortcutFillMostRecent",
+      "shortcutFillMostUsed",
+      "shortcutClearFields",
+      "shortcutCleanupNow"];
     for (var i=0; i<txtBoxIds.length; i++) {
       document.getElementById(txtBoxIds[i]).value =
         this.keyBindings.getFormattedKeybinding(
