@@ -61,6 +61,9 @@ function FhcKeyBindings(aPrefHandler) {
 //-------------------------------------------------------------
 FhcKeyBindings.prototype = {
 
+  /**
+   * Get the keybinding from preferences.
+   */
   getKeybinding: function(textboxId) {
     var complexValue = this.prefHandler.getKeybindingValue(textboxId);
     if (complexValue) {
@@ -80,6 +83,9 @@ FhcKeyBindings.prototype = {
     return null;
   },
 
+  /**
+   * Save keybinding to preferences.
+   */
   saveKeybinding: function(textboxId, keybinding) {
     var stringData = '';
     if (keybinding) {
@@ -90,7 +96,9 @@ FhcKeyBindings.prototype = {
     this.prefHandler.setKeybindingValue(textboxId, stringData);
   },
 
-
+  /**
+   * Construct the keybinding from a key-event.
+   */
   recognizeKeys: function(event) {
     var modifiers = [];
     var key = '';
@@ -121,9 +129,15 @@ FhcKeyBindings.prototype = {
     return null;
   },
 
-
+  /**
+   * Convert the key-binding to a localized human readable format.
+   */
   getFormattedKeybinding: function(keybinding) {
     var formattedKeybinding = '';
+
+    if (!keybinding) {
+      return formattedKeybinding;
+    }
 
     // Modifiers
     for (var i=0; i < keybinding.modifiers.length; i++) {
@@ -154,7 +168,57 @@ FhcKeyBindings.prototype = {
     return formattedKeybinding;
   },
 
+  /**
+   * Update the main keyset with a keybinding.
+   */
+  updateMainKeyset: function(id) {
+    var cmdId;
+    switch(id) {
+      case "shortcutManager":
+        cmdId = "key_ShowFormHistoryControl";
+        break;
+      case "shortcutManageThis":
+        cmdId = "key_ManageThisField";
+        break;
+      case "shortcutDeleteValueThis":
+        cmdId = "key_DeleteValueThisField";
+        break;
+      case "shortcutDeleteThis":
+        cmdId = "key_DeleteEntriesThisField";
+        break;
+      case "shortcutFillMostRecent":
+        cmdId = "key_FillFormFieldsRecent";
+        break;
+      case "shortcutFillMostUsed":
+        cmdId = "key_FillFormFieldsUsed";
+        break;
+      case "shortcutClearFields":
+        cmdId = "key_ClearFilledFormFields";
+        break;
+      case "shortcutCleanupNow":
+        cmdId = "key_CleanupFormhistoryNow";
+        break;
+    }
+    if (cmdId) {
+      var keyNode = document.getElementById(cmdId);
+      var keybinding = this.getKeybinding(id);
 
+      if(keybinding && (keybinding.key || keybinding.keycode)) {
+        keyNode.setAttribute('modifiers', keybinding.modifiers);
+        if (keybinding.key) {
+          keyNode.setAttribute('key', keybinding.key);
+          keyNode.removeAttribute('keycode');
+        } else {
+          keyNode.setAttribute('keycode', keybinding.keycode);
+          keyNode.removeAttribute('key');
+        }
+      } else {
+        keyNode.setAttribute('modifiers', '');
+        keyNode.setAttribute('key', '');
+        keyNode.removeAttribute('keycode');
+      }
+    }
+  },
 
 
 

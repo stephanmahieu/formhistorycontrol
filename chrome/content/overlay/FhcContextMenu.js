@@ -56,6 +56,7 @@ const FhcContextMenu = {
   preferences: null,
   dateHandler: null,
   cleanupFilter: null,
+  keyBindings: null,
   
   /**
    * Implementation of the EventListener Interface for listening to
@@ -91,6 +92,7 @@ const FhcContextMenu = {
                                     this.preferences,
                                     this.dbHandler,
                                     this.dateHandler);
+        this.keyBindings   = new FhcKeyBindings(this.preferences);
 
         // listen to preference updates
         this._registerPrefListener();
@@ -99,6 +101,9 @@ const FhcContextMenu = {
         this._setVisibilityStatusbarMenu(this.preferences.isTaskbarVisible());
         this._setVisibilityToolsMenu(!this.preferences.isToolsmenuHidden());
         this._setVisibilityContextMenu(!this.preferences.isContextmenuHidden());
+
+        // initialize main keybindings
+        this._initializeMainKeyset();
         break;
   
       case "popupshowing":
@@ -496,6 +501,12 @@ const FhcContextMenu = {
   _registerPrefListener: function() {
     this.preferenceListener = new FhcUtil.PrefListener("extensions.formhistory.",
       function(branch, name) {
+
+        if (name.substring(0,11) == "keybinding.") {
+          FhcContextMenu.keyBindings.updateMainKeyset(name.substring(11));
+          return;
+        }
+
         var doShow;
         switch (name) {
           case "showStatusBarIcon":
@@ -560,6 +571,24 @@ const FhcContextMenu = {
     } else {
       menuSep.removeAttribute("hidden");
       menuElem.removeAttribute("hidden");
+    }
+  },
+
+  /**
+   * Initialize the keybindings for the mainKeyset.
+   */
+  _initializeMainKeyset: function() {
+    var Ids = [
+      "shortcutManager",
+      "shortcutManageThis",
+      "shortcutDeleteValueThis",
+      "shortcutDeleteThis",
+      "shortcutFillMostRecent",
+      "shortcutFillMostUsed",
+      "shortcutClearFields",
+      "shortcutCleanupNow"];
+    for (var i=0; i<Ids.length; i++) {
+      this.keyBindings.updateMainKeyset(Ids[i]);
     }
   }
 }
