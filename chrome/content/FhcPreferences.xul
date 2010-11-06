@@ -203,87 +203,103 @@
         </tabpanel>
         <tabpanel>
           <!-- Keyboard shortcuts -->
-          <grid flex="1">
-            <columns>
-              <column/>
-              <column flex="1"/>
-              <column/>
-            </columns>
-            <rows>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.manager.label;"/>
-                <textbox id="shortcutManager" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutManager" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.managethis.label;"/>
-                <textbox id="shortcutManageThis" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutManageThis" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.deletevaluethis.label;"/>
-                <textbox id="shortcutDeleteValueThis" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutDeleteValueThis" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.deletethis.label;"/>
-                <textbox id="shortcutDeleteThis" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutDeleteThis" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.fillmostrecent.label;"/>
-                <textbox id="shortcutFillMostRecent" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutFillMostRecent" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.fillmostused.label;"/>
-                <textbox id="shortcutFillMostUsed" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutFillMostUsed" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.clearfields.label;"/>
-                <textbox id="shortcutClearFields" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutClearFields" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-              <row align="center">
-                <label value="&fhmnuovl.menuitem.cleanupnow.label;"/>
-                <textbox id="shortcutCleanupNow" flex="1"
-                         class="shortcutTextbox" readonly="true"
-                         onkeypress="FhcPreferences.createKeybinding(event, this)"/>
-                <button id="btn_shortcutCleanupNow" flex="0"
-                        label="&fhprefs.button.keybindingdisable.label;"
-                        oncommand="FhcPreferences.disableKeybinding(this)"/>
-              </row>
-            </rows>
-          </grid>
+          <vbox flex="1">
+            <grid flex="1">
+              <columns>
+                <column/>
+                <column flex="1"/>
+                <column/>
+              </columns>
+              <rows>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.manager.label;"/>
+                  <textbox id="shortcutManager" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutManager" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.managethis.label;"/>
+                  <textbox id="shortcutManageThis" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutManageThis" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.deletevaluethis.label;"/>
+                  <textbox id="shortcutDeleteValueThis" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutDeleteValueThis" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.deletethis.label;"/>
+                  <textbox id="shortcutDeleteThis" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutDeleteThis" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.fillmostrecent.label;"/>
+                  <textbox id="shortcutFillMostRecent" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutFillMostRecent" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.fillmostused.label;"/>
+                  <textbox id="shortcutFillMostUsed" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutFillMostUsed" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.clearfields.label;"/>
+                  <textbox id="shortcutClearFields" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutClearFields" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="&fhmnuovl.menuitem.cleanupnow.label;"/>
+                  <textbox id="shortcutCleanupNow" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutCleanupNow" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+              </rows>
+            </grid>
+            <hbox height="35">
+              <vbox>
+                <image id="toolbarimage" class="info_icon" flex="0"
+                       src="chrome://formhistory/skin/information.png"
+                       tooltiptext="&fhprefs.button.keybinding.tooltiptext;"/>
+                <spacer flex="1"/>
+              </vbox>
+              <!-- a hack to get a multiline label (keep room for 2 rows) -->
+              <hbox style="margin-top: 5px" flex="1" height="35">
+              <textbox class="plain" style="background-color: transparent"
+                       flex="1" multiline="true" readonly="true"
+                       value="&fhprefs.button.keybinding.tooltiptext;" />
+               </hbox>
+            </hbox>
+          </vbox>
         </tabpanel>
         <tabpanel>
           <!-- Quick Fill -->

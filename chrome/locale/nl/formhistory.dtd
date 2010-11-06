@@ -239,6 +239,7 @@
 
 <!ENTITY fhprefs.prefpane.keybindings.label "Sneltoetsen">
 <!ENTITY fhprefs.button.keybindingdisable.label "uitschakelen">
+<!ENTITY fhprefs.button.keybinding.tooltiptext "Wijzigingen van sneltoetsen worden pas van kracht in een nieuw browser venster.">
 
 <!ENTITY fhprefs.prefpane.display.label "Weergave">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Formulier Historie Waarden Overzicht">
