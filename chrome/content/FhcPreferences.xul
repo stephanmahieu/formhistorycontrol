@@ -204,6 +204,7 @@
         <tabpanel>
           <!-- Keyboard shortcuts -->
           <vbox flex="1">
+            <spacer height="12"/>
             <grid flex="1">
               <columns>
                 <column/>
@@ -285,20 +286,6 @@
                 </row>
               </rows>
             </grid>
-            <hbox height="35">
-              <vbox>
-                <image id="toolbarimage" class="info_icon" flex="0"
-                       src="chrome://formhistory/skin/information.png"
-                       tooltiptext="&fhprefs.button.keybinding.tooltiptext;"/>
-                <spacer flex="1"/>
-              </vbox>
-              <!-- a hack to get a multiline label (keep room for 2 rows) -->
-              <hbox style="margin-top: 5px" flex="1" height="35">
-              <textbox class="plain" style="background-color: transparent"
-                       flex="1" multiline="true" readonly="true"
-                       value="&fhprefs.button.keybinding.tooltiptext;" />
-               </hbox>
-            </hbox>
           </vbox>
         </tabpanel>
         <tabpanel>

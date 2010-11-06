@@ -239,7 +239,6 @@
 
 <!ENTITY fhprefs.prefpane.keybindings.label "Keyboard Shortcuts">
 <!ENTITY fhprefs.button.keybindingdisable.label "disable">
-<!ENTITY fhprefs.button.keybinding.tooltiptext "Keyboard shortcut changes only take effect in a new browser window.">
 
 <!ENTITY fhprefs.prefpane.display.label "Display">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Form History Items View">
