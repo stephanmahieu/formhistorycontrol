@@ -503,7 +503,7 @@ const FhcContextMenu = {
       function(branch, name) {
 
         if (name.substring(0,11) == "keybinding.") {
-          FhcContextMenu.keyBindings.updateMainKeyset(name.substring(11));
+          FhcContextMenu.keyBindings.updateMainKeyset(name.substring(11), true);
           return;
         }
 
@@ -588,7 +588,7 @@ const FhcContextMenu = {
       "shortcutClearFields",
       "shortcutCleanupNow"];
     for (var i=0; i<Ids.length; i++) {
-      this.keyBindings.updateMainKeyset(Ids[i]);
+      this.keyBindings.updateMainKeyset(Ids[i], false);
     }
   }
 }
