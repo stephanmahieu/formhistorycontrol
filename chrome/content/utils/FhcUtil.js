@@ -461,14 +461,15 @@ const FhcUtil = {
    * @return {boolean} wether or not in private-browsing mode.
    */
   inPrivateBrowsingMode: function() {
-    var isPrivate;
-    try {
-      var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
-                  .getService(Components.interfaces.nsIPrivateBrowsingService);
-      isPrivate = pbs.privateBrowsingEnabled;
-    } catch(e) {
-      // Seamonkey
-      isPrivate = false;
+    var isPrivate = false;
+    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
+      try {
+        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
+                    .getService(Components.interfaces.nsIPrivateBrowsingService);
+        isPrivate = pbs.privateBrowsingEnabled;
+      } catch(e) {
+        // Seamonkey
+      }
     }
     return isPrivate;
   },
@@ -775,8 +776,8 @@ const FhcUtil = {
           recentWindow.delayedOpenTab(url, null, null, null, null);
         } catch(e) {
           // SeaMonkey
-          recentWindow.gBrowser.addTab(url);
-          recentWindow.gBrowser.selectTabAtIndex(recentWindow.gBrowser.tabs.length-1);
+          var newTab = recentWindow.gBrowser.addTab(url);
+          tabbrowser.selectedTab = newTab;
         }
       }
       else {
