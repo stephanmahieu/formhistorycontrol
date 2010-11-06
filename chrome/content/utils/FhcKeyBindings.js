@@ -171,7 +171,7 @@ FhcKeyBindings.prototype = {
   /**
    * Update the main keyset with a keybinding.
    */
-  updateMainKeyset: function(id) {
+  updateMainKeyset: function(id, bInvalidateCache) {
     var cmdId;
     switch(id) {
       case "shortcutManager":
@@ -216,6 +216,13 @@ FhcKeyBindings.prototype = {
         keyNode.setAttribute('modifiers', '');
         keyNode.setAttribute('key', '');
         keyNode.removeAttribute('keycode');
+      }
+
+      // Force browser to activate the new keybinding immediately
+      if (bInvalidateCache) {
+        var keySet = keyNode.parentNode;
+        var updatedKeySet = keySet.cloneNode(true);
+        keySet.parentNode.replaceChild(updatedKeySet, keySet);
       }
     }
   },
