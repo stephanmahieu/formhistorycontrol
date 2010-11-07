@@ -17,6 +17,8 @@ toolbar[iconsize="small"] #formhistctrl-toolbarbutton {
 .fh_menuitem_fillmostused    {list-style-image: url('filltextfield.png')}
 .fh_menuitem_clearfields     {list-style-image: url('emptytextfield.png')}
 
+.fh_menuitem_showfields     {list-style-image: url('showfields.png')}
+
 .fh_menuitem_cleanupnow      {list-style-image: url('delete.png')}
 
 .fh_menuitem_insert          {list-style-image: url('insert.png')}

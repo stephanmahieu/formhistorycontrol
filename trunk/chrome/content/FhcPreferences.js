@@ -393,6 +393,7 @@ const FhcPreferences = {
       "shortcutFillMostRecent",
       "shortcutFillMostUsed",
       "shortcutClearFields",
+      "shortcutShowFormFields",
       "shortcutCleanupNow"];
     for (var i=0; i<txtBoxIds.length; i++) {
       document.getElementById(txtBoxIds[i]).value =

@@ -276,6 +276,15 @@
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
                 <row align="center">
+                  <label value="&fhmnuovl.menuitem.showformfields.label;"/>
+                  <textbox id="shortcutShowFormFields" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutShowFormFields" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
                   <label value="&fhmnuovl.menuitem.cleanupnow.label;"/>
                   <textbox id="shortcutCleanupNow" flex="1"
                            class="shortcutTextbox" readonly="true"

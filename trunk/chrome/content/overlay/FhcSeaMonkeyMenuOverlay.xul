@@ -49,7 +49,7 @@
                   class="menuitem-iconic fh_menuitem_manager"
                   label="&fhmnuovl.menuitem.manager.label;"
                   command="cmd_ShowFormHistoryControl"/>
-        <menuseparator id="formhistctrl_context_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_context_menuitem_managefield"
                   class="menuitem-iconic fh_menuitem_managethisfield"
                   label="&fhmnuovl.menuitem.managethis.label;"
@@ -62,7 +62,7 @@
                   class="menuitem-iconic fh_menuitem_deletethisfield"
                   label="&fhmnuovl.menuitem.deletethis.label;"
                   command="cmd_DeleteEntriesThisField"/>
-        <menuseparator id="formhistctrl_context_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_context_menuitem_fillmostrecent"
                   class="menuitem-iconic fh_menuitem_fillmostrecent"
                   label="&fhmnuovl.menuitem.fillmostrecent.label;"
@@ -75,12 +75,17 @@
                   class="menuitem-iconic fh_menuitem_clearfields"
                   label="&fhmnuovl.menuitem.clearfields.label;"
                   command="cmd_ClearFilledFormFields"/>
-        <menuseparator id="formhistctrl_context_sep"/>
+        <menuseparator/>
+        <menuitem id="formhistctrl_tbmenuitem_showfields"
+                  class="menuitem-iconic fh_menuitem_showfields"
+                  label="&fhmnuovl.menuitem.showformfields.label;"
+                  command="cmd_ShowFormFields"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_context_menuitem_cleanupnow"
                   class="menuitem-iconic fh_menuitem_cleanupnow"
                   label="&fhmnuovl.menuitem.cleanupnow.label;"
                   command="cmd_CleanupFormhistoryNow"/>
-        <menuseparator id="formhistctrl_context_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_menuitem_options"
                   class="menuitem-iconic fh_menuitem_options"
                   label="&fhmnuovl.menuitem.options.label;"
@@ -99,25 +104,26 @@
         <menuitem id="formhistctrl_sbmenuitem_manager"
                   class="menuitem-iconic fh_menuitem_manager"
                   label="&fhmnuovl.menuitem.manager.label;"
-                  tooltiptext=""
                   command="cmd_ShowFormHistoryControl"/>
-        <menuseparator id="formhistctrl_sb_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_sbmenuitem_fillmostrecent"
                   class="menuitem-iconic fh_menuitem_fillmostrecent"
                   label="&fhmnuovl.menuitem.fillmostrecent.label;"
-                  tooltiptext=""
                   command="cmd_FillFormFieldsRecent"/>
         <menuitem id="formhistctrl_sbmenuitem_fillmostused"
                   class="menuitem-iconic fh_menuitem_fillmostused"
                   label="&fhmnuovl.menuitem.fillmostused.label;"
-                  tooltiptext=""
                   command="cmd_FillFormFieldsUsed"/>
         <menuitem id="formhistctrl_sbmenuitem_clearfields"
                   class="menuitem-iconic fh_menuitem_clearfields"
                   label="&fhmnuovl.menuitem.clearfields.label;"
-                  tooltiptext=""
                   command="cmd_ClearFilledFormFields"/>
-        <menuseparator id="formhistctrl_sb_sep"/>
+        <menuseparator/>
+        <menuitem id="formhistctrl_sbmenuitem_showfields"
+                  class="menuitem-iconic fh_menuitem_showfields"
+                  label="&fhmnuovl.menuitem.showformfields.label;"
+                  command="cmd_ShowFormFields"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_sbmenuitem_cleanupnow"
                   class="menuitem-iconic fh_menuitem_cleanupnow"
                   label="&fhmnuovl.menuitem.cleanupnow.label;"
@@ -150,34 +156,34 @@
         <menuitem id="formhistctrl_tbmenuitem_manager"
                   class="menuitem-iconic fh_menuitem_manager"
                   label="&fhmnuovl.menuitem.manager.label;"
-                  tooltiptext=""
                   command="cmd_ShowFormHistoryControl"/>
-        <menuseparator id="formhistctrl_tb_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_tbmenuitem_fillmostrecent"
                   class="menuitem-iconic fh_menuitem_fillmostrecent"
                   label="&fhmnuovl.menuitem.fillmostrecent.label;"
-                  tooltiptext=""
                   command="cmd_FillFormFieldsRecent"/>
         <menuitem id="formhistctrl_tbmenuitem_fillmostused"
                   class="menuitem-iconic fh_menuitem_fillmostused"
                   label="&fhmnuovl.menuitem.fillmostused.label;"
-                  tooltiptext=""
                   command="cmd_FillFormFieldsUsed"/>
         <menuitem id="formhistctrl_tbmenuitem_clearfields"
                   class="menuitem-iconic fh_menuitem_clearfields"
                   label="&fhmnuovl.menuitem.clearfields.label;"
-                  tooltiptext=""
                   command="cmd_ClearFilledFormFields"/>
-        <menuseparator id="formhistctrl_tb_sep"/>
+        <menuseparator/>
+        <menuitem id="formhistctrl_tbmenuitem_showfields"
+                  class="menuitem-iconic fh_menuitem_showfields"
+                  label="&fhmnuovl.menuitem.showformfields.label;"
+                  command="cmd_ShowFormFields"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_tbmenuitem_cleanupnow"
                   class="menuitem-iconic fh_menuitem_cleanupnow"
                   label="&fhmnuovl.menuitem.cleanupnow.label;"
                   command="cmd_CleanupFormhistoryNow"/>
-        <menuseparator id="formhistctrl_context_sep"/>
+        <menuseparator/>
         <menuitem id="formhistctrl_tbmenuitem_options"
                   class="menuitem-iconic fh_menuitem_options"
                   label="&fhmnuovl.menuitem.options.label;"
-                  tooltiptext=""
                   command="cmd_ShowFhcOptions"/>
       </menupopup>
   	</toolbarbutton>
@@ -204,6 +210,7 @@
     <command id="cmd_FillFormFieldsRecent"   oncommand="FhcContextMenu.menuFillFormFieldsRecent()"/>
     <command id="cmd_FillFormFieldsUsed"     oncommand="FhcContextMenu.menuFillFormFieldsUsed()"/>
     <command id="cmd_ClearFilledFormFields"  oncommand="FhcContextMenu.menuClearFilledFormFields()"/>
+    <command id="cmd_ShowFormFields"         oncommand="FhcContextMenu.menuShowFormFields()"/>
     <command id="cmd_CleanupFormhistoryNow"  oncommand="FhcContextMenu.cleanupFormhistoryNow()"/>
   </commandset>
 </overlay>
