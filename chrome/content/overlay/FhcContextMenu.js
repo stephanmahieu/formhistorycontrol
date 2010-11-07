@@ -565,7 +565,7 @@ const FhcContextMenu = {
     var style = 'display:block; border:1px solid #000; ' +
       'background-color:#FFFFAA; color:#000; opacity: 0.75; ' +
       'font: bold 11px sans-serif; padding: 0 4px; ' +
-      'text-decoration:none; z-index: 1000; ' +
+      'text-decoration:none; z-index: 1000; cursor:default; ' +
       'box-shadow: 3px 3px 2px black; -moz-box-shadow: 3px 3px 2px black; ';
 
     var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
@@ -573,22 +573,51 @@ const FhcContextMenu = {
     var padding = parseInt(compstyle.getPropertyValue("padding-right").replace('px', ''));
     var border = parseInt(compstyle.getPropertyValue("border-right-width").replace('px', ''));
 
-    var left = 0, top = 0;
-    if (sourceElem.offsetParent) {
+    var left = 0, top = 0, elem = sourceElem;
+    if (elem.offsetParent) {
       do {
-        left += sourceElem.offsetLeft;
-        top += sourceElem.offsetTop;
-      } while ((sourceElem = sourceElem.offsetParent));
+        left += elem.offsetLeft;
+        top += elem.offsetTop;
+      } while ((elem = elem.offsetParent));
     }
     style += 'position:absolute; top:' + top + 'px; ';
     style += 'left:' + (left + width + padding + border + 4) + 'px; ';
 
     var div = document.createElement('div');
     div.setAttribute('id', id);
+    div.setAttribute('title', this._getFormInfo(sourceElem));
     div.setAttribute('style', style);
     div.appendChild(document.createTextNode(fldName));
 
     return div;
+  },
+
+  /**
+   * Collect the attributes for the element and its form container and
+   * return as String.
+   *
+   * @param element {DOM Element}
+   *        the inputfield
+   *
+   * @return {String}
+   *         info about element and form
+   */
+  _getFormInfo: function(element) {
+    var result = 'FIELD: ', form = element;
+    for (var j = 0; j < element.attributes.length; j++) {
+      result += element.attributes[j].name + '=' + element.attributes[j].value + ' ';
+    }
+
+    while (form.parentNode && form.localName != 'form') {
+      form = form.parentNode;
+    } 
+    if (form && form.localName == 'form') {
+      result += ' ->  FORM: ';
+      for (var i = 0; i < form.attributes.length; i++) {
+        result += form.attributes[i].name + '=' + form.attributes[i].value + ' ';
+      }
+    }
+    return result;
   },
 
   /**
