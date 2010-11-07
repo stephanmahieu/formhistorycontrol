@@ -158,6 +158,7 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Vul velden met meest recente waarden">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Vul velden met meest gebruikte waarden">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Wis de ingevulde velden">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Toon veldnamen in huidige pagina">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Nu Formulier History opschonen">
 <!ENTITY fhmnuovl.menuitem.options.label "Voorkeuren">
 

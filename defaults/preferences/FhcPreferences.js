@@ -34,4 +34,5 @@ pref("extensions.formhistory.keybinding.shortcutDeleteThis", "");
 pref("extensions.formhistory.keybinding.shortcutFillMostRecent", "");
 pref("extensions.formhistory.keybinding.shortcutFillMostUsed", "");
 pref("extensions.formhistory.keybinding.shortcutClearFields", "");
+pref("extensions.formhistory.keybinding.shortcutShowFormFields", "");
 pref("extensions.formhistory.keybinding.shortcutCleanupNow", "");

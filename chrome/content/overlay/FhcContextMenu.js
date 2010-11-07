@@ -254,6 +254,14 @@ const FhcContextMenu = {
   },
 
   /**
+   * Display an infolabel next to each formfield on the page.
+   */
+  menuShowFormFields: function() {
+    var mainDocument = window.getBrowser().contentDocument;
+    this._displayFormFields(mainDocument);
+  },
+
+  /**
    * Cleanup the formhistory database.
    */
   cleanupFormhistoryNow: function() {
@@ -494,6 +502,94 @@ const FhcContextMenu = {
       elem.style[style] = value;
     }
   },
+  
+  /**
+   * Create (toggle) a tooltip-like element right next to each formfield.
+   * The new element displays the name of the formfield. If the new element
+   * already exists, it will be deleted.
+   *
+   * @param document {DOM Document}
+   *        the HTML document containing zero or more formfields.
+   */
+  _displayFormFields: function(document) {
+    var tags = document.getElementsByTagName("input");
+    var elemHtmlInput, div, id;
+
+    for (var ii=0; ii < tags.length; ii++) {
+
+      if (FhcUtil.isInputTextElement(tags[ii])) {
+        elemHtmlInput = tags[ii];
+
+        // Exclude hidden/not visible
+        if (!FhcUtil.elementIsHidden(elemHtmlInput)) {
+          id = 'fhcFldInfo' + ii;
+          if (document.getElementById(id)) {
+            // Remove info element
+            document.body.removeChild(document.getElementById(id));
+          } else {
+            // Insert info element
+            div = this._createInfoElement(document, id, elemHtmlInput);
+            document.body.insertBefore(div, document.body.firstElementChild);
+          }
+        }
+      }
+    }
+    // child documents?
+    for (var jj=0; jj < document.defaultView.frames.length; jj++) {
+      // recurse childdocument
+      this._displayFormFields(document.defaultView.frames[jj].document);
+    }
+  },
+
+  /**
+   * Create a div element for displaying the fieldname next to a formfield.
+   *
+   * @param document {DOM Document}
+   *        the HTML document containing the inputfield
+   *
+   * @param id {String}
+   *        the unique id for the div element
+   *
+   * @param sourceElem {DOM Element}
+   *        the inputfield determining the position for the new div element
+   *
+   * @return {DOM Element}
+   *         the newly created div, absolute positioned next to the sourceElem
+   */
+  _createInfoElement: function(document, id, sourceElem) {
+    var fldName = this._getFieldName(sourceElem);
+    if (fldName == '') {
+      fldName = '\u00a0'; //&nbsp;
+    }
+
+    var style = 'display:block; border:1px solid #000; ' +
+      'background-color:#FFFFAA; color:#000; opacity: 0.75; ' +
+      'font: bold 11px sans-serif; padding: 0 4px; ' +
+      'text-decoration:none; z-index: 1000; ' +
+      'box-shadow: 3px 3px 2px black; -moz-box-shadow: 3px 3px 2px black; ';
+
+    var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
+    var width = parseInt(compstyle.getPropertyValue("width").replace('px', ''));
+    var padding = parseInt(compstyle.getPropertyValue("padding-right").replace('px', ''));
+    var border = parseInt(compstyle.getPropertyValue("border-right-width").replace('px', ''));
+
+    var left = 0, top = 0;
+    if (sourceElem.offsetParent) {
+      do {
+        left += sourceElem.offsetLeft;
+        top += sourceElem.offsetTop;
+      } while ((sourceElem = sourceElem.offsetParent));
+    }
+    style += 'position:absolute; top:' + top + 'px; ';
+    style += 'left:' + (left + width + padding + border + 4) + 'px; ';
+
+    var div = document.createElement('div');
+    div.setAttribute('id', id);
+    div.setAttribute('style', style);
+    div.appendChild(document.createTextNode(fldName));
+
+    return div;
+  },
 
   /**
    * Register a preference listener to act upon relevant preference changes.
@@ -585,6 +681,7 @@ const FhcContextMenu = {
       "shortcutDeleteThis",
       "shortcutFillMostRecent",
       "shortcutFillMostUsed",
+      "shortcutShowFormFields",
       "shortcutClearFields",
       "shortcutCleanupNow"];
     for (var i=0; i<Ids.length; i++) {

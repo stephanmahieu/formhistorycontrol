@@ -158,6 +158,7 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Fill fields with most recent entries">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Fill fields with most often used entries">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Clear the filled fields">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Show fieldnames on current page">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Cleanup Form History Now">
 <!ENTITY fhmnuovl.menuitem.options.label "Options">
 

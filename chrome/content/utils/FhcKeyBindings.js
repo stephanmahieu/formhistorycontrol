@@ -195,6 +195,9 @@ FhcKeyBindings.prototype = {
       case "shortcutClearFields":
         cmdId = "key_ClearFilledFormFields";
         break;
+      case "shortcutShowFormFields":
+        cmdId = "key_ShowFormFields";
+        break;
       case "shortcutCleanupNow":
         cmdId = "key_CleanupFormhistoryNow";
         break;
