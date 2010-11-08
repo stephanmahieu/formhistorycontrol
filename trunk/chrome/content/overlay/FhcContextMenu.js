@@ -521,7 +521,7 @@ const FhcContextMenu = {
         elemHtmlInput = tags[ii];
 
         // Exclude hidden/not visible
-        if (!FhcUtil.elementIsHidden(elemHtmlInput)) {
+        if (FhcUtil.elementIsVisible(elemHtmlInput)) {
           id = 'fhcFldInfo' + ii;
           if (document.getElementById(id)) {
             // Remove info element

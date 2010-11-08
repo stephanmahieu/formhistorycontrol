@@ -290,8 +290,8 @@ const FhcUtil = {
   },
 
   /**
-   * Check if element is visible. An element is not visible if its style
-   * or the style of its parent is hidden.
+   * Check if element is hidden. An element is hidden if its style
+   * or the style of one of its ancestors is hidden.
    * 
    * @param  elem {DOM element}
    * @return {Boolean} whether or not the element is hidden
@@ -310,6 +310,21 @@ const FhcUtil = {
     
     // no parent, not hidden
     return false;
+  },
+
+  /**
+   * Check if an element is visible.
+   * 
+   * @param  elem {DOM element}
+   * @return {Boolean} whether or not the element is visible
+   */
+  elementIsVisible: function(elem) {
+    if (elem.localName == 'input' && elem.type == 'hidden') {
+      return false;
+    }
+    var visibility = this._getEffectiveStyle(elem, "visibility");
+    var isDisplayed = this._isDisplayed(elem);
+    return (visibility != "hidden" && isDisplayed);
   },
 
   /**
@@ -881,5 +896,39 @@ const FhcUtil = {
     var ioService = Components.classes["@mozilla.org/network/io-service;1"]
                       .getService(Components.interfaces.nsIIOService);
     return ioService.newURI(strURL, null, null).prePath;  
+  },
+
+  /**
+   * Get the effective css style of an element.
+   *
+   * @param  element {DOM element}
+   * @param  property {String} the css property to obtain
+   * @return {String} the effective css style
+   */
+  _getEffectiveStyle: function(element, property) {
+    if (element.style == undefined) {
+        return undefined; // not a styled element
+    }
+    var effectiveStyle = window.getComputedStyle(element, null);
+    var propertyValue = effectiveStyle[property];
+    if (propertyValue == 'inherit' && element.parentNode.style) {
+        return this._getEffectiveStyle(element.parentNode, property);
+    }
+    return propertyValue;
+  },
+
+  /**
+   * Test wether the element is displayed according to its display property.
+   *
+   * @param  elem {DOM element}
+   * @return {boolean} wether or not the element is displayed
+   */
+  _isDisplayed: function(elem) {
+    var display = this._getEffectiveStyle(elem, "display");
+    if (display == "none") return false;
+    if (elem.parentNode.style) {
+        return this._isDisplayed(elem.parentNode);
+    }
+    return true;
   }
 }
