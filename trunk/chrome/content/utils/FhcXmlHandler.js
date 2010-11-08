@@ -214,6 +214,29 @@ FhcXmlHandler.prototype = {
     }
     regexpData = null;
 
+    // keyBindings
+    if (prefHandler.isExportConfigKeyBindings()) {
+      var keyBindingsElem = doc.createElement("keyBindings");
+      rootElem.appendChild(keyBindingsElem);
+      var Ids = [
+        "shortcutManager",
+        "shortcutManageThis",
+        "shortcutDeleteValueThis",
+        "shortcutDeleteThis",
+        "shortcutFillMostRecent",
+        "shortcutFillMostUsed",
+        "shortcutShowFormFields",
+        "shortcutClearFields",
+        "shortcutCleanupNow"];
+      var keyBinding, bindingValueComplex, bindingValue;
+      for (var i=0; i<Ids.length; i++) {
+        bindingValueComplex = prefHandler.getKeybindingValue(Ids[i]);
+        bindingValue = bindingValueComplex ? bindingValueComplex.data : "";
+        keyBinding = this._createKeyBindingElement(doc, Ids[i], bindingValue);
+        keyBindingsElem.appendChild(keyBinding);
+      }
+    }
+
     // serialize to string (pretty printed)
     XML.ignoreComments = false;
     return XML(this.serializer.serializeToString(doc)).toXMLString();
@@ -320,6 +343,17 @@ FhcXmlHandler.prototype = {
               caseSens:    this._getIntAttr(exprElem[0],"exact"),
               regexpType:  ("built-in" == typeElem[0].textContent ? "b" : "")
             });
+          }
+        }
+
+        // keyBindings
+        if (prefHandler.isExportConfigKeyBindings()) {
+          var keyBindingsElem = doc.getElementsByTagName("keyBinding");
+          var bindingId, bindingValue;
+          for(var kk=0; kk<keyBindingsElem.length; kk++) {
+             bindingValue = this._decode(keyBindingsElem[kk].textContent);
+             bindingId = keyBindingsElem[kk].getAttribute("id");
+             prefHandler.setKeybindingValue(bindingId, bindingValue);
           }
         }
       }
@@ -607,5 +641,12 @@ FhcXmlHandler.prototype = {
     this._appendElement(doc, regExpElem, "useFor",             regExp.useFor);
     this._appendElement(doc, regExpElem, "type", ("b" == regExp.regexpType ? "built-in" : "user-defined"));
     return regExpElem;
+  },
+
+  _createKeyBindingElement: function(doc, id, binding) {
+    var bindingElem = doc.createElement("keyBinding");
+    bindingElem.textContent = this._encode(binding);
+    bindingElem.setAttribute("id", id);
+    return bindingElem;
   }
 }
