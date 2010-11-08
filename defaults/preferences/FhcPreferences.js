@@ -18,6 +18,7 @@ pref("extensions.formhistory.showStatusBarIcon", true);
 pref("extensions.formhistory.exportCSV.separator", ";");
 pref("extensions.formhistory.exportCSV.quote", "\"");
 pref("extensions.formhistory.exportCSV.escape", "\"");
+pref("extensions.formhistory.exportConfig.keybindings", true);
 pref("extensions.formhistory.quickfill.changebgcolor", true);
 pref("extensions.formhistory.quickfill.changebordrcolor", true);
 pref("extensions.formhistory.quickfill.changebordrthickness", false);

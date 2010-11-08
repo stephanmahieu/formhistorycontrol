@@ -1,6 +1,7 @@
 User:
 - Added preference-option to exclude fieldnames from view
 - Added global keybindings for most menuitems in (right-click-)contextmenu
+- Added (preference-)option to Export/Import keybindings (default yes)
 - Added menu-option to display (toggle) the fieldname next to each formfield
 
 Technical:
@@ -9,4 +10,3 @@ Technical:
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
-- Export/Import keybindings (optional)

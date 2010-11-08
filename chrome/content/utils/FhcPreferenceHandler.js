@@ -181,6 +181,9 @@ FhcPreferenceHandler.prototype = {
   getCSVEscapePrefix: function() {
     return this.prefService.getCharPref("exportCSV.escape");
   },
+  isExportConfigKeyBindings: function() {
+    return this.prefService.getBoolPref("exportConfig.keybindings");
+  },
 
   isQuickFillChangeBgColor: function() {
     return this.prefService.getBoolPref("quickfill.changebgcolor");
