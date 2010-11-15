@@ -1,8 +1,9 @@
 User:
 - Added preference-option to exclude fieldnames from view
-- Added global keybindings for most menuitems in (right-click-)contextmenu
+- Added global keybindings for most menu-items in (right-click-)contextmenu
 - Added (preference-)option to Export/Import keybindings (default yes)
 - Added menu-option to display (toggle) the fieldname next to each formfield
+- Fixed About dialog not properly displayed in 4.0b8pre
 
 Technical:
 - Fixed SeaMonkey bug: undefined Components.classes["@mozilla.org/privatebrowsing;1"]
