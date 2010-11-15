@@ -253,6 +253,31 @@ FhcRdfExtensionHandler.prototype = {
           // development mode
           dump('Fhc in development mode: extension is at a different location! ' +
                'unable to obtain contributors/translators.\n');
+          if (xmlfile.isFile()) {
+            dump('formhistory@yahoo.com is a file pointing to a different location\n');
+            // reading contents
+            var devStreamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
+                              .createInstance(Components.interfaces.nsIFileInputStream);
+            devStreamIn.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+
+            var developLocation = {};
+            try {
+              // read first line
+              devStreamIn.readLine(developLocation);
+              dump('Content of file: ' + developLocation.value + '\n');
+            } finally {
+              devStreamIn.close();
+            }
+
+            if ('' != developLocation.value) {
+              // try linked location
+              var ioserv = Components.classes["@mozilla.org/network/io-service;1"]
+                           .getService(Components.interfaces.nsIIOService);
+              //var developURL = ioserv.newFileURI(developLocation.value);
+              //xmlfile = developURL.QueryInterface(Components.interfaces.nsIFileURL).file;
+              //xmlfile.append("install.rdf");
+            }
+          }
         }
       }
     }
