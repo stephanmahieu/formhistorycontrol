@@ -41,37 +41,36 @@
  * Populate the about dialog with data obtained from the install.rdf
  * using the FhcRdfExtensionHandler.
  *
- * Dependencies: AboutFHC.xul, FhcRdfExtensionHandler.js
+ * Dependencies: AboutFHC.xul, FhcRdfExtensionHandler.js, FhcBundle.js
  */
 const AboutFhcDialog = {
-  extHandler: null,
 
   /**
    * Initialize the About Dialog.
    * Populate the dialog with data extracted from the install.rdf file.
    */
   init: function() {
-    this.extHandler = new FhcRdfExtensionHandler();
-    var bundle = document.getElementById("about.stringbundle");
+    var extHandler = new FhcRdfExtensionHandler();
+    var bundle = new FhcBundle();
     
     // get attributes from install.rdf
-    var name        = this.extHandler.getName();
-    var version     = this.extHandler.getVersion();
-    var description = this.extHandler.getDescription();
-    var homepage    = this.extHandler.getHomepageURL();
-    var creator     = this.extHandler.getCreator();
+    var name        = extHandler.getName();
+    var version     = extHandler.getVersion();
+    var description = extHandler.getDescription();
+    var homepage    = extHandler.getHomepageURL();
+    var creator     = extHandler.getCreator();
 
     var contributors = [];
     var translators  = [];
-    this.extHandler.getContributors(contributors, translators);
+    extHandler.getContributors(contributors, translators);
 
     // set dialog title
-    document.title = bundle.getFormattedString("aboutWindowTitle", [name]);
+    document.title = bundle.getString("aboutwindow.title", [name]);
     
     // set name/version/description attributes
     document.getElementById("extensionName").setAttribute("value", name);
     document.getElementById("extensionVersion").setAttribute("value",
-                bundle.getFormattedString("aboutWindowVersionString", [version]));
+                bundle.getString("aboutwindow.version", [version]));
     document.getElementById("extensionDescription").appendChild(
                 document.createTextNode(description));
     document.getElementById("extensionCreator").setAttribute("value", creator);
@@ -101,16 +100,18 @@ const AboutFhcDialog = {
       this._addInfo(translatorRows, translators, "translator");
     }
 
-    // add a close button
+    // change ok-button to close button
     var acceptButton = document.documentElement.getButton("accept");
-    acceptButton.label = bundle.getString("aboutWindowCloseButton");
+    acceptButton.label = bundle.getString("aboutwindow.closebutton.label");
+
+    delete extHandler;
+    delete bundle;
   },
   
   /**
    * About dialog is about to be destroyed, cleanup first.
    */
   destroy: function() {
-    delete this.extHandler;
   },
 
   /**

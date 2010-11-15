@@ -1,13 +1,9 @@
 <?xml version="1.0"?>
+
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/about.css" type="text/css"?>
 
-<!DOCTYPE dialog [
-   <!ENTITY % frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd" >
-   %frmhistDTD;
-   <!ENTITY % systemaboutDTD SYSTEM "chrome://mozapps/locale/extensions/about.dtd" >
-   %systemaboutDTD;
-]>
+<!DOCTYPE frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd">
 
 <dialog id="formhistoryAbout"
         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
@@ -16,11 +12,13 @@
 
   <script type="application/x-javascript" src="chrome://formhistory/content/AboutFHC.js"/>
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcRdfExtensionHandler.js" />
-  
-  <stringbundleset id="aboutSet">
-    <stringbundle id="about.stringbundle" src="chrome://mozapps/locale/extensions/extensions.properties"/>
-  </stringbundleset>
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
 
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="formhistory.stringbundle"
+                  src="chrome://formhistory/locale/formhistory.properties"/>
+  </stringbundleset>
+  
   <vbox flex="1">
     <hbox id="titleBox">
       <vbox flex="1">
@@ -35,23 +33,23 @@
     </hbox>
     
     <groupbox orient="horizontal">
-      <caption label="&fhabout.label.description;:"/>
+      <caption label="&fhabout.label.description;"/>
       <hbox flex="1">
         <description id="extensionDescription"/>
       </hbox>
     </groupbox>
     
     <groupbox orient="horizontal">
-      <caption label="&creator.label;"/>
+      <caption label="&fhabout.label.creator;"/>
       <hbox id="creatorBox" flex="1">
         <label id="extensionCreator"/>
         <spacer flex="1"/>
-        <label id="extensionHomepage" class="text-link" value="&homepage.label;"/>
+        <label id="extensionHomepage" class="text-link" value="&fhabout.label.homepage;"/>
       </hbox>
     </groupbox>
     
     <groupbox orient="horizontal" id="extensionContributors">
-      <caption label="&contributors.label;"/>
+      <caption label="&fhabout.label.contributors;"/>
       <vbox flex="1" id="contributorsBox">
         <grid>
           <columns>
@@ -65,7 +63,7 @@
     </groupbox>
     
     <groupbox orient="horizontal" id="extensionTranslators">
-      <caption label="&translators.label;"/>
+      <caption label="&fhabout.label.translators;"/>
       <vbox flex="1" id="translatorsBox" style="overflow: auto; height: 78px">
         <grid>
           <columns>

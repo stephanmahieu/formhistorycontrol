@@ -320,3 +320,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "n">
 
 <!ENTITY fhabout.label.description "Omschrijving">
+<!ENTITY fhabout.label.creator "Gemaakt door">
+<!ENTITY fhabout.label.homepage "Homepage bezoeken">
+<!ENTITY fhabout.label.contributors "Bijdragen">
+<!ENTITY fhabout.label.translators "Vertalers">

@@ -320,3 +320,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
 
 <!ENTITY fhabout.label.description "Description">
+<!ENTITY fhabout.label.creator "Created by">
+<!ENTITY fhabout.label.homepage "Visit Homepage">
+<!ENTITY fhabout.label.contributors "Contributors">
+<!ENTITY fhabout.label.translators "Translators">
