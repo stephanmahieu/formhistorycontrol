@@ -232,14 +232,12 @@ FhcRdfExtensionHandler.prototype = {
     if (this._useNewAddonManager) {
       dump("using new addonManager...\n");
       try {
-        var installPath = this._getAddon().getResourceURL("install.rdf");
-        dump("installPath: " + installPath.filePath + "\n");
+        var installURI = this._getAddon().getResourceURI("install.rdf");
 
-        var ios = Components.classes["@mozilla.org/network/io-service;1"]
-                      .getService(Components.interfaces.nsIIOService);
-        var installURI = ios.newURI(installPath, null, null);
-
+        dump("Reading from " + installURI.spec + "\n");
+        // This will fail!
         xmlfile = installURI.QueryInterface(Components.interfaces.nsIFileURL).file;
+        dump("xmlfile ready.\n");
       }
       catch(ex) {
         // SeaMonkey (no getResourceURL method!)
