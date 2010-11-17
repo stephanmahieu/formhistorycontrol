@@ -230,8 +230,10 @@ FhcRdfExtensionHandler.prototype = {
   _getXMLFile: function() {
     var xmlfile;
     if (this._useNewAddonManager) {
+      dump("using new addonManager...\n");
       try {
         var installPath = this._getAddon().getResourceURL("install.rdf");
+        dump("installPath: " + installPath.filePath + "\n");
 
         var ios = Components.classes["@mozilla.org/network/io-service;1"]
                       .getService(Components.interfaces.nsIIOService);
@@ -246,6 +248,7 @@ FhcRdfExtensionHandler.prototype = {
         xmlfile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
         xmlfile.append("extensions");
         xmlfile.append("formhistory@yahoo.com");
+        dump("xmlfile path: " + xmlfile.path + "\n");
         if (xmlfile.isDirectory()) {
           xmlfile.append("install.rdf");
         }
@@ -283,6 +286,7 @@ FhcRdfExtensionHandler.prototype = {
                    .getService(Components.interfaces.nsIExtensionManager)
                    .getInstallLocation("formhistory@yahoo.com")
                    .getItemFile("formhistory@yahoo.com", "install.rdf");
+      dump("xmlfile path: " + xmlfile.path + "\n");
     }
 
     // open xml file for reading
