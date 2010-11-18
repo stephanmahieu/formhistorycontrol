@@ -14,7 +14,7 @@
  * The Original Code is FhcRdfExtensionHandler.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2009
+ * Portions created by the Initial Developer are Copyright (C) 2010
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -182,7 +182,7 @@ FhcRdfExtensionHandler.prototype = {
    * @param   resourceName {String}
    *          the name of the resource of the rdf info
    *
-   * @returns {String}
+   * @return {String}
    *          the resource value
    */
   _getValue: function(resourceName) {
@@ -214,7 +214,8 @@ FhcRdfExtensionHandler.prototype = {
    * @param tagname {String}
    *        the name of the tag of the install.rdf
    * 
-   * @returns the textcontent of the tag
+   * @return {String}
+   *         the textcontent of the tag
    */
   _getByTagname: function(tagname) {
     var xml = this._getXMLFile();
@@ -225,57 +226,28 @@ FhcRdfExtensionHandler.prototype = {
   /**
    * Read the install.rdf file located in the chrome directory.
    *
-   * @returns {XML DOM} the XML DOM representation of the XML file
+   * @return {XML DOM}
+   *         the XML DOM representation of the XML file
    */
   _getXMLFile: function() {
     var xmlfile;
     if (this._useNewAddonManager) {
-      dump("using new addonManager...\n");
       try {
         var installURI = this._getAddon().getResourceURI("install.rdf");
-
-        dump("Reading from " + installURI.spec + "\n");
-        // This will fail!
-        xmlfile = installURI.QueryInterface(Components.interfaces.nsIFileURL).file;
-        dump("xmlfile ready.\n");
+        return this._getXMLFromURI(installURI.spec);
       }
       catch(ex) {
-        // SeaMonkey (no getResourceURL method!)
+        // Probably no getResourceURL method! (SeaMonkey)
         var dirServiceProp = Components.classes["@mozilla.org/file/directory_service;1"]
                              .getService(Components.interfaces.nsIProperties);
         xmlfile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
         xmlfile.append("extensions");
         xmlfile.append("formhistory@yahoo.com");
-        dump("xmlfile path: " + xmlfile.path + "\n");
         if (xmlfile.isDirectory()) {
           xmlfile.append("install.rdf");
         }
-        else  {
-          // development mode
-          dump('Fhc in development mode: extension is at a different location!\n');
-          if (xmlfile.isFile()) {
-            // reading contents
-            var devStreamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
-                              .createInstance(Components.interfaces.nsIFileInputStream);
-            devStreamIn.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
-
-            var developLocation = {};
-            try {
-              // read first line
-              devStreamIn.readLine(developLocation);
-            } finally {
-              devStreamIn.close();
-            }
-
-            if (developLocation && developLocation.value) {
-              // try linked location
-              dump('Add-on location: ' + developLocation.value);
-              xmlfile = Components.classes["@mozilla.org/file/local;1"]
-                              .createInstance(Components.interfaces.nsILocalFile);
-              xmlfile.initWithPath(developLocation.value);
-              xmlfile.append("install.rdf");
-            }
-          }
+        else if (xmlfile.isFile()) {
+          xmlfile = this._resolveDevelopmentLocation(xmlfile);
         }
       }
     }
@@ -284,28 +256,96 @@ FhcRdfExtensionHandler.prototype = {
                    .getService(Components.interfaces.nsIExtensionManager)
                    .getInstallLocation("formhistory@yahoo.com")
                    .getItemFile("formhistory@yahoo.com", "install.rdf");
-      dump("xmlfile path: " + xmlfile.path + "\n");
     }
 
-    // open xml file for reading
+    return this._parseXMLFileToDOM(xmlfile);
+  },
+
+  /**
+   * Parse an XML file into a DOM.
+   *
+   * @param  xmlfile {nsIFile}
+   *         the xml file.
+   *
+   * @return {DOM}
+   *         xmlfile parsed to DOM.
+   */
+  _parseXMLFileToDOM: function(xmlfile) {
+    var xml = null;
     try {
+      // open xml file for reading
       var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
       streamIn.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
-    }
-    catch(ex) {
-      dump('Exception reading xml stream:' + ex + '\n');
-    }
 
-    // parse the xml file into DOM
-    var xml = null;
-    try {
-      var parser = new DOMParser();
-      xml = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+      // parse xml
+      try {
+        var parser = new DOMParser();
+        xml = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+      }
+      catch(parseEx) {
+        dump('Exception parsing xml:' + parseEx + '\n');
+      }
     }
-    catch(ex) {
-      dump('Exception parsing xml:' + ex + '\n');
+    catch(streamEx) {
+      dump('Exception reading xml stream:' + streamEx + '\n');
     }
     return xml;
+  },
+
+  /**
+   * Return the DOM of an XML file retrieved by its URI.
+   *
+   * @param  uri {nsiURI}
+   *         The uri of an XML file to retrieve.
+   *
+   * @return {DOM}
+   *         the xml file.
+   */
+  _getXMLFromURI: function(uri) {
+    var req = new XMLHttpRequest();
+    req.onload = function() {
+       FhcRdfExtensionHandler.fhcInstallRdfXML = req.responseXML;
+    };
+    req.open("GET", uri, false);
+    req.send(null);
+    return FhcRdfExtensionHandler.fhcInstallRdfXML;
+  },
+
+  /**
+   * Instead of the xpi or directory, a file can be used containing one line
+   * of text describing the actual location of the extension (development use).
+   * This method reads the first line of the file and returns the location as
+   * a new nsILocalFile object.
+   *
+   * @param  shortcutFile {nsILocalFile}
+   *         file containing a string describing the actual location.
+   *
+   * @return {nsILocalFile}
+   *         The actual location.
+   */
+  _resolveDevelopmentLocation: function(shortcutFile) {
+    // reading contents
+    var devStreamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
+                      .createInstance(Components.interfaces.nsIFileInputStream);
+    devStreamIn.init(shortcutFile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+
+    var developLocation = {};
+    try {
+      // assume real location is on first line
+      devStreamIn.readLine(developLocation);
+    } finally {
+      devStreamIn.close();
+    }
+
+    var xmlfile = "";
+    if (developLocation && developLocation.value) {
+      // try linked location
+      xmlfile = Components.classes["@mozilla.org/file/local;1"]
+                      .createInstance(Components.interfaces.nsILocalFile);
+      xmlfile.initWithPath(developLocation.value);
+      xmlfile.append("install.rdf");
+    }
+    return xmlfile;
   }
 }
