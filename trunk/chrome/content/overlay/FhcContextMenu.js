@@ -71,14 +71,17 @@ const FhcContextMenu = {
         // can't use onpopupshowing in the xul (need to chain ours, not replace existing!)
         var menu = document.getElementById("contentAreaContextMenu");
         if (menu) menu.addEventListener("popupshowing", this, false);
+        if (menu) menu.addEventListener("popuphiding", this, false);
 
         // add an eventlistener for the statusbar-menu-Popup
         menu = document.getElementById("formhistctrl-statusbarmenu-popup");
         if (menu) menu.addEventListener("popupshowing", this, false);
+        if (menu) menu.addEventListener("popuphiding", this, false);
 
         // add an eventlistener for the toolbar-menu-Popup
         menu = document.getElementById("formhistctrl-toolbarmenu-popup");
         if (menu) menu.addEventListener("popupshowing", this, false);
+        if (menu) menu.addEventListener("popuphiding", this, false);
 
         // add an eventhandler to capture right-click on statusbar icon
         var stBar = document.getElementById("formhistctrl-statusbarmenu");
@@ -110,6 +113,10 @@ const FhcContextMenu = {
         this.contextmenuPopup(aEvent);
         break;
 
+      case "popuphiding":
+        this.contextmenuHide(aEvent);
+        break;
+
       case "click":
         if (aEvent.button == 2) {
           // Right click
@@ -125,6 +132,8 @@ const FhcContextMenu = {
    * Method called each time the contentAreaContextMenu or statusbar-menu popups.
    * Enable/disable the delete/manage menuItems when invoked from an
    * input-text-element.
+   * If a menuitem contains a command, the menuitem can only be disabled by
+   * disabling the command!
    *
    * @param {Event} aEvent
    */
@@ -135,32 +144,47 @@ const FhcContextMenu = {
 
       case "contentAreaContextMenu":
         var inputField = document.commandDispatcher.focusedElement;
-        var isInputText = (inputField && "INPUT" == inputField.nodeName && "text" == inputField.type);
+        var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
-        document.getElementById("formhistctrl_context_menuitem_deletevalue").setAttribute("disabled", !isValueInFormHistory);
-        document.getElementById("formhistctrl_context_menuitem_delete").setAttribute("disabled", !isInputText);
-        document.getElementById("formhistctrl_context_menuitem_managefield").setAttribute("disabled", !isInputText);
-        document.getElementById("formhistctrl_context_menuitem_fillmostrecent").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_context_menuitem_fillmostused").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_context_menuitem_clearfields").setAttribute("disabled", !hasFields);
+        this._disable("cmd_DeleteValueThisField", !isValueInFormHistory);
+        this._disable("cmd_DeleteEntriesThisField", !isInputText);
+        this._disable("cmd_ManageThisField", !isInputText);
+        this._disable("cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("cmd_ClearFilledFormFields", !hasFields);
         break;
 
       case "formhistctrl-statusbarmenu-popup":
         hasFields = this._containsInputFields();
-        document.getElementById("formhistctrl_sbmenuitem_fillmostrecent").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_sbmenuitem_fillmostused").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_sbmenuitem_clearfields").setAttribute("disabled", !hasFields);
+        this._disable("cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("cmd_ClearFilledFormFields", !hasFields);
         break;
 
       case "formhistctrl-toolbarmenu-popup":
         hasFields = this._containsInputFields();
-        document.getElementById("formhistctrl_tbmenuitem_fillmostrecent").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_tbmenuitem_fillmostused").setAttribute("disabled", !hasFields);
-        document.getElementById("formhistctrl_tbmenuitem_clearfields").setAttribute("disabled", !hasFields);
+        this._disable("cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("cmd_ClearFilledFormFields", !hasFields);
         break;
     }
     return true;
+  },
+
+  /**
+   * Re-enable commands that were disabled in order to "grey out" menu-items.
+   * Method is called each time one of the menu's hides.
+   * The commands are also used in global keybindings, so we have to re-enable
+   * the commands in order for keybindings to function all the time.
+   */
+  contextmenuHide: function() {
+    this._disable("cmd_DeleteValueThisField", false);
+    this._disable("cmd_DeleteValueThisField", false);
+    this._disable("cmd_ManageThisField", false);
+    this._disable("cmd_FillFormFieldsRecent", false);
+    this._disable("cmd_FillFormFieldsUsed", false);
+    this._disable("cmd_ClearFilledFormFields", false);
   },
 
   /**
@@ -292,6 +316,25 @@ const FhcContextMenu = {
         notBox.appendNotification(statusText, 'popup-blocked',
                              'chrome://browser/skin/Info.png',
                               notBox.PRIORITY_INFO_MEDIUM, []);
+    }
+  },
+
+  /**
+   * Disable/enable an element using the "disabled" attribute. Using the
+   * disabled property does not seem to work for commands.
+   *
+   * @param id {String}
+   *        the id of the DOM element
+   *        
+   * @param flag (boolean}
+   *        whether to enable (false) or disable (true) the element
+   */
+  _disable: function(id, flag) {
+    var obj = document.getElementById(id);
+    if (flag) {
+      obj.setAttribute("disabled", 'true');
+    } else {
+      obj.removeAttribute("disabled");
     }
   },
 
