@@ -118,11 +118,12 @@ const HistoryWindowControl = {
 
     // enable searchOnlyField checkbox if a focused text input field
     // is present in the main document
+    var hasFocusedTextInput = false;
     if (window.opener) {
       this.curWindow = window.opener;
       var elem = this.curWindow.document.commandDispatcher.focusedElement;
-      var hasFocusedInput = FhcUtil.isInputTextElement(elem);
-      document.getElementById("searchfieldonly").setAttribute("disabled", !hasFocusedInput);
+      hasFocusedTextInput = FhcUtil.isInputTextElement(elem);
+      document.getElementById("searchfieldonly").setAttribute("disabled", !hasFocusedTextInput);
     }
 
     // read and display data
@@ -135,8 +136,8 @@ const HistoryWindowControl = {
     var hasArguments = ("arguments" in window && window.arguments.length > 0 && window.arguments[0]);
     if (hasArguments && window.arguments[0].searchField) {
       // only display entries for the focused field
-      document.getElementById("searchfieldonly").setAttribute("checked", true);
-      this.searchOnlyFieldChanged(true);
+      document.getElementById("searchfieldonly").setAttribute("checked", hasFocusedTextInput);
+      this.searchOnlyFieldChanged(hasFocusedTextInput);
     } else if (hasArguments && window.arguments[0].searchbarField) {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);
@@ -183,18 +184,19 @@ const HistoryWindowControl = {
   initAlreadyOpen: function(parameters) {
     // enable searchOnlyField checkbox if a focused text input field
     // is present in the main document
+    var hasFocusedInput = false;
     if (parameters && parameters.opener) {
       this.curWindow = parameters.opener;
       var elem = this.curWindow.document.commandDispatcher.focusedElement;
-      var hasFocusedInput = FhcUtil.isInputTextElement(elem);
+      hasFocusedInput = FhcUtil.isInputTextElement(elem);
       document.getElementById("searchfieldonly").setAttribute("disabled", !hasFocusedInput);
     }
 
     // dialog opened with argument searchField
     if (parameters && parameters.searchField) {
       // only display entries for the focused field
-      document.getElementById("searchfieldonly").setAttribute("checked", true);
-      this.searchOnlyFieldChanged(true);
+      document.getElementById("searchfieldonly").setAttribute("checked", hasFocusedInput);
+      this.searchOnlyFieldChanged(hasFocusedInput);
     } else if (parameters && parameters.searchbarField) {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);

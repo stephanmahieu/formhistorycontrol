@@ -193,9 +193,14 @@ const FhcContextMenu = {
    */
   menuDeleteValueThisField: function() {
     var inputField = document.commandDispatcher.focusedElement;
+    var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
+    var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
+    if (!isValueInFormHistory) {
+      return;
+    }
     var fieldname = this._getFieldName(inputField);
+    
     if (inputField && ("" != inputField.value)) {
-
       var doDelete = true;    
       if (this.preferences.isWarnOnDeleteOne()) {
         var result = FhcUtil.confirmDialog(
@@ -227,6 +232,10 @@ const FhcContextMenu = {
    */
   menuDeleteEntriesThisField: function() {
     var inputField = document.commandDispatcher.focusedElement;
+    var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
+    if (!isInputText) {
+      return;
+    }
     var fieldname = this._getFieldName(inputField);
 
     var doDelete = true;    
