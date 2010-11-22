@@ -37,3 +37,5 @@ pref("extensions.formhistory.keybinding.shortcutFillMostUsed", "");
 pref("extensions.formhistory.keybinding.shortcutClearFields", "");
 pref("extensions.formhistory.keybinding.shortcutShowFormFields", "");
 pref("extensions.formhistory.keybinding.shortcutCleanupNow", "");
+pref("extensions.formhistory.keybinding.shortcutSaveThisField", "");
+pref("extensions.formhistory.keybinding.shortcutSaveThisPage", "");
