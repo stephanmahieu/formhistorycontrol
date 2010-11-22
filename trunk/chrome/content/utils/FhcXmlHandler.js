@@ -227,7 +227,9 @@ FhcXmlHandler.prototype = {
         "shortcutFillMostUsed",
         "shortcutShowFormFields",
         "shortcutClearFields",
-        "shortcutCleanupNow"];
+        "shortcutCleanupNow",
+        "shortcutSaveThisField",
+        "shortcutSaveThisPage"];
       var keyBinding, bindingValueComplex, bindingValue;
       for (var i=0; i<Ids.length; i++) {
         bindingValueComplex = prefHandler.getKeybindingValue(Ids[i]);

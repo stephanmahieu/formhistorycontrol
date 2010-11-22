@@ -329,6 +329,68 @@ const FhcContextMenu = {
   },
 
   /**
+   * Save the current field to the formhistory database.
+   */
+  saveThisField: function() {
+    var mainDocument = window.getBrowser().contentDocument;
+    var id = 'fhcMessageFieldWasSaved';
+    if (mainDocument.getElementById(id)) {
+      // Remove info element
+      mainDocument.body.removeChild(mainDocument.getElementById(id));
+    } else {
+      // Insert element
+      var div = this._createMessageElement(id, mainDocument, "Field saved!");
+      mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
+        //insertBefore();
+    }
+  },
+
+  /**
+   * Save all fields on the current page to the formhistory database.
+   */
+  saveThisPage: function() {
+    var mainDocument = window.getBrowser().contentDocument;
+    var id = 'fhcMessagePagefieldsSaved';
+    if (mainDocument.getElementById(id)) {
+      // Remove info element
+      mainDocument.body.removeChild(mainDocument.getElementById(id));
+    } else {
+      // Insert element
+      var div = this._createMessageElement(id, mainDocument, "Fields on page saved!");
+      mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
+    }
+  },
+
+  _createMessageElement: function(id, document, infoMessage) {
+    var top = 350;
+    var width = 245;
+    var height = 162;
+    
+    var style = 'position: fixed; overflow: hidden; display:block; ' +
+      'width:' + width + 'px; height:' + height + 'px; ' +
+      'border:1px solid #000; padding: 0 4px; ' +
+      'background-color:#FFFFAA; opacity: 0.75; ' +
+      'font: bold 18px sans-serif; color:#000; text-decoration:none; ' +
+      'z-index: 1000; cursor:default; ' +
+      'box-shadow: 6px 6px 3px black; -moz-box-shadow: 6px 6px 3px black; ' +
+      '-moz-border-radius: 15px;';
+
+    style += 'top:' + top + 'px; '; //(document.body.clientHeight=height)/2
+    style += 'left:' + (document.body.clientWidth-width)/2 + 'px; ';
+
+    var div = document.createElement('div');
+    div.setAttribute('id', id);
+    div.setAttribute('style', style);
+
+    var msgDiv = document.createElement('div');
+    div.appendChild(msgDiv);
+    msgDiv.setAttribute('style', 'padding-top:60px; margin:0px auto');
+    msgDiv.appendChild(document.createTextNode(infoMessage));
+
+    return div;
+  },
+
+  /**
    * Disable/enable an element using the "disabled" attribute. Using the
    * disabled property does not seem to work for commands.
    *
@@ -764,7 +826,9 @@ const FhcContextMenu = {
       "shortcutFillMostUsed",
       "shortcutShowFormFields",
       "shortcutClearFields",
-      "shortcutCleanupNow"];
+      "shortcutCleanupNow",
+      "shortcutSaveThisField",
+      "shortcutSaveThisPage"];
     for (var i=0; i<Ids.length; i++) {
       this.keyBindings.updateMainKeyset(Ids[i], false);
     }

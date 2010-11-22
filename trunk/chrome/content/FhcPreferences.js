@@ -394,7 +394,9 @@ const FhcPreferences = {
       "shortcutFillMostUsed",
       "shortcutClearFields",
       "shortcutShowFormFields",
-      "shortcutCleanupNow"];
+      "shortcutCleanupNow",
+      "shortcutSaveThisField",
+      "shortcutSaveThisPage"];
     for (var i=0; i<txtBoxIds.length; i++) {
       document.getElementById(txtBoxIds[i]).value =
         this.keyBindings.getFormattedKeybinding(

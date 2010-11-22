@@ -201,6 +201,12 @@ FhcKeyBindings.prototype = {
       case "shortcutCleanupNow":
         cmdId = "key_CleanupFormhistoryNow";
         break;
+      case "shortcutSaveThisField":
+        cmdId = "key_SaveThisField";
+        break;
+      case "shortcutSaveThisPage":
+        cmdId = "key_SaveThisPage";
+        break;
     }
     if (cmdId) {
       var keyNode = document.getElementById(cmdId);

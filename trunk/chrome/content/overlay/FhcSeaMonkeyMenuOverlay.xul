@@ -198,6 +198,8 @@
     <key id="key_FillFormFieldsUsed"     key="" command="cmd_FillFormFieldsUsed"/>
     <key id="key_ClearFilledFormFields"  key="" command="cmd_ClearFilledFormFields"/>
     <key id="key_CleanupFormhistoryNow"  key="" command="cmd_CleanupFormhistoryNow"/>
+    <key id="key_SaveThisField"          key="" command="cmd_SaveThisField"/>
+    <key id="key_SaveThisPage"           key="" command="cmd_SaveThisPage"/>
   </keyset>
 
   <commandset>
@@ -212,5 +214,7 @@
     <command id="cmd_ClearFilledFormFields"  oncommand="FhcContextMenu.menuClearFilledFormFields()"/>
     <command id="cmd_ShowFormFields"         oncommand="FhcContextMenu.menuShowFormFields()"/>
     <command id="cmd_CleanupFormhistoryNow"  oncommand="FhcContextMenu.cleanupFormhistoryNow()"/>
+    <command id="cmd_SaveThisField"          oncommand="FhcContextMenu.saveThisField()"/>
+    <command id="cmd_SaveThisPage"           oncommand="FhcContextMenu.saveThisPage()"/>
   </commandset>
 </overlay>

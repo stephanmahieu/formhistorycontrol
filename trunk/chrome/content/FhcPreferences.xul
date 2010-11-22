@@ -203,7 +203,7 @@
         </tabpanel>
         <tabpanel>
           <!-- Keyboard shortcuts -->
-          <vbox flex="1">
+          <vbox flex="1" style="overflow: auto; height: 250px">
             <spacer height="12"/>
             <grid flex="1">
               <columns>
@@ -293,62 +293,86 @@
                           label="&fhprefs.button.keybindingdisable.label;"
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
+
+                <row align="center">
+                  <label value="Save the current focused field"/>
+                  <textbox id="shortcutSaveThisField" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutSaveThisField" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+                <row align="center">
+                  <label value="Save all fields on the current page"/>
+                  <textbox id="shortcutSaveThisPage" flex="1"
+                           class="shortcutTextbox" readonly="true"
+                           onkeypress="FhcPreferences.createKeybinding(event, this)"/>
+                  <button id="btn_shortcutSaveThisPage" flex="0"
+                          label="&fhprefs.button.keybindingdisable.label;"
+                          oncommand="FhcPreferences.disableKeybinding(this)"/>
+                </row>
+
+
+
               </rows>
             </grid>
           </vbox>
         </tabpanel>
         <tabpanel>
           <!-- Quick Fill -->
-          <groupbox flex="1">
-            <caption label="&fhprefs.group.quickfill.caption;"/>
-            <hbox>
-              <grid>
-                <columns>
-                  <column/>
-                  <column/>
-                </columns>
-                <rows>
-                  <row align="center">
-                    <checkbox id="changebgcolor"
-                              label="&fhprefs.checkbox.quickfillbgcolor.label;"
-                              preference="extensions.formhistory.quickfill.changebgcolor"
-                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
-                    <colorpicker id="bgcolor" type="button"
-                                 preference="extensions.formhistory.quickfill.bgcolor"
-                                 onchange="FhcPreferences.adjustQuickFillPreview()"/>
-                    <spacer/>
-                  </row>
-                  <row align="center">
-                    <checkbox id="changebordrcolor"
-                              label="&fhprefs.checkbox.quickfillbordercolor.label;"
-                              preference="extensions.formhistory.quickfill.changebordrcolor"
-                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
-                    <colorpicker id="brdcolor" type="button"
-                                 preference="extensions.formhistory.quickfill.bordrcolor"
-                                 onchange="FhcPreferences.adjustQuickFillPreview()"/>
-                  </row>
-                  <row align="center">
-                    <checkbox id="changebordrthickness"
-                              label="&fhprefs.checkbox.quickfillborderwidth.label;"
-                              preference="extensions.formhistory.quickfill.changebordrthickness"
-                              oncommand="FhcPreferences.adjustQuickFillPreview()"/>
-                    <textbox id="brdsize" maxlength="1" size="2" min="0" max="6" type="number"
-                             preference="extensions.formhistory.quickfill.bordrthickness"
-                             onchange="FhcPreferences.adjustQuickFillPreview()"/>
-                  </row>
-                </rows>
-              </grid>
-              <spacer flex="1"/>
-              <vbox>
-                <!-- use html for preview to avoid xul css -->
-                <span style="background-color: #FFFFFF; padding: 20px 5px 20px 0px; border-width: 2px; border-color: #999999; border-style: inset;">
-                  <label value="&fhprefs.textbox.quickfillpreviewtest.label;:"/>
-                  <input type="text" id="preview" style="display: inline-block">&fhprefs.textbox.quickfillpreviewtext;</input>
-                </span>
-                <spacer/>
-              </vbox>
-            </hbox>
-          </groupbox>
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&fhprefs.group.quickfill.caption;"/>
+              <hbox>
+                <grid>
+                  <columns>
+                    <column/>
+                    <column/>
+                  </columns>
+                  <rows>
+                    <row align="center">
+                      <checkbox id="changebgcolor"
+                                label="&fhprefs.checkbox.quickfillbgcolor.label;"
+                                preference="extensions.formhistory.quickfill.changebgcolor"
+                                oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                      <colorpicker id="bgcolor" type="button"
+                                   preference="extensions.formhistory.quickfill.bgcolor"
+                                   onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                      <spacer/>
+                    </row>
+                    <row align="center">
+                      <checkbox id="changebordrcolor"
+                                label="&fhprefs.checkbox.quickfillbordercolor.label;"
+                                preference="extensions.formhistory.quickfill.changebordrcolor"
+                                oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                      <colorpicker id="brdcolor" type="button"
+                                   preference="extensions.formhistory.quickfill.bordrcolor"
+                                   onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                    </row>
+                    <row align="center">
+                      <checkbox id="changebordrthickness"
+                                label="&fhprefs.checkbox.quickfillborderwidth.label;"
+                                preference="extensions.formhistory.quickfill.changebordrthickness"
+                                oncommand="FhcPreferences.adjustQuickFillPreview()"/>
+                      <textbox id="brdsize" maxlength="1" size="2" min="0" max="6" type="number"
+                               preference="extensions.formhistory.quickfill.bordrthickness"
+                               onchange="FhcPreferences.adjustQuickFillPreview()"/>
+                    </row>
+                  </rows>
+                </grid>
+                <spacer flex="1"/>
+                <vbox>
+                  <!-- use html for preview to avoid xul css -->
+                  <span style="background-color: #FFFFFF; padding: 20px 5px 20px 0px; border-width: 2px; border-color: #999999; border-style: inset;">
+                    <label value="&fhprefs.textbox.quickfillpreviewtest.label;:"/>
+                    <input type="text" id="preview" style="display: inline-block">&fhprefs.textbox.quickfillpreviewtext;</input>
+                  </span>
+                  <spacer/>
+                </vbox>
+              </hbox>
+            </groupbox>
+          </vbox>
         </tabpanel>
       </tabpanels>
     </tabbox>
