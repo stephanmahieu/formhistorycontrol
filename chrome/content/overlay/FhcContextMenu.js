@@ -333,16 +333,13 @@ const FhcContextMenu = {
    */
   saveThisField: function() {
     var mainDocument = window.getBrowser().contentDocument;
-    var id = 'fhcMessageFieldWasSaved';
+    var id = 'fhcSaveMessageField';
     if (mainDocument.getElementById(id)) {
-      // Remove info element
       mainDocument.body.removeChild(mainDocument.getElementById(id));
-    } else {
-      // Insert element
-      var div = this._createMessageElement(id, mainDocument, "Field saved");
-      mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
-        //insertBefore();
     }
+    // Insert element
+    var div = this._createMessageElement(id, mainDocument, "Field saved");
+    mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
   },
 
   /**
@@ -350,15 +347,13 @@ const FhcContextMenu = {
    */
   saveThisPage: function() {
     var mainDocument = window.getBrowser().contentDocument;
-    var id = 'fhcMessagePagefieldsSaved';
+    var id = 'fhcSaveMessageFields';
     if (mainDocument.getElementById(id)) {
-      // Remove info element
       mainDocument.body.removeChild(mainDocument.getElementById(id));
-    } else {
-      // Insert element
-      var div = this._createMessageElement(id, mainDocument, "Fields saved");
-      mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
-    }
+    } 
+    // Insert element
+    var div = this._createMessageElement(id, mainDocument, "Fields saved");
+    mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
   },
 
   _createMessageElement: function(id, document, infoMessage) {
@@ -385,6 +380,17 @@ const FhcContextMenu = {
       '-moz-border-radius: 10px; border-radius:10px';
     msgDiv.setAttribute('style', style);
     msgDiv.appendChild(document.createTextNode(infoMessage));
+
+    var script = document.createElement('script');
+    div.appendChild(script);
+    script.setAttribute('language', 'JavaScript');
+    var jScript ="var g" + id + "=50;" +
+      "function fade" + id + "(){" +
+        "g" + id + "-=5;" +
+        "document.getElementById('" + id + "').style.opacity = g" + id + "/100;" +
+      "}" +
+      "for(var i=1;i<=10;i++){setTimeout(fade" + id + ",1000+(30*i));}";
+    script.appendChild(document.createTextNode(jScript));
 
     return div;
   },
