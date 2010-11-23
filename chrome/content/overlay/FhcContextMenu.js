@@ -339,7 +339,7 @@ const FhcContextMenu = {
       mainDocument.body.removeChild(mainDocument.getElementById(id));
     } else {
       // Insert element
-      var div = this._createMessageElement(id, mainDocument, "Field saved!");
+      var div = this._createMessageElement(id, mainDocument, "Field saved");
       mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
         //insertBefore();
     }
@@ -356,35 +356,34 @@ const FhcContextMenu = {
       mainDocument.body.removeChild(mainDocument.getElementById(id));
     } else {
       // Insert element
-      var div = this._createMessageElement(id, mainDocument, "Fields on page saved!");
+      var div = this._createMessageElement(id, mainDocument, "Fields saved");
       mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
     }
   },
 
   _createMessageElement: function(id, document, infoMessage) {
-    var top = 350;
+    var top = 250;
     var width = 245;
-    var height = 162;
-    
-    var style = 'position: fixed; overflow: hidden; display:block; ' +
-      'width:' + width + 'px; height:' + height + 'px; ' +
-      'border:1px solid #000; padding: 0 4px; ' +
-      'background-color:#FFFFAA; opacity: 0.75; ' +
-      'font: bold 18px sans-serif; color:#000; text-decoration:none; ' +
-      'z-index: 1000; cursor:default; ' +
-      'box-shadow: 6px 6px 3px black; -moz-box-shadow: 6px 6px 3px black; ' +
-      '-moz-border-radius: 15px;';
 
-    style += 'top:' + top + 'px; '; //(document.body.clientHeight=height)/2
-    style += 'left:' + (document.body.clientWidth-width)/2 + 'px; ';
-
+    var style = 'position:fixed; z-index:1000; cursor:default; ' +
+      'top:' + top + 'px; ' + //(document.body.clientHeight=height)/2
+      'left:' + (document.body.clientWidth-width)/2 + 'px; ' +
+      'width:' + width + 'px; ' +
+      'padding:20px; background-color:#000; opacity: 0.50; ' +
+      '-moz-box-shadow: 6px 6px 3px black; ' +
+      '-moz-border-radius:15px; border-radius:15px';
     var div = document.createElement('div');
     div.setAttribute('id', id);
     div.setAttribute('style', style);
+    div.setAttribute('onclick', "this.style.display='none';");
 
     var msgDiv = document.createElement('div');
     div.appendChild(msgDiv);
-    msgDiv.setAttribute('style', 'padding-top:60px; margin:0px auto');
+    style = 'overflow:hidden; ' +
+      'padding:10px 0; border:3px solid #FFFFFF; ' +
+      'text-align:center; font:bold 18px sans-serif; color:#FFF; ' +
+      '-moz-border-radius: 10px; border-radius:10px';
+    msgDiv.setAttribute('style', style);
     msgDiv.appendChild(document.createTextNode(infoMessage));
 
     return div;
