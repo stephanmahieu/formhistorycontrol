@@ -332,8 +332,28 @@ const FhcContextMenu = {
    * Save the current field to the formhistory database.
    */
   saveThisField: function() {
-    // TODO: save field to db...
-    this._showMessage('fhcSaveMessageField', "All fields on the page are saved");
+    var inputField = document.commandDispatcher.focusedElement;
+    if (FhcUtil.isInputTextElement(inputField)) {
+      if (!this._isValueInFormHistory(inputField)) {
+        var now = this.dateHandler.getCurrentDate();
+        var newEntry = {
+              name:  this._getFieldName(inputField),
+              value: inputField.value,
+              used:  1,
+              first: now,
+              last:  now
+            };
+        this.dbHandler.addEntry(newEntry, null);
+
+        // Notify HistoryWindow of DB-changes
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .notifyObservers(null, "cleanup-db-changed", "");
+                  
+        // TODO: localize message
+        this._showMessage('fhcSaveMessageField', "Field saved");
+      }
+    }
   },
 
   /**
@@ -341,7 +361,9 @@ const FhcContextMenu = {
    */
   saveThisPage: function() {
     // TODO: save all fields on page to db...
-    this._showMessage('fhcSaveMessageFields', "Fields saved");
+    // 
+    // TODO: localize message
+    this._showMessage('fhcSaveMessageFields', "All fields on the page are saved");
   },
 
   /**
