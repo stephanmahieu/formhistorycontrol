@@ -188,16 +188,14 @@ const FhcRegexpView = {
    * Select all items.
    */
   selectAll: function() {
-    var selection = this.treeBox.view.selection;
-    selection.selectAll();
+    this._getSelection().selectAll();
   },
   
   /**
    * Deselect all items.
    */
   selectNone: function() {
-    var selection = this.treeBox.view.selection;
-    selection.clearSelection();
+    this._getSelection().clearSelection();
   },
 
   /**
@@ -260,7 +258,7 @@ const FhcRegexpView = {
     var selected = [];
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -289,7 +287,7 @@ const FhcRegexpView = {
     var selected = 0;
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -352,6 +350,18 @@ const FhcRegexpView = {
   //----------------------------------------------------------------------------
   // Helper methods
   //----------------------------------------------------------------------------
+
+  /**
+   * Workaround for this.treeBox.view.selection.
+   * Cannot access this.treeBox.view.selection without a warning in FF4
+   * because this.treeBox.view is [xpconnect wrapped]
+   * (Warning: reference to undefined property this.treeBox.view)
+   */
+  _getSelection: function() {
+    var tbox = this.treeBox;
+    var view = tbox.view;
+    return view.selection;
+  },
 
   _applyFilter: function() {
     var showNames  = document.getElementById("cbShowNames").checked;
@@ -462,7 +472,7 @@ const FhcRegexpView = {
         // select and scroll new item into view
         var index = this._findRegexpIndex(newRegexp.id);
         if (-1 < index) {
-          this.treeBox.view.selection.select(index);
+          this._getSelection().select(index);
           this.treeBox.ensureRowIsVisible(index);
         }
       }
@@ -527,7 +537,7 @@ const FhcRegexpView = {
             // select and scroll edited item into view
             index = this._findRegexpIndex(editRegexp.id);
             if (-1 < index) {
-              this.treeBox.view.selection.select(index);
+              this._getSelection().select(index);
               this.treeBox.ensureRowIsVisible(index);
             }
           }
@@ -603,7 +613,7 @@ const FhcRegexpView = {
     // select and scroll edited item (back) into view
     var index = this._findRegexpIndex(regexp.id);
     if (-1 < index) {
-      this.treeBox.view.selection.select(index);
+      this._getSelection().select(index);
       this.treeBox.ensureRowIsVisible(index);
     }
   },
@@ -819,7 +829,7 @@ const FhcRegexpView = {
    * Only works when the data itself is not changed between save & restore!
    */
   _restoreSelectionFast: function() {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
 
     // clear the current selection
     selection.clearSelection();

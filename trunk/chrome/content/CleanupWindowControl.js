@@ -245,16 +245,14 @@ const CleanupWindowControl = {
    * Select all items.
    */
   selectAll: function() {
-    var selection = this.treeBox.view.selection;
-    selection.selectAll();
+    this._getSelection().selectAll();
   },
   
   /**
    * Deselect all items.
    */
   selectNone: function() {
-    var selection = this.treeBox.view.selection;
-    selection.clearSelection();
+    this._getSelection().clearSelection();
   },
 
   /**
@@ -434,7 +432,7 @@ const CleanupWindowControl = {
     var selected = [];
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -466,7 +464,7 @@ const CleanupWindowControl = {
     var selected = 0;
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -529,6 +527,18 @@ const CleanupWindowControl = {
   //----------------------------------------------------------------------------
   // Helper methods
   //----------------------------------------------------------------------------
+
+  /**
+   * Workaround for this.treeBox.view.selection.
+   * Cannot access this.treeBox.view.selection without a warning in FF4
+   * because this.treeBox.view is [xpconnect wrapped]
+   * (Warning: reference to undefined property this.treeBox.view)
+   */
+  _getSelection: function() {
+    var tbox = this.treeBox;
+    var view = tbox.view;
+    return view.selection;
+  },
 
   /**
    * Update the count-label with the current state.
@@ -607,7 +617,7 @@ const CleanupWindowControl = {
         // select and scroll new item into view
         var index = this._findCriteriaIndex(newCriteria.id);
         if (-1 < index) {
-          this.treeBox.view.selection.select(index);
+          this._getSelection().select(index);
           this.treeBox.ensureRowIsVisible(index);
         }
       }
@@ -740,7 +750,7 @@ const CleanupWindowControl = {
             // select and scroll edited item into view
             index = this._findCriteriaIndex(editCriteria.id);
             if (-1 < index) {
-              this.treeBox.view.selection.select(index);
+              this._getSelection().select(index);
               this.treeBox.ensureRowIsVisible(index);
             }
           }
@@ -808,7 +818,7 @@ const CleanupWindowControl = {
     // select and scroll edited item into view
     var index = this._findCriteriaIndex(criteria.id);
     if (-1 < index) {
-      this.treeBox.view.selection.select(index);
+      this._getSelection().select(index);
       this.treeBox.ensureRowIsVisible(index);
     }
   },

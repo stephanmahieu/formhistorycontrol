@@ -192,7 +192,7 @@ HistoryTreeView.prototype = {
 
   // Get the current selected column
   getSelectedColumn: function() {
-    return this.treeBox.view.selection.currentColumn;
+    return this._getSelection().currentColumn;
   },
 
   // get selected entries
@@ -200,7 +200,7 @@ HistoryTreeView.prototype = {
     var selected = [];
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -244,7 +244,7 @@ HistoryTreeView.prototype = {
     var selected = 0;
     var start = new Object();
     var end = new Object();
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -264,7 +264,7 @@ HistoryTreeView.prototype = {
     // if new item is visible (not filterd out), select and scroll into view
     var index = this._getDataIndex(entry.id);
     if (-1 < index) {
-      this.treeBox.view.selection.select(index);
+      this._getSelection().select(index);
       this.treeBox.ensureRowIsVisible(index);
     }
   },
@@ -309,7 +309,7 @@ HistoryTreeView.prototype = {
     }
     if (index < this.rowCount) {
       this.treeBox.ensureRowIsVisible(index);
-      this.treeBox.view.selection.toggleSelect(index);
+      this._getSelection().toggleSelect(index);
     }
   },
   
@@ -341,7 +341,7 @@ HistoryTreeView.prototype = {
   
   // Select al entries in the tree with the given value
   selectEntriesByValue: function(aValue) {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var firstSelect;
     
     // iterate over all entries
@@ -358,7 +358,7 @@ HistoryTreeView.prototype = {
 
   // Select al entries in the tree by Index from the aIndices array
   selectEntriesByIndex: function(aIndices) {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     var firstSelect;
 
     // iterate over all indices
@@ -373,19 +373,17 @@ HistoryTreeView.prototype = {
   
   // Select all
   selectAll: function() {
-    var selection = this.treeBox.view.selection;
-    selection.selectAll();
+    this._getSelection().selectAll();
   },
   
   // Deselect all
   selectNone: function() {
-    var selection = this.treeBox.view.selection;
-    selection.clearSelection();
+    this._getSelection().clearSelection();
   },
   
   // Invert selection
   selectInvert: function() {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     // method selection.invertSelection() is not implemented!
     this.beginBatch();
 
@@ -475,6 +473,18 @@ HistoryTreeView.prototype = {
   //----------------------------------------------------------------------------
   // Helper methods
   //----------------------------------------------------------------------------
+
+  /**
+   * Workaround for this.treeBox.view.selection.
+   * Cannot access this.treeBox.view.selection without a warning in FF4
+   * because this.treeBox.view is [xpconnect wrapped]
+   * (Warning: reference to undefined property this.treeBox.view)
+   */
+  _getSelection: function() {
+    var tbox = this.treeBox;
+    var view = tbox.view;
+    return view.selection;
+  },
 
   // Store data for viewing/filtering + extra backup store (unfiltered)
   _addData: function(item){
@@ -675,7 +685,7 @@ HistoryTreeView.prototype = {
   // Store the current selection(s) in the data itself so we can easily
   // restore the selection very fast later on
   _saveSelectionFast: function() {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
     for (var ii=0; ii < this.data.length; ii++) {
       this.data[ii]._tmpSelected = selection.isSelected(ii);
     }
@@ -685,7 +695,7 @@ HistoryTreeView.prototype = {
   // wether or not data is selected is stored inside the data itself
   // Only works when the data itself is not changed between save & restore!
   _restoreSelectionFast: function() {
-    var selection = this.treeBox.view.selection;
+    var selection = this._getSelection();
 
     // clear the current selection
     selection.clearSelection();
