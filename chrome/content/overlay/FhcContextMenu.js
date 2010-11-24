@@ -332,67 +332,92 @@ const FhcContextMenu = {
    * Save the current field to the formhistory database.
    */
   saveThisField: function() {
-    var mainDocument = window.getBrowser().contentDocument;
-    var id = 'fhcSaveMessageField';
-    if (mainDocument.getElementById(id)) {
-      mainDocument.body.removeChild(mainDocument.getElementById(id));
-    }
-    // Insert element
-    var div = this._createMessageElement(id, mainDocument, "Field saved");
-    mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
+    // TODO: save field to db...
+    this._showMessage('fhcSaveMessageField', "All fields on the page are saved");
   },
 
   /**
    * Save all fields on the current page to the formhistory database.
    */
   saveThisPage: function() {
-    var mainDocument = window.getBrowser().contentDocument;
-    var id = 'fhcSaveMessageFields';
-    if (mainDocument.getElementById(id)) {
-      mainDocument.body.removeChild(mainDocument.getElementById(id));
-    } 
-    // Insert element
-    var div = this._createMessageElement(id, mainDocument, "Fields saved");
-    mainDocument.body.appendChild(div, mainDocument.body.firstElementChild);
+    // TODO: save all fields on page to db...
+    this._showMessage('fhcSaveMessageFields', "Fields saved");
   },
 
-  _createMessageElement: function(id, document, infoMessage) {
-    var top = 250;
-    var width = 245;
+  /**
+   * Show a message for 1 second, then let it fade-out.
+   *
+   * @param id {String}
+   *        the id of the div elemet to create and add to the page
+   *
+   * @param infoMessage {String}
+   *        the (short) message to display
+   */
+  _showMessage: function(id, infoMessage) {
+    var document = window.getBrowser().contentDocument;
+    var top = 250; // centering vertically unreliable, use constant
 
+    // when to use css property -moz-border-radius or border-radius (2.0)
+    var str = navigator.userAgent;
+    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
+
+    // outer div
     var style = 'position:fixed; z-index:1000; cursor:default; ' +
-      'top:' + top + 'px; ' + //(document.body.clientHeight=height)/2
-      'left:' + (document.body.clientWidth-width)/2 + 'px; ' +
-      'width:' + width + 'px; ' +
+      'top:' + top + 'px; left:100px;' + //top = (document.body.clientHeight-height)/2
       'padding:20px; background-color:#000; opacity: 0.50; ' +
-      '-moz-box-shadow: 6px 6px 3px black; ' +
-      '-moz-border-radius:15px; border-radius:15px';
+      '-moz-box-shadow: 6px 6px 6px rgba(0,0,0,0.7); ' + radius + ':15px';
     var div = document.createElement('div');
     div.setAttribute('id', id);
     div.setAttribute('style', style);
     div.setAttribute('onclick', "this.style.display='none';");
 
+    // inner div holding message with a contrasting border
     var msgDiv = document.createElement('div');
     div.appendChild(msgDiv);
     style = 'overflow:hidden; ' +
-      'padding:10px 0; border:3px solid #FFFFFF; ' +
-      'text-align:center; font:bold 18px sans-serif; color:#FFF; ' +
-      '-moz-border-radius: 10px; border-radius:10px';
+      'padding:10px; border:3px solid #FFFFFF; ' + radius + ':10px;' +
+      'text-align:center; font:bold 18px sans-serif; color:#FFF';
     msgDiv.setAttribute('style', style);
     msgDiv.appendChild(document.createTextNode(infoMessage));
 
+    // add script to fade-out message automatically after 1 second
     var script = document.createElement('script');
     div.appendChild(script);
     script.setAttribute('language', 'JavaScript');
-    var jScript ="var g" + id + "=50;" +
-      "function fade" + id + "(){" +
-        "g" + id + "-=5;" +
-        "document.getElementById('" + id + "').style.opacity = g" + id + "/100;" +
+    var jScript = 
+      "function fade" + id + "(op){" +
+        "var el=document.getElementById('" + id + "');" +
+        "if (el) el.style.opacity=op/100;" +
       "}" +
-      "for(var i=1;i<=10;i++){setTimeout(fade" + id + ",1000+(30*i));}";
+      "for(var i=1;i<=10;i++){setTimeout(fade" + id + ",1000+30*i,50-i*5);}";
     script.appendChild(document.createTextNode(jScript));
 
-    return div;
+    // remove old message (if it exists) and display the new message
+    this._removeMessage(document, id);
+    document.body.appendChild(div, document.body.firstElementChild);
+
+    // use the actual width to center the outer div horizontally
+    div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
+
+    // remove message after 2 secs (failsafe when javascript is disabled in browser)
+    window.setTimeout(this._removeMessage, 2000, document, id);
+  },
+
+  /**
+   * Remove an element from the body of a document.
+   *
+   * @param document {DOM document}
+   *        the document from which the element is removed
+   *
+   * @param id {String}
+   *        the id of the DOM element to remove from the page
+   */
+  _removeMessage: function(document, id) {
+    var element = document.getElementById(id);
+    if (element) {
+      document.body.removeChild(element);
+    }
   },
 
   /**
