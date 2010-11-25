@@ -198,7 +198,7 @@ const FhcContextMenu = {
     if (!isValueInFormHistory) {
       return;
     }
-    var fieldname = this._getFieldName(inputField);
+    var fieldname = FhcUtil.getElementNameOrId(inputField);
     
     if (inputField && ("" != inputField.value)) {
       var doDelete = true;    
@@ -236,7 +236,7 @@ const FhcContextMenu = {
     if (!isInputText) {
       return;
     }
-    var fieldname = this._getFieldName(inputField);
+    var fieldname = FhcUtil.getElementNameOrId(inputField);
 
     var doDelete = true;    
     if (this.preferences.isWarnOnDeleteMultiple()) {
@@ -335,7 +335,7 @@ const FhcContextMenu = {
     var inputField = document.commandDispatcher.focusedElement;
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
-        var name = this._getFieldName(inputField);
+        var name = FhcUtil.getElementNameOrId(inputField);
         var now = this.dateHandler.getCurrentDate();
         var newEntry = {
               name:  name,
@@ -362,22 +362,15 @@ const FhcContextMenu = {
    * Save all fields on the current page to the formhistory database.
    */
   saveThisPage: function() {
-    var document = window.getBrowser().contentDocument;
-    var tags = document.getElementsByTagName("input");
+    var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
     for (var ii=0; ii < tags.length; ii++) {
       var inputField = tags[ii];
-      if (FhcUtil.isInputTextElement(inputField)) {
-        if ("" != inputField.value && "" != this._getFieldName(inputField)) {
-          if (FhcUtil.elementIsVisible(inputField)) {
-            if (!this._isValueInFormHistory(inputField)) {
+      if (!this._isValueInFormHistory(inputField)) {
 
-              // TODO: save field to db...
+        // TODO: save field to db...
 
 
-              this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField);
-            }
-          }
-        }
+        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField);
       }
     }
 
@@ -550,21 +543,6 @@ const FhcContextMenu = {
   },
 
   /**
-   * Determine the fieldName of an input field (either id or name).
-   *
-   * @param  inputField {DOM element}
-   *         the input textfield
-   *
-   * @return {String}
-   *         the id of the textfield, if no id then return the name
-   */
-  _getFieldName: function(inputField) {
-    return (inputField.name && inputField.name.length > 0)
-           ? inputField.name
-           : inputField.id;
-  },
-  
-  /**
    * Determine if the inputField has a value that occurs in the FormHistory
    * database.
    *
@@ -575,8 +553,8 @@ const FhcContextMenu = {
    *         whether or not the inputField occurs in the FormHistory database
    */
   _isValueInFormHistory: function(inputField) {
-    var hasValue = ("" != inputField.value);
-    return hasValue && this.dbHandler.entryExists(this._getFieldName(inputField), inputField.value);
+    var hasValue = ("" != FhcUtil.getElementValueIfNotEmpty(inputField));
+    return hasValue && this.dbHandler.entryExists(FhcUtil.getElementNameOrId(inputField), inputField.value);
   },
 
   /**
@@ -608,7 +586,7 @@ const FhcContextMenu = {
 
       if (FhcUtil.isInputTextElement(tags[ii])) {
         var elemHtmlInput = tags[ii];
-        var fldName = this._getFieldName(elemHtmlInput);
+        var fldName = FhcUtil.getElementNameOrId(elemHtmlInput);
 
         // Exclude disabled, hidden/not visible
         if (!elemHtmlInput.disabled && !FhcUtil.elementIsHidden(elemHtmlInput)) {
@@ -802,7 +780,7 @@ const FhcContextMenu = {
    *         the newly created div, absolute positioned next to the sourceElem
    */
   _createInfoElement: function(document, id, sourceElem) {
-    var fldName = this._getFieldName(sourceElem);
+    var fldName = FhcUtil.getElementNameOrId(sourceElem);
     if (fldName == '') {
       fldName = '\u00a0'; //&nbsp;
     }
