@@ -335,9 +335,10 @@ const FhcContextMenu = {
     var inputField = document.commandDispatcher.focusedElement;
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
+        var name = this._getFieldName(inputField);
         var now = this.dateHandler.getCurrentDate();
         var newEntry = {
-              name:  this._getFieldName(inputField),
+              name:  name,
               value: inputField.value,
               used:  1,
               first: now,
@@ -349,10 +350,11 @@ const FhcContextMenu = {
         Components.classes["@mozilla.org/observer-service;1"]
                   .getService(Components.interfaces.nsIObserverService)
                   .notifyObservers(null, "cleanup-db-changed", "");
-                  
-        // TODO: localize message
-        this._showMessage('fhcSaveMessageField', "Field saved");
+
+        this._showSavedFieldImage('fhcSaveMessageField', inputField);
       }
+      // TODO: localize message
+      this._showMessage('fhcSaveMessage', "Field saved");
     }
   },
 
@@ -360,8 +362,25 @@ const FhcContextMenu = {
    * Save all fields on the current page to the formhistory database.
    */
   saveThisPage: function() {
-    // TODO: save all fields on page to db...
-    // 
+    var document = window.getBrowser().contentDocument;
+    var tags = document.getElementsByTagName("input");
+    for (var ii=0; ii < tags.length; ii++) {
+      var inputField = tags[ii];
+      if (FhcUtil.isInputTextElement(inputField)) {
+        if ("" != inputField.value && "" != this._getFieldName(inputField)) {
+          if (FhcUtil.elementIsVisible(inputField)) {
+            if (!this._isValueInFormHistory(inputField)) {
+
+              // TODO: save field to db...
+
+
+              this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField);
+            }
+          }
+        }
+      }
+    }
+
     // TODO: localize message
     this._showMessage('fhcSaveMessageFields', "All fields on the page are saved");
   },
@@ -370,7 +389,7 @@ const FhcContextMenu = {
    * Show a message for 1 second, then let it fade-out.
    *
    * @param id {String}
-   *        the id of the div elemet to create and add to the page
+   *        the id of the div element to create and add to the page
    *
    * @param infoMessage {String}
    *        the (short) message to display
@@ -383,12 +402,13 @@ const FhcContextMenu = {
     var str = navigator.userAgent;
     var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
     var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
+    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
 
     // outer div
     var style = 'position:fixed; z-index:1000; cursor:default; ' +
       'top:' + top + 'px; left:100px;' + //top = (document.body.clientHeight-height)/2
       'padding:20px; background-color:#000; opacity: 0.50; ' +
-      '-moz-box-shadow: 6px 6px 6px rgba(0,0,0,0.7); ' + radius + ':15px';
+      '' + shadow + ': 6px 6px 6px rgba(0,0,0,0.7); ' + radius + ':15px';
     var div = document.createElement('div');
     div.setAttribute('id', id);
     div.setAttribute('style', style);
@@ -401,6 +421,10 @@ const FhcContextMenu = {
       'padding:10px; border:3px solid #FFFFFF; ' + radius + ':10px;' +
       'text-align:center; font:bold 18px sans-serif; color:#FFF';
     msgDiv.setAttribute('style', style);
+    var img = document.createElement('img');
+    img.setAttribute('style', 'vertical-align:middle; margin-right:8px');
+    img.setAttribute('src', 'chrome://formhistory/skin/okay32.png')
+    msgDiv.appendChild(img);
     msgDiv.appendChild(document.createTextNode(infoMessage));
 
     // add script to fade-out message automatically after 1 second
@@ -417,13 +441,68 @@ const FhcContextMenu = {
 
     // remove old message (if it exists) and display the new message
     this._removeMessage(document, id);
-    document.body.appendChild(div, document.body.firstElementChild);
+    document.body.appendChild(div);
 
     // use the actual width to center the outer div horizontally
     div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
 
     // remove message after 2 secs (failsafe when javascript is disabled in browser)
     window.setTimeout(this._removeMessage, 2000, document, id);
+  },
+
+  /**
+   * Show an image on the right side of an inputfield.
+   * The image is faded-out after 2 seconds.
+   *
+   * @param id {String}
+   *        the id of the div element to create and add to the page
+   *
+   * @param sourceElem {DOM element}
+   *        the element the image is postioned next to
+   */
+  _showSavedFieldImage: function(id, sourceElem) {
+    var document = window.getBrowser().contentDocument;
+    var div = document.createElement('div');
+
+    var style = 'z-index: 1000; cursor:default; ';
+    var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
+    var width = parseInt(compstyle.getPropertyValue("width").replace('px', ''));
+    var padding = parseInt(compstyle.getPropertyValue("padding-right").replace('px', ''));
+    var border = parseInt(compstyle.getPropertyValue("border-right-width").replace('px', ''));
+
+    var left = 0, top = 0, elem = sourceElem;
+    if (elem.offsetParent) {
+      do {
+        left += elem.offsetLeft;
+        top += elem.offsetTop;
+      } while ((elem = elem.offsetParent));
+    }
+    style += 'position:absolute; top:' + top + 'px; ';
+    style += 'left:' + (left + width + padding + border + 4) + 'px; ';
+
+    div.setAttribute('id', id);
+    div.setAttribute('onclick', "this.style.display='none';");
+    div.setAttribute('style', style);
+
+    var img = document.createElement('img');
+    img.setAttribute('src', 'chrome://formhistory/skin/save32.png')
+    div.appendChild(img);
+
+    // add script to fade-out message automatically after 2 seconds
+    var script = document.createElement('script');
+    div.appendChild(script);
+    script.setAttribute('language', 'JavaScript');
+    var jScript =
+      "function fade" + id + "(op){" +
+        "var el=document.getElementById('" + id + "');" +
+        "if (el) el.style.opacity=op/100;" +
+      "}" +
+      "for(var i=1;i<=20;i++){setTimeout(fade" + id + ",2000+30*i,100-i*5);}";
+    script.appendChild(document.createTextNode(jScript));
+
+    document.body.appendChild(div);
+    // remove message after 3 secs
+    window.setTimeout(this._removeMessage, 3000, document, id);
   },
 
   /**
@@ -695,7 +774,7 @@ const FhcContextMenu = {
           } else {
             // Insert info element
             div = this._createInfoElement(document, id, elemHtmlInput);
-            document.body.insertBefore(div, document.body.firstElementChild);
+            document.body.appendChild(div);
           }
         }
       }
@@ -728,11 +807,15 @@ const FhcContextMenu = {
       fldName = '\u00a0'; //&nbsp;
     }
 
-    var style = 'display:block; border:1px solid #000; ' +
+    // when to use css property -moz-border-radius or border-radius (2.0)
+    var str = navigator.userAgent;
+    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
+
+    var style = 'display:block; border:1px solid #000; padding: 0 4px; ' +
       'background-color:#FFFFAA; color:#000; opacity: 0.75; ' +
-      'font: bold 11px sans-serif; padding: 0 4px; ' +
-      'text-decoration:none; z-index: 1000; cursor:default; ' +
-      'box-shadow: 3px 3px 2px black; -moz-box-shadow: 3px 3px 2px black; ';
+      'font: bold 11px sans-serif; text-decoration:none; ' +
+      'z-index: 1000; cursor:default; ' + shadow + ': 3px 3px 2px black; ';
 
     var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
     var width = parseInt(compstyle.getPropertyValue("width").replace('px', ''));
