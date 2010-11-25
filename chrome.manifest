@@ -1,4 +1,4 @@
-content formhistory chrome/content/
+content formhistory chrome/content/ contentaccessible=yes
 skin formhistory classic chrome/skin/classic/
 
 #For toolbarpalette to find my icon(s)
