@@ -172,7 +172,36 @@ const FhcUtil = {
                     .getService(Components.interfaces.nsIPromptService);
     prompts.alert(window, title, message);
   },
-  
+
+  /**
+   * Select all text input elements with a name and a value from the
+   * current webpage.
+   * 
+   * @return {Array} a list with selected text input elemets
+   */
+  getAllNonEmptyVisibleInputfields: function() {
+    var fieldList = [];
+
+    // get all input elements from the current webpage
+    var document = window.getBrowser().contentDocument;
+    var tags = document.getElementsByTagName("input");
+
+    // select all visible elements with a name and a value
+    for (var ii=0; ii < tags.length; ii++) {
+      var inputField = tags[ii];
+      if (this.isInputTextElement(inputField)) {
+        if ("" != this.getElementNameOrId(inputField)) {
+          if (!inputField.hasAttribute("empty") && "" != inputField.value) {
+            if (this.elementIsVisible(inputField)) {
+              fieldList.push(inputField);
+            }
+          }
+        }
+      }
+    }
+    return fieldList;
+  },
+
   /**
    * Get all loginmanaged fieldnames.
    * 
@@ -315,16 +344,18 @@ const FhcUtil = {
   /**
    * Check if an element is visible.
    * 
-   * @param  elem {DOM element}
-   * @return {Boolean} whether or not the element is visible
+   * @param  element {DOM element}
+   *
+   * @return {Boolean}
+   *         whether or not the element is visible
    */
-  elementIsVisible: function(elem) {
-    if (elem.localName == 'input' && elem.type == 'hidden') {
+  elementIsVisible: function(element) {
+    if ('input' == element.localName && 'hidden' == element.type) {
       return false;
     }
-    var visibility = this._getEffectiveStyle(elem, "visibility");
-    var isDisplayed = this._isDisplayed(elem);
-    return (visibility != "hidden" && isDisplayed);
+    var visibility = this._getEffectiveStyle(element, "visibility");
+    var isDisplayed = this._isDisplayed(element);
+    return ("hidden" != visibility && isDisplayed);
   },
 
   /**
@@ -333,17 +364,34 @@ const FhcUtil = {
    * any value yet. This method returns an empty string when nothing has been
    * entered instead of the emptyText.
    *
-   * @param  elemId {String} the id of the DOM element
-   * @return (String) the value if present, an empty string otherwise
+   * @param  element {DOM element}
+   *         the id of the DOM element
+   *
+   * @return (String)
+   *         the value if present, an empty string otherwise
    */
-  getElementValueIfNotEmpty: function(elemId) {
-    var elem = document.getElementById(elemId);
-    if (!elem.hasAttribute("empty")) {
-      return elem.value;
+  getElementValueIfNotEmpty: function(element) {
+    if (!element.hasAttribute("empty")) {
+      return element.value;
     }
     return "";
   },
-
+  
+  /**
+   * Determine the name of an element (either name if it has one,
+   * otherwise its id).
+   *
+   * @param  element {DOM element}
+   *         the DOM element
+   *
+   * @return {String}
+   *         the name of the element, if no name then return its id
+   */
+  getElementNameOrId: function(element) {
+    return (element.name && element.name.length > 0)
+           ? element.name
+           : element.id;
+  },
 
   /**
    * Return a alphabetically ordered list in json format containing fieldnames
