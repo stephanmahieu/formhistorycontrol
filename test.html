@@ -41,11 +41,47 @@
 				<td><textarea cols="40" rows="2">More text here...</textarea></td>
 			</tr>
 			<tr>
-				<td>special test field</td>
-				<td><input type="text" id="fhc_testfield" style="background-color: #E0E0FF;" /></td>
+				<td>Test field 1</td>
+				<td><input type="text" id="fhc_testfield1" style="background-color: #ECE0CF;" /></td>
+			</tr>
+			<tr>
+				<td>Test field 2</td>
+				<td><input type="text" id="fhc_testfield2" style="background-color: #ECE0CF;" /></td>
 			</tr>
 		</table>
 	</form>
 	
+	<br/>
+	<span style="font-weight: bold">Images from chrome://formhistory/skin</span>
+	<p>
+	<img src="chrome://formhistory/skin/okay32.png"/>
+  <img src="chrome://formhistory/skin/warning32.png"/>
+  <img src="chrome://formhistory/skin/error32.png"/>
+  <img src="chrome://formhistory/skin/info32.png"/>
+  <img src="chrome://formhistory/skin/help32.png"/>
+  <img src="chrome://formhistory/skin/save22.png"/>
+  <img src="chrome://formhistory/skin/savegrey22.png"/>
+
+  <div id="fhcSaveMessageFields"
+       style="position: fixed; z-index: 1000; cursor: default;
+              top: 250px; left: 523.5px; padding: 20px;
+              background-color: rgb(0, 0, 0); opacity: 0.50;
+              -moz-box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.7);
+              -moz-border-radius: 15px 15px 15px 15px;"
+       onclick="this.style.display='none';">
+    <div style="overflow: hidden; padding: 10px; border: 3px solid rgb(255, 255, 255); -moz-border-radius: 10px 10px 10px 10px; text-align: center; font: bold 18px sans-serif; color: rgb(255, 255, 255);">
+      <img style="vertical-align: middle; margin-right: 8px;" src="chrome://formhistory/skin/okay32.png">Test message!
+    </div>
+    <script language="JavaScript">
+      function fadefhcSaveMessageFields(i){
+        var el=document.getElementById('fhcSaveMessageFields');
+        if(el){
+          el.style.opacity=(10-i)/20;
+          if(++i<=10)setTimeout(fadefhcSaveMessageFields,30,i);
+        }
+      }
+      setTimeout(fadefhcSaveMessageFields,1000,1);
+    </script>
+  </div>
 </body>
 </html>
