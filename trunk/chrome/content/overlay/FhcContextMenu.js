@@ -351,7 +351,10 @@ const FhcContextMenu = {
                   .getService(Components.interfaces.nsIObserverService)
                   .notifyObservers(null, "cleanup-db-changed", "");
 
-        this._showSavedFieldImage('fhcSaveMessageField', inputField);
+        this._showSavedFieldImage('fhcSaveMessageField', inputField, true);
+      }
+      else {
+        this._showSavedFieldImage('fhcSaveMessageField', inputField, false);
       }
       // TODO: localize message
       this._showMessage('fhcSaveMessage', "Field saved");
@@ -370,7 +373,10 @@ const FhcContextMenu = {
         // TODO: save field to db...
 
 
-        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField);
+        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField, true);
+      }
+      else {
+        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField, false);
       }
     }
 
@@ -443,7 +449,7 @@ const FhcContextMenu = {
     div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
 
     // remove message after 2 secs (failsafe when javascript is disabled in browser)
-    window.setTimeout(this._removeMessage, 2000, document, id);
+    //window.setTimeout(this._removeMessage, 2000, document, id);
   },
 
   /**
@@ -455,8 +461,11 @@ const FhcContextMenu = {
    *
    * @param sourceElem {DOM element}
    *        the element the image is postioned next to
+   *
+   * @param isNew {Boolean}
+   *        if true show full color image otherwise grey
    */
-  _showSavedFieldImage: function(id, sourceElem) {
+  _showSavedFieldImage: function(id, sourceElem, isNew) {
     var document = window.getBrowser().contentDocument;
     var div = document.createElement('div');
 
@@ -481,7 +490,11 @@ const FhcContextMenu = {
     div.setAttribute('style', style);
 
     var img = document.createElement('img');
-    img.setAttribute('src', 'chrome://formhistory/skin/save22.png')
+    if (isNew) {
+      img.setAttribute('src', 'chrome://formhistory/skin/save22.png');
+    } else {
+      img.setAttribute('src', 'chrome://formhistory/skin/savegrey22.png');
+    }
     div.appendChild(img);
 
     // add script to fade-out message automatically after 2 seconds
