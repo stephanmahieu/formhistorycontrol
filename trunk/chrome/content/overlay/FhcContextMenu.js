@@ -425,11 +425,14 @@ const FhcContextMenu = {
     div.appendChild(script);
     script.setAttribute('language', 'JavaScript');
     var jScript = 
-      "function fade" + id + "(op){" +
+      "function fade" + id + "(i){" +
         "var el=document.getElementById('" + id + "');" +
-        "if (el) el.style.opacity=op/100;" +
+        "if(el){" +
+          "el.style.opacity=(10-i)/20;" +
+          "if(++i<=10)setTimeout(fade" + id + ",30,i);" +
+        "}" +
       "}" +
-      "for(var i=1;i<=10;i++){setTimeout(fade" + id + ",1000+30*i,50-i*5);}";
+      "setTimeout(fade" + id + ",1000,1);";
     script.appendChild(document.createTextNode(jScript));
 
     // remove old message (if it exists) and display the new message
@@ -478,7 +481,7 @@ const FhcContextMenu = {
     div.setAttribute('style', style);
 
     var img = document.createElement('img');
-    img.setAttribute('src', 'chrome://formhistory/skin/save32.png')
+    img.setAttribute('src', 'chrome://formhistory/skin/save22.png')
     div.appendChild(img);
 
     // add script to fade-out message automatically after 2 seconds
@@ -486,11 +489,14 @@ const FhcContextMenu = {
     div.appendChild(script);
     script.setAttribute('language', 'JavaScript');
     var jScript =
-      "function fade" + id + "(op){" +
+      "function fade" + id + "(i){" +
         "var el=document.getElementById('" + id + "');" +
-        "if (el) el.style.opacity=op/100;" +
+        "if(el){" +
+          "el.style.opacity=(20-i)/20;" +
+          "if(++i<=20)setTimeout(fade" + id + ",30,i);" +
+        "}" +
       "}" +
-      "for(var i=1;i<=20;i++){setTimeout(fade" + id + ",2000+30*i,100-i*5);}";
+      "setTimeout(fade" + id + ",2000,1);";
     script.appendChild(document.createTextNode(jScript));
 
     document.body.appendChild(div);
