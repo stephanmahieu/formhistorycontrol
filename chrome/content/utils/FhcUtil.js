@@ -182,6 +182,8 @@ const FhcUtil = {
   getAllNonEmptyVisibleInputfields: function() {
     var fieldList = [];
 
+    //TODO Recurse frames
+
     // get all input elements from the current webpage
     var document = window.getBrowser().contentDocument;
     var tags = document.getElementsByTagName("input");
