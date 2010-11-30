@@ -781,7 +781,7 @@ const FhcContextMenu = {
 
     var style = 'display:block; border:1px solid #000; padding: 0 4px; ' +
       'background-color:#FFFFAA; color:#000; opacity: 0.75; ' +
-      'font: bold 11px sans-serif; text-decoration:none; ' +
+      'font: bold 11px sans-serif; text-decoration:none; text-align:left; ' +
       'z-index: 1000; cursor:default; ' + shadow + ': 3px 3px 2px black; ';
 
     var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
@@ -819,6 +819,7 @@ const FhcContextMenu = {
          "this.style.zIndex=1000;" +
        "}");
     innerDiv.setAttribute('id', id + 'inner');
+    innerDiv.setAttribute('title', ' ');
     innerDiv.setAttribute('style', 
       'display:none; background-color:#FFDCCF; margin:5px; padding:5px; ' +
       'font-weight: normal; border:1px inset #FFDCCF; ' +
