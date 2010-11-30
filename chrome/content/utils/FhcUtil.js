@@ -353,9 +353,8 @@ const FhcUtil = {
     if ('input' == element.localName && 'hidden' == element.type) {
       return false;
     }
-    var visibility = this._getEffectiveStyle(element, "visibility");
-    var isDisplayed = this._isDisplayed(element);
-    return ("hidden" != visibility && isDisplayed);
+    
+    return this._isDisplayed(element);
   },
 
   /**
@@ -954,12 +953,14 @@ const FhcUtil = {
    * @return {String} the effective css style
    */
   _getEffectiveStyle: function(element, property) {
+    var doc = window.getBrowser().contentDocument;
+
     if (element.style == undefined) {
         return undefined; // not a styled element
     }
-    var effectiveStyle = window.getComputedStyle(element, null);
-    var propertyValue = effectiveStyle[property];
-    if (propertyValue == 'inherit' && element.parentNode.style) {
+    var effectiveStyle = doc.defaultView.getComputedStyle(element, null);
+    var propertyValue = effectiveStyle.getPropertyValue(property);
+    if ("inherit" == propertyValue && element.parentNode.style) {
         return this._getEffectiveStyle(element.parentNode, property);
     }
     return propertyValue;
@@ -973,7 +974,14 @@ const FhcUtil = {
    */
   _isDisplayed: function(elem) {
     var display = this._getEffectiveStyle(elem, "display");
-    if (display == "none") return false;
+    if ("none" == display) return false;
+
+    var visibility = this._getEffectiveStyle(elem, "visibility");
+    if ("hidden" == visibility || "collapse" == visibility) return false;
+
+    var opacity = this._getEffectiveStyle(elem, "opacity");
+    if (0 == opacity) return false;
+
     if (elem.parentNode.style) {
         return this._isDisplayed(elem.parentNode);
     }
