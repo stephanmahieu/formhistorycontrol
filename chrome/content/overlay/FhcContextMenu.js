@@ -801,9 +801,29 @@ const FhcContextMenu = {
 
     var div = document.createElement('div');
     div.setAttribute('id', id);
-    div.setAttribute('title', this._getFormInfo(sourceElem));
+    div.setAttribute('title', this._getFormInfo(sourceElem, false));
     div.setAttribute('style', style);
+    div.setAttribute('onmouseover', 'this.style.opacity=1; this.style.zIndex=1002;');
+    div.setAttribute('onmouseout', 'this.style.opacity=0.75; this.style.zIndex=1001;');
     div.appendChild(document.createTextNode(fldName));
+
+    var innerDiv = document.createElement('div');
+    div.appendChild(innerDiv);
+    div.setAttribute('onclick',
+      "var e=document.getElementById('" + id + "inner');" +
+      "if(e.style.display=='none') {" +
+         "e.style.display='block';" +
+         "this.style.zIndex=1001;" +
+       "} else {" +
+         "e.style.display='none';" +
+         "this.style.zIndex=1000;" +
+       "}");
+    innerDiv.setAttribute('id', id + 'inner');
+    innerDiv.setAttribute('style', 
+      'display:none; background-color:#FFDCCF; margin:5px; padding:5px; ' +
+      'font-weight: normal; border:1px inset #FFDCCF; ' +
+      '' + shadow + ': inset 0 0 8px rgba(55, 20, 7, 0.5)');
+    innerDiv.innerHTML = this._getFormInfo(sourceElem, true);
 
     return div;
   },
@@ -815,22 +835,28 @@ const FhcContextMenu = {
    * @param element {DOM Element}
    *        the inputfield
    *
+   * @param asHTML {Boolean}
+   *        return output formatted with HTML-tags (true) or without (false)
+   *
    * @return {String}
    *         info about element and form
    */
-  _getFormInfo: function(element) {
-    var result = 'FIELD: ', form = element;
+  _getFormInfo: function(element, asHTML) {
+    var sep = asHTML ? '<br/>' : ' ';
+
+    var result = asHTML ? '<b>&lt;INPUT&gt;</b><br/>' : 'INPUT: ';
     for (var j = 0; j < element.attributes.length; j++) {
-      result += element.attributes[j].name + '=' + element.attributes[j].value + ' ';
+      result += element.attributes[j].name + '=' + element.attributes[j].value + sep;
     }
 
+    var form = element;
     while (form.parentNode && form.localName != 'form') {
       form = form.parentNode;
     } 
     if (form && form.localName == 'form') {
-      result += ' ->  FORM: ';
+      result += (asHTML ? '<br/><b>&lt;FORM&gt;</b><br/>' : ' # FORM: ');
       for (var i = 0; i < form.attributes.length; i++) {
-        result += form.attributes[i].name + '=' + form.attributes[i].value + ' ';
+        result += form.attributes[i].name + '=' + form.attributes[i].value + sep;
       }
     }
     return result;
