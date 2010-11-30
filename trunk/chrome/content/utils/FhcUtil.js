@@ -516,6 +516,61 @@ const FhcUtil = {
     this.openAndReuseOneTabPerURL(
             "http://formhistory.blogspot.com/2009/05/release-notes.html");
   },
+  
+  /**
+   * Open an URL/URI trying to re-use an existing tab.
+   * If no such tab exists, a new one is opened with the specified URL/URI.
+   *
+   * @param url {String}
+   */
+  openAndReuseOneTabPerURL: function(url) {
+    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+               .getService(Components.interfaces.nsIWindowMediator);
+    var browserEnumerator = wm.getEnumerator("navigator:browser");
+
+    // check each browser instance for our URL
+    var found = false;
+    while (!found && browserEnumerator.hasMoreElements()) {
+      var browserWin = browserEnumerator.getNext();
+      var tabbrowser = browserWin.getBrowser();
+
+      // check each tab of this browser instance
+      var numTabs = tabbrowser.browsers.length;
+      for(var index=0; index<numTabs; index++) {
+        var currentBrowser = tabbrowser.getBrowserAtIndex(index);
+        if (url == currentBrowser.currentURI.spec) {
+
+          // the URL is already opened. Select this tab.
+          tabbrowser.selectedTab = tabbrowser.mTabs[index];
+
+          // focus *this* browser-window
+          browserWin.focus();
+
+          found = true;
+          break;
+        }
+      }
+    }
+
+    // our URL isn't open. Open it now.
+    if (!found) {
+      var recentWindow = wm.getMostRecentWindow("navigator:browser");
+      if (recentWindow) {
+        // use an existing browser window
+        try {
+          recentWindow.delayedOpenTab(url, null, null, null, null);
+        } catch(e) {
+          // SeaMonkey
+          var newTab = recentWindow.gBrowser.addTab(url);
+          tabbrowser.selectedTab = newTab;
+        }
+      }
+      else {
+        // no browser windows are open, so open a new one.
+        window.open(url);
+      }
+    }
+  },
 
   /**
    * Detect wether or not the browser is in private-browsing mode.
@@ -547,7 +602,18 @@ const FhcUtil = {
     // info.version returns "2.0.0.1" for Firefox version 2.0.0.1
     return info.name;
   },
-  
+
+  /**
+   * Determine the Gecko version.
+   *
+   * @return {Array} the Gecko version, [0] = major, [1] = minor, etc.
+   */
+  getGeckoVersion: function() {
+    var str = navigator.userAgent;
+    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    return geckoVer;
+  },
+
   //----------------------------------------------------------------------------
   // Import / Export methods
   //----------------------------------------------------------------------------
@@ -754,61 +820,6 @@ const FhcUtil = {
         }
       } finally {
         fileOut.close();
-      }
-    }
-  },
-
-  /**
-   * Open an URL/URI trying to re-use an existing tab.
-   * If no such tab exists, a new one is opened with the specified URL/URI.
-   *
-   * @param url {String}
-   */
-  openAndReuseOneTabPerURL: function(url) {
-    var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-               .getService(Components.interfaces.nsIWindowMediator);
-    var browserEnumerator = wm.getEnumerator("navigator:browser");
-
-    // check each browser instance for our URL
-    var found = false;
-    while (!found && browserEnumerator.hasMoreElements()) {
-      var browserWin = browserEnumerator.getNext();
-      var tabbrowser = browserWin.getBrowser();
-
-      // check each tab of this browser instance
-      var numTabs = tabbrowser.browsers.length;
-      for(var index=0; index<numTabs; index++) {
-        var currentBrowser = tabbrowser.getBrowserAtIndex(index);
-        if (url == currentBrowser.currentURI.spec) {
-
-          // the URL is already opened. Select this tab.
-          tabbrowser.selectedTab = tabbrowser.mTabs[index];
-
-          // focus *this* browser-window
-          browserWin.focus();
-
-          found = true;
-          break;
-        }
-      }
-    }
-
-    // our URL isn't open. Open it now.
-    if (!found) {
-      var recentWindow = wm.getMostRecentWindow("navigator:browser");
-      if (recentWindow) {
-        // use an existing browser window
-        try {
-          recentWindow.delayedOpenTab(url, null, null, null, null);
-        } catch(e) {
-          // SeaMonkey
-          var newTab = recentWindow.gBrowser.addTab(url);
-          tabbrowser.selectedTab = newTab;
-        }
-      }
-      else {
-        // no browser windows are open, so open a new one.
-        window.open(url);
       }
     }
   },

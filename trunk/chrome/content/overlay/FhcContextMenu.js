@@ -398,8 +398,7 @@ const FhcContextMenu = {
     var top = 250; // centering vertically unreliable, use constant
 
     // when to use css property -moz-border-radius or border-radius (2.0)
-    var str = navigator.userAgent;
-    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    var geckoVer = FhcUtil.getGeckoVersion();
     var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
     var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
 
@@ -777,8 +776,7 @@ const FhcContextMenu = {
     }
 
     // when to use css property -moz-border-radius or border-radius (2.0)
-    var str = navigator.userAgent;
-    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    var geckoVer = FhcUtil.getGeckoVersion();
     var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
 
     var style = 'display:block; border:1px solid #000; padding: 0 4px; ' +
