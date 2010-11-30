@@ -385,7 +385,7 @@ const FhcContextMenu = {
   },
 
   /**
-   * Show a message for 1 second, then let it fade-out.
+   * Show a message for 1.5 seconds, then let it fade-out and remove.
    *
    * @param id {String}
    *        the id of the div element to create and add to the page
@@ -426,21 +426,6 @@ const FhcContextMenu = {
     msgDiv.appendChild(img);
     msgDiv.appendChild(document.createTextNode(infoMessage));
 
-    // add script to fade-out message automatically after 1 second
-    var script = document.createElement('script');
-    div.appendChild(script);
-    script.setAttribute('language', 'JavaScript');
-    var jScript = 
-      "function fade" + id + "(i){" +
-        "var el=document.getElementById('" + id + "');" +
-        "if(el){" +
-          "el.style.opacity=(10-i)/20;" +
-          "if(++i<=10)setTimeout(fade" + id + ",30,i);" +
-        "}" +
-      "}" +
-      "setTimeout(fade" + id + ",1000,1);";
-    script.appendChild(document.createTextNode(jScript));
-
     // remove old message (if it exists) and display the new message
     this._removeMessage(document, id);
     document.body.appendChild(div);
@@ -448,8 +433,44 @@ const FhcContextMenu = {
     // use the actual width to center the outer div horizontally
     div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
 
-    // remove message after 2 secs (failsafe when javascript is disabled in browser)
-    //window.setTimeout(this._removeMessage, 2000, document, id);
+    // fade-out and remove message automatically after 1.5 seconds
+    this._fadeAfter(document, id, 1500);
+  },
+
+
+  _fadeAfter: function(document, id, delay) {
+    var event = {
+      notify: function(timer) {
+        FhcContextMenu._fadeElement(document, id);
+      }
+    }
+    this._setTimer(event, delay);
+  },
+  _fadeElement: function(document, id) {
+    var event = {
+      notify: function(timer) {
+        FhcContextMenu._fadeElementCallback(document, id);
+      }
+    }
+    this._setTimer(event, 100);
+  },
+  _fadeElementCallback: function(document, id) {
+    var element = document.getElementById(id);
+    if (element) {
+      var op = (element.style.opacity) ? element.style.opacity-0.1 : 0.9;
+      if (op > 0) {
+        element.style.opacity = op;
+        FhcContextMenu._fadeElement(document, id);
+      }
+      else {
+        document.body.removeChild(element);
+      }
+    }
+  },
+  _setTimer: function(event, delay) {
+    var timer =  Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+    timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   },
 
   /**
@@ -497,24 +518,11 @@ const FhcContextMenu = {
     }
     div.appendChild(img);
 
-    // add script to fade-out message automatically after 2 seconds
-    var script = document.createElement('script');
-    div.appendChild(script);
-    script.setAttribute('language', 'JavaScript');
-    var jScript =
-      "function fade" + id + "(i){" +
-        "var el=document.getElementById('" + id + "');" +
-        "if(el){" +
-          "el.style.opacity=(20-i)/20;" +
-          "if(++i<=20)setTimeout(fade" + id + ",30,i);" +
-        "}" +
-      "}" +
-      "setTimeout(fade" + id + ",2000,1);";
-    script.appendChild(document.createTextNode(jScript));
-
+    this._removeMessage(document, id);
     document.body.appendChild(div);
-    // remove message after 3 secs
-    window.setTimeout(this._removeMessage, 3000, document, id);
+
+    // remove image automatically after 3 secs
+    this._fadeAfter(document, id, 3000);
   },
 
   /**
