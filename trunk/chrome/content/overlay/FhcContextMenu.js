@@ -434,43 +434,7 @@ const FhcContextMenu = {
     div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
 
     // fade-out and remove message automatically after 1.5 seconds
-    this._fadeAfter(document, id, 1500);
-  },
-
-
-  _fadeAfter: function(document, id, delay) {
-    var event = {
-      notify: function(timer) {
-        FhcContextMenu._fadeElement(document, id);
-      }
-    }
-    this._setTimer(event, delay);
-  },
-  _fadeElement: function(document, id) {
-    var event = {
-      notify: function(timer) {
-        FhcContextMenu._fadeElementCallback(document, id);
-      }
-    }
-    this._setTimer(event, 100);
-  },
-  _fadeElementCallback: function(document, id) {
-    var element = document.getElementById(id);
-    if (element) {
-      var op = (element.style.opacity) ? element.style.opacity-0.1 : 0.9;
-      if (op > 0) {
-        element.style.opacity = op;
-        FhcContextMenu._fadeElement(document, id);
-      }
-      else {
-        document.body.removeChild(element);
-      }
-    }
-  },
-  _setTimer: function(event, delay) {
-    var timer =  Components.classes["@mozilla.org/timer;1"]
-                    .createInstance(Components.interfaces.nsITimer);
-    timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+    FhcUtil.fadeOutAndRemoveAfter(document, id, 1500);
   },
 
   /**
@@ -522,7 +486,7 @@ const FhcContextMenu = {
     document.body.appendChild(div);
 
     // remove image automatically after 3 secs
-    this._fadeAfter(document, id, 3000);
+    FhcUtil.fadeOutAndRemoveAfter(document, id, 3000);
   },
 
   /**

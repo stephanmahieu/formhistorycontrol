@@ -758,42 +758,6 @@ const FhcUtil = {
     }
   },
 
-
-  //----------------------------------------------------------------------------
-  // PrefListener
-  //----------------------------------------------------------------------------
-
-  /**
-   * Method for registering an observer which gets called when any of the
-   * formhistory preferences change.
-   *
-   * @param branchName {String} the root of the preferences to observe
-   * @param func {Function} the observer to call when preferences change
-   */
-  PrefListener: function(branchName, func) {
-    var prefService = Components.classes["@mozilla.org/preferences-service;1"]
-                        .getService(Components.interfaces.nsIPrefService);
-    var branch = prefService.getBranch(branchName);
-    branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
-  
-    this.register = function() {
-      branch.addObserver("", this, false);
-      // call func on all preferences when registering this observer
-      // branch.getChildList("", { })
-      //       .forEach(function(name) { func(branch, name); });
-    };
-  
-    this.unregister = function unregister() {
-      if (branch)
-        branch.removeObserver("", this);
-    };
-  
-    this.observe = function(subject, topic, data) {
-      if (topic == "nsPref:changed")
-        func(branch, data);
-    };
-  },
-
   /**
    * Open an URL/URI trying to re-use an existing tab.
    * If no such tab exists, a new one is opened with the specified URL/URI.
@@ -849,6 +813,92 @@ const FhcUtil = {
     }
   },
 
+
+  //----------------------------------------------------------------------------
+  // PrefListener
+  //----------------------------------------------------------------------------
+
+  /**
+   * Method for registering an observer which gets called when any of the
+   * formhistory preferences change.
+   *
+   * @param branchName {String} the root of the preferences to observe
+   * @param func {Function} the observer to call when preferences change
+   */
+  PrefListener: function(branchName, func) {
+    var prefService = Components.classes["@mozilla.org/preferences-service;1"]
+                        .getService(Components.interfaces.nsIPrefService);
+    var branch = prefService.getBranch(branchName);
+    branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+
+    this.register = function() {
+      branch.addObserver("", this, false);
+      // call func on all preferences when registering this observer
+      // branch.getChildList("", { })
+      //       .forEach(function(name) { func(branch, name); });
+    };
+
+    this.unregister = function unregister() {
+      if (branch)
+        branch.removeObserver("", this);
+    };
+
+    this.observe = function(subject, topic, data) {
+      if (topic == "nsPref:changed")
+        func(branch, data);
+    };
+  },
+
+
+  //----------------------------------------------------------------------------
+  // Fadeout and remove element methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Fade out an element using its opacity-style and remove the element
+   * when its opacity has reached zero opacity.
+   *
+   * @param document {DOM document}
+   * @param id {String} the id of the element to fade
+   * @param delay {Integer} the no of milliseconds to wait before starting to fade
+   */
+  fadeOutAndRemoveAfter: function(document, id, delay) {
+    var event = {
+      notify: function(timer) {
+        FhcUtil._fadeElement(document, id);
+      }
+    }
+    this._setTimer(event, delay);
+  },
+
+  _fadeElement: function(document, id) {
+    var event = {
+      notify: function(timer) {
+        FhcUtil._fadeElementCallback(document, id);
+      }
+    }
+    this._setTimer(event, 100);
+  },
+
+  _fadeElementCallback: function(document, id) {
+    var element = document.getElementById(id);
+    if (element) {
+      var op = (element.style.opacity) ? element.style.opacity-0.1 : 0.9;
+      if (op > 0) {
+        element.style.opacity = op;
+        FhcUtil._fadeElement(document, id);
+      }
+      else {
+        document.body.removeChild(element);
+      }
+    }
+  },
+
+  _setTimer: function(event, delay) {
+    var timer =  Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+    timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+  },
 
 
   //----------------------------------------------------------------------------
