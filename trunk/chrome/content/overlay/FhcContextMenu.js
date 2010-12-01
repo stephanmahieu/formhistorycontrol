@@ -332,7 +332,10 @@ const FhcContextMenu = {
    * Save the current field to the formhistory database.
    */
   saveThisField: function() {
+    this._removeImageContainer();
+    
     var inputField = document.commandDispatcher.focusedElement;
+    var image;
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
         var name = FhcUtil.getElementNameOrId(inputField);
@@ -351,11 +354,13 @@ const FhcContextMenu = {
                   .getService(Components.interfaces.nsIObserverService)
                   .notifyObservers(null, "cleanup-db-changed", "");
 
-        this._showSavedFieldImage('fhcSaveMessageField', inputField, true);
+        image = this._createSavedFieldImage('fhcSaveMessageField', inputField, true);
       }
       else {
-        this._showSavedFieldImage('fhcSaveMessageField', inputField, false);
+        image = this._createSavedFieldImage('fhcSaveMessageField', inputField, false);
       }
+      this._addToImageContainer(image);
+
       // TODO: localize message
       this._showMessage('fhcSaveMessage', "Field saved");
     }
@@ -365,7 +370,10 @@ const FhcContextMenu = {
    * Save all fields on the current page to the formhistory database.
    */
   saveThisPage: function() {
+    this._removeImageContainer();
+
     var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
+    var image;
     for (var ii=0; ii < tags.length; ii++) {
       var inputField = tags[ii];
       if (!this._isValueInFormHistory(inputField)) {
@@ -373,11 +381,12 @@ const FhcContextMenu = {
         // TODO: save field to db...
 
 
-        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField, true);
+        image = this._createSavedFieldImage('fhcSavedField'+ii, inputField, true);
       }
       else {
-        this._showSavedFieldImage('fhcSaveMessageField'+ii, inputField, false);
+        image = this._createSavedFieldImage('fhcSkipField'+ii, inputField, false);
       }
+      this._addToImageContainer(image);
     }
 
     // TODO: localize message
@@ -385,7 +394,7 @@ const FhcContextMenu = {
   },
 
   /**
-   * Show a message for 1.5 seconds, then let it fade-out and remove.
+   * Show a message for 1.5 seconds, then it will fade-out and be removed.
    *
    * @param id {String}
    *        the id of the div element to create and add to the page
@@ -426,19 +435,18 @@ const FhcContextMenu = {
     msgDiv.appendChild(document.createTextNode(infoMessage));
 
     // remove old message (if it exists) and display the new message
-    this._removeMessage(document, id);
+    this._removeElement(document, id);
     document.body.appendChild(div);
 
     // use the actual width to center the outer div horizontally
     div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
 
-    // fade-out and remove message automatically after 1.5 seconds
+    // fade-out and remove the message automatically after 1.5 seconds
     FhcUtil.fadeOutAndRemoveAfter(document, id, 1500);
   },
 
   /**
-   * Show an image on the right side of an inputfield.
-   * The image is faded-out after 2 seconds.
+   * Create an image with a position on the right side of an inputfield.
    *
    * @param id {String}
    *        the id of the div element to create and add to the page
@@ -448,8 +456,11 @@ const FhcContextMenu = {
    *
    * @param isNew {Boolean}
    *        if true show full color image otherwise grey
+   *
+   * @return {DOM element}
+   *         a div containing an image
    */
-  _showSavedFieldImage: function(id, sourceElem, isNew) {
+  _createSavedFieldImage: function(id, sourceElem, isNew) {
     var document = window.getBrowser().contentDocument;
     var div = document.createElement('div');
 
@@ -480,16 +491,49 @@ const FhcContextMenu = {
       img.setAttribute('src', 'chrome://formhistory/skin/savegrey22.png');
     }
     div.appendChild(img);
-
-    this._removeMessage(document, id);
-    document.body.appendChild(div);
-
-    // remove image automatically after 3 secs
-    FhcUtil.fadeOutAndRemoveAfter(document, id, 3000);
+    
+    return div;
   },
 
   /**
-   * Remove an element from the body of a document.
+   * Add the supplied image as a child in a div-container. If the div container
+   * not exists, it will be created. A timer is added upon creation to remove
+   * the container automatically after 3 seconds.
+   *
+   * @param image {DOM Element} the image (div)
+   */
+  _addToImageContainer: function(image) {
+    var document = window.getBrowser().contentDocument;
+
+    // collect all images in one container
+    var divContainer = document.getElementById('fhcImageContainer');
+
+    // create container if it does not exist
+    if (!divContainer) {
+      divContainer = document.createElement('div');
+      divContainer.setAttribute('id', 'fhcImageContainer');
+      document.body.appendChild(divContainer);
+
+      // remove the container (plus images) automatically after 3 secs
+      FhcUtil.fadeOutAndRemoveAfter(document, 'fhcImageContainer', 3000);
+    }
+
+    // remove element if it already exist
+    this._removeElement(document, image.id);
+
+    // add image to the container
+    divContainer.appendChild(image);
+  },
+
+  /**
+   * Remove the image container.
+   */
+  _removeImageContainer: function() {
+    this._removeElement(window.getBrowser().contentDocument, 'fhcImageContainer');
+  },
+
+  /**
+   * Remove an element from a document.
    *
    * @param document {DOM document}
    *        the document from which the element is removed
@@ -497,10 +541,10 @@ const FhcContextMenu = {
    * @param id {String}
    *        the id of the DOM element to remove from the page
    */
-  _removeMessage: function(document, id) {
+  _removeElement: function(document, id) {
     var element = document.getElementById(id);
-    if (element) {
-      document.body.removeChild(element);
+    if (element && element.parentNode) {
+      element.parentNode.removeChild(element);
     }
   },
 

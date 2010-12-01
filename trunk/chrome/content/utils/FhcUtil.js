@@ -902,7 +902,7 @@ const FhcUtil = {
         FhcUtil._fadeElement(document, id);
       }
       else {
-        document.body.removeChild(element);
+        element.parentNode.removeChild(element);
       }
     }
   },
