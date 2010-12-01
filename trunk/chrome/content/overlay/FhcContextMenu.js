@@ -373,9 +373,9 @@ const FhcContextMenu = {
     this._removeImageContainer();
 
     var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
-    var image;
+    var image, inputField;
     for (var ii=0; ii < tags.length; ii++) {
-      var inputField = tags[ii];
+      inputField = tags[ii];
       if (!this._isValueInFormHistory(inputField)) {
 
         // TODO: save field to db...
@@ -461,7 +461,7 @@ const FhcContextMenu = {
    *         a div containing an image
    */
   _createSavedFieldImage: function(id, sourceElem, isNew) {
-    var document = window.getBrowser().contentDocument;
+    var document = sourceElem.ownerDocument;
     var div = document.createElement('div');
 
     var style = 'z-index: 1000; cursor:default; ';
@@ -503,7 +503,7 @@ const FhcContextMenu = {
    * @param image {DOM Element} the image (div)
    */
   _addToImageContainer: function(image) {
-    var document = window.getBrowser().contentDocument;
+    var document = image.ownerDocument;
 
     // collect all images in one container
     var divContainer = document.getElementById('fhcImageContainer');
@@ -528,8 +528,15 @@ const FhcContextMenu = {
   /**
    * Remove the image container.
    */
-  _removeImageContainer: function() {
-    this._removeElement(window.getBrowser().contentDocument, 'fhcImageContainer');
+  _removeImageContainer: function(doc) {
+    if (!doc) doc = window.getBrowser().contentDocument;
+    this._removeElement(doc, 'fhcImageContainer');
+
+    // recurse childdocuments (if any)
+    for (var jj=0; jj < doc.defaultView.frames.length; jj++) {
+      this._removeImageContainer(doc.defaultView.frames[jj].document);
+    }
+
   },
 
   /**
