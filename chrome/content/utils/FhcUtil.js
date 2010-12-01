@@ -182,10 +182,26 @@ const FhcUtil = {
   getAllNonEmptyVisibleInputfields: function() {
     var fieldList = [];
 
-    //TODO Recurse frames
-
-    // get all input elements from the current webpage
+    // start with the current webpage
     var document = window.getBrowser().contentDocument;
+    this._getAllNonEmptyVisibleInputfields(fieldList, document);
+
+    return fieldList;
+  },
+
+  /**
+   * Recursively visit document and its child documents and collect visible
+   * inputfields.
+   *
+   * @param fieldList {Array}
+   *        Array used to collect all visible input fields
+   *
+   * @param document {DOM Document}
+   *        the page to collect inputfields from
+   *        
+   */
+  _getAllNonEmptyVisibleInputfields: function(fieldList, document) {
+    // get all input elements
     var tags = document.getElementsByTagName("input");
 
     // select all visible elements with a name and a value
@@ -201,7 +217,12 @@ const FhcUtil = {
         }
       }
     }
-    return fieldList;
+
+    // recurse childdocuments (if any)
+    for (var jj=0; jj < document.defaultView.frames.length; jj++) {
+      this._getAllNonEmptyVisibleInputfields(
+                    fieldList, document.defaultView.frames[jj].document);
+    }
   },
 
   /**
