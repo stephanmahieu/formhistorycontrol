@@ -174,6 +174,63 @@ const FhcUtil = {
   },
 
   /**
+   * Show a message on the bottom-right of the current page for the specified
+   * amount of time, after displaytime has expired fade-out and remove from page.
+   *
+   * @param id {String}
+   *        the id of the div (message) element to create and add to the page
+   *
+   * @param infoMessage {String}
+   *        the (short) message to display
+   *
+   * @param showTime {Integer}
+   *        time in milliseconds to display the message
+   */
+  showTrayMessage: function(id, infoMessage, showTime) {
+    var document = window.getBrowser().contentDocument;
+
+    // when to use css property -moz-border-radius or border-radius (2.0)
+    var geckoVer = FhcUtil.getGeckoVersion();
+    var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
+    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
+
+    // outer div
+    var div = document.createElement('div');
+    div.setAttribute('id', id);
+    div.setAttribute('style',
+      'position:fixed; z-index:20000; cursor:default; ' +
+      'bottom:0; right:0; padding:0px; margin:0 10px 10px 0;' +
+      'background-color:#000; opacity: 0.70;' +
+      '' + shadow + ': 3px 3px 3px rgba(0, 0, 0, 0.4);' +
+      '' + radius + ': 5px; border:2px outset #585B5C');
+    div.setAttribute('onclick', "this.style.display='none';");
+
+    // inner div holding the message with an image
+    var msgDiv = document.createElement('div');
+    div.appendChild(msgDiv);
+    msgDiv.setAttribute('style',
+      'overflow:hidden; padding:10px; text-align:center; ' +
+      'font:bold 16px sans-serif; color:#FFF');
+    var img = document.createElement('img');
+    img.setAttribute('style', 'vertical-align:middle; margin-right:8px');
+    img.setAttribute('src', 'chrome://formhistory/skin/okay16.png')
+    msgDiv.appendChild(img);
+    msgDiv.appendChild(document.createTextNode(infoMessage));
+
+    // remove old message (if it exists)
+    var oldDiv = document.getElementById(id);
+    if (oldDiv && oldDiv.parentNode) {
+      oldDiv.parentNode.removeChild(oldDiv);
+    }
+
+    // display the new message
+    document.body.appendChild(div);
+
+    // fade-out and remove the message automatically after [showTime] seconds
+    FhcUtil.fadeOutAndRemoveAfter(document, id, showTime);
+  },
+
+  /**
    * Select all text input elements with a name and a value from the
    * current webpage.
    * 
