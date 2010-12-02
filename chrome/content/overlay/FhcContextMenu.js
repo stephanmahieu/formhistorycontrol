@@ -362,7 +362,7 @@ const FhcContextMenu = {
       this._addToImageContainer(image);
 
       // TODO: localize message
-      this._showMessage('fhcSaveMessage', "Field saved");
+      FhcUtil.showTrayMessage('fhcSaveMessage', 'Fields saved', 3000);
     }
   },
 
@@ -390,59 +390,7 @@ const FhcContextMenu = {
     }
 
     // TODO: localize message
-    this._showMessage('fhcSaveMessageFields', "All fields on the page are saved");
-  },
-
-  /**
-   * Show a message for 1.5 seconds, then it will fade-out and be removed.
-   *
-   * @param id {String}
-   *        the id of the div element to create and add to the page
-   *
-   * @param infoMessage {String}
-   *        the (short) message to display
-   */
-  _showMessage: function(id, infoMessage) {
-    var document = window.getBrowser().contentDocument;
-    var top = 250; // centering vertically unreliable, use constant
-
-    // when to use css property -moz-border-radius or border-radius (2.0)
-    var geckoVer = FhcUtil.getGeckoVersion();
-    var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
-    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
-
-    // outer div
-    var style = 'position:fixed; z-index:1000; cursor:default; ' +
-      'top:' + top + 'px; left:100px;' + //top = (document.body.clientHeight-height)/2
-      'padding:20px; background-color:#000; opacity: 0.50; ' +
-      '' + shadow + ': 6px 6px 6px rgba(0,0,0,0.7); ' + radius + ':15px';
-    var div = document.createElement('div');
-    div.setAttribute('id', id);
-    div.setAttribute('style', style);
-    div.setAttribute('onclick', "this.style.display='none';");
-
-    // inner div holding message with a contrasting border
-    var msgDiv = document.createElement('div');
-    div.appendChild(msgDiv);
-    style = 'overflow:hidden; ' +
-      'padding:10px; border:3px solid #FFFFFF; ' + radius + ':10px;' +
-      'text-align:center; font:bold 18px sans-serif; color:#FFF';
-    msgDiv.setAttribute('style', style);
-    var img = document.createElement('img');
-    img.setAttribute('style', 'vertical-align:middle; margin-right:8px');
-    img.setAttribute('src', 'chrome://formhistory/skin/okay32.png')
-    msgDiv.appendChild(img);
-    msgDiv.appendChild(document.createTextNode(infoMessage));
-
-    // remove old message (if it exists) and display the new message
-    this._removeElement(document, id);
-    document.body.appendChild(div);
-
-    // use the actual width to center the outer div horizontally
-    div.style.left = (document.body.clientWidth-div.offsetWidth)/2 + 'px';
-
-    // fade-out and remove the message automatically after 1.5 seconds
-    FhcUtil.fadeOutAndRemoveAfter(document, id, 1500);
+    FhcUtil.showTrayMessage('fhcSaveMessageFields', 'Saved all fields', 3000);
   },
 
   /**

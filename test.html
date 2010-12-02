@@ -1,6 +1,23 @@
 <html>
 <head>
 	<title>Test form</title>
+	<script language="JavaScript">
+		var timer = null;
+		function changeBG(element){
+			document.body.style.backgroundColor = element.style.backgroundColor;
+		}
+		function showMessage(icon, info) {
+			if (timer) clearTimeout(timer);
+			var msg = document.getElementById('fhcSaveMessageFieldsTest');
+			msg.style.opacity = 0.70;
+			msg.style.display='';
+			var infoDiv = document.getElementById('tstInfo');
+			infoDiv.textContent = 'This is ' + info + ' message';
+			var img = document.getElementById('tstImg');
+			img.src = 'chrome://formhistory/skin/' + icon;
+			timer = setTimeout(fadefhcSaveMessageFields,3000,1);
+		}
+	</script>
 </head>
 <body>
 	
@@ -52,38 +69,57 @@
 		</table>
 	</form>
 	
-	<br/>
-	<span style="font-weight: bold">Images from chrome://formhistory/skin</span>
 	<p>
-	<img src="chrome://formhistory/skin/okay32.png"/>
-  <img src="chrome://formhistory/skin/warning32.png"/>
-  <img src="chrome://formhistory/skin/error32.png"/>
-  <img src="chrome://formhistory/skin/info32.png"/>
-  <img src="chrome://formhistory/skin/help32.png"/>
-  <img src="chrome://formhistory/skin/save22.png"/>
-  <img src="chrome://formhistory/skin/savegrey22.png"/>
+	<span style="font-weight: bold">Images from chrome://formhistory/skin</span><br/>
+	<span style="cursor: pointer">
+		<img src="chrome://formhistory/skin/okay16.png" onclick="showMessage('okay16.png', 'a confirmation')"/>
+		<img src="chrome://formhistory/skin/warning16.png" onclick="showMessage('warning16.png', 'a warning')"/>
+		<img src="chrome://formhistory/skin/error16.png" onclick="showMessage('error16.png', 'an error')"/>
+		<img src="chrome://formhistory/skin/info16.png" onclick="showMessage('info16.png', 'an info')"/>
+	</span>
+	<img src="chrome://formhistory/skin/save22.png"/>
+	<img src="chrome://formhistory/skin/savegrey22.png"/>
+	
+	<p>
+	<span>
+		<table style="border: 1px solid #C0C0C0; margin-right: auto"><tr>
+			<td>Background</td>
+			<td style="background-color:#000; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#444; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#888; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#CCC; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FFF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FDD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DFD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DDF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FFD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DFF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FDF; width:20px;" onclick="changeBG(this)"/>
+		</tr></table>
+	</span>
 
-
-  <div id="fhcSaveMessageFields"
-       style="position: fixed; z-index: 1000; cursor: default;
-              top: 250px; left: 523.5px; padding: 20px;
-              background-color: rgb(0, 0, 0); opacity: 0.50;
-              -moz-box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.7);
-              -moz-border-radius: 15px 15px 15px 15px;"
-       onclick="this.style.display='none';">
-    <div style="overflow: hidden; padding: 10px; border: 3px solid rgb(255, 255, 255); -moz-border-radius: 10px 10px 10px 10px; text-align: center; font: bold 18px sans-serif; color: rgb(255, 255, 255);">
-      <img style="vertical-align: middle; margin-right: 8px;" src="chrome://formhistory/skin/okay32.png">Test message!
-    </div>
-    <script language="JavaScript">
-      function fadefhcSaveMessageFields(i){
-        var el=document.getElementById('fhcSaveMessageFields');
-        if(el){
-          el.style.opacity=(10-i)/20;
-          if(++i<=10)setTimeout(fadefhcSaveMessageFields,30,i);
-        }
-      }
-      setTimeout(fadefhcSaveMessageFields,1000,1);
-    </script>
-  </div>
+	<div id="fhcSaveMessageFieldsTest"
+       style="position:fixed; z-index:20000; cursor:default;
+              bottom:0; right:0; padding:0px; margin:0 10px 10px 0;
+              background-color: rgb(0, 0, 0); opacity: 0.70;
+              -moz-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+              -moz-border-radius: 5px; border:2px outset #585B5C;"
+		onclick="this.style.display='none';">
+		<div style="overflow: hidden; padding: 10px; text-align: left; font: bold 16px sans-serif; color: rgb(255, 255, 255);">
+		  <img id="tstImg" style="vertical-align: middle; margin-right: 8px;" src="chrome://formhistory/skin/okay16.png">
+		  <span id="tstInfo">Page loaded...</span>
+		</div>
+		<script language="JavaScript">
+		  function fadefhcSaveMessageFields(i){
+			var el = document.getElementById('fhcSaveMessageFieldsTest');
+			if (el){
+			  el.style.opacity = (10-i)/20;
+			  if (++i<=10) timer = setTimeout(fadefhcSaveMessageFields,30,i);
+			}
+		  }
+		  timer = setTimeout(fadefhcSaveMessageFields,3000,1);
+		</script>
+	</div>
+  
 </body>
 </html>
