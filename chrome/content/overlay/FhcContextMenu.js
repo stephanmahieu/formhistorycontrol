@@ -338,21 +338,8 @@ const FhcContextMenu = {
     var image;
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
-        var name = FhcUtil.getElementNameOrId(inputField);
-        var now = this.dateHandler.getCurrentDate();
-        var newEntry = {
-              name:  name,
-              value: inputField.value,
-              used:  1,
-              first: now,
-              last:  now
-            };
-        this.dbHandler.addEntry(newEntry, null);
-
-        // Notify HistoryWindow of DB-changes
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .notifyObservers(null, "cleanup-db-changed", "");
+        this._saveFieldInDatabase(inputField);
+        this._notifyDatabaseChanges();
 
         image = this._createSavedFieldImage('fhcSaveMessageField', inputField, true);
       }
@@ -373,14 +360,12 @@ const FhcContextMenu = {
     this._removeImageContainer();
 
     var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
-    var image, inputField;
+    var image, inputField, count = 0;
     for (var ii=0; ii < tags.length; ii++) {
       inputField = tags[ii];
       if (!this._isValueInFormHistory(inputField)) {
-
-        // TODO: save field to db...
-
-
+        this._saveFieldInDatabase(inputField);
+        count++;
         image = this._createSavedFieldImage('fhcSavedField'+ii, inputField, true);
       }
       else {
@@ -389,8 +374,41 @@ const FhcContextMenu = {
       this._addToImageContainer(image);
     }
 
+    if (count > 0) {
+      this._notifyDatabaseChanges();
+    }
+
     // TODO: localize message
     FhcUtil.showTrayMessage('fhcSaveMessageFields', 'Saved all fields', 3000);
+  },
+
+  /**
+   * Save the inputfield in the formhistory database.
+   *
+   * @param inputField {DOM Element}
+   *        the inputfield to save
+   */
+  _saveFieldInDatabase: function(inputField) {
+    var name = FhcUtil.getElementNameOrId(inputField);
+    var now = this.dateHandler.getCurrentDate();
+    var newEntry = {
+          name:  name,
+          value: inputField.value,
+          used:  0,
+          first: now,
+          last:  now
+        };
+    this.dbHandler.addEntry(newEntry, null);
+  },
+
+  /**
+   * Notify any observers interested in changes to the formhistory database.
+   */
+  _notifyDatabaseChanges: function() {
+    // Notify HistoryWindow of DB-changes
+    Components.classes["@mozilla.org/observer-service;1"]
+              .getService(Components.interfaces.nsIObserverService)
+              .notifyObservers(null, "cleanup-db-changed", "");
   },
 
   /**
