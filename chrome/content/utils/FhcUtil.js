@@ -1094,11 +1094,11 @@ const FhcUtil = {
    * @return {String} the effective css style
    */
   _getEffectiveStyle: function(element, property) {
-    var doc = window.getBrowser().contentDocument;
-
     if (element.style == undefined) {
         return undefined; // not a styled element
     }
+
+    var doc = element.ownerDocument;
     var effectiveStyle = doc.defaultView.getComputedStyle(element, null);
     var propertyValue = effectiveStyle.getPropertyValue(property);
     if ("inherit" == propertyValue && element.parentNode.style) {
