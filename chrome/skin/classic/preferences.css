@@ -13,8 +13,13 @@ radio[pane] {
   min-width: 4.5em;
 }
 
+caption {
+  -moz-appearance: none;
+}
+
 .caption-text {
   font-weight: bold;
+  -moz-appearance: none;
 }
 
 .groupbox-title {
