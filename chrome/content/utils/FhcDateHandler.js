@@ -267,7 +267,7 @@ FhcDateHandler.prototype = {
     return space + result;
   },
 
-// TODO: Unused? (could be much more efficient with RegExp)
+// XXX: Unused? (could be much more efficient with RegExp)
 //  /**
 //   * @param  dateString {String}
 //   *         String containing date time formatted as "yyyy-mm-dd hh:mm:ss"
