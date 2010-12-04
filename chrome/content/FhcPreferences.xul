@@ -322,6 +322,21 @@
         <tabpanel>
           <!-- Quick Fill -->
           <vbox flex="1">
+            <hbox style="margin-top: 5px" height="35">
+              <vbox style="margin-left: 5px">
+                <image id="toolbarimage" class="info_icon" flex="0"
+                       src="chrome://formhistory/skin/information.png"
+                       tooltiptext="&fhprefs.quickfillinfo.label;"/>
+                <spacer flex="1"/>
+              </vbox>
+              <!-- a hack to get a multiline label (keep room for 2 rows) -->
+              <hbox style="margin-top: 5px" flex="1" height="35">
+              <textbox class="plain" style="background-color: transparent"
+                       flex="1" multiline="true" readonly="true"
+                       tooltiptext="&fhprefs.quickfillinfo.label;"
+                       value="&fhprefs.quickfillinfo.label;" />
+               </hbox>
+            </hbox>
             <groupbox>
               <caption label="&fhprefs.group.quickfill.caption;"/>
               <hbox>

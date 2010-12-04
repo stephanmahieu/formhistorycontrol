@@ -255,6 +255,7 @@
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Hide the context menu item">
 
 <!ENTITY fhprefs.prefpane.quickfill.label "Quick Fill">
+<!ENTITY fhprefs.quickfillinfo.label "Optionally mark all inputfields which have been filled with the most recent or the most often used value.">
 <!ENTITY fhprefs.group.quickfill.caption "Quick-Filled Form Fields Indication">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Change background color">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Change border color">
