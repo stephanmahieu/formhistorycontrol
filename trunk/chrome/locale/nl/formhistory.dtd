@@ -255,6 +255,7 @@
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Verberg het Context menu item ">
 
 <!ENTITY fhprefs.prefpane.quickfill.label "Snel Invullen">
+<!ENTITY fhprefs.quickfillinfo.label "Optioneel markeren van alle invoer velden die gevuld zijn met de meest recente of de meest gebruikte waarde.">
 <!ENTITY fhprefs.group.quickfill.caption "Indicatie Ingevulde Formulier Waarden">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Aanpassen achtergrond kleur">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Aanpassen rand kleur">
