@@ -339,7 +339,7 @@ const FhcContextMenu = {
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
         this._saveFieldInDatabase(inputField);
-        this._notifyDatabaseChanges();
+        this._notifyStoreChanged();
 
         image = this._createSavedFieldImage('fhcSaveMessageField', inputField, true);
       }
@@ -348,8 +348,9 @@ const FhcContextMenu = {
       }
       this._addToImageContainer(image);
 
-      // TODO: localize message
-      FhcUtil.showTrayMessage('fhcSaveMessage', 'Fields saved', 3000);
+      // show confirmation message
+      var msg = this.bundle.getString("page.prompt.traymessage.fieldsaved");
+      FhcUtil.showTrayMessage('fhcSaveMessage', msg, 3000);
     }
   },
 
@@ -375,11 +376,12 @@ const FhcContextMenu = {
     }
 
     if (count > 0) {
-      this._notifyDatabaseChanges();
+      this._notifyStoreChanged();
     }
 
-    // TODO: localize message
-    FhcUtil.showTrayMessage('fhcSaveMessageFields', 'Saved all fields', 3000);
+    // show confirmation message
+    var msg = this.bundle.getString("page.prompt.traymessage.allfieldssaved");
+    FhcUtil.showTrayMessage('fhcSaveMessageFields', msg, 3000);
   },
 
   /**
@@ -399,16 +401,6 @@ const FhcContextMenu = {
           last:  now
         };
     this.dbHandler.addEntry(newEntry, null);
-  },
-
-  /**
-   * Notify any observers interested in changes to the formhistory database.
-   */
-  _notifyDatabaseChanges: function() {
-    // Notify HistoryWindow of DB-changes
-    Components.classes["@mozilla.org/observer-service;1"]
-              .getService(Components.interfaces.nsIObserverService)
-              .notifyObservers(null, "cleanup-db-changed", "");
   },
 
   /**
@@ -464,7 +456,7 @@ const FhcContextMenu = {
   /**
    * Add the supplied image as a child in a div-container. If the div container
    * not exists, it will be created. A timer is added upon creation to remove
-   * the container automatically after 3 seconds.
+   * the container automatically after 5 seconds.
    *
    * @param image {DOM Element} the image (div)
    */
@@ -481,7 +473,7 @@ const FhcContextMenu = {
       document.body.appendChild(divContainer);
 
       // remove the container (plus images) automatically after 3 secs
-      FhcUtil.fadeOutAndRemoveAfter(document, 'fhcImageContainer', 3000);
+      FhcUtil.fadeOutAndRemoveAfter(document, 'fhcImageContainer', 5000);
     }
 
     // remove element if it already exist
