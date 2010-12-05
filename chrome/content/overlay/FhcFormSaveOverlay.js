@@ -172,18 +172,18 @@ const FhcFormSaveOverlay = {
   _saveContent: function(event) {
     var content = this._getContent(event);
     // asynchronous save to db?
-    dump("- Saving for uri: " + event.uri + "\n");
-    dump(">>> content\n" + content + "\n<<< content\n");
+    //dump("- Saving for uri: " + event.uri + "\n");
+    //dump(">>> content\n" + content + "\n<<< content\n");
   },
 
   dispatchEvent: function() {
     if (0 < this.eventQueue.length) {
-      dump("TimerEvent and queue not empty!\n");
+      //dump("TimerEvent and queue not empty!\n");
       for (var it=0; it<this.eventQueue.length; it++) {
         this._saveContent(this.eventQueue[it]);
       }
       this.eventQueue = [];
-      dump("Finished processing queue\n");
+      //dump("Finished processing queue\n");
     }
   }
 };
