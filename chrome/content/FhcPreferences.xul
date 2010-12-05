@@ -101,7 +101,7 @@
                 oncommand="FhcPreferences.showOrHideTaskbarIcon(this)"/>
       <hbox height="35">
         <vbox style="margin-left: 5px">
-          <image id="toolbarimage" class="info_icon" flex="0"
+          <image class="info_icon" flex="0"
                  src="chrome://formhistory/skin/information.png"
                  tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;"/>
           <spacer flex="1"/>
@@ -144,6 +144,10 @@
       <preference id="extensions.formhistory.exclusions"
                   name="extensions.formhistory.exclusions"
                   type="string" />
+      <!-- Manual Save -->
+      <preference id="extensions.formhistory.manualsave"
+                  name="extensions.formhistory.manualsave"
+                  type="bool" />
       <!-- Quick Fill -->
       <preference id="extensions.formhistory.quickfill.changebgcolor"
                   name="extensions.formhistory.quickfill.changebgcolor"
@@ -167,6 +171,7 @@
     <tabbox id="myTabList" selectedIndex="0" persist="selectedIndex">
       <tabs>
         <tab label="&fhprefs.prefpane.miscellaneous.label;"/>
+        <tab label="&fhprefs.prefpane.manualsave.label;"/>
         <tab label="&fhprefs.prefpane.keybindings.label;"/>
         <tab label="&fhprefs.prefpane.quickfill.label;"/>
       </tabs>
@@ -202,9 +207,50 @@
           </vbox>
         </tabpanel>
         <tabpanel>
+          <!-- Manual Save -->
+          <vbox flex="1">
+            <hbox style="margin-top: 5px" height="35">
+              <vbox style="margin-left: 5px">
+                <image class="info_icon" flex="0"
+                       src="chrome://formhistory/skin/information.png"
+                       tooltiptext="&fhprefs.label.manualsaveinfoicon.label;"/>
+                <spacer flex="1"/>
+              </vbox>
+              <!-- a hack to get a multiline label (keep room for 2 rows) -->
+              <hbox style="margin-top: 5px" flex="1" height="35">
+              <textbox class="plain" style="background-color: transparent"
+                       flex="1" multiline="true" readonly="true"
+                       tooltiptext="&fhprefs.label.manualsaveinfoicon.label;"
+                       value="&fhprefs.label.manualsaveinfoicon.label;" />
+               </hbox>
+            </hbox>
+            <checkbox id="manualsave"
+                      label="&fhprefs.checkbox.manualsave.label;"
+                      tooltiptext="&fhprefs.checkbox.manualsave.tooltip;"
+                      preference="extensions.formhistory.manualsave"
+                      oncommand="FhcPreferences.manualsavePrefChecked(this)"/>
+          </vbox>
+        </tabpanel>
+        <tabpanel>
           <!-- Keyboard shortcuts -->
           <vbox flex="1" style="overflow: auto; height: 250px">
-            <spacer height="12"/>
+            <spacer height="6"/>
+            <hbox height="35">
+              <vbox style="margin-left: 0px">
+                <image class="info_icon" flex="0"
+                       src="chrome://formhistory/skin/information.png"
+                       tooltiptext="&fhprefs.keybindinginfo.tooltip;"/>
+                <spacer flex="1"/>
+              </vbox>
+              <!-- a hack to get a multiline label (keep room for 2 rows) -->
+              <hbox style="margin-top: 5px" flex="1" height="35">
+              <textbox class="plain" style="background-color: transparent"
+                       flex="1" multiline="true" readonly="true"
+                       tooltiptext="&fhprefs.keybindinginfo.tooltip;"
+                       value="&fhprefs.keybindinginfo.label;" />
+               </hbox>
+            </hbox>
+            <spacer height="6"/>
             <grid flex="1">
               <columns>
                 <column/>
@@ -293,8 +339,7 @@
                           label="&fhprefs.button.keybindingdisable.label;"
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
-
-                <row align="center">
+                <row id="saveThisFieldBindingRow" align="center">
                   <label value="Save the current focused field"/>
                   <textbox id="shortcutSaveThisField" flex="1"
                            class="shortcutTextbox" readonly="true"
@@ -303,7 +348,7 @@
                           label="&fhprefs.button.keybindingdisable.label;"
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
-                <row align="center">
+                <row id="saveAllFieldsBindingRow" align="center">
                   <label value="Save all fields on the current page"/>
                   <textbox id="shortcutSaveThisPage" flex="1"
                            class="shortcutTextbox" readonly="true"
@@ -312,9 +357,6 @@
                           label="&fhprefs.button.keybindingdisable.label;"
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
-
-
-
               </rows>
             </grid>
           </vbox>
@@ -324,7 +366,7 @@
           <vbox flex="1">
             <hbox style="margin-top: 5px" height="35">
               <vbox style="margin-left: 5px">
-                <image id="toolbarimage" class="info_icon" flex="0"
+                <image class="info_icon" flex="0"
                        src="chrome://formhistory/skin/information.png"
                        tooltiptext="&fhprefs.quickfillinfo.label;"/>
                 <spacer flex="1"/>

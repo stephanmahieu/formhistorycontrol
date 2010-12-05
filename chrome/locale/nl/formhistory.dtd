@@ -159,6 +159,8 @@
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Vul velden met meest gebruikte waarden">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Wis de ingevulde velden">
 <!ENTITY fhmnuovl.menuitem.showformfields.label "Toon veldnamen in huidige pagina">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Bewaar huidige waarde voor dit veld">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Bewaar waarden van alle velden">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Nu Formulier History opschonen">
 <!ENTITY fhmnuovl.menuitem.options.label "Voorkeuren">
 
@@ -238,7 +240,14 @@
 <!ENTITY fhprefs.textbox.exclusions.label "Formuliervelden niet tonen">
 <!ENTITY fhprefs.textbox.exclusions.tooltip "Lijst van veldnamen gescheiden door komma's">
 
+<!ENTITY fhprefs.prefpane.manualsave.label "Handmatig opslaan">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Gebruik deze optie als 'Formuliergeschiedenis onthouden' is uitgeschakeld en je de historie handmatig wil bewaren.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Stel mij in staat om de Formuliergeschiedenis handmatig op te slaan">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Activeren van deze optie geeft additionele sneltoetsen plus extra menuopties om individuele of meerdere formuliervelden handmatig op te kunnen slaan.">
+
 <!ENTITY fhprefs.prefpane.keybindings.label "Sneltoetsen">
+<!ENTITY fhprefs.keybindinginfo.label "Selecteer het tekstveld dat je wenst aan te passen en typ de nieuwe toetscombinatie. Nieuwe toetscombinaties zijn direct toepasbaar.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Pas op met het toewijzen van toetscombinaties die al in gebruik zijn door de browser of andere uitbreidingen, de nieuwe toetscombinatie zal mogelijk niet werken of onverwachte acties starten.">
 <!ENTITY fhprefs.button.keybindingdisable.label "uitschakelen">
 
 <!ENTITY fhprefs.prefpane.display.label "Weergave">

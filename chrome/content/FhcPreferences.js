@@ -204,6 +204,34 @@ const FhcPreferences = {
   },
 
   /**
+   * Show or hide keybindings for manually saving formhistory depending on the
+   * user preference.
+   *
+   * @param domElem {DOM Element}
+   *        checkbox indicating if manual save is active (true) or inactive (false)
+   */
+  manualsavePrefChecked: function(domElem) {
+    var saveEnabled = domElem.checked;
+    
+    var keySavefield = document.getElementById("saveThisFieldBindingRow");
+    var keySavepage = document.getElementById("saveAllFieldsBindingRow");
+
+    // show or hide keybindings for manually saving formhistory
+    if (saveEnabled) {
+      // show shortcutkey prefitems
+      keySavefield.removeAttribute("hidden");
+      keySavepage.removeAttribute("hidden");
+    } else {
+      // hide shortcutkey prefitems
+      keySavefield.setAttribute("hidden", true);
+      keySavepage.setAttribute("hidden", true);
+      // disable the actual shortcutkeys
+      this._disableKeybinding("shortcutSaveThisField");
+      this._disableKeybinding("shortcutSaveThisPage");
+    }
+  },
+
+  /**
    * Enable or disable the custom dateformat selector
    */
   toggleCustomDateFormatList: function() {
@@ -403,6 +431,15 @@ const FhcPreferences = {
           this.keyBindings.getKeybinding(txtBoxIds[i])
         );
     }
+
+    // initially hide or show the binding depending on the preference
+    if (!this.prefHandler.isManualsaveEnabled()) {
+      // hide shortcutkey prefitems
+      var keySavefield = document.getElementById("saveThisFieldBindingRow");
+      keySavefield.setAttribute("hidden", true);
+      var keySavepage = document.getElementById("saveAllFieldsBindingRow");
+      keySavepage.setAttribute("hidden", true);
+    }
   },
 
   /**
@@ -430,13 +467,22 @@ const FhcPreferences = {
   /**
    * Disable a keybinding.
    *
-   * @param buttonObj {button}
+   * @param buttonObj {DOM Element}
    *        the button with the same id as the textbox displaying the
    *        keybinding but prefixed with "btn_"
-   *
    */
   disableKeybinding: function(buttonObj) {
     var textboxId = buttonObj.id.replace("btn_", "");
+    this._disableKeybinding(textboxId);
+  },
+
+  /**
+   * Disable a keybinding.
+   *
+   * @param textboxId {String}
+   *        the id of the textbox displaying the keybinding
+   */
+  _disableKeybinding: function(textboxId) {
     this.keyBindings.saveKeybinding(textboxId, null);
 
     // Update textbox
