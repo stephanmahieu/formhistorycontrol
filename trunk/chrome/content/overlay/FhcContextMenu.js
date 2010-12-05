@@ -138,7 +138,7 @@ const FhcContextMenu = {
    * @param {Event} aEvent
    */
   contextmenuPopup: function(aEvent) {
-    var hasFields;
+    var hasFields, manualSaveDisabled;
 
     switch(aEvent.target.id) {
 
@@ -147,26 +147,37 @@ const FhcContextMenu = {
         var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
+        manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("cmd_DeleteValueThisField", !isValueInFormHistory);
         this._disable("cmd_DeleteEntriesThisField", !isInputText);
         this._disable("cmd_ManageThisField", !isInputText);
         this._disable("cmd_FillFormFieldsRecent", !hasFields);
         this._disable("cmd_FillFormFieldsUsed", !hasFields);
         this._disable("cmd_ClearFilledFormFields", !hasFields);
+        this._disable("cmd_SaveThisField", !isInputText);
+        this._disable("cmd_SaveThisPage", !hasFields);
+        this._hide("formhistctrl_context_menuitem_savefield", manualSaveDisabled);
+        this._hide("formhistctrl_context_menuitem_savepage", manualSaveDisabled);
         break;
 
       case "formhistctrl-statusbarmenu-popup":
         hasFields = this._containsInputFields();
+        manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("cmd_FillFormFieldsRecent", !hasFields);
         this._disable("cmd_FillFormFieldsUsed", !hasFields);
         this._disable("cmd_ClearFilledFormFields", !hasFields);
+        this._disable("cmd_SaveThisPage", !hasFields);
+        this._hide("formhistctrl_sbmenuitem_savepage", manualSaveDisabled);
         break;
 
       case "formhistctrl-toolbarmenu-popup":
         hasFields = this._containsInputFields();
+        manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("cmd_FillFormFieldsRecent", !hasFields);
         this._disable("cmd_FillFormFieldsUsed", !hasFields);
         this._disable("cmd_ClearFilledFormFields", !hasFields);
+        this._disable("cmd_SaveThisPage", !hasFields);
+        this._hide("formhistctrl_tbmenuitem_savepage", manualSaveDisabled);
         break;
     }
     return true;
@@ -180,11 +191,13 @@ const FhcContextMenu = {
    */
   contextmenuHide: function() {
     this._disable("cmd_DeleteValueThisField", false);
-    this._disable("cmd_DeleteValueThisField", false);
+    this._disable("cmd_DeleteEntriesThisField", false);
     this._disable("cmd_ManageThisField", false);
     this._disable("cmd_FillFormFieldsRecent", false);
     this._disable("cmd_FillFormFieldsUsed", false);
     this._disable("cmd_ClearFilledFormFields", false);
+    this._disable("cmd_SaveThisField", false);
+    this._disable("cmd_SaveThisPage", false);
   },
 
   /**
@@ -331,7 +344,7 @@ const FhcContextMenu = {
   /**
    * Save the current field to the formhistory database.
    */
-  saveThisField: function() {
+  menuSaveThisField: function() {
     this._removeImageContainer();
     
     var inputField = document.commandDispatcher.focusedElement;
@@ -357,7 +370,7 @@ const FhcContextMenu = {
   /**
    * Save all fields on the current page to the formhistory database.
    */
-  saveThisPage: function() {
+  menuSaveThisPage: function() {
     this._removeImageContainer();
 
     var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
@@ -529,6 +542,24 @@ const FhcContextMenu = {
       obj.setAttribute("disabled", 'true');
     } else {
       obj.removeAttribute("disabled");
+    }
+  },
+
+  /**
+   * Hide/show an element using the "hidden" attribute.
+   *
+   * @param id {String}
+   *        the id of the DOM element
+   *
+   * @param flag (boolean}
+   *        whether to hide (true) or show (false) the element
+   */
+  _hide: function(id, flag) {
+    var obj = document.getElementById(id);
+    if (flag) {
+      obj.setAttribute("hidden", 'true');
+    } else {
+      obj.removeAttribute("hidden");
     }
   },
 

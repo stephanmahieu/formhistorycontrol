@@ -158,7 +158,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Fill fields with most recent entries">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Fill fields with most often used entries">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Clear the filled fields">
-<!ENTITY fhmnuovl.menuitem.showformfields.label "Show fieldnames on current page">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Show fieldnames on this page">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Save current value for this field">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Save values for all fields">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Cleanup Form History Now">
 <!ENTITY fhmnuovl.menuitem.options.label "Options">
 
@@ -238,7 +240,14 @@
 <!ENTITY fhprefs.textbox.exclusions.label "Exclude formfields from view">
 <!ENTITY fhprefs.textbox.exclusions.tooltip "Comma separated list of fieldnames">
 
+<!ENTITY fhprefs.prefpane.manualsave.label "Manual Save">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Use this option when you have 'Remember form history' turned off and wish to save formhistory manually.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Allow me to save formhistory manually">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Enabling this option will add additional keyboard shortcuts and menu items in order to manually save the formhistory of single or multiple fields.">
+
 <!ENTITY fhprefs.prefpane.keybindings.label "Keyboard Shortcuts">
+<!ENTITY fhprefs.keybindinginfo.label "Select the textbox of the binding you wish to change and type the desired key combination. Changes take effect immediately.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Be careful not to use key combinations also used by the browser or other extensions, for the new key combination might not work or trigger unexpected actions.">
 <!ENTITY fhprefs.button.keybindingdisable.label "disable">
 
 <!ENTITY fhprefs.prefpane.display.label "Display">

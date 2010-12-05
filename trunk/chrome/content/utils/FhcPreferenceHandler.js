@@ -205,6 +205,10 @@ FhcPreferenceHandler.prototype = {
     return this.prefService.getIntPref("quickfill.bordrthickness");
   },
 
+  isManualsaveEnabled: function() {
+    return this.prefService.getBoolPref("manualsave");
+  },
+
   setKeybindingValue: function(id, stringData) {
     return this.prefService.setComplexValue(
       "keybinding." + id,

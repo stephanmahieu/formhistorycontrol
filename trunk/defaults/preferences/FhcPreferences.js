@@ -28,6 +28,7 @@ pref("extensions.formhistory.quickfill.bordrthickness", 2);
 pref("extensions.formhistory.hideToolsMenuItem", false);
 pref("extensions.formhistory.hideContextMenuItem", false);
 pref("extensions.formhistory.exclusions", "");
+pref("extensions.formhistory.manualsave", false);
 pref("extensions.formhistory.keybinding.shortcutManager", "");
 pref("extensions.formhistory.keybinding.shortcutManageThis", "");
 pref("extensions.formhistory.keybinding.shortcutDeleteValueThis", "");
