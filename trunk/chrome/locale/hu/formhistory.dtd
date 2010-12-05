@@ -1,4 +1,5 @@
 <!ENTITY fhwin.window.title "Form History Control">
+<!ENTITY historywindow.notification.moreinfo "(több)">
 <!ENTITY fhwin.historytab.formhistory "Előzmények megjelenítése">
 <!ENTITY fhwin.historytab.cleanup "Törlés">
 <!ENTITY fhwin.filter.label "Keresés">
@@ -7,7 +8,10 @@
 <!ENTITY fhwin.advancedfilter.fromto.from.label "Honnan">
 <!ENTITY fhwin.advancedfilter.fromto.to.label "hová">
 <!ENTITY fhwin.advancedfilter.enterdatetime.tooltip "Írjon be egy dátumot vagy időpontot">
+<!ENTITY fhwin.advancedfilter.host.label "Szolgáltató">
+<!ENTITY fhwin.menuitem.regexpsearch.title "Reguláris kifejezések">
 <!ENTITY fhwin.menuitem.regexpsearch.manage "Kezelés...">
+<!ENTITY fhwin.menuitem.urlmenu.openurl "Link megnyitása">
 <!ENTITY fhwin.treeview.column.description.label "Leírás">
 <!ENTITY fhwin.treeview.column.name.label "Mező neve">
 <!ENTITY fhwin.treeview.column.value.label "Érték">
