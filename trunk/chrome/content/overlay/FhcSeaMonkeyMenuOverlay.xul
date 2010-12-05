@@ -99,6 +99,7 @@
                     class="statusbarpanel-menu-iconic fh_menu_formhistory"
                     tooltiptext="&fhmnuovl.menuitem.manager.label;"
                     contextMenu="statusbarFhcRightClickMenu"
+                    context=""
                     persist="hidden">
       <menupopup id="formhistctrl-statusbarmenu-popup">
         <menuitem id="formhistctrl_sbmenuitem_manager"
