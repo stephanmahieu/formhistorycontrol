@@ -3,6 +3,7 @@
 <!DOCTYPE dialog SYSTEM "chrome://formhistory/locale/formhistory.dtd">
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/menu.css" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
