@@ -134,6 +134,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Remplir les champs avec les entrées les plus récentes">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Remplir les champs avec les entrées les plus souvent utilisées">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Effacer les champs remplis">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Afficher les noms de champs de cette page">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Enregistrer la valeur actuelle de ce champ">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Enregistrer les valeurs de tous les champs">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Nettoyer l'historique de formulaire maintenant">
 <!ENTITY fhmnuovl.menuitem.options.label "Options">
 <!ENTITY fhentrydlg.windowtitle "Éditer l'historique de formulaire">
@@ -197,6 +200,17 @@
 <!ENTITY fhprefs.group.warnings.caption "Afficher les avertissements">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Avertir avant de supprimer un élément">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Avertir avant de supprimer plusieurs éléments">
+<!ENTITY fhprefs.group.historyview.caption "Affichage de l'historique">
+<!ENTITY fhprefs.textbox.exclusions.label "Exclure les champs de formulaire de l'affichage">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Liste de noms de champs séparés par des virgules">
+<!ENTITY fhprefs.prefpane.manualsave.label "Enregistrement manuel">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Utiliser cette option lorsque « Mémoriser l'historique de formulaire » est désactivée et que vous souhaitez l'historique de formulaire manuellement.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Me permettre d'enregistrer l'historique de formulaire manuellement">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Activer cette option ajoutera des raccourcis clavier et des éléments de menu pour pouvoir enregistrer manuellement l'historique de formulaire d'un ou plusieurs champs.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Raccourcis clavier">
+<!ENTITY fhprefs.keybindinginfo.label "Choisissez la boîte de texte de l'association que vous souhaitez modifier et saisissez la combinaison désirée. Les modifications prennent effet immédiatement.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Vérifiez bien que vous n'utilisez pas de combinaisons de touches déjà utilisées par votre navigateur ou une autre extension, sinon cette nouvelle combinaison risque de ne pas fonctionner ou déclencher des actions non souhaitées.">
+<!ENTITY fhprefs.button.keybindingdisable.label "désactiver">
 <!ENTITY fhprefs.prefpane.display.label "Afficher">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Afficher les éléments d'historique de formulaire">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Utiliser un format de date personnalisé">
@@ -210,6 +224,7 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Masquer l'entrée du menu Outils">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Masquer l'entrée du menu contextuel">
 <!ENTITY fhprefs.prefpane.quickfill.label "Remplissage express">
+<!ENTITY fhprefs.quickfillinfo.label "Facultativement marquer tous les champs de saisie qui ont été remplis avec la valeur la plus récente ou la plus utilisée.">
 <!ENTITY fhprefs.group.quickfill.caption "Indication de remplissage express des champs de formulaire">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Modifier la couleur du fond">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Modifier la couleur de la bordure">
@@ -221,6 +236,8 @@
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Séparateur de valeurs">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Encadrer les valeurs avec">
 <!ENTITY fhprefs.textbox.csvexportescape.label "échapper avec préfixe">
+<!ENTITY fhprefs.group.configexport.caption "Configuration de l'import/export">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importer et exporter les raccourcis clavier">
 <!ENTITY fhprefs.prefpane.cleanup.label "Nettoyage">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Lancer un nettoyage à l'arrêt du navigateur">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Lancer un nettoyage lorsqu'un onglet est fermé">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Afficher l'historique">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "f">
 <!ENTITY fhabout.label.description "Description">
+<!ENTITY fhabout.label.creator "Créée par">
+<!ENTITY fhabout.label.homepage "Se rendre à la page Web">
+<!ENTITY fhabout.label.contributors "Contributeurs">
+<!ENTITY fhabout.label.translators "Traducteurs">
