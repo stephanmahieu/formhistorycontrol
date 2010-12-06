@@ -352,13 +352,13 @@ const FhcContextMenu = {
     if (FhcUtil.isInputTextElement(inputField)) {
       if (!this._isValueInFormHistory(inputField)) {
         this._saveFieldInDatabase(inputField);
-        this._notifyStoreChanged();
-
         image = this._createSavedFieldImage('fhcSaveMessageField', inputField, true);
       }
       else {
+        this._updateFieldInDatabase(inputField);
         image = this._createSavedFieldImage('fhcSaveMessageField', inputField, false);
       }
+      this._notifyStoreChanged();
       this._addToImageContainer(image);
 
       // show confirmation message
@@ -374,21 +374,23 @@ const FhcContextMenu = {
     this._removeImageContainer();
 
     var tags = FhcUtil.getAllNonEmptyVisibleInputfields();
-    var image, inputField, count = 0;
+    var image, inputField, countNew = 0, countOld = 0;
     for (var ii=0; ii < tags.length; ii++) {
       inputField = tags[ii];
       if (!this._isValueInFormHistory(inputField)) {
         this._saveFieldInDatabase(inputField);
-        count++;
+        countNew++;
         image = this._createSavedFieldImage('fhcSavedField'+ii, inputField, true);
       }
       else {
+        this._updateFieldInDatabase(inputField);
+        countOld++;
         image = this._createSavedFieldImage('fhcSkipField'+ii, inputField, false);
       }
       this._addToImageContainer(image);
     }
 
-    if (count > 0) {
+    if (countNew > 0 || countOld > 0) {
       this._notifyStoreChanged();
     }
 
@@ -409,11 +411,23 @@ const FhcContextMenu = {
     var newEntry = {
           name:  name,
           value: inputField.value,
-          used:  0,
+          used:  1,
           first: now,
           last:  now
         };
     this.dbHandler.addEntry(newEntry, null);
+  },
+
+  /**
+   * Update the inputfield in the formhistory database.
+   *
+   * @param inputField {DOM Element}
+   *        the inputfield to update
+   */
+  _updateFieldInDatabase: function(inputField) {
+    var name = FhcUtil.getElementNameOrId(inputField);
+    var now = this.dateHandler.getCurrentDate();
+    this.dbHandler.updateEntryStatistics(name, inputField.value, now);
   },
 
   /**
