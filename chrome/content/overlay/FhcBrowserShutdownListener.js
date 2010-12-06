@@ -109,19 +109,22 @@ const FhcBrowserListener = {
     if (allEntries && allEntries.length > 0) {
       delEntries = this.cleanupFilter.getMatchingEntries(allEntries);
       if (delEntries && delEntries.length > 0) {
-        this.dbHandler.deleteEntries(delEntries);    
+        this.dbHandler.deleteEntries(delEntries);
+        this._notifyStoreChanged();
       }
     }
 
-    /*
-    if (delEntries && 0 < delEntries.length) {
-      dump("Form History Control::CleanUp on shutdown: Deleted " + delEntries.length + " entries.\n");
-    } else {
-      dump("Form History Control::CleanUp on shutdown: Nothing to delete.\n");
-    }*/
-    
     delEntries = null;
     allEntries = null;
+  },
+
+  /**
+   * Send notification to observers that the formhistory store has changed.
+   */
+  _notifyStoreChanged: function() {
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                            .getService(Components.interfaces.nsIObserverService);
+    observerService.notifyObservers(null, "sessionstore-state-write", "");
   }
 }
 
