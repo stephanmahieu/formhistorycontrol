@@ -12,6 +12,7 @@ Technical:
 - Fixed SeaMonkey bug: undefined Components.classes["@mozilla.org/privatebrowsing;1"]
 - Fixed SeaMonkey bug: undefined gBrowser.tabs
 - Fixed this.treeBox.view.selection warning in FF4
+- Re-use existing formhistory dbconnection from browser
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
