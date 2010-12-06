@@ -340,7 +340,7 @@
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
                 <row id="saveThisFieldBindingRow" align="center">
-                  <label value="Save the current focused field"/>
+                  <label value="&fhmnuovl.menuitem.savethisfield.label;"/>
                   <textbox id="shortcutSaveThisField" flex="1"
                            class="shortcutTextbox" readonly="true"
                            onkeypress="FhcPreferences.createKeybinding(event, this)"/>
@@ -349,7 +349,7 @@
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
                 <row id="saveAllFieldsBindingRow" align="center">
-                  <label value="Save all fields on the current page"/>
+                  <label value="&fhmnuovl.menuitem.savethisfield.label;"/>
                   <textbox id="shortcutSaveThisPage" flex="1"
                            class="shortcutTextbox" readonly="true"
                            onkeypress="FhcPreferences.createKeybinding(event, this)"/>
