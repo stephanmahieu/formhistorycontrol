@@ -174,8 +174,9 @@ const FhcPreferences = {
     document.getElementById("fhc-location").value = this.dbHandler.cleanupFile.path;
     try {
       document.getElementById("fhc-size").value = this.dbHandler.cleanupFile.fileSize + " bytes";
-      document.getElementById("fhc-datacount").value =
-        "criteria::" + this.dbHandler.getNoOfCleanupAndProtectItems() + "  " +
+      document.getElementById("fhc-datacount1").value =
+        "criteria::" + this.dbHandler.getNoOfCleanupAndProtectItems();
+      document.getElementById("fhc-datacount2").value =
         "regexp::" + this.dbHandler.getNoOfRegexpItems();
     }
     catch(ex) {
