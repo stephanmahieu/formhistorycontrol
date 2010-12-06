@@ -83,7 +83,7 @@
 <!ENTITY fhwin.menuitem.selectall.label "Vybrat vše">
 <!ENTITY fhwin.menuitem.selectall.accelkey "v">
 <!ENTITY fhwin.menuitem.selectnone.label "Zrušit výběr">
-<!ENTITY fhwin.menuitem.selectinvert.label "Invertovat výběr">
+<!ENTITY fhwin.menuitem.selectinvert.label "Převrátit výběr">
 <!ENTITY fhwin.menuitem.addcleanup.label "Přidat ke kritériím pro čištění">
 <!ENTITY fhwin.menuitem.addprotect.label "Přidat ke kritériím pro výjimky z čištění">
 <!ENTITY fhwin.menuitem.exportall.label "Exportovat všechny položky historie">
@@ -134,6 +134,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Vyplnit pole nejnovějšími položkami">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Vyplnit pole nejčastěji používanými položkami">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Vymazat vyplněná pole">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Zobrazit na této stránce názvy polí">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Uložit pro toto pole aktuální hodnotu">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Uložit hodnoty pro všechna pole">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Vyčistit nyní historii formuláře">
 <!ENTITY fhmnuovl.menuitem.options.label "Možnosti">
 <!ENTITY fhentrydlg.windowtitle "Upravit historii formuláře">
@@ -197,8 +200,19 @@
 <!ENTITY fhprefs.group.warnings.caption "Zobrazení varování">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Varovat před smazáním jedné položky">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Varovat před smazáním více položek">
+<!ENTITY fhprefs.group.historyview.caption "Zobrazení historie">
+<!ENTITY fhprefs.textbox.exclusions.label "Nezobrazovat pro pole formulářů">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Seznam názvů polí oddělený čárkami">
+<!ENTITY fhprefs.prefpane.manualsave.label "Ruční ukládání">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Použijte tuto možnost, pokud máte vypnuto „Pamatovat si historii formulářů“ a přejete si ukládat historii formulářů ručně.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Povolit ukládat historii formulářů ručně">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Povolení této možnosti přidá klávesové zkratky a položky v nabídce, aby bylo možno ručně ukládat historii formulářů pro jedno nebo více polí.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Klávesové zkratky">
+<!ENTITY fhprefs.keybindinginfo.label "Vyberte činnost, pro kterou chcete zkratku změnit, a zadejte požadovanou kombinaci kláves. Změny se projeví okamžitě.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Dejte pozor, abyste nezvolili kombinaci používanou prohlížečem nebo jinými rozšířeními, v tom případě nová klávesová zkratka nejspíš nebude fungovat nebo bude spouštět nechtěné činnosti.">
+<!ENTITY fhprefs.button.keybindingdisable.label "vypnout">
 <!ENTITY fhprefs.prefpane.display.label "Zobrazit">
-<!ENTITY fhprefs.group.formhistoryitemsview.caption "Pohled na položky historie formulářeů">
+<!ENTITY fhprefs.group.formhistoryitemsview.caption "Pohled na položky historie formulářů">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Použít vlastní formát data/času">
 <!ENTITY fhprefs.checkbox.defaultSearchCurrentPageChecked.label "Volba 'Prohledávat jen aktuální stránku' jako výchozí">
 <!ENTITY fhprefs.group.taskbar.caption "Pruh úloh">
@@ -210,6 +224,7 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skrýt položku v nabídce Nástroje">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skrýt položku v místní nabídce">
 <!ENTITY fhprefs.prefpane.quickfill.label "Rychlé vyplnění">
+<!ENTITY fhprefs.quickfillinfo.label "Volitelně označí všechna vstupní pole, která byla vyplněna nejnovější nebo nejčastěji používanou hodnotou.">
 <!ENTITY fhprefs.group.quickfill.caption "Odlišovat pole formuláře zadaná rychlým vyplněním">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Změnit barvu pozadí">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Změnit barvu okraje">
@@ -221,6 +236,8 @@
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Oddělovač hodnot">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Hodnoty vypsat mezi znak">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape znak">
+<!ENTITY fhprefs.group.configexport.caption "Nastavení importu/exportu">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importovat a exportovat klávesové zkratky">
 <!ENTITY fhprefs.prefpane.cleanup.label "Vyčistit">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Vyčistit při zavření prohlížeče">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Vyčistit při zavření panelu prohlížeče">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Zobrazit historii">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "h">
 <!ENTITY fhabout.label.description "Popis">
+<!ENTITY fhabout.label.creator "Vytvořil">
+<!ENTITY fhabout.label.homepage "Navštívit domovskou stránku">
+<!ENTITY fhabout.label.contributors "Přispěvatelé">
+<!ENTITY fhabout.label.translators "Překladatelé">
