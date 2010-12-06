@@ -124,7 +124,7 @@ FhcDbHandler.prototype = {
    *         an array of all formhistory entries from the database table
    */
   getAllEntries: function() {
-    var mDBConn = this._getDbConnection();
+    var mDBConn = this._getHistDbConnection();
     var result = [];
     
     var resultOk = false, statement, place;
@@ -152,7 +152,7 @@ FhcDbHandler.prototype = {
       dump('getAllEntries:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, resultOk);
+      this._endHistDbConnection(mDBConn, resultOk);
     }
     return result;
   },
@@ -173,13 +173,13 @@ FhcDbHandler.prototype = {
    *         the next database id (primary key) of the newly added entry
    */
   addEntry: function(newEntry, newId) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
 
     // determine new database index (lastIndex + 1)
     if (undefined == newId) {
       newId = this._getLastId(mDBConn);
       if (0 > newId) {
-        this._closeDbConnection(mDBConn, result);
+        this._endHistDbConnection(mDBConn, result);
         return null;
       }
       newId++;
@@ -199,7 +199,7 @@ FhcDbHandler.prototype = {
       statement.params.last  = newEntry.last;
       result = this._executeStatement(statement);
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result ? newId : null;
   },
@@ -216,12 +216,12 @@ FhcDbHandler.prototype = {
    *         the database id (primary key) of the last entry added
    */
   bulkAddEntries: function(newEntries) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
 
     // determine new database index (lastIndex + 1)
     var newId = this._getLastId(mDBConn);
     if (0 > newId) {
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
       return null;
     }
     
@@ -243,7 +243,7 @@ FhcDbHandler.prototype = {
       }
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result;
   },
@@ -258,7 +258,7 @@ FhcDbHandler.prototype = {
    *         whether or not updating succeeded
    */
   updateEntry: function(entry) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
     
     var result = false;
     try {
@@ -271,7 +271,62 @@ FhcDbHandler.prototype = {
       statement.params.id    = entry.id;
       result = this._executeStatement(statement);
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
+  /**
+   * Update the usage statistics (timesUsed, lastUsed) of the entry matching
+   * the given fieldname and value, return true on succes.
+   *
+   * @param  fieldname {String}
+   *         the fieldname of the entries to be deleted
+   *
+   * @param  value {String}
+   *         the value of the entries to be deleted
+   *
+   * @param  nowDate {Integer}
+   *         Date when entry was last used (usually the current systemdate)
+   * 
+   * @return {Boolean}
+   *         whether or not updating succeeded
+   */
+  updateEntryStatistics: function(fieldname, value, nowDate) {
+    var mDBConn = this._getHistDbConnection();
+
+    var result = false;
+    try {
+      var statement, id, timesUsed;
+
+      // Get the entry by name and value
+      statement = mDBConn.createStatement(
+          "SELECT id, timesUsed" +
+          "  FROM moz_formhistory" +
+          " WHERE fieldname = :name AND value = :value");
+      statement.params.name  = fieldname;
+      statement.params.value = value;
+      result = statement.executeStep();
+      if (result) {
+        id = statement.row.id;
+        timesUsed = statement.row.timesUsed;
+
+        // update timesUsed and lastUsed
+        statement = mDBConn.createStatement(
+            "UPDATE moz_formhistory" +
+            "   SET timesUsed = :timesUsed, lastUsed = :lastUsed" +
+            " WHERE id = :id");
+        statement.params.id        = id;
+        statement.params.timesUsed = ++timesUsed;
+        statement.params.lastUsed  = nowDate;
+        result = statement.executeStep();
+      }
+    } catch(ex) {
+      result = false;
+      dump('updateEntryStatistics:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result;
   },
@@ -287,7 +342,7 @@ FhcDbHandler.prototype = {
    *         whether or not deleting succeeded
    */
   deleteEntries: function(entries) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
 
     var result = false, statement;
     try {
@@ -302,7 +357,7 @@ FhcDbHandler.prototype = {
       }
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result;
   },
@@ -317,7 +372,7 @@ FhcDbHandler.prototype = {
    *         whether or not deleting all named entries succeeded
    */
   deleteEntriesByName: function(fieldname) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
 
     var result = false;
     try {
@@ -328,7 +383,7 @@ FhcDbHandler.prototype = {
       statement.params.name = fieldname;
       result = this._executeStatement(statement);
     } finally {        
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result;
   },
@@ -347,7 +402,7 @@ FhcDbHandler.prototype = {
    *         whether or not deleting all matching entries succeeded
    */
   deleteEntryByNameAndValue: function(fieldname, value) {
-    var mDBConn = this._getDbConnection(true);
+    var mDBConn = this._getHistDbConnection(true);
 
     var result = false;
     try {
@@ -359,7 +414,7 @@ FhcDbHandler.prototype = {
       statement.params.value = value;
       result = this._executeStatement(statement);
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      this._endHistDbConnection(mDBConn, result);
     }
     return result;
   },
@@ -377,7 +432,7 @@ FhcDbHandler.prototype = {
    *         whether or not the entry exists in the database
    */
   entryExists: function(fieldname, value) {
-    var mDBConn = this._getDbConnection();
+    var mDBConn = this._getHistDbConnection();
     
     var count = 0, statement;
     try {
@@ -394,7 +449,7 @@ FhcDbHandler.prototype = {
       dump('entryExists:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
+      this._endHistDbConnection(mDBConn, true);
     }
     return (count != 0);
   },
@@ -406,7 +461,7 @@ FhcDbHandler.prototype = {
    *         the total number of formhistory entries in the database
    */
   getNoOfItems: function() {
-    var mDBConn = this._getDbConnection();
+    var mDBConn = this._getHistDbConnection();
 
     var count = 0, statement;
     try {
@@ -420,7 +475,7 @@ FhcDbHandler.prototype = {
       dump('getNoOfItems:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
+      this._endHistDbConnection(mDBConn, true);
     }
     return count;
   },
@@ -435,7 +490,7 @@ FhcDbHandler.prototype = {
    *         the value of the most recent used fieldname
    */
   getMostRecentEntry: function(fieldname) {
-    var mDBConn = this._getDbConnection();
+    var mDBConn = this._getHistDbConnection();
     var result = "";
 
     var resultOk = false, statement;
@@ -455,7 +510,7 @@ FhcDbHandler.prototype = {
       dump('getMostRecentEntry:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, resultOk);
+      this._endHistDbConnection(mDBConn, resultOk);
     }
     return result;
   },
@@ -470,7 +525,7 @@ FhcDbHandler.prototype = {
    *         the value of the most often used fieldname
    */
   getMostUsedEntry: function(fieldname) {
-    var mDBConn = this._getDbConnection();
+    var mDBConn = this._getHistDbConnection();
     var result = "";
 
     var resultOk = false, statement;
@@ -490,7 +545,7 @@ FhcDbHandler.prototype = {
       dump('getMostUsedEntry:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, resultOk);
+      this._endHistDbConnection(mDBConn, resultOk);
     }
     return result;
   },
@@ -1595,8 +1650,7 @@ FhcDbHandler.prototype = {
   //----------------------------------------------------------------------------
 
   /**
-   * Open a database connection to the formhistory db.
-   * Will create the file if it does not exist!
+   * Open an existing database connection to the formhistory db.
    *
    * @param  transactional (boolean) [Optional]
    *         wether or not to start a transaction, default false (no transaction)
@@ -1604,8 +1658,10 @@ FhcDbHandler.prototype = {
    * @return {mozIStorageConnection}
    *         a databaseconnection to the database, null if connection failed
    */
-  _getDbConnection: function(transactional) {
-    var mDBConnection = this.storageService.openDatabase(this.formHistoryFile);
+  _getHistDbConnection: function(transactional) {
+    var mDBConnection = Components.classes["@mozilla.org/satchel/form-history;1"]
+            .getService(Components.interfaces.nsIFormHistory2)
+            .DBConnection;
 
     if (transactional && true == transactional) {
       // Start a transaction
@@ -1615,6 +1671,22 @@ FhcDbHandler.prototype = {
     return mDBConnection;
   },
 
+  /**
+   * End a database connection (without closing).
+   *
+   * @param mDBConnection{mozIStorageConnection}
+   *        a databaseconnection to a database
+   *
+   * @param result {Boolean}
+   *        state of the previous database action, if false transaction is
+   *        rolled back, if true the transaction is committed
+   */
+  _endHistDbConnection: function(mDBConnection, result) {
+    if (mDBConnection.transactionInProgress) {
+      // end transaction
+      this._endTransaction(mDBConnection, result);
+    }
+  },
 
 
   //----------------------------------------------------------------------------
@@ -1632,7 +1704,6 @@ FhcDbHandler.prototype = {
             .getService(Components.interfaces.nsPIPlacesDatabase).DBConnection;
     return mDBConnection;
   },
-
 
 
   //----------------------------------------------------------------------------
