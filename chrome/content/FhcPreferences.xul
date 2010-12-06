@@ -349,7 +349,7 @@
                           oncommand="FhcPreferences.disableKeybinding(this)"/>
                 </row>
                 <row id="saveAllFieldsBindingRow" align="center">
-                  <label value="&fhmnuovl.menuitem.savethisfield.label;"/>
+                  <label value="&fhmnuovl.menuitem.savethispage.label;"/>
                   <textbox id="shortcutSaveThisPage" flex="1"
                            class="shortcutTextbox" readonly="true"
                            onkeypress="FhcPreferences.createKeybinding(event, this)"/>
@@ -607,7 +607,7 @@
     <preferences>
     </preferences>
     <vbox flex="1">
-      <spacer height="10px"/>
+      <spacer height="10"/>
       <hbox>
         <label id="manageRegexpTitle" value="&fhprefs.label.search.manage;:"/>
         <spacer flex="10"/>
@@ -702,74 +702,101 @@
              class="icon-box collapsable"
              onclick="FhcPreferences.hideRecreateStatus()"/>
     </hbox>
-    <hbox align="baseline">
-      <label id="appversion" value=""/>
-    </hbox>
-    <groupbox>
-      <caption label="&fhprefs.group.information.fhdatabase.caption;"/>
-        <grid>
-          <columns>
-            <column flex="0"/>
-            <column flex="1"/>
-          </columns>
-          <rows>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.filepath.label;"/>
-              <textbox id="moz-location" readonly="true" multiline="true" rows="1"/>
-            </row>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.filesize.label;"/>
-              <textbox id="moz-size" readonly="true"/>
-            </row>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.databaserows.label;"/>
-              <textbox id="moz-datacount" readonly="true"/>
-            </row>
-          </rows>
-        </grid>
-    </groupbox>
-    <groupbox>
-      <caption label="&fhprefs.group.information.cudatabase.caption;"/>
-        <grid flex="1">
-          <columns>
-            <column flex="0"/>
-            <column flex="1"/>
-          </columns>
-          <rows>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.filepath.label;"/>
-              <textbox id="fhc-location" readonly="true" multiline="true" rows="1"/>
-            </row>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.filesize.label;"/>
-              <textbox id="fhc-size" readonly="true"/>
-            </row>
-            <row align="baseline">
-              <label value="&fhprefs.textbox.information.databaserows.label;"/>
-              <textbox id="fhc-datacount" readonly="true"/>
-            </row>
-            <row>
-              <spacer/>
-              <hbox>
-                <spacer flex="1"/>
-                <button id="recoverCleanupDb" flex="0"
-                        label="&fhprefs.button.information.recover.label;"
-                        tooltiptext="&fhprefs.button.information.recover.tooltip;"
-                        oncommand="FhcPreferences.recreateCleanupDb(true)"/>
-                <button id="cleanCleanupDb" flex="0"
-                        label="&fhprefs.button.information.createnew.label;"
-                        tooltiptext="&fhprefs.button.information.createnew.tooltip;"
-                        oncommand="FhcPreferences.recreateCleanupDb(false)"/>
-                <button id="restoreRegexp" flex="0"
-                        label="&fhprefs.button.information.restoreregexp.label;"
-                        tooltiptext="&fhprefs.button.information.restoreregexp.tooltip;"
-                        oncommand="FhcPreferences.restoreRegexp()"/>
-                <spacer flex="1"/>
-              </hbox>
-            </row>
-          </rows>
-        </grid>
-    </groupbox>
+    <tabbox id="infoTabList" selectedIndex="0" persist="selectedIndex">
+      <tabs>
+        <tab label="&fhwin.menuitem.about.label;"/>
+        <tab label="&fhprefs.group.information.fhdatabase.caption;"/>
+        <tab label="&fhprefs.group.information.cudatabase.caption;"/>
+      </tabs>
+      <tabpanels style="height: 269px; margin-bottom: 0">
+        <tabpanel>
+          <vbox flex="1">
+            <spacer height="10"/>
+            <label id="appversion" value=""/>
+          </vbox>
+        </tabpanel>
+        <tabpanel>
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&fhprefs.group.information.fhdatabase.caption;"/>
+                <grid>
+                  <columns>
+                    <column flex="0"/>
+                    <column flex="1"/>
+                  </columns>
+                  <rows>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.filepath.label;"/>
+                      <textbox id="moz-location" readonly="true" multiline="true" rows="1"/>
+                    </row>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.filesize.label;"/>
+                      <textbox id="moz-size" readonly="true"/>
+                    </row>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.databaserows.label;"/>
+                      <textbox id="moz-datacount" readonly="true"/>
+                    </row>
+                  </rows>
+                </grid>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+        <tabpanel>
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&fhprefs.group.information.cudatabase.caption;"/>
+                <grid flex="1">
+                  <columns>
+                    <column flex="0"/>
+                    <column flex="1"/>
+                  </columns>
+                  <rows>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.filepath.label;"/>
+                      <textbox id="fhc-location" readonly="true" multiline="true" rows="1"/>
+                    </row>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.filesize.label;"/>
+                      <textbox id="fhc-size" readonly="true"/>
+                    </row>
+                    <row align="baseline">
+                      <label value="&fhprefs.textbox.information.databaserows.label;"/>
+                      <textbox id="fhc-datacount1" readonly="true"/>
+                    </row>
+                    <row align="baseline">
+                      <label value=""/>
+                      <textbox id="fhc-datacount2" readonly="true"/>
+                    </row>
+                    <row>
+                      <spacer height="10"/>
+                    </row>
+                    <row align="baseline">
+                      <spacer/>
+                      <hbox>
+                        <spacer flex="1"/>
+                        <button id="recoverCleanupDb" flex="0"
+                                label="&fhprefs.button.information.recover.label;"
+                                tooltiptext="&fhprefs.button.information.recover.tooltip;"
+                                oncommand="FhcPreferences.recreateCleanupDb(true)"/>
+                        <button id="cleanCleanupDb" flex="0"
+                                label="&fhprefs.button.information.createnew.label;"
+                                tooltiptext="&fhprefs.button.information.createnew.tooltip;"
+                                oncommand="FhcPreferences.recreateCleanupDb(false)"/>
+                        <button id="restoreRegexp" flex="0"
+                                label="&fhprefs.button.information.restoreregexp.label;"
+                                tooltiptext="&fhprefs.button.information.restoreregexp.tooltip;"
+                                oncommand="FhcPreferences.restoreRegexp()"/>
+                        <spacer flex="1"/>
+                      </hbox>
+                    </row>
+                  </rows>
+                </grid>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+      </tabpanels>
+    </tabbox>
   </prefpane>
 
   <!-- Tooltips: CustomDateFormat information -->
