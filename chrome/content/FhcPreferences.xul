@@ -99,20 +99,17 @@
       <checkbox label="&fhprefs.checkbox.showtaskbaricon.label;"
                 preference="extensions.formhistory.showStatusBarIcon"
                 oncommand="FhcPreferences.showOrHideTaskbarIcon(this)"/>
-      <hbox height="35">
+      <hbox>
         <vbox style="margin-left: 5px">
           <image class="info_icon" flex="0"
                  src="chrome://formhistory/skin/information.png"
                  tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;"/>
           <spacer flex="1"/>
         </vbox>
-        <!-- a hack to get a multiline label (keep room for 2 rows) -->
-        <hbox style="margin-top: 5px" flex="1" height="35">
-        <textbox class="plain" style="background-color: transparent"
-                 flex="1" multiline="true" readonly="true"
-                 tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;"
-                 value="&fhprefs.label.showtoolbaricon.label;" />
-         </hbox>
+        <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
+                     tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;">
+                     &fhprefs.label.showtoolbaricon.label;
+        </description>
       </hbox>
     </groupbox>
     <groupbox>
@@ -209,20 +206,17 @@
         <tabpanel>
           <!-- Manual Save -->
           <vbox flex="1">
-            <hbox style="margin-top: 5px" height="35">
+            <hbox style="margin-top: 5px">
               <vbox style="margin-left: 5px">
                 <image class="info_icon" flex="0"
                        src="chrome://formhistory/skin/information.png"
                        tooltiptext="&fhprefs.label.manualsaveinfoicon.label;"/>
                 <spacer flex="1"/>
               </vbox>
-              <!-- a hack to get a multiline label (keep room for 2 rows) -->
-              <hbox style="margin-top: 5px" flex="1" height="35">
-              <textbox class="plain" style="background-color: transparent"
-                       flex="1" multiline="true" readonly="true"
-                       tooltiptext="&fhprefs.label.manualsaveinfoicon.label;"
-                       value="&fhprefs.label.manualsaveinfoicon.label;" />
-               </hbox>
+              <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
+                     tooltiptext="&fhprefs.label.manualsaveinfoicon.label;">
+                     &fhprefs.label.manualsaveinfoicon.label;
+              </description>
             </hbox>
             <checkbox id="manualsave"
                       label="&fhprefs.checkbox.manualsave.label;"
@@ -235,20 +229,17 @@
           <!-- Keyboard shortcuts -->
           <vbox flex="1" style="overflow: auto; height: 250px">
             <spacer height="6"/>
-            <hbox height="35">
+            <hbox>
               <vbox style="margin-left: 0px">
                 <image class="info_icon" flex="0"
                        src="chrome://formhistory/skin/information.png"
                        tooltiptext="&fhprefs.keybindinginfo.tooltip;"/>
                 <spacer flex="1"/>
               </vbox>
-              <!-- a hack to get a multiline label (keep room for 2 rows) -->
-              <hbox style="margin-top: 5px" flex="1" height="35">
-              <textbox class="plain" style="background-color: transparent"
-                       flex="1" multiline="true" readonly="true"
-                       tooltiptext="&fhprefs.keybindinginfo.tooltip;"
-                       value="&fhprefs.keybindinginfo.label;" />
-               </hbox>
+              <description style="width: 485px; margin-top: 5px; margin-left: 2px;"
+                           tooltiptext="&fhprefs.keybindinginfo.tooltip;">
+                           &fhprefs.keybindinginfo.label;
+              </description>
             </hbox>
             <spacer height="6"/>
             <grid flex="1">
@@ -364,20 +355,17 @@
         <tabpanel>
           <!-- Quick Fill -->
           <vbox flex="1">
-            <hbox style="margin-top: 5px" height="35">
+            <hbox style="margin-top: 5px">
               <vbox style="margin-left: 5px">
                 <image class="info_icon" flex="0"
                        src="chrome://formhistory/skin/information.png"
                        tooltiptext="&fhprefs.quickfillinfo.label;"/>
                 <spacer flex="1"/>
               </vbox>
-              <!-- a hack to get a multiline label (keep room for 2 rows) -->
-              <hbox style="margin-top: 5px" flex="1" height="35">
-              <textbox class="plain" style="background-color: transparent"
-                       flex="1" multiline="true" readonly="true"
-                       tooltiptext="&fhprefs.quickfillinfo.label;"
-                       value="&fhprefs.quickfillinfo.label;" />
-               </hbox>
+              <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
+                           tooltiptext="&fhprefs.quickfillinfo.label;">
+                           &fhprefs.quickfillinfo.label;
+              </description>
             </hbox>
             <groupbox>
               <caption label="&fhprefs.group.quickfill.caption;"/>
