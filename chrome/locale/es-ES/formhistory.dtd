@@ -55,7 +55,7 @@
 <!ENTITY fhwin.button.removeall.label "Eliminar todos">
 <!ENTITY fhwin.button.removeall.accesskey "n">
 <!ENTITY fhwin.button.cleanup.label "Borrar">
-<!ENTITY fhwin.button.cleanup.accesskey "B">
+<!ENTITY fhwin.button.cleanup.accesskey "o">
 <!ENTITY fhwin.button.add.label "Insertar">
 <!ENTITY fhwin.button.add.accesskey "I">
 <!ENTITY fhwin.button.edit.label "Editar">
@@ -134,6 +134,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Rellenar campos con las entradas más recientes">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Rellenar campos con las entradas más usadas">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Vaciar los campos rellenados">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Mostrar nombres de campo en esta página">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Guardar valor actual de este campo">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Guardar valores de todos los campos">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Borrar ahora en Historial de formularios">
 <!ENTITY fhmnuovl.menuitem.options.label "Opciones">
 <!ENTITY fhentrydlg.windowtitle "Editar historial de formularios">
@@ -162,7 +165,7 @@
 <!ENTITY fhcriteriadlg.fieldname.label "Nombre">
 <!ENTITY fhcriteriadlg.value.label "Valor">
 <!ENTITY fhcriteriadlg.matchexact.label "Coincidencia exacta">
-<!ENTITY fhcriteriadlg.matchcase.label "Coincidir mayús/minús">
+<!ENTITY fhcriteriadlg.matchcase.label "Distinguir MAY/min">
 <!ENTITY fhcriteriadlg.namevaluefieldsemptyerror.label "No se pueden dejar en blanco el nombre y valor del campo.">
 <!ENTITY fhcriteriadlg.existerror.label "Ya existen criterios con estas propiedades">
 <!ENTITY fhcregexpdlg.windowtitle "Administrar expresiones regulares">
@@ -197,6 +200,17 @@
 <!ENTITY fhprefs.group.warnings.caption "Mostrar avisos">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Avisar antes de borrar un elemento">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Avisar antes de borrar varios elementos">
+<!ENTITY fhprefs.group.historyview.caption "Vista de historial">
+<!ENTITY fhprefs.textbox.exclusions.label "Excluir campos de formularios de la vista">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Lista de nombres de campo separados por comas">
+<!ENTITY fhprefs.prefpane.manualsave.label "Guardado manual">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Utilice esta opción cuando tenga desactivado &quot;Recordar historial de formularios&quot; y quiera guardar manualmente el historial de formularios.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Permitirme guardar manualmente el historial de formularios">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Al activar esta opción se añadirán atajos de teclado y elementos de menú adicionales para guardar manualmente el historial de formularios de uno o varos campos.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Atajos de teclado">
+<!ENTITY fhprefs.keybindinginfo.label "Seleccione la caja de texto del atajo que quiere cambiar y escriba la combinación de teclas que desee. Los cambios tendrán efecto inmediatamente.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Tenga cuidado de no usar combinaciones de teclas que utilice el navegador u otras extensiones, porque la nueva combinación podría no funcionar o desatar acciones inesperadas.">
+<!ENTITY fhprefs.button.keybindingdisable.label "desactivar">
 <!ENTITY fhprefs.prefpane.display.label "Mostrar">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Vista de elementos del Historial de formularios">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Usar formato propio de fecha/hora">
@@ -210,6 +224,7 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Ocultar elemento del menú Herramientas">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Ocultar elemento del menú contextual">
 <!ENTITY fhprefs.prefpane.quickfill.label "Relleno rápido">
+<!ENTITY fhprefs.quickfillinfo.label "Opcionalmente marca todos los campos de entrada en los que se ha introducido el valor más reciente o más usado.">
 <!ENTITY fhprefs.group.quickfill.caption "Indicación de rellenado rápido de campos de formulario">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Cambiar color de fondo">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Cambiar color de borde">
@@ -221,6 +236,8 @@
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Separador de valores">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Rodear valores con">
 <!ENTITY fhprefs.textbox.csvexportescape.label "Escape con prefijo">
+<!ENTITY fhprefs.group.configexport.caption "Configurar Importar/Exportar">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Atajos de teclado para Importar/Exportar">
 <!ENTITY fhprefs.prefpane.cleanup.label "Borrado">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Ejecutar borrado al cerrar el navegador">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Ejecutar borrado cuando se cierra una pestaña del navegador">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Mostrar historial">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "h">
 <!ENTITY fhabout.label.description "Descripción">
+<!ENTITY fhabout.label.creator "Creado por">
+<!ENTITY fhabout.label.homepage "Visitar página web">
+<!ENTITY fhabout.label.contributors "Colaboradores">
+<!ENTITY fhabout.label.translators "Traductores">

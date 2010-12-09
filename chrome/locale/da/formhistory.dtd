@@ -104,7 +104,7 @@
 <!ENTITY fhwin.cleanup.timeusage.group.caption "Tids/Anvendelseskriterier">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "Fjern alle poster i formularhistorikken der ikke er anvendt i">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "dage">
-<!ENTITY fhwin.cleanup.checkbox.daysused.accesskey "F">
+<!ENTITY fhwin.cleanup.checkbox.daysused.accesskey "p">
 <!ENTITY fhwin.cleanup.checkbox.timesused.label "Fjern alle poster i formularhistorikken der er anvendt færre end">
 <!ENTITY fhwin.cleanup.checkbox.timesused.label2 "gange">
 <!ENTITY fhwin.cleanup.checkbox.timesused.accesskey "e">
@@ -132,8 +132,11 @@
 <!ENTITY fhmnuovl.menuitem.deletethis.label "Slet dette felts samlede historik">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Håndter dette felts poster">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Udfyld felter med seneste poster">
-<!ENTITY fhmnuovl.menuitem.fillmostused.label "Udfyld felt med oftest anvendte poster">
+<!ENTITY fhmnuovl.menuitem.fillmostused.label "Udfyld felter med oftest anvendte poster">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Ryd de udfyldte felter">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Vis feltnavne på denne side">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Gem pågældende værdi til dette felt">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Gem værdier til alle felter">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Ryd op i formularhistorikken nu">
 <!ENTITY fhmnuovl.menuitem.options.label "Indstillinger">
 <!ENTITY fhentrydlg.windowtitle "Rediger formularhistorik">
@@ -197,6 +200,17 @@
 <!ENTITY fhprefs.group.warnings.caption "Vis advarsler">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Advar mig før sletning af et enkelt post">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Advar mig før sletning af flere poster">
+<!ENTITY fhprefs.group.historyview.caption "Visning af historik">
+<!ENTITY fhprefs.textbox.exclusions.label "Udeluk formularfelter fra visning">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Kommasepareret liste med feltnavne">
+<!ENTITY fhprefs.prefpane.manualsave.label "Gem manuelt">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Brug denne indstilling når du har slået 'Husk formularhistorik' fra, og ønsker at gemme formularhistorikken manuelt.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Lad mig gemme formularhistorik manuelt">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Aktivering af denne indstilling vil tilføje yderligere tastaturgenveje og menupunkter, med henblik på manuelt at kunne gemme formularhistorikken fra et enkelt eller flere felter.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Tastaturgenveje">
+<!ENTITY fhprefs.keybindinginfo.label "Vælg tekstfeltet til den binding du ønsker at ændre, og indtast den ønskede tastekombination. Ændringer træder i kraft med det samme.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Vær forsigtig med ikke at anvende tastekombinationer, som anvendes af browseren eller af andre udvidelser, da de måske ikke vil virke eller udløse uventede handlinger.">
+<!ENTITY fhprefs.button.keybindingdisable.label "deaktiver">
 <!ENTITY fhprefs.prefpane.display.label "Vis">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Visning af poster i formularhistorikken">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Anvend et tilpasset dato/tidsformat">
@@ -210,17 +224,20 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skjul menupunktet i menuen Funktioner">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skjul menupunktet i genvejsmenuen">
 <!ENTITY fhprefs.prefpane.quickfill.label "Kvik-udfyld">
+<!ENTITY fhprefs.quickfillinfo.label "Valgfri markering af alle input-felter, der har været udfyldt med de seneste eller med de oftest anvendte poster.">
 <!ENTITY fhprefs.group.quickfill.caption "Kvik-udfyld formularfeltindikator">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Skift baggrundsfarve">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Skift rammefarve">
 <!ENTITY fhprefs.checkbox.quickfillborderwidth.label "Skift rammetykkelse">
 <!ENTITY fhprefs.textbox.quickfillpreviewtest.label "Test">
-<!ENTITY fhprefs.textbox.quickfillpreviewtext "Forhåndsvis">
+<!ENTITY fhprefs.textbox.quickfillpreviewtext "Forhåndsvisning">
 <!ENTITY fhprefs.prefpane.importexport.label "Importer/Eksporter">
 <!ENTITY fhprefs.group.csvexport.caption "CSV-eksport">
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Skilletegn">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Omgiv værdier med">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape med præfiks">
+<!ENTITY fhprefs.group.configexport.caption "Import/Eksport af indstillinger">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importer og eksporter tastaturgenveje">
 <!ENTITY fhprefs.prefpane.cleanup.label "Ryd op">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Udfør oprydning når browseren lukkes">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Udfør oprydning når et faneblad lukkes">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Vis historik">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "t">
 <!ENTITY fhabout.label.description "Beskrivelse">
+<!ENTITY fhabout.label.creator "Lavet af">
+<!ENTITY fhabout.label.homepage "Besøg hjemmeside">
+<!ENTITY fhabout.label.contributors "Bidragydere">
+<!ENTITY fhabout.label.translators "Oversættere">

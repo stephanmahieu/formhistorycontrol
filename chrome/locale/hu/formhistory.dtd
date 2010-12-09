@@ -12,6 +12,8 @@
 <!ENTITY fhwin.menuitem.regexpsearch.title "Reguláris kifejezések">
 <!ENTITY fhwin.menuitem.regexpsearch.manage "Kezelés...">
 <!ENTITY fhwin.menuitem.urlmenu.openurl "Link megnyitása">
+<!ENTITY fhwin.menuitem.urlmenu.openurlhost "Szolgálató megnyitása">
+<!ENTITY fhwin.menuitem.urlmenu.openurlcopy "Hivatkozás címének másolása">
 <!ENTITY fhwin.treeview.column.description.label "Leírás">
 <!ENTITY fhwin.treeview.column.name.label "Mező neve">
 <!ENTITY fhwin.treeview.column.value.label "Érték">
