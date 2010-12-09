@@ -35,7 +35,7 @@
     <groupbox orient="horizontal">
       <caption label="&fhabout.label.description;"/>
       <hbox flex="1">
-        <description id="extensionDescription"/>
+        <description id="extensionDescription" style="width: 340px"/>
       </hbox>
     </groupbox>
     

@@ -45,7 +45,7 @@
 			<Description>
 				<em:locale>cs</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Spravuje položky historie formulářů (zobrazení, úprava, mazání, export/import)</em:description>
+				<em:description>Správa historie formulářů (zobrazení, úprava, mazání, čištění, export/import)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -59,14 +59,14 @@
 			<Description>
 				<em:locale>de</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Gespeicherte Formulareinträge verwalten (anzeigen, bearbeiten, löschen, Export/Import)</em:description>
+				<em:description>Formulareinträge verwalten (Anzeigen, Bearbeiten, Löschen, bereinigen, exportieren/importieren)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
 			<Description>
 				<em:locale>es-ES</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Administra las entradas del historial de formularios (ver, editar, borrar, exportar/importar)</em:description>
+				<em:description>Administrar Historial de formularios (ver, editar, eliminar, borrar selectivamente, exportar/importar)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -89,21 +89,28 @@
 			<Description>
 				<em:locale>bg-BG</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Управлява вписванията в историята на формулярите (преглед, редактиране, изтривае, изнасяне/внасяне)</em:description>
+				<em:description>Управление на Формата за историята (преглннд, редактирае, изтриване, почистване, изнасяне/внасяне)</em:description>
+			</Description>
+		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>hu</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>Mezőkbe írt szövegek kezelése (megtekintés, szerkesztés, törlés, exportálás/importálás)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
 			<Description>
 				<em:locale>it-IT</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Consente la gestione della cronologia dei campi dei moduli (visualizzazione, modifica, cancellazione, esportazione/importazione)</em:description>
+				<em:description>Gestione della cronologia moduli (visualizzazione, modifica, cancellazione, pulizia, esportazione, importazione)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
 			<Description>
 				<em:locale>pt-BR</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Gerencie entradas de histórico de formulários (visualize, edite, apague, exporte/importe)</em:description>
+				<em:description>Gerenciar o histórico de formulários (visualizar, editar, apagar, limpar, exportar/importar)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -129,18 +136,11 @@
 		</em:localized>
 		
 	<!-- UNFINISHED DESCRIPTION LOCALES
-		<em:localized>
-			<Description>
-				<em:locale>hu</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description></em:description>
-			</Description>
-		</em:localized>
 	-->
 
 		<!-- if no locale match, revert to these defaults (en-US) -->
 		<em:name>Form History Control</em:name>
-		<em:description>Manage formhistory entries (view, edit, delete, export/import)</em:description>
+		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
 
 		<!-- Creator -->
 		<em:creator>Stephan Mahieu</em:creator>
