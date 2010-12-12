@@ -1726,6 +1726,11 @@ const HistoryWindowControl = {
     this._updateCountLabel();
     
     // read places asynchronously since this might be slow
+    // !! Only works upto FF4.0b6pre see also:
+    //   https://bugzilla.mozilla.org/show_bug.cgi?id=608142
+    //   https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433
+    //   ChromeWorker is not (yet) an alternative for threads the way I
+    //   have to use it (access places database from worker).
     this._fillPlacesAsync();
   },
 
