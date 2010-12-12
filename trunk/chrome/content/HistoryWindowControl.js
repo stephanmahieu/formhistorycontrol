@@ -1724,6 +1724,63 @@ const HistoryWindowControl = {
 
     // set the new rowcount    
     this._updateCountLabel();
+    
+    // read places asynchronously since this might be slow
+    this._fillPlacesAsync();
+  },
+
+  // read places in a background thread since querying places might be slow
+  _fillPlacesAsync: function() {
+    var entries = this.treeView.getAll();
+
+    var workingThread  = {
+      run: function() {
+        try {
+          var _this = HistoryWindowControl;
+          var place;
+          for(var ii=0; ii<entries.length; ii++) {
+            place = _this.dbHandler.getVisitedPlace(entries[ii].name, entries[ii].last);
+            entries[ii].place = place;
+          }
+        } finally {
+          // report back to main thread (only there we may do GUI stuff)
+          main.dispatch(mainThread, main.DISPATCH_NORMAL);
+        }
+      },
+      QueryInterface: function(iid) {
+        if (iid.equals(Components.interfaces.nsIRunnable) ||
+            iid.equals(Components.interfaces.nsISupports)) {
+            return this;
+        }
+        throw Components.results.NS_ERROR_NO_INTERFACE;
+      }
+    };
+
+    var mainThread  = {
+      run: function() {
+        try {
+          // workingThread completed.
+          HistoryWindowControl.treeView.applyFilter();
+        } catch(err) {
+          Components.utils.reportError(err);
+        }
+      },
+      QueryInterface: function(iid) {
+        if (iid.equals(Components.interfaces.nsIRunnable) ||
+            iid.equals(Components.interfaces.nsISupports)) {
+                return this;
+        }
+        throw Components.results.NS_ERROR_NO_INTERFACE;
+      }
+    };
+
+    var background = Components.classes["@mozilla.org/thread-manager;1"]
+                      .getService(Components.interfaces.nsIThreadManager)
+                      .newThread(0);
+    var main = Components.classes["@mozilla.org/thread-manager;1"]
+                .getService().mainThread;
+
+    background.dispatch(workingThread, background.DISPATCH_NORMAL);
   },
 
   // If no of items in db and treeview are out of sync, repopulate view

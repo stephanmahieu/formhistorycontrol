@@ -127,15 +127,12 @@ FhcDbHandler.prototype = {
     var mDBConn = this._getHistDbConnection();
     var result = [];
     
-    var resultOk = false, statement, place;
+    var resultOk = false, statement;
     try {
       statement = mDBConn.createStatement(
           "SELECT id, fieldname, value, timesUsed, firstUsed, lastUsed" +
           "  FROM moz_formhistory");
       while (statement.executeStep()) {
-
-        place = this.getVisitedPlace(statement.row.fieldname, statement.row.lastUsed);
-
         result.push({
           id:    statement.row.id,
           name:  statement.row.fieldname,
@@ -143,7 +140,7 @@ FhcDbHandler.prototype = {
           used:  statement.row.timesUsed,
           first: statement.row.firstUsed,
           last:  statement.row.lastUsed,
-          place: place}
+          place: []}
         );
       }
 
@@ -584,7 +581,8 @@ FhcDbHandler.prototype = {
         "  FROM moz_places p, moz_historyvisits h " +
         " WHERE p.id = h.place_id " +
         "   AND h.visit_date < :lastUsed " +
-        " ORDER BY visit_date DESC ");
+        " ORDER BY h.visit_date DESC " +
+        " LIMIT 1 ");
       statement.params["lastUsed"] = dateUsed;
 
       // select first candidate
@@ -635,8 +633,10 @@ FhcDbHandler.prototype = {
         "  FROM moz_places p, moz_historyvisits h " +
         " WHERE p.id = h.place_id " +
         "   AND h.visit_date < :lastUsed " +
-        " ORDER BY visit_date DESC ");
+        " ORDER BY h.visit_date DESC " +
+        " LIMIT :limit ");
       statement.params["lastUsed"] = dateUsed;
+      statement.params["limit"] = maxCandidates;
 
       var host;
       while ((result.length < maxCandidates) && statement.executeStep()) {
@@ -682,8 +682,10 @@ FhcDbHandler.prototype = {
         "  FROM moz_places p, moz_historyvisits h " +
         " WHERE p.id = h.place_id " +
         "   AND h.visit_date > :lastUsed " +
-        " ORDER BY visit_date ASC ");
+        " ORDER BY h.visit_date ASC " +
+        " LIMIT :limit ");
       statement.params["lastUsed"] = dateUsed;
+      statement.params["limit"] = maxCandidates;
 
       var host;
       while ((result.length < maxCandidates) && statement.executeStep()) {
