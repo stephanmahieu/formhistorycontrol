@@ -10,7 +10,7 @@ User:
 
 Technical:
 - Set fixed width for the about dialog
-- Query places info from db asynchronously (background thread) since it might be slow
+- Query places info from db asynchronously (background thread) since it might be slow (only works upto FF4.0b6pre)
 - Fixed SeaMonkey bug: undefined Components.classes["@mozilla.org/privatebrowsing;1"]
 - Fixed SeaMonkey bug: undefined gBrowser.tabs
 - Fixed this.treeBox.view.selection warning in FF4
