@@ -61,7 +61,7 @@ FhcBrowserListener.prototype = {
     // the formhistory storage
     this._observerService.addObserver(this, "sessionstore-state-write", false);
 
-    // topic fires when de cleanup-db has changed (recreate)
+    // topic fires when the cleanup-db has changed (recreate)
     this._observerService.addObserver(this, "cleanup-db-changed", false);
   },
 
