@@ -612,6 +612,50 @@ FhcDbHandler.prototype = {
   },
 
   /**
+   * Add place info to each FormHistory item. Optimized for maximum speed.
+   * 
+   * @param entries {Array of FormHistoryItems}
+   */
+  addVisitedPlaceToEntries: function(entries) {
+    var tresholdFirst = 1000000*60*60*24*7; // 7 days
+    var mPlacesDbConn = this._getPlacesDbConnection();
+
+    try {
+      var statement = mPlacesDbConn.createStatement(
+        "SELECT p.url, p.title, p.rev_host, h.visit_date " +
+        "  FROM moz_places p, moz_historyvisits h " +
+        " WHERE p.id = h.place_id " +
+        "   AND h.visit_date < :lastUsed " +
+        " ORDER BY h.visit_date DESC " +
+        " LIMIT 1 ");
+      var place;
+      for(var ii=0; ii<entries.length; ii++) {
+        if (entries[ii].name != "searchbar-history") {
+          place = [];
+          try {
+            statement.params["lastUsed"] = entries[ii].last;
+            if (statement.executeStep()) {
+              if ((entries[ii].last - statement.row["visit_date"]) < tresholdFirst) {
+                place.push({
+                  url  : statement.row["url"],
+                  host : FhcUtil.strReverse(statement.row["rev_host"]).replace(/^\./g, ""),
+                  title: statement.row["title"],
+                  date : statement.row["visit_date"]}
+                );
+              }
+              entries[ii].place = place;
+            }
+          } finally {
+            statement.reset();
+          }
+        }
+      }
+    } finally {
+      statement.finalize();
+    }
+  },
+
+  /**
    * Query the location(s) visited just before the formfield was submitted.
    *
    * @param dateUsed {Integer}

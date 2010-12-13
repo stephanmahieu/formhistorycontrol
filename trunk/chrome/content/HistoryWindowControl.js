@@ -1688,9 +1688,15 @@ const HistoryWindowControl = {
   _setupDataView: function() {
     // make sure its empty
     this.treeView.empty();
-    
+
+//TODO: remove timing dumps
+var start = new Date();
+
     // read all entries from the db into the treeView
     var entries = this.dbHandler.getAllEntries();
+
+var end = new Date();
+dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
 
     // filter out loginmanaged fields
     if (this.hideLoginmanagedFields) {
@@ -1725,29 +1731,47 @@ const HistoryWindowControl = {
     // set the new rowcount    
     this._updateCountLabel();
     
-    // read places asynchronously since this might be slow
+    //TODO: Switch between synchronous and asynchronous fillplaces (no async in FF4.0 or SM2.1)
+    //this._fillPlacesAsync(); // read asynchronously since this might be slow
+    this._fillPlaces();
+  },
+
+  _fillPlaces: function() {
+    var entries = this.treeView.getAll();
+//TODO: remove timing dumps
+var start = new Date();
+    this.dbHandler.addVisitedPlaceToEntries(entries);
+var end = new Date();
+dump("Get related placed took " + (end.getTime() - start.getTime()) + " ms\n\n");
+  },
+
+  //
     // !! Only works upto FF4.0b6pre see also:
     //   https://bugzilla.mozilla.org/show_bug.cgi?id=608142
     //   https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433
     //   ChromeWorker is not (yet) an alternative for threads the way I
     //   have to use it (access places database from worker).
-    this._fillPlacesAsync();
-  },
-
-  // read places in a background thread since querying places might be slow
+  /**
+   * Read places in a background thread since querying places might be slow.
+   *
+   * Only works upto FF4.0b6pre see also:
+   * - https://bugzilla.mozilla.org/show_bug.cgi?id=608142
+   * - https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433
+   * ChromeWorker is not (yet) an alternative for threads because it is not
+   * possible to read from the database.
+   */
   _fillPlacesAsync: function() {
     var entries = this.treeView.getAll();
 
     var workingThread  = {
       run: function() {
+//TODO: remove timing dumps
+var start = new Date();
         try {
-          var _this = HistoryWindowControl;
-          var place;
-          for(var ii=0; ii<entries.length; ii++) {
-            place = _this.dbHandler.getVisitedPlace(entries[ii].name, entries[ii].last);
-            entries[ii].place = place;
-          }
+          HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries);
         } finally {
+var end = new Date();
+dump("Get related placed took " + (end.getTime() - start.getTime()) + " ms\n\n");
           // report back to main thread (only there we may do GUI stuff)
           main.dispatch(mainThread, main.DISPATCH_NORMAL);
         }
