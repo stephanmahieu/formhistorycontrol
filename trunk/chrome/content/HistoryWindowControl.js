@@ -1748,7 +1748,7 @@ dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
     var entries = this.treeView.getAll();
 //TODO: remove timing dumps
 var start = new Date();
-    this.dbHandler.addVisitedPlaceToEntries(entries);
+    this.dbHandler.addVisitedPlaceToEntries(entries, true);
 var end = new Date();
 dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
   },
@@ -1772,7 +1772,7 @@ dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " m
 //TODO: remove timing dumps
 var start = new Date();
         try {
-          HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries);
+          HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries, false);
         } finally {
 var end = new Date();
 dump("Get related placed (async) took " + (end.getTime() - start.getTime()) + " ms\n\n");
