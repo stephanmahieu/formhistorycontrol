@@ -1730,35 +1730,39 @@ dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
 
     // set the new rowcount    
     this._updateCountLabel();
-    
-    //TODO: Switch between synchronous and asynchronous fillplaces (no async in FF4.0 or SM2.1)
-    //this._fillPlacesAsync(); // read asynchronously since this might be slow
-    this._fillPlaces();
+
+    // add place info
+    var geckoVer = FhcUtil.getGeckoVersion();
+    if (geckoVer[0] > 1) {
+      // background threads broken in gecko 2.0, use mainthread
+      this._fillPlaces();
+    } else {
+      this._fillPlacesAsync();
+    }
   },
 
+  /**
+   * Add place info to all formhistory entries.
+   */
   _fillPlaces: function() {
     var entries = this.treeView.getAll();
 //TODO: remove timing dumps
 var start = new Date();
     this.dbHandler.addVisitedPlaceToEntries(entries);
 var end = new Date();
-dump("Get related placed took " + (end.getTime() - start.getTime()) + " ms\n\n");
+dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
   },
 
-  //
-    // !! Only works upto FF4.0b6pre see also:
-    //   https://bugzilla.mozilla.org/show_bug.cgi?id=608142
-    //   https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433
-    //   ChromeWorker is not (yet) an alternative for threads the way I
-    //   have to use it (access places database from worker).
   /**
-   * Read places in a background thread since querying places might be slow.
-   *
-   * Only works upto FF4.0b6pre see also:
-   * - https://bugzilla.mozilla.org/show_bug.cgi?id=608142
-   * - https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433
-   * ChromeWorker is not (yet) an alternative for threads because it is not
-   * possible to read from the database.
+   * Add place info to all formhistory entries using a background thread because
+   * querying places can be slow.
+   * <p>
+   * Only works upto FF4.0b6pre and SM2.1 see also: <br/>
+   * - https://bugzilla.mozilla.org/show_bug.cgi?id=608142 <br/>
+   * - https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433 <br/>
+   * <p>
+   * <i>ChromeWorker is not an alternative for threads because it is for
+   * instance not (yet) possible to query the database from the worker.</i>
    */
   _fillPlacesAsync: function() {
     var entries = this.treeView.getAll();
@@ -1771,7 +1775,7 @@ var start = new Date();
           HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries);
         } finally {
 var end = new Date();
-dump("Get related placed took " + (end.getTime() - start.getTime()) + " ms\n\n");
+dump("Get related placed (async) took " + (end.getTime() - start.getTime()) + " ms\n\n");
           // report back to main thread (only there we may do GUI stuff)
           main.dispatch(mainThread, main.DISPATCH_NORMAL);
         }
@@ -1788,7 +1792,7 @@ dump("Get related placed took " + (end.getTime() - start.getTime()) + " ms\n\n")
     var mainThread  = {
       run: function() {
         try {
-          // workingThread completed.
+          // workingThread completed, update view.
           HistoryWindowControl.treeView.applyFilter();
         } catch(err) {
           Components.utils.reportError(err);
