@@ -699,8 +699,47 @@
       <tabpanels style="height: 269px; margin-bottom: 0">
         <tabpanel>
           <vbox flex="1">
-            <spacer height="10"/>
-            <label id="appversion" value=""/>
+            <spacer height="5"/>
+            <grid flex="1">
+              <columns>
+                <column flex="0"/>
+                <column flex="1"/>
+              </columns>
+              <rows>
+                <!-- Extension info -->
+                <row align="baseline">
+                  <label class="infotitle" value="Extension"/>
+                </row>
+                <row align="baseline">
+                  <label value="Name"/>
+                  <label id="appname"/>
+                </row>
+                <row align="baseline">
+                  <label value="Version"/>
+                  <label id="appversion"/>
+                </row>
+                <row align="baseline">
+                  <label value="Created by"/>
+                  <label id="appcreator"/>
+                </row>
+                <!-- Browser info -->
+                <row align="baseline">
+                  <label class="infotitle" value="Browser"/>
+                </row>
+                <row align="baseline">
+                  <label value="Name"/>
+                  <label id="browsername"/>
+                </row>
+                <row align="baseline">
+                  <label value="Version"/>
+                  <label id="browserversion"/>
+                </row>
+                <row align="baseline">
+                  <label value="Gecko version"/>
+                  <label id="geckoversion"/>
+                </row>
+              </rows>
+            </grid>
           </vbox>
         </tabpanel>
         <tabpanel>

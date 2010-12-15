@@ -140,3 +140,10 @@ tabpanels {
 tab[selected="true"] {
   font-weight: bold;
 }
+
+
+/* -------- information panel -------- */
+.infotitle {
+  margin-top: 5px;
+  font-weight: bold;
+}
