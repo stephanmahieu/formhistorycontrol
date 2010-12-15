@@ -566,10 +566,10 @@ FhcDbHandler.prototype = {
    *         the location information
    */
   getVisitedPlace: function(fieldName, dateUsed) {
-    var result = [];
-    
-    var tresholdFirst = 1000000*60*60*24*7; // 7 days
+    // visited place max 7 days before
+    const TRESHOLD = 1000000*60*60*24*7;
 
+    var result = [];
     if (fieldName == "searchbar-history") {
       return result;
     }
@@ -588,13 +588,12 @@ FhcDbHandler.prototype = {
       // select first candidate
       var timeDiff, host;
       if (statement.executeStep()) {
-        host = FhcUtil.strReverse(statement.row["rev_host"]);
-        //delete leading dot
-        host = host.replace(/^\./g, "");
+        //reverse host and delete leading dot
+        host = FhcUtil.strReverse(statement.row["rev_host"]).replace(/^\./g, "");
 
         // select first found if under the tresholdFirst limit
         timeDiff = dateUsed - statement.row["visit_date"];
-        if (timeDiff < tresholdFirst) {
+        if (timeDiff < TRESHOLD) {
           result.push({
             url  : statement.row["url"],
             host : host,
@@ -615,11 +614,24 @@ FhcDbHandler.prototype = {
    * Add place info to each FormHistory item. Optimized for maximum speed.
    * 
    * @param entries {Array of FormHistoryItems}
+   * @param updateGUI {Boolean} if true periodically update GUI
    */
-  addVisitedPlaceToEntries: function(entries) {
-    var tresholdFirst = 1000000*60*60*24*7; // 7 days
-    var mPlacesDbConn = this._getPlacesDbConnection();
+  addVisitedPlaceToEntries: function(entries, updateGUI) {
+    if (updateGUI) {
+      // update gui every 10ms (to prevent unresponsive script)
+      const GUI_UPDATE = 10;
+      const GUI_UPDATE_INITIAL = 200;
+      var mainThread = Components.classes["@mozilla.org/thread-manager;1"]
+                        .getService(Components.interfaces.nsIThreadManager)
+                        .currentThread;
+      var now = (new Date()).getTime();
+      var nextUpdateGui = now + GUI_UPDATE_INITIAL;
+    }
 
+    // visited place max 7 days before
+    const TRESHOLD = 1000000*60*60*24*7;
+
+    var mPlacesDbConn = this._getPlacesDbConnection();
     try {
       var statement = mPlacesDbConn.createStatement(
         "SELECT p.url, p.title, p.rev_host, h.visit_date " +
@@ -635,7 +647,7 @@ FhcDbHandler.prototype = {
           try {
             statement.params["lastUsed"] = entries[ii].last;
             if (statement.executeStep()) {
-              if ((entries[ii].last - statement.row["visit_date"]) < tresholdFirst) {
+              if ((entries[ii].last - statement.row["visit_date"]) < TRESHOLD) {
                 place.push({
                   url  : statement.row["url"],
                   host : FhcUtil.strReverse(statement.row["rev_host"]).replace(/^\./g, ""),
@@ -644,6 +656,15 @@ FhcDbHandler.prototype = {
                 );
               }
               entries[ii].place = place;
+
+              //XXX: remove updateGUI when task can run in background thread
+              if (updateGUI) {
+                now = (new Date()).getTime();
+                if (now > nextUpdateGui) {
+                  mainThread.processNextEvent(true);
+                  nextUpdateGui = now + GUI_UPDATE;
+                }
+              }
             }
           } finally {
             statement.reset();
