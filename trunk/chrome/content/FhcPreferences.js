@@ -163,10 +163,27 @@ const FhcPreferences = {
    * Set some information in the display panel.
    */
   fillInformationPanel: function() {
-    var appVersion = this.extHandler.getVersion();
-    document.getElementById("appversion").value =
-                  this.bundle.getString("prefwindow.information.fhcversion.label", [appVersion]);
+    // extension info
+    document.getElementById("appname").value = this.extHandler.getName();
+//    var appVersion = this.extHandler.getVersion();
+//    document.getElementById("appversion").value =
+//                  this.bundle.getString("prefwindow.information.fhcversion.label", [appVersion]);
+    document.getElementById("appversion").value = this.extHandler.getVersion();
+    document.getElementById("appcreator").value = this.extHandler.getCreator();
 
+    // browser info
+    document.getElementById("browsername").value = FhcUtil.getBrowserName();
+    document.getElementById("browserversion").value = FhcUtil.getBrowserVersion();
+
+    var geckoArr = FhcUtil.getGeckoVersion();
+    var geckoVersion = "";
+    for (var ii=0; ii<geckoArr.length; ii++) {
+      geckoVersion += geckoArr[ii];
+      if (ii<geckoArr.length-1) geckoVersion += '.';
+    }
+    document.getElementById("geckoversion").value = geckoVersion;
+
+    // database info
     document.getElementById("moz-location").value = this.dbHandler.formHistoryFile.path;
     document.getElementById("moz-size").value = this.dbHandler.formHistoryFile.fileSize + " bytes";
     document.getElementById("moz-datacount").value = this.dbHandler.getNoOfItems();

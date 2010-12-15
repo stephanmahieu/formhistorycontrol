@@ -679,8 +679,19 @@ const FhcUtil = {
   getBrowserName: function() {
     var info = Components.classes["@mozilla.org/xre/app-info;1"]
                .getService(Components.interfaces.nsIXULAppInfo);
-    // info.version returns "2.0.0.1" for Firefox version 2.0.0.1
     return info.name;
+  },
+
+  /**
+   * Return the version of the host (browser, returns "2.0.0.1" for FF ver 2.0.0.1).
+   *
+   * @return {String} the host application name.
+   */
+  getBrowserVersion: function() {
+    var info = Components.classes["@mozilla.org/xre/app-info;1"]
+               .getService(Components.interfaces.nsIXULAppInfo);
+    // info.version returns "2.0.0.1" for Firefox version 2.0.0.1
+    return info.version;
   },
 
   /**
