@@ -618,14 +618,13 @@ FhcDbHandler.prototype = {
    */
   addVisitedPlaceToEntries: function(entries, updateGUI) {
     if (updateGUI) {
-      // update gui every 10ms (to prevent unresponsive script)
-      const GUI_UPDATE = 10;
-      const GUI_UPDATE_INITIAL = 200;
+      // update gui every n ms (to prevent unresponsive script)
+      const GUI_UPDATE = 15000;
       var mainThread = Components.classes["@mozilla.org/thread-manager;1"]
                         .getService(Components.interfaces.nsIThreadManager)
                         .currentThread;
       var now = (new Date()).getTime();
-      var nextUpdateGui = now + GUI_UPDATE_INITIAL;
+      var nextUpdateGui = now + GUI_UPDATE;
     }
 
     // visited place max 7 days before
