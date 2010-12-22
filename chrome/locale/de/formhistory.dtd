@@ -134,6 +134,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Felder mit den aktuellsten Einträgen füllen">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Felder mit den häufigsten verwendeten Einträgen füllen">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "gefüllten Felder löschen">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Feldnamen auf dieser Seite anzeigen">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Aktueller Wert für dieses Feld speichern">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Werte für alle Felder speichern">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Formulareinträge jetzt bereinigen">
 <!ENTITY fhmnuovl.menuitem.options.label "Einstellungen">
 <!ENTITY fhentrydlg.windowtitle "Formulareinträge editieren">
@@ -197,6 +200,17 @@
 <!ENTITY fhprefs.group.warnings.caption "Warnungen anzeigen">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Vor dem Löschen eines einzelnen Eintrags warnen">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Vor dem Löschen mehrerer Elemente warnen">
+<!ENTITY fhprefs.group.historyview.caption "Formularchronik Ansicht">
+<!ENTITY fhprefs.textbox.exclusions.label "Formularfelder von der Sicht ausschließen">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Kommata getrennte Liste der Feldnamen">
+<!ENTITY fhprefs.prefpane.manualsave.label "Manuell speichern">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Verwenden Sie diese Einstellung wenn Sie 'Chronik anlegen' abgeschaltet haben und die Formularchronik manuell speichern wollen.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Erlaube es die Formularchronik manuell zu speichern">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Mit dem Aktiviren dieser Option werden zusätzliche Tastaturkürzel und Menüeinträge um die Formularchronik manuell zu speichern hinzugefügt.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Tastaturkürzel">
+<!ENTITY fhprefs.keybindinginfo.label "Wählen Sie das Textfeld des Eintrags den Sie ändern wollen und füllen Sie es mit der gewünschten Tastenkombination. Die Änderung wird sofort wirksam">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Achten Sie darauf, dass die keine Tastenkombinationen des Browsers oder Erweiterungen nutzen. Die neue Tastenkombination funktioniert möglicherweise nicht richtig, oder löst unerwartete Aktionen aus.">
+<!ENTITY fhprefs.button.keybindingdisable.label "deaktivieren">
 <!ENTITY fhprefs.prefpane.display.label "Anzeige">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Formulareinträge Ansicht">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "benutzerdefiniertes Datum- oder Zeitformat">
@@ -210,6 +224,7 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Versteckt Einträge im Menü Extras">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Versteckt Kontextmenü Einträge">
 <!ENTITY fhprefs.prefpane.quickfill.label "Schnellfüller">
+<!ENTITY fhprefs.quickfillinfo.label "Markiert optional alle Eingabefelder die mit den neuesten oder am häufigsten verwendeten Werte gefüllt wurden">
 <!ENTITY fhprefs.group.quickfill.caption "Hervorhebung des Eingabefelds bei Schnellausfüllung">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Hintergrundfarbe ändern">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Rahmenfarbe ändern">
@@ -221,6 +236,8 @@
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Feldtrennzeichen">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Werte umschließen mit">
 <!ENTITY fhprefs.textbox.csvexportescape.label "Escape mit Präfix">
+<!ENTITY fhprefs.group.configexport.caption "Konfiguration Im-/Export">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Tastaturkürzel im- und exportieren">
 <!ENTITY fhprefs.prefpane.cleanup.label "Reinigen">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Vor dem Schließen des Browsers Reinigung durchführen">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Wenn Browser-Tab geschlossen ist Reinigung durchführen">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Formulareinträge anzeigen">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "F">
 <!ENTITY fhabout.label.description "Beschreibung">
+<!ENTITY fhabout.label.creator "Erstellt von">
+<!ENTITY fhabout.label.homepage "Besucht meine Homepage">
+<!ENTITY fhabout.label.contributors "Mitwirkende">
+<!ENTITY fhabout.label.translators "Übersetzer">
