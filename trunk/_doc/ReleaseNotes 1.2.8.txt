@@ -1,5 +1,5 @@
 User:
-- Available locales English, Czech, Deutsch, Dutch, French, Swedish, Danish and Spanish
+- Available locales English, Czech, German, Dutch, French, Swedish, Danish and Spanish
 - Added preference-option to exclude fieldnames from view
 - Added global keybindings for most menu-items in (right-click-)contextmenu
 - Added (preference-)option to Export/Import keybindings (default yes)
