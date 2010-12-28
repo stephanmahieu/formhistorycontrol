@@ -1689,14 +1689,14 @@ const HistoryWindowControl = {
     // make sure its empty
     this.treeView.empty();
 
-//TODO: remove timing dumps
-var start = new Date();
+    //XXX: remove timing dumps
+    //var start = new Date();
 
     // read all entries from the db into the treeView
     var entries = this.dbHandler.getAllEntries();
 
-var end = new Date();
-dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
+    //var end = new Date();
+    //dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
 
     // filter out loginmanaged fields
     if (this.hideLoginmanagedFields) {
@@ -1746,11 +1746,11 @@ dump("Get all entries took " + (end.getTime() - start.getTime()) + " ms\n");
    */
   _fillPlaces: function() {
     var entries = this.treeView.getAll();
-//TODO: remove timing dumps
-var start = new Date();
+    //XXX: remove timing dumps
+    //var start = new Date();
     this.dbHandler.addVisitedPlaceToEntries(entries, true);
-var end = new Date();
-dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
+    //var end = new Date();
+    //dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
   },
 
   /**
@@ -1769,13 +1769,13 @@ dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " m
 
     var workingThread  = {
       run: function() {
-//TODO: remove timing dumps
-var start = new Date();
+        //XXX: remove timing dumps
+        //var start = new Date();
         try {
           HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries, false);
         } finally {
-var end = new Date();
-dump("Get related placed (async) took " + (end.getTime() - start.getTime()) + " ms\n\n");
+          //var end = new Date();
+          //dump("Get related placed (async) took " + (end.getTime() - start.getTime()) + " ms\n\n");
           // report back to main thread (only there we may do GUI stuff)
           main.dispatch(mainThread, main.DISPATCH_NORMAL);
         }
