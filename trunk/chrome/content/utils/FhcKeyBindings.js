@@ -175,37 +175,37 @@ FhcKeyBindings.prototype = {
     var cmdId;
     switch(id) {
       case "shortcutManager":
-        cmdId = "key_ShowFormHistoryControl";
+        cmdId = "fhc_key_ShowFormHistoryControl";
         break;
       case "shortcutManageThis":
-        cmdId = "key_ManageThisField";
+        cmdId = "fhc_key_ManageThisField";
         break;
       case "shortcutDeleteValueThis":
-        cmdId = "key_DeleteValueThisField";
+        cmdId = "fhc_key_DeleteValueThisField";
         break;
       case "shortcutDeleteThis":
-        cmdId = "key_DeleteEntriesThisField";
+        cmdId = "fhc_key_DeleteEntriesThisField";
         break;
       case "shortcutFillMostRecent":
-        cmdId = "key_FillFormFieldsRecent";
+        cmdId = "fhc_key_FillFormFieldsRecent";
         break;
       case "shortcutFillMostUsed":
-        cmdId = "key_FillFormFieldsUsed";
+        cmdId = "fhc_key_FillFormFieldsUsed";
         break;
       case "shortcutClearFields":
-        cmdId = "key_ClearFilledFormFields";
+        cmdId = "fhc_key_ClearFilledFormFields";
         break;
       case "shortcutShowFormFields":
-        cmdId = "key_ShowFormFields";
+        cmdId = "fhc_key_ShowFormFields";
         break;
       case "shortcutCleanupNow":
-        cmdId = "key_CleanupFormhistoryNow";
+        cmdId = "fhc_key_CleanupFormhistoryNow";
         break;
       case "shortcutSaveThisField":
-        cmdId = "key_SaveThisField";
+        cmdId = "fhc_key_SaveThisField";
         break;
       case "shortcutSaveThisPage":
-        cmdId = "key_SaveThisPage";
+        cmdId = "fhc_key_SaveThisPage";
         break;
     }
     if (cmdId) {
