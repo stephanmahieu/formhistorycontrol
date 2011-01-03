@@ -134,6 +134,9 @@
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Preencher os campos com as entradas mais recentes">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Preencher os campos com as entradas mais frequentemente utilizadas">
 <!ENTITY fhmnuovl.menuitem.clearfields.label "Limpar os campos preenchidos">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Exibir nomes de campos nesta página">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Salvar valor atual para este campo">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Salvar valores para todos os campos">
 <!ENTITY fhmnuovl.menuitem.cleanupnow.label "Fazer limpeza do histórico de formulários agora">
 <!ENTITY fhmnuovl.menuitem.options.label "opções">
 <!ENTITY fhentrydlg.windowtitle "Editar histórico de formulários">
@@ -197,6 +200,17 @@
 <!ENTITY fhprefs.group.warnings.caption "Mostrar alertas">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Avisar antes de apagar apenas um item">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Avisar antes de apagar múltiplos itens">
+<!ENTITY fhprefs.group.historyview.caption "Visualização do histórico">
+<!ENTITY fhprefs.textbox.exclusions.label "Excluir campos de formulário da visualização">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Lista de nomes de campos separados por vírgulas">
+<!ENTITY fhprefs.prefpane.manualsave.label "Salvamento manual">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Use esta opção quando você tem a opção 'Lembrar histórico de formulários' desligada e deseja salvar o histórico de formulários manualmente.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Permita-me salvar histórico de formulário manualmente">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Ativando esta opção irá adicionar atalhos de teclado e itens de menu adicionais a fim de salvar manualmente o histórico de formulários de campos únicos ou múltiplos.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Atalhos de teclado">
+<!ENTITY fhprefs.keybindinginfo.label "Selecionar a caixa de texto da ligação que você deseja alterar e digite a combinação chave desejada. As alterações entram em vigor imediatamente.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Tenha cuidado para não usar combinações de teclas também usadas pelo navegador ou por outras extensões, já que a nova combinação de teclas pode não funcionar ou disparar ações inesperadas.">
+<!ENTITY fhprefs.button.keybindingdisable.label "inibir">
 <!ENTITY fhprefs.prefpane.display.label "Exibir">
 <!ENTITY fhprefs.group.formhistoryitemsview.caption "Visualização de itens do Form History">
 <!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Usar um formato personalizado de data/hora">
@@ -210,6 +224,7 @@
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Ocultar o item do menu Ferramentas">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Ocultar o item do menu de contexto">
 <!ENTITY fhprefs.prefpane.quickfill.label "Preenchimento rápido">
+<!ENTITY fhprefs.quickfillinfo.label "Opcionalmente, marcar todos os campos de entrada que foram preenchidos com o valor mais recente ou mais frequentemente utilizado.">
 <!ENTITY fhprefs.group.quickfill.caption "Indicação de campos de formulário de preenchimento rápido">
 <!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Alterar a cor de fundo">
 <!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Alterar cor da borda">
@@ -221,6 +236,8 @@
 <!ENTITY fhprefs.textbox.csvexportseparator.label "Separador de valores">
 <!ENTITY fhprefs.textbox.csvexportquote.label "Envolver valores com">
 <!ENTITY fhprefs.textbox.csvexportescape.label "adicionar o prefixo">
+<!ENTITY fhprefs.group.configexport.caption "Configuração Importar/Exportar">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Atalhos de teclados para Importar e Exportar">
 <!ENTITY fhprefs.prefpane.cleanup.label "Limpar">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Fazer limpeza ao fechar o navegador">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Fazer limpeza ao fechar uma aba">
@@ -266,3 +283,7 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Exibir histórico">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "b">
 <!ENTITY fhabout.label.description "Descrição">
+<!ENTITY fhabout.label.creator "Criado por">
+<!ENTITY fhabout.label.homepage "Visitar o site">
+<!ENTITY fhabout.label.contributors "Contribuidores">
+<!ENTITY fhabout.label.translators "Tradutores">
