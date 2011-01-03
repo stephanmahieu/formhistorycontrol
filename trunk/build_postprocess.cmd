@@ -18,7 +18,6 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\bg-BG ^
           chrome\locale\hu ^
           chrome\locale\it-IT ^
-          chrome\locale\pt-BR ^
           chrome\locale\ru-RU ^
           chrome\locale\sk-SK ^
           chrome\locale\zh-CN
