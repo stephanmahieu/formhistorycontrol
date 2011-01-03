@@ -148,14 +148,14 @@ const FhcContextMenu = {
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
-        this._disable("cmd_DeleteValueThisField", !isValueInFormHistory);
-        this._disable("cmd_DeleteEntriesThisField", !isInputText);
-        this._disable("cmd_ManageThisField", !isInputText);
-        this._disable("cmd_FillFormFieldsRecent", !hasFields);
-        this._disable("cmd_FillFormFieldsUsed", !hasFields);
-        this._disable("cmd_ClearFilledFormFields", !hasFields);
-        this._disable("cmd_SaveThisField", !isInputText);
-        this._disable("cmd_SaveThisPage", !hasFields);
+        this._disable("fhc_cmd_DeleteValueThisField", !isValueInFormHistory);
+        this._disable("fhc_cmd_DeleteEntriesThisField", !isInputText);
+        this._disable("fhc_cmd_ManageThisField", !isInputText);
+        this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
+        this._disable("fhc_cmd_SaveThisField", !isInputText);
+        this._disable("fhc_cmd_SaveThisPage", !hasFields);
         this._hide("formhistctrl_context_menuitem_savefield", manualSaveDisabled);
         this._hide("formhistctrl_context_menuitem_savepage", manualSaveDisabled);
         break;
@@ -163,20 +163,20 @@ const FhcContextMenu = {
       case "formhistctrl-statusbarmenu-popup":
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
-        this._disable("cmd_FillFormFieldsRecent", !hasFields);
-        this._disable("cmd_FillFormFieldsUsed", !hasFields);
-        this._disable("cmd_ClearFilledFormFields", !hasFields);
-        this._disable("cmd_SaveThisPage", !hasFields);
+        this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
+        this._disable("fhc_cmd_SaveThisPage", !hasFields);
         this._hide("formhistctrl_sbmenuitem_savepage", manualSaveDisabled);
         break;
 
       case "formhistctrl-toolbarmenu-popup":
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
-        this._disable("cmd_FillFormFieldsRecent", !hasFields);
-        this._disable("cmd_FillFormFieldsUsed", !hasFields);
-        this._disable("cmd_ClearFilledFormFields", !hasFields);
-        this._disable("cmd_SaveThisPage", !hasFields);
+        this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
+        this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
+        this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
+        this._disable("fhc_cmd_SaveThisPage", !hasFields);
         this._hide("formhistctrl_tbmenuitem_savepage", manualSaveDisabled);
         break;
     }
@@ -190,14 +190,14 @@ const FhcContextMenu = {
    * the commands in order for keybindings to function all the time.
    */
   contextmenuHide: function() {
-    this._disable("cmd_DeleteValueThisField", false);
-    this._disable("cmd_DeleteEntriesThisField", false);
-    this._disable("cmd_ManageThisField", false);
-    this._disable("cmd_FillFormFieldsRecent", false);
-    this._disable("cmd_FillFormFieldsUsed", false);
-    this._disable("cmd_ClearFilledFormFields", false);
-    this._disable("cmd_SaveThisField", false);
-    this._disable("cmd_SaveThisPage", false);
+    this._disable("fhc_cmd_DeleteValueThisField", false);
+    this._disable("fhc_cmd_DeleteEntriesThisField", false);
+    this._disable("fhc_cmd_ManageThisField", false);
+    this._disable("fhc_cmd_FillFormFieldsRecent", false);
+    this._disable("fhc_cmd_FillFormFieldsUsed", false);
+    this._disable("fhc_cmd_ClearFilledFormFields", false);
+    this._disable("fhc_cmd_SaveThisField", false);
+    this._disable("fhc_cmd_SaveThisPage", false);
   },
 
   /**
