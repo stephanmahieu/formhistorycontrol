@@ -338,6 +338,8 @@ const FhcUtil = {
 
   /**
    * Determine whether or not a DOM element is a text imput element.
+   * New html5 types like search, tel, url, time, week and email are
+   * also considered text types.
    * 
    * @param  element {DOM element}
    * @return {Boolean} whether or not a DOM element is a text imput element
@@ -346,7 +348,13 @@ const FhcUtil = {
     var result = false;
     if (element && element.nodeName) {
       result = (("INPUT" == element.nodeName || "html:input" == element.nodeName)
-                 && "text" == element.type);
+                 && 
+                 ("text" == element.type || "search" == element.type ||
+                  "tel" == element.type  || "url" == element.type    ||
+                  "time" == element.type || "week" == element.type   ||
+                  "email" == element.type
+                 )
+               );
     }
     return result;
   },
@@ -1054,7 +1062,7 @@ const FhcUtil = {
   _addInputTextNames: function(document, inputTags) {
     var tags = document.getElementsByTagName("input");
     for (var ii=0; ii < tags.length; ii++) {
-      if ("text" == tags[ii].type) {
+      if (this.isInputTextElement(tags[ii])) {
         var fldname = (tags[ii].name && tags[ii].name.length>0) ? tags[ii].name : tags[ii].id;
         inputTags.push(fldname);
       }
