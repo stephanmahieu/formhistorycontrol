@@ -46,20 +46,18 @@
 const FhcSearchbarOverlay = {
 
   init: function() {
-    removeEventListener("load", FhcSearchbarOverlay.init, false);
-
     var os = Components.classes["@mozilla.org/xre/app-info;1"]
                .getService(Components.interfaces.nsIXULAppInfo)
                .QueryInterface(Components.interfaces.nsIXULRuntime)
                .OS;
     if (/linux/ig.test(os)) {
-      addEventListener("mousedown", FhcSearchbarOverlay.click, false);
+      addEventListener("mousedown", function(e){FhcSearchbarOverlay.click(e)}, false);
     } else if (/win/ig.test(os)) {
-      addEventListener("click", FhcSearchbarOverlay.click, false);
+      addEventListener("click", function(e){FhcSearchbarOverlay.click(e)}, false);
     } else {
-      addEventListener("click", FhcSearchbarOverlay.click, false);
+      addEventListener("click", function(e){FhcSearchbarOverlay.click(e)}, false);
     }
-    addEventListener("popupshown", FhcSearchbarOverlay.popupshown, false);
+    addEventListener("popupshown", function(e){FhcSearchbarOverlay.popupshown(e)}, false);
   },
 
   click: function(event) {
@@ -116,4 +114,10 @@ const FhcSearchbarOverlay = {
   }
 };
 
-addEventListener("load", FhcSearchbarOverlay.init, false);
+addEventListener("load",
+  function(e){
+    FhcSearchbarOverlay.init(e);
+    removeEventListener("load", arguments.callee, false);    
+  },
+  false
+);

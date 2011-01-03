@@ -830,7 +830,7 @@
   <tooltip id="customDateFormatTip" orient="vertical">
     <label value="&fhpref.tooltiplabel.dateformat.showhelp;"/>
   </tooltip>
-  <tooltip id="customDateFormatHelp" orient="vertical">
+  <tooltip id="customDateFormatHelp" orient="vertical" onclick="FhcPreferences.hideTooltipPopup()">
     <label value="&fhpref.tooltiplabel.dateformat.description;" class="tooltipdescription"/>
     <grid>
       <columns>

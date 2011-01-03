@@ -371,7 +371,8 @@
     <label id="preview-close-tip-label" value="&fhwin.treeview.closecleanuppreview.tooltip;"/>
   </tooltip>
 
-  <tooltip id="notification-tip" orient="vertical">
+  <tooltip id="notification-tip" orient="vertical"
+           onclick="HistoryWindowControl.hideNotificationHelp()">
     <label id="notification-helptitle" value=""/>
     <label id="notification-help1" value=""/>
     <label id="notification-help2" value=""/>

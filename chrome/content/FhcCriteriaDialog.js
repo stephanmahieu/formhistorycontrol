@@ -292,7 +292,6 @@ const FhcCriteriaDialog = {
         //menuItem.setAttribute("autocheck", "false");
         //menuItem.setAttribute("type", "checkbox");
         menuItem.addEventListener("command", function(){var _this = this;FhcCriteriaDialog.onSelectRegExp(_this)}, false);
-        //menuItem.addEventListener("command", HistoryWindowControl.onSelectRegExp, false);
 
         if ("" != regexpData[it].category) {
           menus = regexpMenu.getElementsByTagName("menu");

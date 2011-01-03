@@ -250,8 +250,6 @@ const HistoryWindowControl = {
     } else {
       var anchorElem = document.getElementById("notification-box");
       toolTip.openPopup(anchorElem, "after_pointer", 0, 0, false, false);
-      var _this = this;
-      toolTip.addEventListener("click", _this.hideNotificationHelp, false);
     }
   },
 
@@ -445,7 +443,6 @@ const HistoryWindowControl = {
         menuItem.setAttribute("autocheck", "false");
         menuItem.setAttribute("type", "checkbox");
         menuItem.addEventListener("command", function(){var _this = this;HistoryWindowControl.onSelectRegExp(_this)}, false);
-        //menuItem.addEventListener("command", HistoryWindowControl.onSelectRegExp, false);
 
         if ("" != regexpData[it].category) {
           menus = regexpMenu.getElementsByTagName("menu");

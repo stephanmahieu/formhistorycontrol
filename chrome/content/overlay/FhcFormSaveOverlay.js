@@ -47,11 +47,9 @@ const FhcFormSaveOverlay = {
   eventQueue: [],
 
   init: function() {
-    removeEventListener("load", FhcFormSaveOverlay.init, false);
-
-    addEventListener("submit", FhcFormSaveOverlay.submit, false);
-    addEventListener("reset", FhcFormSaveOverlay.reset, false);
-    addEventListener("keyup", FhcFormSaveOverlay.keyup, false);
+    addEventListener("submit", function(e){FhcFormSaveOverlay.submit(e)}, false);
+    addEventListener("reset", function(e){FhcFormSaveOverlay.reset(e)}, false);
+    addEventListener("keyup", function(e){FhcFormSaveOverlay.keyup(e)}, false);
 
     // dispatch event every 5 seconds
     var timerEvent = {
@@ -81,20 +79,18 @@ const FhcFormSaveOverlay = {
     // only handle displayable chars
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
 
-    var _this = FhcFormSaveOverlay;
-
     var t = event.originalTarget;
     var n = t.nodeName.toLowerCase();
     if ("textarea" == n) {
       //var id = (t.id) ? t.id : t.name;
       //dump("textarea with id: " + id + "\n");
-      _this._contentChanged("textarea", t);
+      this._contentChanged("textarea", t);
     }
     else if ("html" == n) {
       //dump("keyup from html\n");
       var p = t.parentNode;
       if (p && "on" == p.designMode) {
-        _this._contentChanged("html", p);
+        this._contentChanged("html", p);
       }
     }
     else if ("body" == n) {
@@ -102,7 +98,7 @@ const FhcFormSaveOverlay = {
       //dump("keyup from body\n");
       var e = t.ownerDocument.activeElement;
       if ("true" == e.contentEditable) {
-        _this._contentChanged("iframe", e);
+        this._contentChanged("iframe", e);
       }
     }
   },
@@ -188,5 +184,17 @@ const FhcFormSaveOverlay = {
   }
 };
 
-addEventListener("load", FhcFormSaveOverlay.init, false);
-addEventListener("unload", FhcFormSaveOverlay.destroy, false);
+addEventListener("load",
+  function(e) {
+    FhcFormSaveOverlay.init(e);
+    removeEventListener("load", arguments.callee, false);
+  },
+  false
+);
+
+addEventListener("unload",
+  function(e) {
+    FhcFormSaveOverlay.destroy(e);
+  },
+  false
+);
