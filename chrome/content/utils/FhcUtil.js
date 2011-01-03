@@ -349,10 +349,14 @@ const FhcUtil = {
     if (element && element.nodeName) {
       result = (("INPUT" == element.nodeName || "html:input" == element.nodeName)
                  && 
-                 ("text" == element.type || "search" == element.type ||
-                  "tel" == element.type  || "url" == element.type    ||
-                  "time" == element.type || "week" == element.type   ||
-                  "email" == element.type
+                 ("text" == element.type   || "search" == element.type   ||
+                  "tel" == element.type    || "url" == element.type      ||
+                  "email" == element.type  || "color" == element.type    ||
+                  "date" == element.type   || "datetime" == element.type ||
+                  "datetime-local" == element.type ||
+                  "number" == element.type ||
+                  "month" == element.type  || "week" == element.type     ||
+                  "time" == element.type   || "range" == element.type
                  )
                );
     }
