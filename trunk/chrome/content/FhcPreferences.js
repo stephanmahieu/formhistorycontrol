@@ -273,8 +273,6 @@ const FhcPreferences = {
     } else {
       var anchorElem = document.getElementById("customDateBox");
       toolTip.openPopup(anchorElem, "before_start", 30, 0, false, false);
-      var _this = this;
-      toolTip.addEventListener("click", _this.hideTooltipPopup, false);
     }
   },
 
