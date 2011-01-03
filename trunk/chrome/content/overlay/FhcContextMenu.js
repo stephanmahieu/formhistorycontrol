@@ -144,7 +144,7 @@ const FhcContextMenu = {
 
       case "contentAreaContextMenu":
         var inputField = document.commandDispatcher.focusedElement;
-        var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
+        var isInputText = FhcUtil.isInputTextElement(inputField);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
@@ -206,7 +206,7 @@ const FhcContextMenu = {
    */
   menuDeleteValueThisField: function() {
     var inputField = document.commandDispatcher.focusedElement;
-    var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
+    var isInputText = FhcUtil.isInputTextElement(inputField);
     var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
     if (!isValueInFormHistory) {
       return;
@@ -245,7 +245,7 @@ const FhcContextMenu = {
    */
   menuDeleteEntriesThisField: function() {
     var inputField = document.commandDispatcher.focusedElement;
-    var isInputText = (inputField != null && "INPUT" == inputField.nodeName && "text" == inputField.type);
+    var isInputText = FhcUtil.isInputTextElement(inputField);
     if (!isInputText) {
       return;
     }
