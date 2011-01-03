@@ -1,5 +1,5 @@
 User:
-- Available locales English, Czech, German, Dutch, French, Swedish, Danish and Spanish
+- Available locales English, Czech, German, Dutch, French, Swedish, Danish, Spanish and Portugese.
 - Added preference-option to exclude fieldnames from view
 - Added global keybindings for most menu-items in (right-click-)contextmenu
 - Added (preference-)option to Export/Import keybindings (default yes)
@@ -18,6 +18,8 @@ Technical:
 - Fixed SeaMonkey bug: undefined gBrowser.tabs
 - Fixed this.treeBox.view.selection warning in FF4
 - Re-use existing formhistory dbconnection from browser
+- Added "fhc_" namespace to element IDs in overlays (request by mozilla reviewer)
+- Fixed "leak symbols into global scope" in some event listeners (request by mozilla reviewer)
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
