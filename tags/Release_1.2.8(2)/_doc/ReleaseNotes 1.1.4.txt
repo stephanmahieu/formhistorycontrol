@@ -1,0 +1,17 @@
+- locales
+  not translated completely yet: hu-HU, zh-CN
+  changed fr-FR into fr
+  corrected translations: de-DE, nl-NL, pt-BR, ru-RU (formhistory.properties contained \u and utf-8 encoded char's)
+
+- xxx.js
+  bla bla
+
+COMMENTS STILL TO DO:
+- FhcDbHandler.js
+- FhcUtil.js
+- FhcXmlHandler.js
+- HistoryTreeView.js
+- HistoryWindowControl.js
+
+NOT DOING THESE (self explanatory):
+- FhcPreferenceHandler
