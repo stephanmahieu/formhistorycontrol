@@ -1,0 +1,8 @@
+User:
+- 
+
+Technical:
+- Create the formhistory database when it does not exist yet (SeaMonkey)
+
+ToDo:
+- Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
