@@ -1,5 +1,5 @@
 User:
-- 
+- Support for new html5 (text) input fields
 
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
