@@ -1462,7 +1462,7 @@ const HistoryWindowControl = {
    *        the id of the textbox conaining the RegExp
    *
    * @param isRegExp {Boolean}
-   *        wether or not to evaluate the textboxvalue as a RegExp
+   *        whether or not to evaluate the textboxvalue as a RegExp
    *
    */
   _checkRegExpIfAny: function (regexElemId, isRegExp) {

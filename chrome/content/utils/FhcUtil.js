@@ -665,9 +665,9 @@ const FhcUtil = {
   },
 
   /**
-   * Detect wether or not the browser is in private-browsing mode.
+   * Detect whether or not the browser is in private-browsing mode.
    *
-   * @return {boolean} wether or not in private-browsing mode.
+   * @return {boolean} whether or not in private-browsing mode.
    */
   inPrivateBrowsingMode: function() {
     var isPrivate = false;
@@ -1131,10 +1131,10 @@ const FhcUtil = {
   },
 
   /**
-   * Test wether the element is displayed according to its display property.
+   * Test whether the element is displayed according to its display property.
    *
    * @param  elem {DOM element}
-   * @return {boolean} wether or not the element is displayed
+   * @return {boolean} whether or not the element is displayed
    */
   _isDisplayed: function(elem) {
     var display = this._getEffectiveStyle(elem, "display");
