@@ -1729,13 +1729,7 @@ const HistoryWindowControl = {
     this._updateCountLabel();
 
     // add place info
-    var geckoVer = FhcUtil.getGeckoVersion();
-    if (geckoVer[0] > 1) {
-      // background threads broken in gecko 2.0, use mainthread
-      this._fillPlaces();
-    } else {
-      this._fillPlacesAsync();
-    }
+    this._fillPlaces();
   },
 
   /**
@@ -1748,69 +1742,6 @@ const HistoryWindowControl = {
     this.dbHandler.addVisitedPlaceToEntries(entries, true);
     //var end = new Date();
     //dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
-  },
-
-  /**
-   * Add place info to all formhistory entries using a background thread because
-   * querying places can be slow.
-   * <p>
-   * Only works upto FF4.0b6pre and SM2.1 see also: <br/>
-   * - https://bugzilla.mozilla.org/show_bug.cgi?id=608142 <br/>
-   * - https://forums.mozilla.org/addons/viewtopic.php?f=21&t=1437&start=75#p5433 <br/>
-   * <p>
-   * <i>ChromeWorker is not an alternative for threads because it is for
-   * instance not (yet) possible to query the database from the worker.</i>
-   */
-  _fillPlacesAsync: function() {
-    var entries = this.treeView.getAll();
-
-    var workingThread  = {
-      run: function() {
-        //XXX: remove timing dumps
-        //var start = new Date();
-        try {
-          HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries, false);
-        } finally {
-          //var end = new Date();
-          //dump("Get related placed (async) took " + (end.getTime() - start.getTime()) + " ms\n\n");
-          // report back to main thread (only there we may do GUI stuff)
-          main.dispatch(mainThread, main.DISPATCH_NORMAL);
-        }
-      },
-      QueryInterface: function(iid) {
-        if (iid.equals(Components.interfaces.nsIRunnable) ||
-            iid.equals(Components.interfaces.nsISupports)) {
-            return this;
-        }
-        throw Components.results.NS_ERROR_NO_INTERFACE;
-      }
-    };
-
-    var mainThread  = {
-      run: function() {
-        try {
-          // workingThread completed, update view.
-          HistoryWindowControl.treeView.applyFilter();
-        } catch(err) {
-          Components.utils.reportError(err);
-        }
-      },
-      QueryInterface: function(iid) {
-        if (iid.equals(Components.interfaces.nsIRunnable) ||
-            iid.equals(Components.interfaces.nsISupports)) {
-                return this;
-        }
-        throw Components.results.NS_ERROR_NO_INTERFACE;
-      }
-    };
-
-    var background = Components.classes["@mozilla.org/thread-manager;1"]
-                      .getService(Components.interfaces.nsIThreadManager)
-                      .newThread(0);
-    var main = Components.classes["@mozilla.org/thread-manager;1"]
-                .getService().mainThread;
-
-    background.dispatch(workingThread, background.DISPATCH_NORMAL);
   },
 
   // If no of items in db and treeview are out of sync, repopulate view
