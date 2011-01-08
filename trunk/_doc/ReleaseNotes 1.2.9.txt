@@ -1,8 +1,10 @@
 User:
-- Support for new html5 (text) input fields
+- Available locales 
+- Added support for new html5 text input fields
 
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
+- Rewritten FhcSearchbarOverlay.js (simpler)
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
