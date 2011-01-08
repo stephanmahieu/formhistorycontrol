@@ -825,7 +825,7 @@ const FhcRegexpView = {
 
   /**
    * Restore selection(s) from the data itself, very fast because
-   * whether or not data is selected is stored inside the data itself.
+   * wether or not data is selected is stored inside the data itself.
    * Only works when the data itself is not changed between save & restore!
    */
   _restoreSelectionFast: function() {

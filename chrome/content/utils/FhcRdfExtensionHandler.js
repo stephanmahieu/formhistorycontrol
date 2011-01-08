@@ -169,8 +169,7 @@ FhcRdfExtensionHandler.prototype = {
       var thread = Components.classes["@mozilla.org/thread-manager;1"]
                     .getService(Components.interfaces.nsIThreadManager)
                     .currentThread;
-      var start = new Date();
-      while (FhcRdfExtensionHandler.fhcAddon == null && ((new Date())-start) < 750) {
+      while (FhcRdfExtensionHandler.fhcAddon == null) {
         thread.processNextEvent(true);
       }
     }

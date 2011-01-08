@@ -338,8 +338,6 @@ const FhcUtil = {
 
   /**
    * Determine whether or not a DOM element is a text imput element.
-   * New html5 types like search, tel, url, time, week and email are
-   * also considered text types.
    * 
    * @param  element {DOM element}
    * @return {Boolean} whether or not a DOM element is a text imput element
@@ -348,17 +346,7 @@ const FhcUtil = {
     var result = false;
     if (element && element.nodeName) {
       result = (("INPUT" == element.nodeName || "html:input" == element.nodeName)
-                 && 
-                 ("text" == element.type   || "search" == element.type   ||
-                  "tel" == element.type    || "url" == element.type      ||
-                  "email" == element.type  || "color" == element.type    ||
-                  "date" == element.type   || "datetime" == element.type ||
-                  "datetime-local" == element.type ||
-                  "number" == element.type ||
-                  "month" == element.type  || "week" == element.type     ||
-                  "time" == element.type   || "range" == element.type
-                 )
-               );
+                 && "text" == element.type);
     }
     return result;
   },
@@ -665,9 +653,9 @@ const FhcUtil = {
   },
 
   /**
-   * Detect whether or not the browser is in private-browsing mode.
+   * Detect wether or not the browser is in private-browsing mode.
    *
-   * @return {boolean} whether or not in private-browsing mode.
+   * @return {boolean} wether or not in private-browsing mode.
    */
   inPrivateBrowsingMode: function() {
     var isPrivate = false;
@@ -1066,7 +1054,7 @@ const FhcUtil = {
   _addInputTextNames: function(document, inputTags) {
     var tags = document.getElementsByTagName("input");
     for (var ii=0; ii < tags.length; ii++) {
-      if (this.isInputTextElement(tags[ii])) {
+      if ("text" == tags[ii].type) {
         var fldname = (tags[ii].name && tags[ii].name.length>0) ? tags[ii].name : tags[ii].id;
         inputTags.push(fldname);
       }
@@ -1131,10 +1119,10 @@ const FhcUtil = {
   },
 
   /**
-   * Test whether the element is displayed according to its display property.
+   * Test wether the element is displayed according to its display property.
    *
    * @param  elem {DOM element}
-   * @return {boolean} whether or not the element is displayed
+   * @return {boolean} wether or not the element is displayed
    */
   _isDisplayed: function(elem) {
     var display = this._getEffectiveStyle(elem, "display");

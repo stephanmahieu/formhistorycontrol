@@ -14,7 +14,7 @@
  * The Original Code is FhcSearchbarOverlay.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2011
+ * Portions created by the Initial Developer are Copyright (C) 2009
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -46,36 +46,70 @@
 const FhcSearchbarOverlay = {
 
   init: function() {
-    var searchbar = document.getElementById("searchbar");
-    if (!searchbar) return;
+    var os = Components.classes["@mozilla.org/xre/app-info;1"]
+               .getService(Components.interfaces.nsIXULAppInfo)
+               .QueryInterface(Components.interfaces.nsIXULRuntime)
+               .OS;
+    if (/linux/ig.test(os)) {
+      addEventListener("mousedown", function(e){FhcSearchbarOverlay.click(e)}, false);
+    } else if (/win/ig.test(os)) {
+      addEventListener("click", function(e){FhcSearchbarOverlay.click(e)}, false);
+    } else {
+      addEventListener("click", function(e){FhcSearchbarOverlay.click(e)}, false);
+    }
+    addEventListener("popupshown", function(e){FhcSearchbarOverlay.popupshown(e)}, false);
+  },
 
-    var searchbarTextbox = document.getAnonymousElementByAttribute(
-                                searchbar, "anonid", "searchbar-textbox");
-    searchbarTextbox.addEventListener("popupshown",
-      function(e){FhcSearchbarOverlay.popupshown(e)}, false
-    );
+  click: function(event) {
+    if(event.button == 0) {
+      if ("fhc-context-menuitem" == event.originalTarget.getAttribute("anonid")) {
+        FhcShowDialog.doShowFormHistoryControl({searchbarField:true});
+      }
+    }
   },
 
   popupshown: function(event) {
-    var menu = event.originalTarget;
-    if (!menu.getAttribute("fhc_menu_added")) {
-      var bundle = new FhcBundle();
-      var menuLabel = bundle.getString("searchbarfield.menuitem.managethis.label");
-      bundle = null;
+    var t = event.originalTarget;
+    var n = t.nodeName;
 
-      var sep = menu.ownerDocument.createElement("menuseparator");
-      menu.appendChild(sep);
-      var mi = menu.ownerDocument.createElement("menuitem");
-      mi.setAttribute("anonid", "fhc-context-menuitem");
-      mi.setAttribute("label", menuLabel);
-      mi.setAttribute("hidden", false);
-      mi.setAttribute("class", "menuitem-iconic fh_menuitem_managethisfield");
-      mi.setAttribute("tooltiptext", "Form History Control");
-      mi.onclick = function(e){
-        FhcShowDialog.doShowFormHistoryControl({searchField:true});
-      };
-      menu.appendChild(mi);
-      menu.setAttribute("fhc_menu_added", true);
+    if (!/popup/.test(t.nodeName)) {
+      return;
+    }
+    if ((n == "xul:menupopup") || (n == "popup") || (n == "xul:popup") || (n == "menupopup")) {
+      if ((t.getAttribute("type")) && (t.getAttribute("type") != "menu")) {
+        return;
+      }
+
+      // only continue when searchbar is the parent
+      if (t.parentNode && t.parentNode.parentNode && t.parentNode.parentNode.parentNode && t.parentNode.parentNode.parentNode.parentNode) {
+        var p4 = t.parentNode.parentNode.parentNode.parentNode;
+        if (p4.id != "searchbar") {
+          return;
+        }
+      } else {
+        return;
+      }
+
+      if (!t.getAttribute("fhc_menu_added")) {
+        var bundle = new FhcBundle();
+        var menuLabel = bundle.getString("searchbarfield.menuitem.managethis.label");
+        bundle = null;
+
+        var s = t.ownerDocument.createElement("menuseparator");
+        t.appendChild(s);
+        var m = t.ownerDocument.createElement("menuitem");
+        m.setAttribute("anonid", "fhc-context-menuitem");
+        m.setAttribute("label", menuLabel);
+        m.setAttribute("hidden", false);
+        m.setAttribute("class", "menuitem-iconic fh_menuitem_managethisfield");
+        m.setAttribute("tooltiptext", "Form History Control");
+        t.appendChild(m);
+        t.setAttribute("fhc_menu_added", true);
+
+        // Do not remove listener: after customize toolbar (via right-click)
+        // this menuitem is destroyed and needs to be added again.
+        //removeEventListener("popupshown", FhcSearchbarOverlay.popupshown, false);
+      }
     }
   }
 };

@@ -49,6 +49,11 @@ function FhcDbHandler() {
   this.getFormhistoryFile = function() {
     var sqlfile = this.getProfileDir();
     sqlfile.append("formhistory.sqlite");
+    if (!sqlfile.exists()) {
+      // new since FF 3.0, make sure not to create an empty
+      // file which might interfere with future updates
+      sqlfile.append(".dummy");
+    }
     return sqlfile;
   };
 
@@ -94,7 +99,7 @@ FhcDbHandler.prototype = {
   /**
    * Test if the database directory is readable/writable.
    *
-   * @return {boolean} whether or not the db directory is okay.
+   * @return {boolean} wether or not the db directory is okay.
    */
   databaseDirOkay: function() {
     var dir =  this.formHistoryFile.parent;
@@ -103,34 +108,13 @@ FhcDbHandler.prototype = {
 
   /**
    * Test if the formhistory DB has been created and is ready for use.
+   * If the filename ends with .dummy, it is not created by the browser yet.
    * (SeaMonkey creates this file not by default but on first use)
    *
-   * @return {boolean} whether or not the formhistory db is okay.
+   * @return {boolean} wether or not the formhistory db is okay.
    */
   formhistoryDbReady: function() {
-    if (!this.formHistoryFile.exists()) {
-      // try to force creation of database
-      try {
-        var dummy = "dummy~";
-        var fhcDB = Components.classes["@mozilla.org/satchel/form-history;1"]
-              .getService(Components.interfaces.nsIFormHistory2);
-        fhcDB.addEntry(dummy, dummy);
-
-        // wait till db has been created or more than 500ms elapsed
-        var main = Components.classes["@mozilla.org/thread-manager;1"]
-                   .getService().mainThread;
-        var start = new Date();
-        while(!this.formHistoryFile.exists() && ((new Date())-start) < 500) {
-          main.processNextEvent(true);
-        }
-        // cleanup
-        fhcDB.removeEntry(dummy, dummy);
-      }
-      finally {
-        return this.formHistoryFile.exists();
-      }
-    }
-    return true;
+    return (!this.formHistoryFile.leafName.match(/\.dummy$/));
   },
 
   /**
@@ -1546,7 +1530,7 @@ FhcDbHandler.prototype = {
    * Open a database connection to the cleanup db.
    *
    * @param  transactional (boolean) [Optional]
-   *         whether or not to start a transaction, default false (no transaction)
+   *         wether or not to start a transaction, default false (no transaction)
    *
    * @return {mozIStorageConnection}
    *         a databaseconnection to the database, null if connection failed
@@ -1631,7 +1615,7 @@ FhcDbHandler.prototype = {
    * Get the global state of the cleanup database.
    *
    * @return {boolean}
-   *         whether or not the database is ready to be used.
+   *         wether or not the database is ready to be used.
    */
   _hasCheckedCleanupDB: function() {
     var globalState = Application.storage.get("FhcCleanupDBSate", false);
@@ -1735,7 +1719,7 @@ FhcDbHandler.prototype = {
    * Open an existing database connection to the formhistory db.
    *
    * @param  transactional (boolean) [Optional]
-   *         whether or not to start a transaction, default false (no transaction)
+   *         wether or not to start a transaction, default false (no transaction)
    *
    * @return {mozIStorageConnection}
    *         a databaseconnection to the database, null if connection failed
