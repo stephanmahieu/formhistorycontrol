@@ -209,6 +209,10 @@ FhcPreferenceHandler.prototype = {
     return this.prefService.getBoolPref("manualsave");
   },
 
+  isManageHistoryByFHCEnabled: function() {
+    return this.prefService.getBoolPref("manageFormhistoryByFHC");
+  },
+
   setKeybindingValue: function(id, stringData) {
     return this.prefService.setComplexValue(
       "keybinding." + id,

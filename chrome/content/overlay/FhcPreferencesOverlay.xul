@@ -12,14 +12,30 @@
   </stringbundleset>
 
   <prefpane id="panePrivacy">
+    <preferences>
+      <preference id="extensions.formhistory.manageFormhistoryByFHC"
+                  name="extensions.formhistory.manageFormhistoryByFHC"
+                  type="bool" />
+    </preferences>
     <groupbox id="historyGroup">
-      <hbox insertafter="rememberForms" id="preferencesFormHistoryControlBox" hidden="true">
-        <button id="preferencesFormHistoryControlButton"
-                label="&fhprefovl.privacy.button.showhistory.label;..."
-                accesskey="&fhprefovl.privacy.button.showhistory.accesskey;"
-                hidden="false"
-                oncommand="FhcShowDialog.doShowFormHistoryControl();" />
-      </hbox>
+      <vbox insertafter="rememberForms" id="preferencesFormHistoryControlBox" hidden="true">
+        <hbox id="preferencesFormHistoryControlBoxInnerHbox">
+          <button id="preferencesFormHistoryControlButton"
+                  label="&fhprefovl.privacy.button.showhistory.label;..."
+                  accesskey="&fhprefovl.privacy.button.showhistory.accesskey;"
+                  oncommand="FhcShowDialog.doShowFormHistoryControl();" />
+        </hbox>
+        <hbox>
+          <checkbox class="indent" flex="1" style="padding-top:0"
+                    id="preferencesFormHistoryControlCheckboxManage"
+                    preference="extensions.formhistory.manageFormhistoryByFHC"
+                    label="Let Form History Control manage form history"
+                    tooltiptext="Whether or not to save form history is controlled by the Form History Control add-on"/>
+          <button id="preferencesFormHistoryControlSettingsButton"
+                  label="Remember options..."
+                  oncommand="alert('not implemented')" />
+        </hbox>
+      </vbox>
     </groupbox>
   </prefpane>
 </overlay>

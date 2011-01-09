@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd">
+
+<overlay id="formhistorySeaMonkeyPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript" src="chrome://formhistory/content/overlay/FhcSeaMonkeyPreferencesOverlay.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcShowDialog.js" />
+  
+  <stringbundleset id="stringbundleset">
+    <stringbundle id="formhistory.stringbundle" src="chrome://formhistory/locale/formhistory.properties"/>
+  </stringbundleset>
+
+  <prefpane id="history_pane">
+    <preferences>
+      <preference id="extensions.formhistory.manageFormhistoryByFHC"
+                  name="extensions.formhistory.manageFormhistoryByFHC"
+                  type="bool" />
+    </preferences>
+    <vbox id="preferencesFormHistoryControlBox" hidden="true">
+      <hbox id="preferencesFormHistoryControlBoxInnerHbox">
+        <vbox id="preferencesFormHistoryControlButtonBox">
+          <spacer/>
+          <button id="preferencesFormHistoryControlButton" flex="0"
+                  label="&fhprefovl.privacy.button.showhistory.label;"
+                  accesskey="&fhprefovl.privacy.button.showhistory.accesskey;"
+                  oncommand="FhcShowDialog.doShowFormHistoryControl();" />
+        </vbox>
+      </hbox>
+      <hbox>
+        <checkbox flex="1" class="indent"
+                  id="preferencesFormHistoryControlCheckboxManage"
+                  preference="extensions.formhistory.manageFormhistoryByFHC"
+                  label="Let Form History Control manage form history"
+                  tooltiptext="Whether or not to save form history is controlled by the Form History Control add-on"/>
+        <vbox>
+          <spacer/>
+          <button id="preferencesFormHistoryControlSettingsButton"
+                  label="Settings"
+                  oncommand="alert('not implemented')" />
+          <spacer/>
+        </vbox>
+      </hbox>
+    </vbox>
+  </prefpane>
+</overlay>

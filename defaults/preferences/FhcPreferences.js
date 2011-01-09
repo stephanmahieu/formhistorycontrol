@@ -40,3 +40,4 @@ pref("extensions.formhistory.keybinding.shortcutShowFormFields", "");
 pref("extensions.formhistory.keybinding.shortcutCleanupNow", "");
 pref("extensions.formhistory.keybinding.shortcutSaveThisField", "");
 pref("extensions.formhistory.keybinding.shortcutSaveThisPage", "");
+pref("extensions.formhistory.manageFormhistoryByFHC", false);

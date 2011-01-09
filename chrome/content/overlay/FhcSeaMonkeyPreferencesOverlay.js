@@ -14,7 +14,7 @@
  * The Original Code is FhcPreferenceOverlay.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2009
+ * Portions created by the Initial Developer are Copyright (C) 2011
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -36,20 +36,25 @@
 
 
 /**
- * FhcPreferencesOverlay
+ * FhcSeaMonkeyPreferencesOverlay
  *
  * Handler for the preference overlay (adds a button)
  *
  * Dependencies: -
  */
-const FhcPreferencesOverlay = {
+const FhcSeaMonkeyPreferencesOverlay = {
   
   // implementation of EventListener Interface for listening to events
   handleEvent: function(aEvent) {
     switch(aEvent.type) {
-      // have to use select, load will not fire if privacy tab is not active in preferences dialog
+      // have to use select, load will not fire if treeitem is not yet selected
       case "select":
-        this._addFormHistoryButton();
+        var tree = document.getElementById("prefsTree");
+        var selectedTreeItem = tree.contentView.getItemAtIndex(tree.currentIndex);
+
+        if ("historyItem" == selectedTreeItem.id) {
+          this._addFormHistoryButton();
+        }
         break;
     }
   },
@@ -63,7 +68,7 @@ const FhcPreferencesOverlay = {
   },
 
   _initControls: function() {
-    var rememberFormsCheckbox = document.getElementById("rememberForms");
+    var rememberFormsCheckbox = document.getElementById("formfillEnable");
     var manageCheckbox = document.getElementById("preferencesFormHistoryControlCheckboxManage");
     var settingsButton = document.getElementById("preferencesFormHistoryControlSettingsButton");
 
@@ -73,44 +78,52 @@ const FhcPreferencesOverlay = {
 
   // Add a button to the privacy pane after the rememberForms checkbox
   _addFormHistoryButton: function() {
-    var rememberFormsCheckbox = document.getElementById("rememberForms");
+    if (document.getElementById("formfillEnable") == null) {
+      // wait till history panel has been loaded
+      var main = Components.classes["@mozilla.org/thread-manager;1"]
+                 .getService().mainThread;
+      var start = new Date();
+      while(document.getElementById("formfillEnable") == null && ((new Date())-start) < 500) {
+        main.processNextEvent(true);
+      }
+    }
+
+    var rememberFormsCheckbox = document.getElementById("formfillEnable");
     var newBox = document.getElementById("preferencesFormHistoryControlBox");
-    
-    // add button once (select may occur multiple times,
     if (rememberFormsCheckbox != null && newBox != null) {
 
       var historyGroup = rememberFormsCheckbox.parentNode;
-      var formhistButton = document.getElementById("preferencesFormHistoryControlButton");
-      var innerHbox = document.getElementById("preferencesFormHistoryControlBoxInnerHbox");
+      var newHBox =  document.getElementById("preferencesFormHistoryControlBoxInnerHbox");
+      var formhistButtonBox = document.getElementById("preferencesFormHistoryControlButtonBox");
       var manageCheckbox = document.getElementById("preferencesFormHistoryControlCheckboxManage");
 
-      // move the box into the desired position and unhide
+      // move the new box into the desired position and unhide
       newBox.setAttribute("hidden", false);
       newBox.parentNode.removeChild(newBox);
       historyGroup.insertBefore(newBox, rememberFormsCheckbox);
 
-      // move existing checkbox into the new box before the button
+      // move the existing checkbox into the new box before the button
       historyGroup.removeChild(rememberFormsCheckbox);
       rememberFormsCheckbox.setAttribute("flex", "1");
-      innerHbox.insertBefore(rememberFormsCheckbox, formhistButton);
+      newHBox.insertBefore(rememberFormsCheckbox, formhistButtonBox);
 
       // initialize the controls
       this._initControls();
 
       rememberFormsCheckbox.addEventListener("click",
-        function(e){FhcPreferencesOverlay._onRememberFormsClick();},
+        function(e){FhcSeaMonkeyPreferencesOverlay._onRememberFormsClick();},
         false
       );
       manageCheckbox.addEventListener("click",
-        function(e){FhcPreferencesOverlay._onManageFormsClick();},
+        function(e){FhcSeaMonkeyPreferencesOverlay._onManageFormsClick();},
         false
       );
 
       // eventlistener no longer needed
-      removeEventListener("select", FhcPreferencesOverlay, false);
+      removeEventListener("select", FhcSeaMonkeyPreferencesOverlay, false);
     }
   }
 }
 
 // Implement the handleEvent() method for this to work
-window.addEventListener("select", FhcPreferencesOverlay, false);
+addEventListener("select", FhcSeaMonkeyPreferencesOverlay, false);
