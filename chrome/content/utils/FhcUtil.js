@@ -374,10 +374,13 @@ const FhcUtil = {
    */
   isInputInLoginManagedForm: function(document, inputElm) {
     var insideForm = false;
-    
-    var parentElm = document.getElementById(inputElm.id);
+    var parentElm = null;
+    if (inputElm.id) {
+      parentElm = document.getElementById(inputElm.id);
+    }
     if (parentElm == null) {
-      parentElm = document.getElementByName(inputElm.name);
+      var elms = document.getElementsByName(inputElm.name);
+      if (elms && elms.size > 0) parentElm = elms[0];
     }
     while(parentElm && !insideForm) {
       parentElm = parentElm.parentNode;
