@@ -85,7 +85,7 @@ const FhcManageFormHistoryOverlay = {
    *
    */
   processNewURL: function(aURI) {
-    if (aURI.spec == this.oldURL)
+    if (aURI.spec == "about:blank" || aURI.spec == this.oldURL)
       return;
     this.oldURL = aURI.spec;
     
