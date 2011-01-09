@@ -78,6 +78,7 @@ const FhcBrowserListener = {
     switch(aEvent.type) {
       case "load":
         gBrowser.tabContainer.addEventListener("TabClose", FhcBrowserListener, false);
+        window.removeEventListener("load", FhcBrowserListener, false);
         break;
   
       case "unload":
@@ -85,6 +86,7 @@ const FhcBrowserListener = {
         if (this.prefHandler.isCleanupOnShutdown()) {
           this.cleanupFormHistory();
         }
+        window.removeEventListener("unload", FhcBrowserListener, false);
         this.destroy();
         break;
 
