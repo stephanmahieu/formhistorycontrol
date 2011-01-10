@@ -5,6 +5,20 @@ toolbar[iconsize="small"] #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon.png');
 }
 
+#formhistctrl-statusbarmenu {
+  list-style-image: url('fh_icon.png')
+}
+#formhistctrl-statusbarmenu[savestate='nosave'] {
+  list-style-image: url('fh_icon_nosave.png')
+}
+#formhistctrl-statusbarmenu[savestate='dosave'] {
+  list-style-image: url('fh_icon_dosave.png')
+}
+#formhistctrl-statusbarmenu[savestate='neversave'] {
+  list-style-image: url('fh_icon_neversave.png')
+}
+
+
 .fh_menu_formhistory         {list-style-image: url('fh_icon.png')}
 
 .fh_menuitem_manager         {list-style-image: url('manage.png')}

@@ -105,7 +105,7 @@
   
   <statusbar id="status-bar">
     <statusbarpanel id="formhistctrl-statusbarmenu"
-                    class="statusbarpanel-menu-iconic fh_menu_formhistory"
+                    class="statusbarpanel-menu-iconic"
                     tooltiptext="&fhmnuovl.menuitem.manager.label;"
                     contextMenu="statusbarFhcRightClickMenu"
                     context=""
