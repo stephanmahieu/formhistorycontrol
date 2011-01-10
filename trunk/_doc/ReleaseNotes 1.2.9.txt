@@ -1,5 +1,5 @@
 User:
-- Available locales 
+- Available locales (+Russian)
 - Added support for new html5 text input fields
 
 Technical:

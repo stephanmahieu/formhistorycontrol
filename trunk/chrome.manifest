@@ -24,7 +24,6 @@ overlay chrome://communicator/content/pref/pref-history.xul chrome://formhistory
 #locale formhistory bg-BG chrome/locale/bg-BG/
 #locale formhistory hu    chrome/locale/hu/
 #locale formhistory it-IT chrome/locale/it-IT/
-#locale formhistory ru-RU chrome/locale/ru-RU/
 #locale formhistory sk-SK chrome/locale/sk-SK/
 #locale formhistory zh-CN chrome/locale/zh-CN/
 #Complete locales
@@ -36,4 +35,5 @@ locale formhistory es-ES chrome/locale/es-ES/
 locale formhistory fr    chrome/locale/fr/
 locale formhistory nl    chrome/locale/nl/
 locale formhistory pt-BR chrome/locale/pt-BR/
+locale formhistory ru    chrome/locale/ru/
 locale formhistory sv-SE chrome/locale/sv-SE/
