@@ -130,7 +130,7 @@ const FhcManageFormHistoryOverlay = {
    */
   onFormSubmit: function() {
     dump("\n=== onFormSubmit ===\n");
-    if (this.prefHandler.isManageHistoryByFHCEnabled()) {
+    if (this.prefHandler.isManageHistoryByFHCEnabled() && !FhcUtil.inPrivateBrowsingMode()) {
       dump("- ManageByFHC is enabled.\n");
       var URI = gBrowser.selectedBrowser.currentURI;
 
@@ -160,25 +160,30 @@ const FhcManageFormHistoryOverlay = {
     dump("=== setStatusIcon ===\n");
     var URI = gBrowser.selectedBrowser.currentURI;
     var sbMenu = document.getElementById("formhistctrl-statusbarmenu");
+    var tbMenu = document.getElementById("formhistctrl-toolbarbutton");
 
     dump("- URL current tab = [" + URI.spec + "]\n");
-    if (!this.prefHandler.isGlobalRememberFormEntriesActive()) {
+    if (!this.prefHandler.isGlobalRememberFormEntriesActive() || FhcUtil.inPrivateBrowsingMode()) {
       dump("- Remember formhistory is globally disabled.\n");
       sbMenu.setAttribute("savestate", "neversave");
+      tbMenu.setAttribute("savestate", "neversave");
     }
     else if (this.prefHandler.isManageHistoryByFHCEnabled() && !(URI.spec == "about:blank")) {
       dump("- ManageByFHC is enabled.\n");
       //TODO check if formfill for URI is enabled or disabled
       if (/com/ig.test(URI.spec)) {
         sbMenu.setAttribute("savestate", "nosave");
+        tbMenu.setAttribute("savestate", "nosave");
       } else {
         sbMenu.setAttribute("savestate", "dosave");
+        tbMenu.setAttribute("savestate", "dosave");
       }
     }
     else {
       dump("- Remember formhistory globally enabled.\n");
       // default icon
       sbMenu.removeAttribute("savestate");
+      tbMenu.removeAttribute("savestate");
     }
   },
 
