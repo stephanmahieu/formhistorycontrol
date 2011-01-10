@@ -78,6 +78,20 @@
 		</em:localized>
 		<em:localized>
 			<Description>
+				<em:locale>pt-BR</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>Gerenciar o histórico de formulários (visualizar, editar, apagar, limpar, exportar/importar)</em:description>
+			</Description>
+		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>ru</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>Управление записями истории форм (просмотр, редактирование, удаление, экспорт/импорт)</em:description>
+			</Description>
+		</em:localized>
+		<em:localized>
+			<Description>
 				<em:locale>sv-SE</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Hantera formulärhistorik (visa, redigera, ta bort, sanera, exportera/importera)</em:description>
@@ -104,20 +118,6 @@
 				<em:locale>it-IT</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Gestione della cronologia moduli (visualizzazione, modifica, cancellazione, pulizia, esportazione, importazione)</em:description>
-			</Description>
-		</em:localized>
-		<em:localized>
-			<Description>
-				<em:locale>pt-BR</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description>Gerenciar o histórico de formulários (visualizar, editar, apagar, limpar, exportar/importar)</em:description>
-			</Description>
-		</em:localized>
-		<em:localized>
-			<Description>
-				<em:locale>ru-RU</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description>Управление записями истории форм (просмотр, редактирование, удаление, экспорт/импорт)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
@@ -156,13 +156,14 @@
 		<em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
 		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
+		<em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru)</em:translator>
+		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
 		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
 
 <!-- unfinished contributions - - >
 		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
 		<em:translator>Gusztin Rudolf [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12288] (hu)</em:translator>
 		<em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it-IT)</em:translator>
-		<em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru-RU)</em:translator>
 		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
 		<em:translator>yfdyh000 [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12660] (zh-CN)</em:translator>
 -->
