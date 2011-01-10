@@ -240,6 +240,12 @@ FhcPreferenceHandler.prototype = {
            .getBranch("browser.formfill.");
     return prefServiceFF.getBoolPref("enable");
   },
+  setGlobalRememberFormEntriesActive: function(newBoolPref) {
+    var prefServiceFF = Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefService)
+           .getBranch("browser.formfill.");
+    return prefServiceFF.setBoolPref("enable", newBoolPref);
+  },
 
 
   // Create an Unicode String

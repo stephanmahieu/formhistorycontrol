@@ -67,6 +67,9 @@ const FhcPreferencesOverlay = {
     var manageCheckbox = document.getElementById("preferencesFormHistoryControlCheckboxManage");
     var settingsButton = document.getElementById("preferencesFormHistoryControlSettingsButton");
 
+    if (!rememberFormsCheckbox.checked) {
+      manageCheckbox.checked = false;
+    }
     manageCheckbox.disabled = !rememberFormsCheckbox.checked;
     settingsButton.disabled = !rememberFormsCheckbox.checked || !manageCheckbox.checked;
   },

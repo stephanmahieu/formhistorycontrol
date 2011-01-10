@@ -52,7 +52,7 @@ var FhcManageFormHistoryOverlayListener = {
   },
 
   onLocationChange: function(aProgress, aRequest, aURI) {
-    FhcManageFormHistoryOverlay.processNewURL(aURI);
+    FhcManageFormHistoryOverlay.onSelectNewURL(aURI);
   },
 
   onStateChange: function(a, b, c, d) {},
@@ -64,7 +64,10 @@ var FhcManageFormHistoryOverlayListener = {
 const FhcManageFormHistoryOverlay = {
   prefHandler: null,
   dbHandler: null,
+  extPreferenceListener: null,
+  mozPreferenceListener: null,
   oldURL: null,
+  submitting: false,
 
   init: function() {
     this.prefHandler = new FhcPreferenceHandler();
@@ -73,56 +76,140 @@ const FhcManageFormHistoryOverlay = {
       FhcManageFormHistoryOverlay.onFormSubmit()
     }, false);
     gBrowser.addProgressListener(FhcManageFormHistoryOverlayListener);
+    this.extPreferenceListener = this.registerExtPrefListener();
+    this.mozPreferenceListener = this.registerMozPrefListener();
   },
 
   destroy: function() {
     gBrowser.removeProgressListener(FhcManageFormHistoryOverlayListener);
     delete this.dbHandler;
     delete this.prefHandler;
+
+    this.extPreferenceListener.unregister();
+    delete this.extPreferenceListener;
+    
+    this.mozPreferenceListener.unregister();
+    delete this.mozPreferenceListener;
   },
 
   /**
-   *
+   * Triggered when a new tab (with a different URI) is selected.
+   * Change the statusbar icon according to the current formfill status.
    */
-  processNewURL: function(aURI) {
-    if (aURI.spec == "about:blank" || aURI.spec == this.oldURL)
+  onSelectNewURL: function(aURI) {
+    if (this.submitting) {
+      dump("onSelectNewURL, restoring global pref back to " + this.currentSaveFormhistory + "...\n");
+      // restore original preference
+      this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
+      this.submitting = false;
+      this.currentSaveFormhistory = null;
+    }
+
+    if (aURI.spec == this.oldURL)
       return;
     this.oldURL = aURI.spec;
-    
-    dump("\n=== processNewURL ===\n");
-    dump("- URL current tab = [" + aURI.spec + "]\n");
-    if (this.prefHandler.isManageHistoryByFHCEnabled()) {
-      dump("- ManageByFHC is enabled.\n");
-      
-      //TODO set icon to indicate formfill status of page (with menu to add/remove from list)
+    this.setStatusIcon();
+  },
+
+  /**
+   * Triggered when any of the formfill preferences changes.
+   * Change the statusbar icon according to the current formfill status.
+   */
+  onPrefsChange: function(prefName) {
+    // ignore prefchanges while submitting
+    if (!this.submitting) {
+      this.setStatusIcon();
     }
   },
 
   /**
-   *
+   * Triggered when a form is submitted.
+   * When formhistory is managed by Form History Control, change the global
+   * "remember formhistory" preference in order to save or not-save the
+   * submitted form data according to Form History Control's preferences.
    */
   onFormSubmit: function() {
     dump("\n=== onFormSubmit ===\n");
     if (this.prefHandler.isManageHistoryByFHCEnabled()) {
       dump("- ManageByFHC is enabled.\n");
-      var browser = gBrowser.selectedBrowser;
+      var URI = gBrowser.selectedBrowser.currentURI;
 
       dump("- Checking if 'remember formhistory' should be enabled...\n");
-      dump("- URL current tab = [" + browser.currentURI.spec + "]\n");
+      dump("- URL current tab = [" + URI.spec + "]\n");
 
-      var prefServiceFF = Components.classes["@mozilla.org/preferences-service;1"]
-                            .getService(Components.interfaces.nsIPrefService)
-                            .getBranch("browser.formfill.");
-      var doSaveFormhistory = prefServiceFF.getBoolPref("enable");
+      var doSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
       dump("- Current setting Mozilla formfill.enable=" + doSaveFormhistory + "\n");
-//      prefServiceFF.setBoolPref("enable", false);
-//
-//      doSaveFormhistory = prefServiceFF.getBoolPref("enable");
-//      dump("- New setting Mozilla formfill.enable=" + doSaveFormhistory + "\n");
-//TODO also implement this for the search-bar
+
+      // remember current setting, restore after submit is done
+      this.submitting = true;
+      this.currentSaveFormhistory = doSaveFormhistory;
+
+      this.prefHandler.setGlobalRememberFormEntriesActive(false);
+      doSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
+      dump("- New setting Mozilla formfill.enable=" + doSaveFormhistory + "\n");
+      //TODO Add extra failsafe (setTimeout) to restore setting?
 
       dump("\n");
     }
+  },
+
+  /**
+   * Change icon to reflect formfill status.
+   */
+  setStatusIcon: function() {
+    dump("=== setStatusIcon ===\n");
+    var URI = gBrowser.selectedBrowser.currentURI;
+    var sbMenu = document.getElementById("formhistctrl-statusbarmenu");
+
+    dump("- URL current tab = [" + URI.spec + "]\n");
+    if (!this.prefHandler.isGlobalRememberFormEntriesActive()) {
+      dump("- Remember formhistory is globally disabled.\n");
+      sbMenu.setAttribute("savestate", "neversave");
+    }
+    else if (this.prefHandler.isManageHistoryByFHCEnabled() && !(URI.spec == "about:blank")) {
+      dump("- ManageByFHC is enabled.\n");
+      //TODO check if formfill for URI is enabled or disabled
+      if (/com/ig.test(URI.spec)) {
+        sbMenu.setAttribute("savestate", "nosave");
+      } else {
+        sbMenu.setAttribute("savestate", "dosave");
+      }
+    }
+    else {
+      dump("- Remember formhistory globally enabled.\n");
+      // default icon
+      sbMenu.removeAttribute("savestate");
+    }
+  },
+
+  // Register a preference listener to act upon relevant extension changes
+  registerExtPrefListener: function() {
+    var preferenceListener = new FhcUtil.PrefListener("extensions.formhistory.",
+      function(branch, name) {
+        switch (name) {
+          case "manageFormhistoryByFHC":
+               // adjust local var to reflect new preference value
+               FhcManageFormHistoryOverlay.onPrefsChange(name);
+               break;
+        }
+      });
+    preferenceListener.register();
+    return preferenceListener;
+  },
+  
+  // Register a preference listener to act upon relevant mozilla changes
+  registerMozPrefListener: function() {
+    var preferenceListener = new FhcUtil.PrefListener("browser.formfill.",
+      function(branch, name) {
+        switch (name) {
+          case "enable":
+               // adjust local var to reflect new preference value
+               FhcManageFormHistoryOverlay.onPrefsChange(name);
+               break;
+        }
+      });
+    preferenceListener.register();
+    return preferenceListener;
   }
 }
 
