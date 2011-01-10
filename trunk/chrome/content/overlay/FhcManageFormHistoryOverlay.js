@@ -168,22 +168,24 @@ const FhcManageFormHistoryOverlay = {
       sbMenu.setAttribute("savestate", "neversave");
       tbMenu.setAttribute("savestate", "neversave");
     }
-    else if (this.prefHandler.isManageHistoryByFHCEnabled() && !(URI.spec == "about:blank")) {
+    else if (this.prefHandler.isManageHistoryByFHCEnabled()) {
       dump("- ManageByFHC is enabled.\n");
       //TODO check if formfill for URI is enabled or disabled
       if (/com/ig.test(URI.spec)) {
         sbMenu.setAttribute("savestate", "nosave");
         tbMenu.setAttribute("savestate", "nosave");
+        dump("nosave state (" + URI.spec + ")\n");
       } else {
         sbMenu.setAttribute("savestate", "dosave");
         tbMenu.setAttribute("savestate", "dosave");
+        dump("dosave state(" + URI.spec + ")\n");
       }
     }
     else {
       dump("- Remember formhistory globally enabled.\n");
       // default icon
-      sbMenu.removeAttribute("savestate");
-      tbMenu.removeAttribute("savestate");
+      sbMenu.setAttribute("savestate", "");
+      tbMenu.setAttribute("savestate", "");
     }
   },
 
