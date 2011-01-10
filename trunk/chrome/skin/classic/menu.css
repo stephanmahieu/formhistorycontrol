@@ -1,8 +1,28 @@
 
-#formhistctrl-toolbarbutton {list-style-image: url('fh_icon_24.png')}
+#formhistctrl-toolbarbutton {
+  list-style-image: url('fh_icon_24.png')
+}
+#formhistctrl-toolbarbutton[savestate='nosave'] {
+  list-style-image: url('fh_icon_24_nosave.png')
+}
+#formhistctrl-toolbarbutton[savestate='dosave'] {
+  list-style-image: url('fh_icon_24_dosave.png')
+}
+#formhistctrl-toolbarbutton[savestate='neversave'] {
+  list-style-image: url('fh_icon_24_neversave.png')
+}
 
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon.png');
+}
+toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='nosave'] {
+  list-style-image: url('fh_icon_nosave.png')
+}
+toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='dosave'] {
+  list-style-image: url('fh_icon_dosave.png')
+}
+toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='neversave'] {
+  list-style-image: url('fh_icon_neversave.png')
 }
 
 #formhistctrl-statusbarmenu {
