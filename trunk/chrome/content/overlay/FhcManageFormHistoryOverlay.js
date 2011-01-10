@@ -174,18 +174,16 @@ const FhcManageFormHistoryOverlay = {
       if (/com/ig.test(URI.spec)) {
         sbMenu.setAttribute("savestate", "nosave");
         tbMenu.setAttribute("savestate", "nosave");
-        dump("nosave state (" + URI.spec + ")\n");
       } else {
         sbMenu.setAttribute("savestate", "dosave");
         tbMenu.setAttribute("savestate", "dosave");
-        dump("dosave state(" + URI.spec + ")\n");
       }
     }
     else {
       dump("- Remember formhistory globally enabled.\n");
       // default icon
-      sbMenu.setAttribute("savestate", "");
-      tbMenu.setAttribute("savestate", "");
+      sbMenu.removeAttribute("savestate");
+      tbMenu.removeAttribute("savestate");
     }
   },
 
