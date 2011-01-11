@@ -171,7 +171,7 @@ const FhcManageFormHistoryOverlay = {
     else if (this.prefHandler.isManageHistoryByFHCEnabled()) {
       dump("- ManageByFHC is enabled.\n");
       //TODO check if formfill for URI is enabled or disabled
-      if (/com/ig.test(URI.spec)) {
+      if (URI.spec.indexOf("com") > -1) {
         sbMenu.setAttribute("savestate", "nosave");
         tbMenu.setAttribute("savestate", "nosave");
       } else {
