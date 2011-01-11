@@ -62,19 +62,21 @@ var FhcManageFormHistoryOverlayListener = {
 };
 
 const FhcManageFormHistoryOverlay = {
-  prefHandler: null,
-  dbHandler: null,
-  extPreferenceListener: null,
-  mozPreferenceListener: null,
-  oldURL: null,
-  submitting: false,
+  prefHandler:            null,
+  dbHandler:              null,
+  extPreferenceListener:  null,
+  mozPreferenceListener:  null,
+  oldURL:                 null,
+  currentSaveFormhistory: null,
+  timer:                  null,
+  submitting:             false,
 
   init: function() {
     this.prefHandler = new FhcPreferenceHandler();
     this.dbHandler   = new FhcDbHandler();
     window.addEventListener("submit", function() {
       FhcManageFormHistoryOverlay.onFormSubmit()
-    }, false);
+    }, true);
     gBrowser.addProgressListener(FhcManageFormHistoryOverlayListener);
     this.extPreferenceListener = this.registerExtPrefListener();
     this.mozPreferenceListener = this.registerMozPrefListener();
@@ -93,14 +95,50 @@ const FhcManageFormHistoryOverlay = {
   },
 
   /**
+   *
+   */
+  isRememberEnabled: function(aURI) {
+    if (!this.prefHandler.isGlobalRememberFormEntriesActive() || FhcUtil.inPrivateBrowsingMode()) {
+      // remember formhistory globally disabled
+      return false;
+    }
+    if (!this.prefHandler.isManageHistoryByFHCEnabled()) {
+      // remember formhistory globally enabled
+      return true;
+    }
+    // remember formhistory  managed by FHC
+    return this.isRememberEnabledByFHC(aURI);
+  },
+
+  /**
+   * Check FHC settings if "remember formhistory" is enabled for given URI.
+   */
+  isRememberEnabledByFHC: function(aURI) {
+    //TODO check if remember formhistory for aURI is enabled or disabled
+    return (aURI.spec.indexOf("com") < 0);
+  },
+
+  /**
+   * Triggered when any of the formfill preferences changes.
+   * Change the statusbar/toolbar icon according to the current formfill status.
+   */
+  onPrefsChange: function(prefName) {
+    // ignore prefchanges while submitting
+    if (!this.submitting) {
+      this.setStatusIcon();
+    }
+  },
+
+  /**
    * Triggered when a new tab (with a different URI) is selected.
-   * Change the statusbar icon according to the current formfill status.
+   * Change the statusbar/toolbar icon according to the current formfill status.
    */
   onSelectNewURL: function(aURI) {
     if (this.submitting) {
-      dump("onSelectNewURL, restoring global pref back to " + this.currentSaveFormhistory + "...\n");
+      dump("\n=== onSelectNewURL, restoring global pref back to " + this.currentSaveFormhistory + "...\n\n");
       // restore original preference
       this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
+      this.cancelRunAfterTimeout();
       this.submitting = false;
       this.currentSaveFormhistory = null;
     }
@@ -109,17 +147,6 @@ const FhcManageFormHistoryOverlay = {
       return;
     this.oldURL = aURI.spec;
     this.setStatusIcon();
-  },
-
-  /**
-   * Triggered when any of the formfill preferences changes.
-   * Change the statusbar icon according to the current formfill status.
-   */
-  onPrefsChange: function(prefName) {
-    // ignore prefchanges while submitting
-    if (!this.submitting) {
-      this.setStatusIcon();
-    }
   },
 
   /**
@@ -136,58 +163,89 @@ const FhcManageFormHistoryOverlay = {
 
       dump("- Checking if 'remember formhistory' should be enabled...\n");
       dump("- URL current tab = [" + URI.spec + "]\n");
+      dump("- Current setting Mozilla formfill.enable=" + this.prefHandler.isGlobalRememberFormEntriesActive() + "\n");
 
-      var doSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
-      dump("- Current setting Mozilla formfill.enable=" + doSaveFormhistory + "\n");
+      if (!this.submitting) {
+        // remember current setting
+        // restore setting after submit is typically triggered by onSelectNewURL
+        this.submitting = true;
+        this.currentSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
 
-      // remember current setting, restore after submit is done
-      this.submitting = true;
-      this.currentSaveFormhistory = doSaveFormhistory;
+        var doSaveFormhistory = this.isRememberEnabled(URI);
+        this.prefHandler.setGlobalRememberFormEntriesActive(doSaveFormhistory);
+        dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
 
-      this.prefHandler.setGlobalRememberFormEntriesActive(false);
-      doSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
-      dump("- New setting Mozilla formfill.enable=" + doSaveFormhistory + "\n");
-      //TODO Add extra failsafe (setTimeout) to restore setting?
-
+        // failsafe: restore setting when onSelectNewURL is not triggered after submit
+        this.runAfterTimeout(
+          function(){
+            FhcManageFormHistoryOverlay.onFormSubmitDone();
+          }, 3000
+        );
+      }
       dump("\n");
     }
   },
 
+  onFormSubmitDone: function() {
+    dump("...onFormSubmitDone...\n");
+    if (this.submitting) {
+      dump("- still submitting, restoring global setting\n");
+      this.submitting = false;
+      if (this.currentSaveFormhistory)  {
+        this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
+        this.currentSaveFormhistory = null;
+      }
+      this.cancelRunAfterTimeout();
+    }
+  },
+
   /**
-   * Change icon to reflect formfill status.
+   * Change the icon to reflect the current formfill status.
    */
   setStatusIcon: function() {
     dump("=== setStatusIcon ===\n");
-    var URI = gBrowser.selectedBrowser.currentURI;
-    var sbMenu = document.getElementById("formhistctrl-statusbarmenu");
-    var tbMenu = document.getElementById("formhistctrl-toolbarbutton");
-
-    dump("- URL current tab = [" + URI.spec + "]\n");
     if (!this.prefHandler.isGlobalRememberFormEntriesActive() || FhcUtil.inPrivateBrowsingMode()) {
-      dump("- Remember formhistory is globally disabled.\n");
-      sbMenu.setAttribute("savestate", "neversave");
-      tbMenu.setAttribute("savestate", "neversave");
+      // remember formhistory globally disabled
+      dump("- Remember formhistory globally disabled\n");
+      this.setIcons("neversave");
     }
-    else if (this.prefHandler.isManageHistoryByFHCEnabled()) {
-      dump("- ManageByFHC is enabled.\n");
-      //TODO check if formfill for URI is enabled or disabled
-      if (URI.spec.indexOf("com") > -1) {
-        sbMenu.setAttribute("savestate", "nosave");
-        tbMenu.setAttribute("savestate", "nosave");
+    else if (!this.prefHandler.isManageHistoryByFHCEnabled()) {
+      // remember formhistory globally enabled
+      dump("- Remember formhistory globally enabled\n");
+      this.setIcons(null); // default icon
+    } else {
+      // remember formhistory  managed by FHC
+      var URI = gBrowser.selectedBrowser.currentURI;
+      dump("- ManageByFHC enabled URI[" + URI.spec + "]\n");
+      if (this.isRememberEnabledByFHC(URI)) {
+        this.setIcons("dosave");
       } else {
-        sbMenu.setAttribute("savestate", "dosave");
-        tbMenu.setAttribute("savestate", "dosave");
+        this.setIcons("nosave");
       }
     }
-    else {
-      dump("- Remember formhistory globally enabled.\n");
-      // default icon
+  },
+
+  /**
+   * Set the icon for the statusbar and toolbar.
+   *
+   * @param state {String}
+   *        the attribute which selects the icon in css, null for no attribute
+   */
+  setIcons: function(state) {
+    var sbMenu = document.getElementById("formhistctrl-statusbarmenu");
+    var tbMenu = document.getElementById("formhistctrl-toolbarbutton");
+    if (state) {
+      sbMenu.setAttribute("savestate", state);
+      tbMenu.setAttribute("savestate", state);
+    } else {
       sbMenu.removeAttribute("savestate");
       tbMenu.removeAttribute("savestate");
     }
   },
 
-  // Register a preference listener to act upon relevant extension changes
+  /**
+   * Register a listener to act upon relevant extension preference changes.
+   */
   registerExtPrefListener: function() {
     var preferenceListener = new FhcUtil.PrefListener("extensions.formhistory.",
       function(branch, name) {
@@ -202,7 +260,9 @@ const FhcManageFormHistoryOverlay = {
     return preferenceListener;
   },
   
-  // Register a preference listener to act upon relevant mozilla changes
+  /**
+   * Register a listener to act upon relevant mozilla preference changes.
+   */
   registerMozPrefListener: function() {
     var preferenceListener = new FhcUtil.PrefListener("browser.formfill.",
       function(branch, name) {
@@ -215,6 +275,40 @@ const FhcManageFormHistoryOverlay = {
       });
     preferenceListener.register();
     return preferenceListener;
+  },
+
+  /**
+   * Invoke a callBackFunction after a specified no of milliseconds.
+   *
+   * @param callBackFunc {Function}
+   * @param timeMillisec {Number}
+   *
+   */
+  runAfterTimeout: function(callBackFunc, timeMillisec) {
+    var event = {
+      notify: function(timer) {callBackFunc();}
+    }
+
+    if (this.timer == null) {
+      this.timer = Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+    } else {
+      this.timer.cancel();
+    }
+    this.timer.initWithCallback(
+       event,
+       timeMillisec,
+       Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+  },
+
+  /**
+   * Stop timer if still running and cleanup.
+   */
+  cancelRunAfterTimeout: function() {
+    if (this.timer) {
+      this.timer.cancel();
+      this.timer = null;
+    }
   }
 }
 
