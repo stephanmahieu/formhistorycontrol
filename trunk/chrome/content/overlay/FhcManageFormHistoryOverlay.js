@@ -63,11 +63,13 @@ const FhcManageFormHistoryOverlay = {
 
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                            .getService(Components.interfaces.nsIObserverService);
+    
+    //FIXME submitObserver does not work for current version of SeaMonkey (history is always saved)
     this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
   },
 
   destroy: function() {
-    this._observerService.removeObserver(this, "earlyformsubmit");
+    this.observerService.removeObserver(this.submitObserver, "earlyformsubmit");
     gBrowser.removeProgressListener(this.locationChangeListener);
     delete this.dbHandler;
     delete this.prefHandler;
@@ -302,24 +304,23 @@ const FhcManageFormHistoryOverlay = {
    */
   submitObserver: {
     QueryInterface: function(aIID) {
-//     if (aIID.equals(Components.interfaces.nsIObserver) ||
-//         aIID.equals(Components.interfaces.nsIFormSubmitObserver) ||
-//         aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-//         aIID.equals(Components.interfaces.nsISupports))
-//       return this;
-     if (aIID.equals(Components.interfaces.nsIFormSubmitObserver))
+     if (aIID.equals(Components.interfaces.nsIFormSubmitObserver) ||
+         aIID.equals(Components.interfaces.nsIObserver) ||
+         aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+         aIID.equals(Components.interfaces.nsISupports))
        return this;
      throw Components.results.NS_NOINTERFACE;
     },
 
-    // nsFormSubmitObserver
-    notify : function (formElement, aWindow, actionURI) {
+    // nsFormSubmitObserver interface
+    notify : function (formElement, aWindow, actionURI, cancelSubmit) {
       // do not trigger at browser startup
       if (actionURI && actionURI.spec.indexOf("http://www.browserscope.org/beacon") != 0) {
 //        dump("\n\n==================\nEarly form submit!\n==================\n");
 //        dump("- formElement [" + formElement + "]\n");
 //        dump("- aWindow     [" + aWindow + "]\n");
 //        dump("- actionURI   [" + actionURI.spec + "]\n");
+//        dump("- cancelSubmit[" + cancelSubmit + "]\n");
         FhcManageFormHistoryOverlay.onFormSubmit();
       }
       return true; // return true or form submit will be canceled.
@@ -328,17 +329,17 @@ const FhcManageFormHistoryOverlay = {
 
   locationChangeListener: {
     QueryInterface: function(aIID) {
-     if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-         aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-         aIID.equals(Components.interfaces.nsISupports))
-       return this;
-     throw Components.results.NS_NOINTERFACE;
+      if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+          aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+          aIID.equals(Components.interfaces.nsISupports))
+        return this;
+      throw Components.results.NS_NOINTERFACE;
     },
 
     onLocationChange: function(aProgress, aRequest, aURI) {
       FhcManageFormHistoryOverlay.onSelectNewURL(aURI);
     },
-
+  
     onStateChange: function(a, b, c, d) {},
     onProgressChange: function(a, b, c, d, e, f) {},
     onStatusChange: function(a, b, c, d) {},
