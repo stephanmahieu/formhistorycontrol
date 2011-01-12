@@ -430,8 +430,13 @@ HistoryTreeView.prototype = {
     // check entriesToTest against hashmap
     for (var jj=0; jj<entriesToTest.length; jj++) {
       key = entriesToTest[jj].name + "]=[" + entriesToTest[jj].value;
-      if (undefined == hashMap[key])
+      if (undefined == hashMap[key]) {
         uniqueEntries.push(entriesToTest[jj]);
+        
+        // add also to hashmap to detect duplicate entries in entriesToTest itself
+        // only the first occurrence is added to uniqueEntries
+        hashMap[key] = key;
+      }
     }
 
     // free bulky overhead
