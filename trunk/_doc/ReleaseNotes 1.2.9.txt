@@ -1,6 +1,7 @@
 User:
 - Available locales (+Russian)
 - Added support for new html5 text input fields
+- Fixed: skip duplicate entries from imported xml-file
 
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
