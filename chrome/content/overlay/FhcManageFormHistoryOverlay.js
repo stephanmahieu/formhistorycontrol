@@ -36,10 +36,10 @@
 
 
 /**
- * Provide load and unload event handlers.
+ * Provide "remember formhistory" event handlers for custom handling.
  *
  * Dependencies:
- *   FhcManageFormHistoryOverlay.js
+ *   FhcUtil.js, FhcPreferenceHandler.js, FhcDbHandler.js
  */
 
 const FhcManageFormHistoryOverlay = {
@@ -63,8 +63,9 @@ const FhcManageFormHistoryOverlay = {
 
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                            .getService(Components.interfaces.nsIObserverService);
-    
+
     //FIXME submitObserver does not work for current version of SeaMonkey (history is always saved)
+    //      fallback: delete formhistory entries afterwards (if times used == 1)
     this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
   },
 
