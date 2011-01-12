@@ -42,26 +42,8 @@
  *   FhcManageFormHistoryOverlay.js
  */
 
-var FhcManageFormHistoryOverlayListener = {
-  QueryInterface: function(aIID) {
-   if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
-       aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
-       aIID.equals(Components.interfaces.nsISupports))
-     return this;
-   throw Components.results.NS_NOINTERFACE;
-  },
-
-  onLocationChange: function(aProgress, aRequest, aURI) {
-    FhcManageFormHistoryOverlay.onSelectNewURL(aURI);
-  },
-
-  onStateChange: function(a, b, c, d) {},
-  onProgressChange: function(a, b, c, d, e, f) {},
-  onStatusChange: function(a, b, c, d) {},
-  onSecurityChange: function(a, b, c) {}
-};
-
 const FhcManageFormHistoryOverlay = {
+  observerService:        null,
   prefHandler:            null,
   dbHandler:              null,
   extPreferenceListener:  null,
@@ -74,16 +56,19 @@ const FhcManageFormHistoryOverlay = {
   init: function() {
     this.prefHandler = new FhcPreferenceHandler();
     this.dbHandler   = new FhcDbHandler();
-    window.addEventListener("submit", function() {
-      FhcManageFormHistoryOverlay.onFormSubmit()
-    }, true);
-    gBrowser.addProgressListener(FhcManageFormHistoryOverlayListener);
+    
+    gBrowser.addProgressListener(this.locationChangeListener);
     this.extPreferenceListener = this.registerExtPrefListener();
     this.mozPreferenceListener = this.registerMozPrefListener();
+
+    this.observerService = Components.classes["@mozilla.org/observer-service;1"]
+                           .getService(Components.interfaces.nsIObserverService);
+    this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
   },
 
   destroy: function() {
-    gBrowser.removeProgressListener(FhcManageFormHistoryOverlayListener);
+    this._observerService.removeObserver(this, "earlyformsubmit");
+    gBrowser.removeProgressListener(this.locationChangeListener);
     delete this.dbHandler;
     delete this.prefHandler;
 
@@ -95,18 +80,16 @@ const FhcManageFormHistoryOverlay = {
   },
 
   /**
-   *
+   * Check if "remember formhistory" is enabled for given URI.
    */
   isRememberEnabled: function(aURI) {
     if (!this.prefHandler.isGlobalRememberFormEntriesActive() || FhcUtil.inPrivateBrowsingMode()) {
-      // remember formhistory globally disabled
-      return false;
+      return false; // remember formhistory globally disabled
     }
     if (!this.prefHandler.isManageHistoryByFHCEnabled()) {
-      // remember formhistory globally enabled
-      return true;
+      return true; // remember formhistory globally enabled
     }
-    // remember formhistory  managed by FHC
+    // remember formhistory is managed by FHC
     return this.isRememberEnabledByFHC(aURI);
   },
 
@@ -150,10 +133,13 @@ const FhcManageFormHistoryOverlay = {
   },
 
   /**
-   * Triggered when a form is submitted.
    * When formhistory is managed by Form History Control, change the global
-   * "remember formhistory" preference in order to save or not-save the
-   * submitted form data according to Form History Control's preferences.
+   * "remember formhistory" preference just prior to submit, in order to save or
+   * not-save the submitted form data according to FHC's custom preferences.
+   *
+   * This method is triggered early when a form is in the process of being
+   * submitted, thus submitting might be cancelled along the way so we have
+   * to make sure to restore all temporarily changed preferences.
    */
   onFormSubmit: function() {
     dump("\n=== onFormSubmit ===\n");
@@ -175,11 +161,12 @@ const FhcManageFormHistoryOverlay = {
         this.prefHandler.setGlobalRememberFormEntriesActive(doSaveFormhistory);
         dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
 
-        // failsafe: restore setting when onSelectNewURL is not triggered after submit
+        // restore setting when onSelectNewURL is not triggered after submit
+        // which may occur if the submit is cancelled during event bubbling
         this.runAfterTimeout(
           function(){
             FhcManageFormHistoryOverlay.onFormSubmitDone();
-          }, 3000
+          }, 1000
         );
       }
       dump("\n");
@@ -189,7 +176,7 @@ const FhcManageFormHistoryOverlay = {
   onFormSubmitDone: function() {
     dump("...onFormSubmitDone...\n");
     if (this.submitting) {
-      dump("- still submitting, restoring global setting\n");
+      dump("- still submitting, restoring global setting\n\n");
       this.submitting = false;
       if (this.currentSaveFormhistory)  {
         this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
@@ -282,7 +269,6 @@ const FhcManageFormHistoryOverlay = {
    *
    * @param callBackFunc {Function}
    * @param timeMillisec {Number}
-   *
    */
   runAfterTimeout: function(callBackFunc, timeMillisec) {
     var event = {
@@ -309,6 +295,54 @@ const FhcManageFormHistoryOverlay = {
       this.timer.cancel();
       this.timer = null;
     }
+  },
+
+  /**
+   * Observer object for FormSubmit events.
+   */
+  submitObserver: {
+    QueryInterface: function(aIID) {
+//     if (aIID.equals(Components.interfaces.nsIObserver) ||
+//         aIID.equals(Components.interfaces.nsIFormSubmitObserver) ||
+//         aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+//         aIID.equals(Components.interfaces.nsISupports))
+//       return this;
+     if (aIID.equals(Components.interfaces.nsIFormSubmitObserver))
+       return this;
+     throw Components.results.NS_NOINTERFACE;
+    },
+
+    // nsFormSubmitObserver
+    notify : function (formElement, aWindow, actionURI) {
+      // do not trigger at browser startup
+      if (actionURI && actionURI.spec.indexOf("http://www.browserscope.org/beacon") != 0) {
+//        dump("\n\n==================\nEarly form submit!\n==================\n");
+//        dump("- formElement [" + formElement + "]\n");
+//        dump("- aWindow     [" + aWindow + "]\n");
+//        dump("- actionURI   [" + actionURI.spec + "]\n");
+        FhcManageFormHistoryOverlay.onFormSubmit();
+      }
+      return true; // return true or form submit will be canceled.
+    }
+  },
+
+  locationChangeListener: {
+    QueryInterface: function(aIID) {
+     if (aIID.equals(Components.interfaces.nsIWebProgressListener) ||
+         aIID.equals(Components.interfaces.nsISupportsWeakReference) ||
+         aIID.equals(Components.interfaces.nsISupports))
+       return this;
+     throw Components.results.NS_NOINTERFACE;
+    },
+
+    onLocationChange: function(aProgress, aRequest, aURI) {
+      FhcManageFormHistoryOverlay.onSelectNewURL(aURI);
+    },
+
+    onStateChange: function(a, b, c, d) {},
+    onProgressChange: function(a, b, c, d, e, f) {},
+    onStatusChange: function(a, b, c, d) {},
+    onSecurityChange: function(a, b, c) {}
   }
 }
 
