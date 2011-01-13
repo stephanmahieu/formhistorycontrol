@@ -1,6 +1,7 @@
 User:
 - Available locales (+Russian)
 - Added support for new html5 text input fields
+- FuzzyAge: show up to 59 seconds before switching to minutes (was up to 30 secs)
 - Fixed: skip duplicate entries from imported xml-file
 
 Technical:
