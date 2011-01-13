@@ -431,7 +431,37 @@ FhcDbHandler.prototype = {
     }
     return result;
   },
-  
+
+  /**
+   * Delete all recent entries (used once) between two dates,
+   * return true on succes.
+   *
+   * @param  fromDate {Date}
+   * @param  toDate {Date}
+   *
+   * @return {Boolean}
+   *         whether or not deleting matching entries succeeded
+   *
+   */
+  deleteRecentEntriesBetween: function(fromDate, toDate) {
+    var mDBConn = this._getHistDbConnection(true);
+
+    var result = false;
+    try {
+      var statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM moz_formhistory" +
+          " WHERE firstUsed > :fromDate AND firstUsed < :toDate" +
+          "   AND timesUsed = 1");
+      statement.params.fromDate = fromDate;
+      statement.params.toDate = toDate;
+      result = this._executeStatement(statement);
+    } finally {
+      this._endHistDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
   /**
    * Check whether or not the entry with the given fieldname and value exists.
    *
