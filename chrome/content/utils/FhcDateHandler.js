@@ -253,14 +253,14 @@ FhcDateHandler.prototype = {
         if (noOfHours > 9) space = "";
       }
       else {
-        var noOfMinutes = Math.round(noOfSeconds / 60);
-        if (noOfMinutes > 0) {
-          result = noOfMinutes + this._getIndMinute(noOfMinutes);
-          if (noOfMinutes > 9) space = "";
-        }
-        else {
+        if (noOfSeconds < 60) {
           result = noOfSeconds + this._getIndSecond(noOfSeconds);
           if (noOfSeconds > 9) space = "";
+        }
+        else {
+          var noOfMinutes = Math.round(noOfSeconds / 60);
+          result = noOfMinutes + this._getIndMinute(noOfMinutes);
+          if (noOfMinutes > 9) space = "";
         }
       }
     }
