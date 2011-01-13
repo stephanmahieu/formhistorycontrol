@@ -51,7 +51,10 @@ const FhcManageFormHistoryOverlay = {
   oldURL:                 null,
   currentSaveFormhistory: null,
   timer:                  null,
+  submitDate:             null,
   submitting:             false,
+  doSaveFormhistory:      false,
+  checkHistoryDB:         false,
 
   init: function() {
     this.prefHandler = new FhcPreferenceHandler();
@@ -66,12 +69,22 @@ const FhcManageFormHistoryOverlay = {
 
     //FIXME submitObserver does not work for current version of SeaMonkey (history is always saved)
     //      fallback: delete formhistory entries afterwards (if times used == 1)
+    if ("SeaMonkey" == FhcUtil.getBrowserName() && "1" == FhcUtil.getGeckoVersion()[0]) {
+      dump("Add SeaMonkey fallback\n");
+      window.addEventListener("submit", function() {
+        FhcManageFormHistoryOverlay.onLateFormSubmit()
+      }, true);
+    }
+
     this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
   },
 
   destroy: function() {
     this.observerService.removeObserver(this.submitObserver, "earlyformsubmit");
     gBrowser.removeProgressListener(this.locationChangeListener);
+    
+    if (this.timer) this.timer = null;
+
     delete this.dbHandler;
     delete this.prefHandler;
 
@@ -116,26 +129,6 @@ const FhcManageFormHistoryOverlay = {
   },
 
   /**
-   * Triggered when a new tab (with a different URI) is selected.
-   * Change the statusbar/toolbar icon according to the current formfill status.
-   */
-  onSelectNewURL: function(aURI) {
-    if (this.submitting) {
-      dump("\n=== onSelectNewURL, restoring global pref back to " + this.currentSaveFormhistory + "...\n\n");
-      // restore original preference
-      this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
-      this.cancelRunAfterTimeout();
-      this.submitting = false;
-      this.currentSaveFormhistory = null;
-    }
-
-    if (aURI.spec == this.oldURL)
-      return;
-    this.oldURL = aURI.spec;
-    this.setStatusIcon();
-  },
-
-  /**
    * When formhistory is managed by Form History Control, change the global
    * "remember formhistory" preference just prior to submit, in order to save or
    * not-save the submitted form data according to FHC's custom preferences.
@@ -155,13 +148,12 @@ const FhcManageFormHistoryOverlay = {
       dump("- Current setting Mozilla formfill.enable=" + this.prefHandler.isGlobalRememberFormEntriesActive() + "\n");
 
       if (!this.submitting) {
-        // remember current setting
-        // restore setting after submit is typically triggered by onSelectNewURL
+        // remember current setting (restore setting after submit is done)
         this.submitting = true;
         this.currentSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
 
-        var doSaveFormhistory = this.isRememberEnabled(URI);
-        this.prefHandler.setGlobalRememberFormEntriesActive(doSaveFormhistory);
+        this.doSaveFormhistory = this.isRememberEnabled(URI);
+        this.setGlobalSavePreference(this.doSaveFormhistory);
         dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
 
         // restore setting when onSelectNewURL is not triggered after submit
@@ -176,16 +168,76 @@ const FhcManageFormHistoryOverlay = {
     }
   },
 
+  /**
+   * Form submit finished, restore global preference.
+   */
   onFormSubmitDone: function() {
     dump("...onFormSubmitDone...\n");
     if (this.submitting) {
-      dump("- still submitting, restoring global setting\n\n");
-      this.submitting = false;
-      if (this.currentSaveFormhistory)  {
-        this.prefHandler.setGlobalRememberFormEntriesActive(this.currentSaveFormhistory);
+      this.cancelRunAfterTimeout();
+      if (this.currentSaveFormhistory != null)  {
+        dump("- restoring global pref back to " + this.currentSaveFormhistory + "...\n");
+        // restore original preference
+        this.setGlobalSavePreference(this.currentSaveFormhistory);
         this.currentSaveFormhistory = null;
       }
-      this.cancelRunAfterTimeout();
+      this.submitting = false;
+      if (this.checkHistoryDB) {
+        dump("- check db for entries that should not have been added...\n");
+        this.checkHistoryDB = false;
+        //TODO db cleanup
+        dump("submitdate was: " + this.submitDate + "\n");
+//        var sTime = this.submitDate.getHours() + ":" + this.submitDate.getMinutes() + ":" + this.submitDate.getSeconds() + "." + this.submitDate.getMilliseconds();
+//        dump("submit time: " + sTime + "\n");
+//        var now = new Date();
+//        sTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "." + now.getMilliseconds();
+//        dump("it is now: " + sTime + "\n");
+        // remove entries added max 450ms before submit
+        this.dbHandler.deleteRecentEntriesBetween(
+          (this.submitDate - 450) * 1000,
+          this.submitDate * 1000
+        );
+      }
+      dump("\n");
+    }
+  },
+
+  /**
+   * Triggered when a new tab (with a different URI) is selected or after a
+   * submit when a new page is loaded.
+   * Change the statusbar/toolbar icon according to the current formfill status.
+   */
+  onSelectNewURL: function(aURI) {
+    if (this.submitting) {
+      this.onFormSubmitDone();
+    }
+
+    if (aURI.spec == this.oldURL)
+      return;
+    this.oldURL = aURI.spec;
+    this.setStatusIcon();
+  },
+
+  /**
+   * Make sure entries that should not have been added are deleted
+   * immediately afterwards (fallback scenario).
+   */
+  onLateFormSubmit: function() {
+    dump("=== onLateFormSubmit ===\n");
+    if (this.submitting && !this.doSaveFormhistory) {
+      dump("new entries have to be deleted after submit...\n\n");
+      this.checkHistoryDB = true;
+      this.submitDate = new Date();
+    }
+  },
+
+  /**
+   * Set the global preference which controls if submitted formdata should be
+   * remembered.
+   */
+  setGlobalSavePreference: function(boolValue) {
+    if (boolValue != this.prefHandler.isGlobalRememberFormEntriesActive()) {
+      this.prefHandler.setGlobalRememberFormEntriesActive(boolValue);
     }
   },
 
@@ -296,7 +348,6 @@ const FhcManageFormHistoryOverlay = {
   cancelRunAfterTimeout: function() {
     if (this.timer) {
       this.timer.cancel();
-      this.timer = null;
     }
   },
 
