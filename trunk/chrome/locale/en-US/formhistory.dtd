@@ -328,6 +328,9 @@
 
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Show History">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Let Form History Control manage form history">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Whether or not to save form history is controlled by the Form History Control add-on">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Settings">
 
 <!ENTITY fhabout.label.description "Description">
 <!ENTITY fhabout.label.creator "Created by">
