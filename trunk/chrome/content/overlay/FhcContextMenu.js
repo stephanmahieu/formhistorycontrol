@@ -87,6 +87,10 @@ const FhcContextMenu = {
         var stBar = document.getElementById("formhistctrl-statusbarmenu");
         if (stBar) stBar.addEventListener("click", this, false);
 
+        // add an eventhandler to capture right-click on toolbar icon
+        var tlBar = document.getElementById("formhistctrl-toolbarbutton");
+        if (tlBar) tlBar.addEventListener("click", this, false);
+
         this.dbHandler     = new FhcDbHandler();
         this.bundle        = new FhcBundle();
         this.preferences   = new FhcPreferenceHandler();
@@ -119,10 +123,22 @@ const FhcContextMenu = {
 
       case "click":
         if (aEvent.button == 2) {
-          // Right click
-          var menuPopup = document.getElementById("statusbarFhcRightClickMenu");
-          var statusBarPanel = document.getElementById("formhistctrl-statusbarmenu");
-          menuPopup.openPopup(statusBarPanel, "before_start", 0, 0, false, false);
+          var menuPopup = null;
+          var panel = null;
+          switch(aEvent.target.id) {
+            case "formhistctrl-statusbarmenu":
+              // Right click statusbar
+              menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              break;
+
+              // Right click toolbar
+            case "formhistctrl-toolbarbutton":
+              menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              break;
+          }
+          if (menuPopup != null) {
+              menuPopup.openPopup(aEvent.target, "before_start", 0, 0, false, false);
+          }
         }
         break;
     }

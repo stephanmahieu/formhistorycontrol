@@ -162,6 +162,7 @@
     <toolbarbutton id="formhistctrl-toolbarbutton"
                    class="toolbarbutton-1 chromeclass-toolbar-additional custombutton"
                    type="menu"
+                   context=""
                    label="&fhmnuovl.menu.main.manager.label;"
                    tooltiptext="&fhmnuovl.menuitem.manager.label;"
                    orient="horizontal">
