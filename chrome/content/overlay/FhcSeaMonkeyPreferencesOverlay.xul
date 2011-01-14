@@ -31,12 +31,12 @@
         <checkbox flex="1" class="indent"
                   id="preferencesFormHistoryControlCheckboxManage"
                   preference="extensions.formhistory.manageFormhistoryByFHC"
-                  label="Let Form History Control manage form history"
-                  tooltiptext="Whether or not to save form history is controlled by the Form History Control add-on"/>
+                  label="&fhprefovl.privacy.checkbox.managebyfhc.label;"
+                  tooltiptext="&fhprefovl.privacy.checkbox.managebyfhc.tooltip;"/>
         <vbox>
           <spacer/>
           <button id="preferencesFormHistoryControlSettingsButton"
-                  label="Settings"
+                  label="&fhprefovl.privacy.button.rememberoptions.label;"
                   oncommand="alert('not implemented')" />
           <spacer/>
         </vbox>

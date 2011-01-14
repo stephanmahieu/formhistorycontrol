@@ -1,4 +1,4 @@
-﻿<!ENTITY fhwin.window.title "Formulier Historie Beheer">
+<!ENTITY fhwin.window.title "Formulier Historie Beheer">
 
 <!ENTITY historywindow.notification.moreinfo "(meer)">
 
@@ -328,6 +328,9 @@
 
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Historie tonen">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "n">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Laat Form History Control de formulier historie beheren">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Het wel of niet bewaren van de formulier historie wordt bepaald door de Form History Control extensie.">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Instellingen">
 
 <!ENTITY fhabout.label.description "Omschrijving">
 <!ENTITY fhabout.label.creator "Gemaakt door">
