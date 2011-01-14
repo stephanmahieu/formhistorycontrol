@@ -61,38 +61,31 @@ const FhcManageFormHistoryOverlay = {
     this.dbHandler   = new FhcDbHandler();
     
     gBrowser.addProgressListener(this.locationChangeListener);
-    this.extPreferenceListener = this.registerExtPrefListener();
-    this.mozPreferenceListener = this.registerMozPrefListener();
+    this.registerPrefListeners();
+    this.registerEarlySubmitObserver();
 
-    this.observerService = Components.classes["@mozilla.org/observer-service;1"]
-                           .getService(Components.interfaces.nsIObserverService);
-
-    //FIXME submitObserver does not work for current version of SeaMonkey (history is always saved)
-    //      fallback: delete formhistory entries afterwards (if times used == 1)
+    // fallback for SeaMonkey: delete formhistory entries afterwards (if times used == 1)
     if ("SeaMonkey" == FhcUtil.getBrowserName() && "1" == FhcUtil.getGeckoVersion()[0]) {
       dump("Add SeaMonkey fallback\n");
       window.addEventListener("submit", function() {
         FhcManageFormHistoryOverlay.onLateFormSubmit()
       }, true);
     }
-
-    this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
   },
 
   destroy: function() {
-    this.observerService.removeObserver(this.submitObserver, "earlyformsubmit");
+    this.destroyTimer();
+    this.unregisterPrefListeners();
+    this.unregisterEarlySubmitObserver();
     gBrowser.removeProgressListener(this.locationChangeListener);
-    
-    if (this.timer) this.timer = null;
 
+    // if shutting down while a submit has not finished, restore global preference
+    if (this.submitting && this.currentSaveFormhistory != null) {
+      this.setGlobalSavePreference(this.currentSaveFormhistory);
+    }
+    
     delete this.dbHandler;
     delete this.prefHandler;
-
-    this.extPreferenceListener.unregister();
-    delete this.extPreferenceListener;
-    
-    this.mozPreferenceListener.unregister();
-    delete this.mozPreferenceListener;
   },
 
   /**
@@ -152,6 +145,7 @@ const FhcManageFormHistoryOverlay = {
         this.submitting = true;
         this.currentSaveFormhistory = this.prefHandler.isGlobalRememberFormEntriesActive();
 
+        // change global preference as early as possible
         this.doSaveFormhistory = this.isRememberEnabled(URI);
         this.setGlobalSavePreference(this.doSaveFormhistory);
         dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
@@ -212,9 +206,14 @@ const FhcManageFormHistoryOverlay = {
       this.onFormSubmitDone();
     }
 
-    if (aURI.spec == this.oldURL)
-      return;
-    this.oldURL = aURI.spec;
+    if (aURI) {
+      if (aURI.spec == this.oldURL)
+        return;
+      this.oldURL = aURI.spec;
+    }
+    else {
+      this.oldURL = null;
+    }
     this.setStatusIcon();
   },
 
@@ -265,6 +264,7 @@ const FhcManageFormHistoryOverlay = {
         this.setIcons("nosave");
       }
     }
+    dump("\n");
   },
 
   /**
@@ -283,6 +283,24 @@ const FhcManageFormHistoryOverlay = {
       sbMenu.removeAttribute("savestate");
       tbMenu.removeAttribute("savestate");
     }
+  },
+
+  /**
+   * Register listeners for relevant preference changes.
+   */
+  registerPrefListeners: function() {
+    this.extPreferenceListener = this.registerExtPrefListener();
+    this.mozPreferenceListener = this.registerMozPrefListener();
+  },
+
+  /**
+   * Unregister listeners for relevant preference changes.
+   */
+  unregisterPrefListeners: function() {
+    this.extPreferenceListener.unregister();
+    delete this.extPreferenceListener;
+    this.mozPreferenceListener.unregister();
+    delete this.mozPreferenceListener;
   },
 
   /**
@@ -334,7 +352,7 @@ const FhcManageFormHistoryOverlay = {
       this.timer = Components.classes["@mozilla.org/timer;1"]
                     .createInstance(Components.interfaces.nsITimer);
     } else {
-      this.timer.cancel();
+      this.cancelRunAfterTimeout();
     }
     this.timer.initWithCallback(
        event,
@@ -343,12 +361,30 @@ const FhcManageFormHistoryOverlay = {
   },
 
   /**
-   * Stop timer if still running and cleanup.
+   * Stop timer if still running.
    */
   cancelRunAfterTimeout: function() {
     if (this.timer) {
-      this.timer.cancel();
+      try {
+        this.timer.cancel();
+      } catch(e) {}
     }
+  },
+
+  destroyTimer: function() {
+    this.cancelRunAfterTimeout();
+    this.timer = null;
+  },
+
+  registerEarlySubmitObserver: function() {
+    this.observerService = Components.classes["@mozilla.org/observer-service;1"]
+                           .getService(Components.interfaces.nsIObserverService);
+    this.observerService.addObserver(this.submitObserver, "earlyformsubmit", false);
+  },
+  
+  unregisterEarlySubmitObserver: function() {
+    this.observerService.removeObserver(this.submitObserver, "earlyformsubmit");
+    delete this.observerService;
   },
 
   /**
