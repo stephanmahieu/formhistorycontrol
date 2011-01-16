@@ -124,20 +124,22 @@ const FhcContextMenu = {
       case "click":
         if (aEvent.button == 2) {
           var menuPopup = null;
-          var panel = null;
+          var position;
           switch(aEvent.target.id) {
             case "formhistctrl-statusbarmenu":
               // Right click statusbar
               menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              position = "before_start";
               break;
 
               // Right click toolbar
             case "formhistctrl-toolbarbutton":
               menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              position = "after_start";
               break;
           }
           if (menuPopup != null) {
-              menuPopup.openPopup(aEvent.target, "before_start", 0, 0, false, false);
+              menuPopup.openPopup(aEvent.target, position, 0, 0, false, false);
           }
         }
         break;
