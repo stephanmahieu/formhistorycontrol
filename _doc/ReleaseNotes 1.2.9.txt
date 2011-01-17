@@ -2,7 +2,9 @@ User:
 - Available locales (+Russian)
 - Added support for new html5 text input fields
 - FuzzyAge: show up to 59 seconds before switching to minutes (was up to 30 secs)
-- Fixed: skip duplicate entries from imported xml-file
+- Displayed host: show "localhost" for url file:///
+- Fix: skip duplicate entries from imported xml-file
+- Fix: toLowercase is not a function error
 
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
