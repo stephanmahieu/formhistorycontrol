@@ -4,7 +4,7 @@ User:
 - FuzzyAge: show up to 59 seconds before switching to minutes (was up to 30 secs)
 - Displayed host: show "localhost" for url file:///
 - Fix: skip duplicate entries from imported xml-file
-- Fix: toLowercase is not a function error
+- Fix: toLowercase is not a function error (when sorting host or title treeview-column)
 
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
