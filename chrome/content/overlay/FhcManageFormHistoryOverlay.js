@@ -191,6 +191,7 @@ const FhcManageFormHistoryOverlay = {
           (this.submitDate - 450) * 1000,
           this.submitDate * 1000
         );
+        this.notifyStoreChanged();
       }
       dump("\n");
     }
@@ -369,6 +370,15 @@ const FhcManageFormHistoryOverlay = {
         this.timer.cancel();
       } catch(e) {}
     }
+  },
+
+  /**
+   * Send notification to observers that the formhistory store has changed.
+   */
+  notifyStoreChanged: function() {
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                            .getService(Components.interfaces.nsIObserverService);
+    observerService.notifyObservers(null, "sessionstore-state-write", "");
   },
 
   destroyTimer: function() {
