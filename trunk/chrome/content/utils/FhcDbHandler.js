@@ -632,18 +632,15 @@ FhcDbHandler.prototype = {
       statement.params["lastUsed"] = dateUsed;
 
       // select first candidate
-      var timeDiff, host;
+      var timeDiff;
       if (statement.executeStep()) {
-        //reverse host and delete leading dot
-        host = FhcUtil.strReverse(statement.row["rev_host"]).replace(/^\./g, "");
-
         // select first found if under the tresholdFirst limit
         timeDiff = dateUsed - statement.row["visit_date"];
         if (timeDiff < TRESHOLD) {
           result.push({
-            url  : statement.row["url"],
-            host : host,
-            title: statement.row["title"],
+            url  : ""+statement.row["url"],
+            host : ""+this._toReadableHost(statement.row["rev_host"], statement.row["url"]),
+            title: ""+statement.row["title"],
             date : statement.row["visit_date"]}
           );
         }
@@ -694,9 +691,9 @@ FhcDbHandler.prototype = {
             if (statement.executeStep()) {
               if ((entries[ii].last - statement.row["visit_date"]) < TRESHOLD) {
                 place.push({
-                  url  : statement.row["url"],
-                  host : FhcUtil.strReverse(statement.row["rev_host"]).replace(/^\./g, ""),
-                  title: statement.row["title"],
+                  url  : ""+statement.row["url"],
+                  host : ""+this._toReadableHost(statement.row["rev_host"], statement.row["url"]),
+                  title: ""+statement.row["title"],
                   date : statement.row["visit_date"]}
                 );
               }
@@ -748,16 +745,11 @@ FhcDbHandler.prototype = {
       statement.params["lastUsed"] = dateUsed;
       statement.params["limit"] = maxCandidates;
 
-      var host;
       while ((result.length < maxCandidates) && statement.executeStep()) {
-        // reverse host and delete leading dot
-        host = FhcUtil.strReverse(statement.row["rev_host"]);
-        host = host.replace(/^\./g, "");
-
         result.push({
-          url  : statement.row["url"],
-          host : host,
-          title: statement.row["title"],
+          url  : ""+statement.row["url"],
+          host : ""+this._toReadableHost(statement.row["rev_host"], statement.row["url"]),
+          title: ""+statement.row["title"],
           count: statement.row["visit_count"],
           date : statement.row["visit_date"]}
         );
@@ -797,16 +789,12 @@ FhcDbHandler.prototype = {
       statement.params["lastUsed"] = dateUsed;
       statement.params["limit"] = maxCandidates;
 
-      var host;
       while ((result.length < maxCandidates) && statement.executeStep()) {
         // reverse host and delete leading dot
-        host = FhcUtil.strReverse(statement.row["rev_host"]);
-        host = host.replace(/^\./g, "");
-
         result.push({
-          url  : statement.row["url"],
-          host : host,
-          title: statement.row["title"],
+          url  : ""+statement.row["url"],
+          host : ""+this._toReadableHost(statement.row["rev_host"], statement.row["url"]),
+          title: ""+statement.row["title"],
           count: statement.row["visit_count"],
           date : statement.row["visit_date"]}
         );
@@ -819,7 +807,22 @@ FhcDbHandler.prototype = {
     return result;
   },
 
+  _toReadableHost: function(aHost, aURL) {
+    if (aHost) {
+      var host = aHost.replace(/\.$/, "");
+      if (host.length > 0) {
+        return FhcUtil.strReverse(host);
+      }
+    }
 
+    if (aURL && (/^file:\/\/\//.test(aURL))) {
+      // For file protocol file://host/path
+      // if host is omitted, it is taken to be "localhost"
+      return "localhost";
+    }
+    
+    return "";
+  },
 
   //----------------------------------------------------------------------------
   // Cleanup methods
