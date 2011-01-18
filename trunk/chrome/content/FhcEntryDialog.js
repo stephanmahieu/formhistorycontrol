@@ -148,9 +148,10 @@ const FhcEntryDialog = {
    */
   showBrowsingHistory: function(what) {
     var params = {
-      what     : what,
-      fieldName: window.arguments[0].inn.name,
-      date     : (what=="first") ? window.arguments[0].inn.firstRaw : window.arguments[0].inn.lastRaw
+      what      : what,
+      fieldName : window.arguments[0].inn.name,
+      fieldValue: window.arguments[0].inn.value,
+      date      : (what=="first") ? window.arguments[0].inn.firstRaw : window.arguments[0].inn.lastRaw
     };
     FhcShowDialog.doShowFhcBrowseHistory(params);
   },

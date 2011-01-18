@@ -25,16 +25,14 @@
   </stringbundleset>
 
   <vbox class="box-padded" flex="1">
-    <!-- textbox id="browsereport" multiline="true" wrap="off"
-             readonly="true" flex="1" value=""/ -->
     <iframe id="browsereport" type="chrome" flex="1"
             src="chrome://formhistory/skin/places.html" />
     <hbox>
       <label class="text-link" onclick="FhcBrowseHistoryDialog.getOlder(true)"
-             value="&fhbrowsehistorydlg.older.label;"
+             value="+ &fhbrowsehistorydlg.older.label;"
              tooltiptext="&fhbrowsehistorydlg.older.tooltip;"/>
       <label class="text-link" onclick="FhcBrowseHistoryDialog.getNewer()"
-             value="&fhbrowsehistorydlg.newer.label;"
+             value="+ &fhbrowsehistorydlg.newer.label;"
              tooltiptext="&fhbrowsehistorydlg.newer.tooltip;"/>
     </hbox>
   </vbox>
