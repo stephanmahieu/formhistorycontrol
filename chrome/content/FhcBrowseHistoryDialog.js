@@ -47,6 +47,7 @@ const FhcBrowseHistoryDialog = {
   dbHandler:     null,
   bundle:        null,
   dateHandler:   null,
+  currentDate:   null,
   lastHistDate:  null,
   firstHistDate: null,
 
@@ -55,27 +56,26 @@ const FhcBrowseHistoryDialog = {
    */
   init: function() {
     //var what = window.arguments[0].what;
-    var fieldName = window.arguments[0].fieldName;
-    var dateUsed  = window.arguments[0].date;
+    var fieldName  = window.arguments[0].fieldName;
+    var fieldValue = window.arguments[0].fieldValue;
+    var dateUsed   = window.arguments[0].date;
 
     this.bundle = new FhcBundle();
     this.dbHandler = new FhcDbHandler();
     this.bundle = new FhcBundle();
     this.dateHandler = new FhcDateHandler(this.bundle);
 
-//    var report = document.getElementById("browsereport");
-//    var reportTxt = this._getFieldInfo(fieldName, dateUsed);
-//    report.value = reportTxt;
-//
-//    this.lastHistDate = dateUsed;
-//    this.firstHistDate = dateUsed;
-//
-//    this.getOlder();
-//    report.inputField.scrollTop = 0;
+    this.currentDate = dateUsed;
+    this.lastHistDate = dateUsed;
+    this.firstHistDate = dateUsed;
 
-    this.setFieldInfo(reportDoc, fieldName, dateUsed);
+    this.setFieldInfo(fieldName, fieldValue, dateUsed);
     this.getOlder();
+    //this.getNewer();
 
+    var report = document.getElementById("browsereport");
+    var reportDoc = report.contentWindow.document;
+    reportDoc.getElementById("newer").scrollIntoView(true);
   },
 
   /**
@@ -95,49 +95,19 @@ const FhcBrowseHistoryDialog = {
     var report = document.getElementById("browsereport");
     var reportDoc = report.contentWindow.document;
 
-    var boxDiv = reportDoc.createElement("div");
-    boxDiv.className = "box older";
-    //boxDiv.setAttribute("class", "box older");
-    reportDoc.getElementById("older").appendChild(boxDiv);
-
-    var dateTimeDiv = reportDoc.createElement("div");
-    //dateTimeDiv.setAttribute("datetime");
-    dateTimeDiv.className = "datetime";
-    boxDiv.appendChild(dateTimeDiv);
-    dateTimeDiv.innerHTML = " a date";
-
-
-    
-
-//    <div class="box older">
-//      <div class="datetime">01-01-2011 10:11:34</div>
-//      <div class="datarow"><div class="place">host:</div><div class="value">addons.mozilla.org</div></div>
-//      <div class="datarow"><div class="place">title:</div><div class="value">Form History Control :: Add-ons for Firefox</div></div>
-//      <div class="datarow"><div class="place">url:</div><div class="value">https://addons.mozilla.org/en-US/firefox/addon/12021</div></div>
-//    </div>
-
-
-//    var report = document.getElementById("browsereport");
-//    var reportTxt = report.value;
-//
-//    // get pages visited before the field was submitted
-//    var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
-//    if (places.length == 0) {
-//      if (reportTxt[reportTxt.length - 1] != "<") {
-//        reportTxt += "\n" + this.bundle.getString("browsehistorywindow.report.nomorehistory") + " <";
-//      }
-//    }
-//    else {
-//      for (var ii=0; ii<places.length; ii++) {
-//        reportTxt += "\n" + this._getPlaceInfo(places[ii]);
-//      }
-//      this.lastHistDate = places[places.length-1].date;
-//    }
-//
-//    report.value = reportTxt;
-//
-//    // Scroll to the end
-//    report.inputField.scrollTop = report.inputField.scrollHeight - report.inputField.clientHeight;
+    // get pages visited before the field was submitted
+    var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
+    if (places.length == 0) {
+//      this.bundle.getString("browsehistorywindow.report.nomorehistory")
+    }
+    else {
+      var parent = reportDoc.getElementById("older");
+      for (var ii=0; ii<places.length; ii++) {
+        parent.appendChild(this._getPlaceInfo(reportDoc, "older", places[ii]));
+      }
+      this.lastHistDate = places[places.length-1].date;
+      parent.lastChild.scrollIntoView(true);
+    }
   },
 
   /**
@@ -147,43 +117,32 @@ const FhcBrowseHistoryDialog = {
     var report = document.getElementById("browsereport");
     var reportDoc = report.contentWindow.document;
 
-    
-//    <div class="box newer">
-//      <div class="datetime">01-01-2011 10:11:34</div>
-//      <div class="datarow"><div class="place">host:</div><div class="value">addons.mozilla.org</div></div>
-//      <div class="datarow"><div class="place">title:</div><div class="value">Form History Control :: Add-ons for Firefox</div></div>
-//      <div class="datarow"><div class="place">url:</div><div class="value">https://addons.mozilla.org/en-US/firefox/addon/12021</div></div>
-//    </div>
-
-//    var report = document.getElementById("browsereport");
-//    var reportTxt = report.value;
-//
-//    // get pages visited after the field was submitted
-//    var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
-//    if (places.length == 0) {
-//      if (reportTxt[0] != ">") {
-//        reportTxt = "> " +
-//          this.bundle.getString("browsehistorywindow.report.nomorehistory") +
-//          "\n\n" + reportTxt;
-//      }
-//    }
-//    else {
-//      for (var ii=0; ii<places.length; ii++) {
-//        reportTxt = this._getPlaceInfo(places[ii]) + "\n" + reportTxt;
-//      }
-//      this.firstHistDate = places[places.length-1].date;
-//    }
-//
-//    report.value = reportTxt;
+    // get pages visited after the field was submitted
+    var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
+    if (places.length == 0) {
+//      this.bundle.getString("browsehistorywindow.report.nomorehistory")
+    }
+    else {
+      var parent = reportDoc.getElementById("newer");
+      for (var ii=0; ii<places.length; ii++) {
+        parent.insertBefore(
+          this._getPlaceInfo(reportDoc, "newer", places[ii]),
+          parent.firstChild
+        );
+      }
+      this.firstHistDate = places[places.length-1].date;
+      parent.firstChild.scrollIntoView(true);
+    }
   },
 
   /**
    * Set the formfield info.
    *
    * @param fieldName {String}
+   * @param fieldValue {String}
    * @param dateUsed {Integer}
    */
-  setFieldInfo: function(fieldName , dateUsed) {
+  setFieldInfo: function(fieldName, fieldValue, dateUsed) {
     var report = document.getElementById("browsereport");
     var reportDoc = report.contentWindow.document;
 
@@ -194,23 +153,43 @@ const FhcBrowseHistoryDialog = {
     fieldname.innerHTML = fieldName;
 
     var fieldvalue = reportDoc.getElementById("fieldvalue");
-    fieldvalue.innerHTML = "&nbsp;"; //TODO set fieldvalue
+    fieldvalue.innerHTML = fieldValue;
+
+    //TODO localization header navigation (can we use xul?)
+    var hdr = document.getElementById("headercurrent");
+    //hdr.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
+    var show = document.getElementById("headershowurl");
+    //show.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
+    var hide = document.getElementById("headerhideurl");
+    //hide.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
   },
 
   /**
-   * Get the place info as a String.
+   * Get the place info inside a div.
    *
+   * @param doc {Document}
+   * @param type {String}
    * @param place {Object}
    * 
-   * @return {String} placeinfo
+   * @return {Element} placeinfo
    */
-  _getPlaceInfo: function(place) {
-    var placeInfo = "";
-    placeInfo += this.dateHandler.toDateString(place.date) + "\n";
-    placeInfo += "   host: \t" + place.host + "\n";
-    placeInfo += "   title:\t" + place.title + "\n";
-    placeInfo += "   url:  \t" + place.url + "\n";
-    //placeInfo += "  count:\t" + place.count + "\n\n";
-    return placeInfo;
+  _getPlaceInfo: function(doc, type, place) {
+    var template = doc.getElementById("placetemplate");
+    var boxDiv = template.cloneNode(true);
+    boxDiv.className = "box " + type;
+    boxDiv.getElementsByClassName("datetime")[0].innerHTML = this.dateHandler.toDateString(place.date);
+
+    var fuzzyage;
+    if ("older" == type) {
+      fuzzyage = this.dateHandler.getFuzzyAge(this.currentDate, place.date);
+    } else {
+      fuzzyage = this.dateHandler.getFuzzyAge(place.date, this.currentDate);
+    }
+    boxDiv.getElementsByClassName("fuzzyage")[0].innerHTML = "(" + fuzzyage.trimLeft() + ")";
+
+    boxDiv.getElementsByClassName("placehost")[0].innerHTML =place.host;
+    boxDiv.getElementsByClassName("placetitle")[0].innerHTML = place.title;
+    boxDiv.getElementsByClassName("placeurl")[0].innerHTML = place.url;
+    return boxDiv;
   }
 }

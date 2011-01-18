@@ -1,69 +1,56 @@
 body {
-	font: .75em Arial, Helvetica, sans-serif;
-	margin: 0;
-	padding: 1.8em 0 1.8em 0;
-	overflow:hidden;
+  font: .75em Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 1.8em 0 0 0;
+  overflow: hidden;
+  background: #eeeeee;
+  border: 1px solid #bbbbbb;
 }
 
 #header-wrap {
-	position: fixed;
-	top: 0;
-	width: 100%;
-    /*overflow: auto;*/
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 #header {
-	height: 1.8em;
-	width: 100%;
-	margin: 0 auto;
-	position: relative;
-	border-bottom: 1px solid;
-}
-
-
-#footer-wrap {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-    /*overflow: auto;*/
-}
-
-#footer {
-	height: 1.8em;
-	width: 100%;
-	margin: 0 auto;
-	position: relative;
-	border-top: 1px solid;
+  height: 1.8em;
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  border-bottom: 1px solid;
 }
 
 .navbox {
-	background: #bbbbbb;
-	border-color: black;
+  background: #bbbbbb;
+  border-color: black;
 }
-
 .navbox ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	position: absolute;
-	top: 3px;
-	left: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: absolute;
+  top: 3px;
+  left: 10px;
 }
 .navbox ul li {
-	float: left;
-	margin-left: 5px;
+  float: left;
+  margin-left: 5px;
 }
 .navbox ul li a{
-	background-color: #505050;
-	border: 1px solid grey;
-	color: white;
-	padding: 1px;
-	font-weight: bold;
-	font-size: 0.9em;
-	text-decoration: none;
+  background-color: #505050;
+  border: 1px solid grey;
+  color: white;
+  padding: 1px 4px;
+  font-weight: bold;
+  font-size: 0.9em;
+  text-decoration: none;
 }
 .navbox  ul li a:hover {
-	color: yellow;	
+  color: yellow;
+}
+.navbox .urlnav {
+  padding-left: 30px;
 }
 
 #content{
@@ -72,59 +59,66 @@ body {
  }
 
 .box {
-	/* width: 22em; */
-	width: 50%;
-	display: block;
-	padding: 4px;
-	margin: 10px 0 10px 6px;
-	border-width: 2px;
-	border-style: solid;
-	border-radius: 7px;
-	-moz-border-radius: 7px;
-	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  width: 86%;
+  display: block;
+  padding: 4px;
+  margin: 10px 0 10px 6px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
 .current {
-	background: #ffcccc;
-	border-color: #b00000;
-}
-
-.older {
-	background: #ccccff;
-	border-color: #0000b0;
-	margin-left: 16px;
+  background: #ffcccc;
+  border-color: #b00000;
 }
 
 .newer {
-	background: #ccffcc;
-	border-color: #00a000;
-	margin-left: 16px;
+  background: #ccccff;
+  border-color: #0000b0;
+  margin-left: 26px;
+}
+
+.older {
+  background: #ccffcc;
+  border-color: #00a000;
+  margin-left: 26px;
 }
 
 .datarow {
-	clear: both;
+  clear: both;
 }
 
 .field {
-	font-weight: bold;
-	width: 6em;
-	margin-right: 6px;
-	float: left;
+  font-weight: bold;
+  width: 6em;
+  margin-right: 6px;
+  float: left;
 }
 
 .place {
-	font-weight: bold;
-	width: 3em;
-	margin-right: 6px;
-	float: left;
+  font-weight: bold;
+  width: 3em;
+  margin-right: 6px;
+  float: left;
 }
 
 .value {
+  overflow: hidden;
+  /*white-space:nowrap;*/
+}
+
+.fuzzyage {
+  overflow: hidden;
+  padding-left: 10px;
 }
 
 .datetime {
-	padding-bottom: 2px;
-	font-style: italic;
-	font-weight: bold;
+  float: left;
+  padding-bottom: 2px;
+  font-style: italic;
+  font-weight: bold;
 }
