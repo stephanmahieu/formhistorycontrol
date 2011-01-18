@@ -1,0 +1,130 @@
+body {
+	font: .75em Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 1.8em 0 1.8em 0;
+	overflow:hidden;
+}
+
+#header-wrap {
+	position: fixed;
+	top: 0;
+	width: 100%;
+    /*overflow: auto;*/
+}
+
+#header {
+	height: 1.8em;
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	border-bottom: 1px solid;
+}
+
+
+#footer-wrap {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+    /*overflow: auto;*/
+}
+
+#footer {
+	height: 1.8em;
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	border-top: 1px solid;
+}
+
+.navbox {
+	background: #bbbbbb;
+	border-color: black;
+}
+
+.navbox ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	position: absolute;
+	top: 3px;
+	left: 10px;
+}
+.navbox ul li {
+	float: left;
+	margin-left: 5px;
+}
+.navbox ul li a{
+	background-color: #505050;
+	border: 1px solid grey;
+	color: white;
+	padding: 1px;
+	font-weight: bold;
+	font-size: 0.9em;
+	text-decoration: none;
+}
+.navbox  ul li a:hover {
+	color: yellow;	
+}
+
+#content{
+  height:100%;
+  overflow:auto;
+ }
+
+.box {
+	/* width: 22em; */
+	width: 50%;
+	display: block;
+	padding: 4px;
+	margin: 10px 0 10px 6px;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 7px;
+	-moz-border-radius: 7px;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.current {
+	background: #ffcccc;
+	border-color: #b00000;
+}
+
+.older {
+	background: #ccccff;
+	border-color: #0000b0;
+	margin-left: 16px;
+}
+
+.newer {
+	background: #ccffcc;
+	border-color: #00a000;
+	margin-left: 16px;
+}
+
+.datarow {
+	clear: both;
+}
+
+.field {
+	font-weight: bold;
+	width: 6em;
+	margin-right: 6px;
+	float: left;
+}
+
+.place {
+	font-weight: bold;
+	width: 3em;
+	margin-right: 6px;
+	float: left;
+}
+
+.value {
+}
+
+.datetime {
+	padding-bottom: 2px;
+	font-style: italic;
+	font-weight: bold;
+}
