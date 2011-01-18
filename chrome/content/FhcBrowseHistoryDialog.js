@@ -63,15 +63,19 @@ const FhcBrowseHistoryDialog = {
     this.bundle = new FhcBundle();
     this.dateHandler = new FhcDateHandler(this.bundle);
 
-    var report = document.getElementById("browsereport");
-    var reportTxt = this._getFieldInfo(fieldName, dateUsed);
-    report.value = reportTxt;
+//    var report = document.getElementById("browsereport");
+//    var reportTxt = this._getFieldInfo(fieldName, dateUsed);
+//    report.value = reportTxt;
+//
+//    this.lastHistDate = dateUsed;
+//    this.firstHistDate = dateUsed;
+//
+//    this.getOlder();
+//    report.inputField.scrollTop = 0;
 
-    this.lastHistDate = dateUsed;
-    this.firstHistDate = dateUsed;
-
+    this.setFieldInfo(reportDoc, fieldName, dateUsed);
     this.getOlder();
-    report.inputField.scrollTop = 0;
+
   },
 
   /**
@@ -89,26 +93,51 @@ const FhcBrowseHistoryDialog = {
    */
   getOlder: function() {
     var report = document.getElementById("browsereport");
-    var reportTxt = report.value;
+    var reportDoc = report.contentWindow.document;
 
-    // get pages visited before the field was submitted
-    var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
-    if (places.length == 0) {
-      if (reportTxt[reportTxt.length - 1] != "<") {
-        reportTxt += "\n" + this.bundle.getString("browsehistorywindow.report.nomorehistory") + " <";
-      }
-    }
-    else {
-      for (var ii=0; ii<places.length; ii++) {
-        reportTxt += "\n" + this._getPlaceInfo(places[ii]);
-      }
-      this.lastHistDate = places[places.length-1].date;
-    }
+    var boxDiv = reportDoc.createElement("div");
+    boxDiv.className = "box older";
+    //boxDiv.setAttribute("class", "box older");
+    reportDoc.getElementById("older").appendChild(boxDiv);
 
-    report.value = reportTxt;
+    var dateTimeDiv = reportDoc.createElement("div");
+    //dateTimeDiv.setAttribute("datetime");
+    dateTimeDiv.className = "datetime";
+    boxDiv.appendChild(dateTimeDiv);
+    dateTimeDiv.innerHTML = " a date";
 
-    // Scroll to the end
-    report.inputField.scrollTop = report.inputField.scrollHeight - report.inputField.clientHeight;
+
+    
+
+//    <div class="box older">
+//      <div class="datetime">01-01-2011 10:11:34</div>
+//      <div class="datarow"><div class="place">host:</div><div class="value">addons.mozilla.org</div></div>
+//      <div class="datarow"><div class="place">title:</div><div class="value">Form History Control :: Add-ons for Firefox</div></div>
+//      <div class="datarow"><div class="place">url:</div><div class="value">https://addons.mozilla.org/en-US/firefox/addon/12021</div></div>
+//    </div>
+
+
+//    var report = document.getElementById("browsereport");
+//    var reportTxt = report.value;
+//
+//    // get pages visited before the field was submitted
+//    var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
+//    if (places.length == 0) {
+//      if (reportTxt[reportTxt.length - 1] != "<") {
+//        reportTxt += "\n" + this.bundle.getString("browsehistorywindow.report.nomorehistory") + " <";
+//      }
+//    }
+//    else {
+//      for (var ii=0; ii<places.length; ii++) {
+//        reportTxt += "\n" + this._getPlaceInfo(places[ii]);
+//      }
+//      this.lastHistDate = places[places.length-1].date;
+//    }
+//
+//    report.value = reportTxt;
+//
+//    // Scroll to the end
+//    report.inputField.scrollTop = report.inputField.scrollHeight - report.inputField.clientHeight;
   },
 
   /**
@@ -116,43 +145,56 @@ const FhcBrowseHistoryDialog = {
    */
   getNewer: function() {
     var report = document.getElementById("browsereport");
-    var reportTxt = report.value;
+    var reportDoc = report.contentWindow.document;
 
-    // get pages visited after the field was submitted
-    var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
-    if (places.length == 0) {
-      if (reportTxt[0] != ">") {
-        reportTxt = "> " +
-          this.bundle.getString("browsehistorywindow.report.nomorehistory") +
-          "\n\n" + reportTxt;
-      }
-    }
-    else {
-      for (var ii=0; ii<places.length; ii++) {
-        reportTxt = this._getPlaceInfo(places[ii]) + "\n" + reportTxt;
-      }
-      this.firstHistDate = places[places.length-1].date;
-    }
+    
+//    <div class="box newer">
+//      <div class="datetime">01-01-2011 10:11:34</div>
+//      <div class="datarow"><div class="place">host:</div><div class="value">addons.mozilla.org</div></div>
+//      <div class="datarow"><div class="place">title:</div><div class="value">Form History Control :: Add-ons for Firefox</div></div>
+//      <div class="datarow"><div class="place">url:</div><div class="value">https://addons.mozilla.org/en-US/firefox/addon/12021</div></div>
+//    </div>
 
-    report.value = reportTxt;
+//    var report = document.getElementById("browsereport");
+//    var reportTxt = report.value;
+//
+//    // get pages visited after the field was submitted
+//    var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
+//    if (places.length == 0) {
+//      if (reportTxt[0] != ">") {
+//        reportTxt = "> " +
+//          this.bundle.getString("browsehistorywindow.report.nomorehistory") +
+//          "\n\n" + reportTxt;
+//      }
+//    }
+//    else {
+//      for (var ii=0; ii<places.length; ii++) {
+//        reportTxt = this._getPlaceInfo(places[ii]) + "\n" + reportTxt;
+//      }
+//      this.firstHistDate = places[places.length-1].date;
+//    }
+//
+//    report.value = reportTxt;
   },
 
   /**
-   * Get the field info as a String.
+   * Set the formfield info.
    *
    * @param fieldName {String}
    * @param dateUsed {Integer}
-   *
-   * @return {String} placeinfo
    */
-  _getFieldInfo: function(fieldName , dateUsed) {
-    var reportTxt = "";
-    reportTxt += "=============\n";
-    reportTxt += this.dateHandler.toDateString(dateUsed) + "\n" +
-                 "  " + this.bundle.getString("browsehistorywindow.report.fieldname") + ": " +
-                 fieldName + "\n";
-    reportTxt += "=============\n";
-    return reportTxt;
+  setFieldInfo: function(fieldName , dateUsed) {
+    var report = document.getElementById("browsereport");
+    var reportDoc = report.contentWindow.document;
+
+    var datetime = reportDoc.getElementById("datetime");
+    datetime.innerHTML = this.dateHandler.toDateString(dateUsed);
+
+    var fieldname = reportDoc.getElementById("fieldname");
+    fieldname.innerHTML = fieldName;
+
+    var fieldvalue = reportDoc.getElementById("fieldvalue");
+    fieldvalue.innerHTML = "&nbsp;"; //TODO set fieldvalue
   },
 
   /**
