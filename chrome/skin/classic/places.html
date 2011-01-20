@@ -1,36 +1,42 @@
 <html>
 <head>
   <title></title>
+  <link rel="stylesheet" type="text/css" href="chrome://formhistory/skin/buttons.css"/>
   <link rel="stylesheet" type="text/css" href="chrome://formhistory/skin/places.css"/>
   <script type="text/javascript">
-    function showURLs() {
-      var elems = document.getElementsByClassName("urlrow");
+    function showRows(what) {
+      var elems = document.getElementsByClassName(what+'row');
       for (var i=0; i<elems.length; i++) {
         elems[i].style.display = "";
       }
-      document.getElementById("hideurl").style.display = "";
-      document.getElementById("showurl").style.display = "none";
+      document.getElementById("hide" + what).style.display = "table-cell";
+      document.getElementById("show" + what).style.display = "none";
     }
-    function hideURLs() {
-      var elems = document.getElementsByClassName("urlrow");
+    function hideRows(what) {
+      var elems = document.getElementsByClassName(what+'row');
       for (var i=0; i<elems.length; i++) {
         elems[i].style.display = "none";
       }
-      document.getElementById("hideurl").style.display = "none";
-      document.getElementById("showurl").style.display = "";
+      document.getElementById("hide" + what).style.display = "none";
+      document.getElementById("show" + what).style.display = "table-cell";
     }
   </script>
 </head>
 <body>
-  <div id="header-wrap" class="navbox">
+  <div id="header-wrap">
     <div id="header">
-      <ul>
-        <li><a href="#oldest">&lt;&lt;</a></li>
-        <li><a href="#current" id="headercurrent">Current</a></li>
-        <li><a href="#newest">&gt;&gt;</a></li>
-        <li id="hideurl" class="urlnav"><a id="headershowurl" href="#" onclick="hideURLs()">Hide URLs</a></li>
-        <li id="showurl" class="urlnav" style="display:none"><a id="headerhideurl" href="#" onclick="showURLs()">Show URLs</a></li>
-      </ul>
+      <div class="buttonrow">
+        <span class="buttons"><a href="#oldest">&lt;&lt;</a></span>
+        <span class="buttons"><a href="#current" id="headercurrent">Current</a></span>
+        <span class="buttons"><a href="#newest">&gt;&gt;</a></span>
+        <span class="extramargin"/>
+        <span class="buttons" id="hideurl" class="extramargin"><a id="headershowurl" href="#" onclick="hideRows('url')">Hide URL</a></span>
+        <span class="buttons" id="showurl" class="extramargin" style="display:none"><a id="headerhideurl" href="#" onclick="showRows('url')">Show URL</a></span>
+        <span class="buttons" id="hidetitle"><a id="headershowtitle" href="#" onclick="hideRows('title')">Hide Title</a></span>
+        <span class="buttons" id="showtitle" style="display:none"><a id="headerhidetitle" href="#" onclick="showRows('title')">Show Title</a></span>
+        <span class="buttons" id="hidehost"><a id="headershowhost" href="#" onclick="hideRows('host')">Hide Host</a></span>
+        <span class="buttons" id="showhost" style="display:none"><a id="headerhidehost" href="#" onclick="showRows('host')">Show Host</a></span>
+      </div>
     </div>
   </div>
 
@@ -39,9 +45,9 @@
     <div id="newer"></div>
     <a href="" name="current"></a>
     <div id="current" class="box current">
-      <div id="datetime" class="datetime">&nbsp;</div>
-      <div class="datarow"><div class="field">Fieldname:</div><div id="fieldname" class="value">&nbsp;</div></div>
-      <div class="datarow"><div class="field">Value:</div><div id="fieldvalue" class="value">&nbsp;</div></div>
+      <div class="datarow"><div id="datetime" class="datetime">&nbsp;</div></div>
+      <div class="datarow"><div class="field">Fieldname</div><div id="fieldname" class="value">&nbsp;</div></div>
+      <div class="datarow"><div class="field">Value</div><div id="fieldvalue" class="value">&nbsp;</div></div>
     </div>
     <div id="older"></div>
     <a href="" name="oldest"></a>
@@ -50,11 +56,12 @@
   <!-- hidden template -->
   <div style="display: none">
     <div id="placetemplate">
-      <div class="datarow"><div class="datetime">&nbsp;</div><div class="fuzzyage">&nbsp;</div></div>
-      <div class="datarow"><div class="place">title:</div><div class="value placetitle">&nbsp;</div></div>
-      <div class="datarow"><div class="place">host:</div><div class="value placehost">&nbsp;</div></div>
-      <div class="datarow urlrow"><div class="place">url:</div><div class="value placeurl">&nbsp;</div></div>
+      <div class="datarow"><span class="datetime">&nbsp;</span><span class="fuzzyage">&nbsp;</span></div>
+      <div class="datarow titlerow"><div class="place">Title</div><div class="value placetitle">&nbsp;</div></div>
+      <div class="datarow hostrow"><div class="place">Host</div><div class="value placehost">&nbsp;</div></div>
+      <div class="datarow urlrow"><div class="place">URL</div><div class="value placeurl">&nbsp;</div></div>
     </div>
   </div>
+
 </body>
 </html>

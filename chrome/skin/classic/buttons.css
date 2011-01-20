@@ -1,18 +1,8 @@
 /* blue glass-look buttons */
 
-ul.buttons {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  position: absolute;
-  top: 5px; left: 10px;
-}
-ul.buttons li {
-  float: left;
-  margin-left: 5px;
-}
-
-ul.buttons li a {
+.buttons, .buttons:active {
+  display: inline-block;
+  margin: 0 4px;
   background: -moz-linear-gradient(top, #70b6f2, #448ed4 50%, #1a62db 51%, #3f8de1);
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -26,10 +16,13 @@ ul.buttons li a {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
-ul.buttons li a:hover {
+
+.buttons:hover {
   background: -moz-linear-gradient(top, #90d6ff, #64aef4 50%, #3a82fb 51%, #5fadff);
   text-shadow: none;
 }
-ul.buttons li a:focus {
+
+.buttons:focus {
   outline: none;
+  color: white;
 }

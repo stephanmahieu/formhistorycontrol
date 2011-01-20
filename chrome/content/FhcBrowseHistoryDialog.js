@@ -175,9 +175,9 @@ const FhcBrowseHistoryDialog = {
    */
   _getPlaceInfo: function(doc, type, place) {
     var template = doc.getElementById("placetemplate");
-    var boxDiv = template.cloneNode(true);
-    boxDiv.className = "box " + type;
-    boxDiv.getElementsByClassName("datetime")[0].innerHTML = this.dateHandler.toDateString(place.date);
+    var box = template.cloneNode(true);
+    box.className = "box " + type;
+    box.getElementsByClassName("datetime")[0].innerHTML = this.dateHandler.toDateString(place.date);
 
     var fuzzyage;
     if ("older" == type) {
@@ -185,11 +185,11 @@ const FhcBrowseHistoryDialog = {
     } else {
       fuzzyage = this.dateHandler.getFuzzyAge(place.date, this.currentDate);
     }
-    boxDiv.getElementsByClassName("fuzzyage")[0].innerHTML = "(" + fuzzyage.trimLeft() + ")";
+    box.getElementsByClassName("fuzzyage")[0].innerHTML = "(" + fuzzyage.trimLeft() + ")";
 
-    boxDiv.getElementsByClassName("placehost")[0].innerHTML =place.host;
-    boxDiv.getElementsByClassName("placetitle")[0].innerHTML = place.title;
-    boxDiv.getElementsByClassName("placeurl")[0].innerHTML = place.url;
-    return boxDiv;
+    box.getElementsByClassName("placehost")[0].innerHTML =place.host;
+    box.getElementsByClassName("placetitle")[0].innerHTML = place.title;
+    box.getElementsByClassName("placeurl")[0].innerHTML = place.url;
+    return box;
   }
 }
