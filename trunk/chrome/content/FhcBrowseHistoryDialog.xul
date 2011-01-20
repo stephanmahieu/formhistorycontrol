@@ -4,6 +4,7 @@
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/buttons.css" type="text/css"?>
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="browsehistoryDialog"
@@ -28,10 +29,10 @@
     <iframe id="browsereport" type="chrome" flex="1"
             src="chrome://formhistory/skin/places.html" />
     <hbox>
-      <label class="text-link" onclick="FhcBrowseHistoryDialog.getOlder(true)"
+      <label class="text-link buttons" onclick="FhcBrowseHistoryDialog.getOlder(true)"
              value="+ &fhbrowsehistorydlg.older.label;"
              tooltiptext="&fhbrowsehistorydlg.older.tooltip;"/>
-      <label class="text-link" onclick="FhcBrowseHistoryDialog.getNewer()"
+      <label class="text-link buttons" onclick="FhcBrowseHistoryDialog.getNewer()"
              value="+ &fhbrowsehistorydlg.newer.label;"
              tooltiptext="&fhbrowsehistorydlg.newer.tooltip;"/>
     </hbox>
