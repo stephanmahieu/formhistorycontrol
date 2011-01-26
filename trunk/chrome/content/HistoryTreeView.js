@@ -560,7 +560,7 @@ HistoryTreeView.prototype = {
 
   // Return the current sorted column (defaults to first column if none found)
   _getCurrentSortedColumn: function() {
-    var sortableCols = ["nameCol", "valueCol","timesusedCol","firstusedCol", "lastusedCol", "ageCol", "hostCol", "urlCol", "pagetitleCol", "indexCol"];
+    var sortableCols = ["nameCol", "valueCol","timesusedCol","firstusedCol", "lastusedCol", "ageFirstCol", "ageCol", "hostCol", "urlCol", "pagetitleCol", "indexCol"];
     var elem, firstColumn, sortedColumn = null;
     for (var ii=0; ii<sortableCols.length; ii++) {
       elem = document.getElementById(sortableCols[ii]);
@@ -620,6 +620,7 @@ HistoryTreeView.prototype = {
         break;
         
       case "firstusedCol":
+      case "ageFirstCol":
         compareFunc = function compare(a, b) {
           var result = a.first - b.first;
           if (result == 0) result = FhcUtil.stringCompare(a.name, b.name);
