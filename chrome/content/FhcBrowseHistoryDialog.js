@@ -97,10 +97,7 @@ const FhcBrowseHistoryDialog = {
 
     // get pages visited before the field was submitted
     var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
-    if (places.length == 0) {
-//      this.bundle.getString("browsehistorywindow.report.nomorehistory")
-    }
-    else {
+    if (places.length > 0) {
       var parent = reportDoc.getElementById("older");
       for (var ii=0; ii<places.length; ii++) {
         parent.appendChild(this._getPlaceInfo(reportDoc, "older", places[ii]));
@@ -119,10 +116,7 @@ const FhcBrowseHistoryDialog = {
 
     // get pages visited after the field was submitted
     var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
-    if (places.length == 0) {
-//      this.bundle.getString("browsehistorywindow.report.nomorehistory")
-    }
-    else {
+    if (places.length > 0) {
       var parent = reportDoc.getElementById("newer");
       for (var ii=0; ii<places.length; ii++) {
         parent.insertBefore(
@@ -155,13 +149,34 @@ const FhcBrowseHistoryDialog = {
     var fieldvalue = reportDoc.getElementById("fieldvalue");
     fieldvalue.innerHTML = fieldValue;
 
-    //TODO localization header navigation (can we use xul?)
-    var hdr = document.getElementById("headercurrent");
-    //hdr.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
-    var show = document.getElementById("headershowurl");
-    //show.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
-    var hide = document.getElementById("headerhideurl");
-    //hide.innerHTML = this.bundle.getString("browsehistorywindow.report.current");
+    //localization navigation buttons
+    this._setLocaleString("gocurrent");
+    this._setLocaleString("hideurl");
+    this._setLocaleString("showurl");
+    this._setLocaleString("hidehost");
+    this._setLocaleString("showhost");
+    this._setLocaleString("hidetitle");
+    this._setLocaleString("showtitle");
+
+    //localization report
+    this._setLocaleString("fieldnamelabel");
+    this._setLocaleString("valuelabel");
+    this._setLocaleString("titlelabel");
+    this._setLocaleString("hostlabel");
+    this._setLocaleString("urllabel");
+  },
+
+  /**
+   * Set the locale string of an html element inside the iframe document.
+   * @param code {String]
+   *        the code used for both elementId as well as bundle lookup key.
+   */
+  _setLocaleString: function(code) {
+    var element = document.getElementById("browsereport")
+                    .contentDocument.getElementById(code);
+    if (element) {
+      element.innerHTML = this.bundle.getString("browsehistorywindow.report." + code);
+    }
   },
 
   /**
@@ -187,7 +202,7 @@ const FhcBrowseHistoryDialog = {
     }
     box.getElementsByClassName("fuzzyage")[0].innerHTML = "(" + fuzzyage.trimLeft() + ")";
 
-    box.getElementsByClassName("placehost")[0].innerHTML =place.host;
+    box.getElementsByClassName("placehost")[0].innerHTML = place.host;
     box.getElementsByClassName("placetitle")[0].innerHTML = place.title;
     box.getElementsByClassName("placeurl")[0].innerHTML = place.url;
     return box;
