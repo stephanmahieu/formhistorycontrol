@@ -93,9 +93,10 @@ const FhcEntryDialog = {
   onOkay: function() {
     var eName = document.getElementById("name").value;
     var eValue = document.getElementById("value").value;
+    var eUsed = document.getElementById("used").value;
 
-    // check if both textboxes are not empty
-    if (eName == "" || eValue == "") {
+    // check if editable textboxes are not empty
+    if (eName == "" || eValue == "" || eUsed == "") {
       document.getElementById("errorMessageBlank").hidden = false;
       return false;
     }
@@ -103,7 +104,7 @@ const FhcEntryDialog = {
     var entry = {
       name:  eName,
       value: eValue,
-      used:  document.getElementById("used").value,
+      used:  eUsed,
       first: document.getElementById("first").value,
       last:  document.getElementById("last").value
     };
@@ -119,7 +120,7 @@ const FhcEntryDialog = {
     window.arguments[0].out = {
       name:  eName,
       value: eValue,
-      used:  document.getElementById("used").value,
+      used:  eUsed,
       first: document.getElementById("first").value,
       last:  document.getElementById("last").value
     };
@@ -135,6 +136,7 @@ const FhcEntryDialog = {
     document.getElementById("errorMessageExist").hidden = true;
     if (document.getElementById("name").value != ""
       && document.getElementById("value").value != ""
+      && document.getElementById("used").value != ""
       && !document.getElementById("errorMessageBlank").hidden)
     {
       document.getElementById("errorMessageBlank").hidden = true;
