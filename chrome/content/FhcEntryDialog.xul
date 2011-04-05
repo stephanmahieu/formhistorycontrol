@@ -52,6 +52,8 @@
                  value="&fhentrydlg.blankfielderror.label;"/>
           <label id="errorMessageExist" hidden="true" class="errormessage"
                  value="&fhentrydlg.existerror.label;"/>
+          <label id="errorMessageTimesUsed" hidden="true" class="errormessage"
+                 value="&fhentrydlg.timesusederror.label;"/>
           <label value=""/>
         </hbox>
         <row align="baseline">

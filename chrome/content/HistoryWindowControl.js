@@ -820,7 +820,7 @@ const HistoryWindowControl = {
     if (editCol != null) {
         idCol = editCol.id;
     }
-    if (idCol!="nameCol" && idCol!="valueCol") {
+    if (idCol!="nameCol" && idCol!="valueCol" && idCol!="timesusedCol") {
       this._editEntry(selected);
     }
   },
@@ -1806,7 +1806,7 @@ const HistoryWindowControl = {
   },
 
   // Callbackfunction used by HistoryTreeView for editing in treecolumn
-  _editEntryCallback: function(changedEntry) {
+  _editEntryCallback: function(changedEntry, oldEntry) {
       // convert from FormHistoryItem
       var editEntry = {
         id:    changedEntry.id,
@@ -1816,6 +1816,13 @@ const HistoryWindowControl = {
         first: changedEntry.first,
         last:  changedEntry.last
       };
+
+    // Validate
+    if (editEntry.name == "" || editEntry.value == "" || !FhcUtil.isNumeric(editEntry.used)) {
+      // revert change in treeview
+      HistoryWindowControl.treeView.updateEntry(oldEntry);
+      return;
+    }
 
     // data already changed in tree, update database accordingly
     if (HistoryWindowControl.dbHandler.updateEntry(editEntry)) {

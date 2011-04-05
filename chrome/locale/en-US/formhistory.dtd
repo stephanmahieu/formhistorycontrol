@@ -181,6 +181,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Do not leave any of the fields blank">
 <!ENTITY fhentrydlg.existerror.label "A formhistory item with this name and value already exist">
+<!ENTITY fhentrydlg.timesusederror.label "Only numeric values alowed for Times Used">
 
 <!ENTITY fhcriteriadlg.windowtitle "Edit Cleanup Criteria">
 <!ENTITY fhcriteriadlg.edit.description "Edit existing cleanup criteria">

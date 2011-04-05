@@ -759,7 +759,7 @@ HistoryTreeView.prototype = {
         return this.data[row].id;
       case "timesusedCol":
         // right aligned, keep some distance from the right adjacent column
-        return this.data[row].used + "   ";
+        return this.data[row].used + "";
       case "firstusedCol":
         return this.dateHandler.toDateString(this.data[row].first);
       case "lastusedCol":
@@ -781,6 +781,15 @@ HistoryTreeView.prototype = {
 
   setCellText: function(row, column, newValue) {
     // Typically called when editing in treecell (isEditable)
+    var oldEntry = new FormHistoryItem(
+      this.data[row].id,
+      this.data[row].name,
+      this.data[row].value,
+      this.data[row].used,
+      this.data[row].first,
+      this.data[row].last,
+      this.data[row].place);
+
     var changedEntry = new FormHistoryItem(
       this.data[row].id,
       this.data[row].name,
@@ -802,6 +811,14 @@ HistoryTreeView.prototype = {
         this.data[row].value = newValue;
         changedEntry.value = newValue;
         break;
+      case "timesusedCol":
+        oldValue = this.data[row].used;
+        var intValue = parseInt(newValue);
+        // alow negative number
+        // if (!isNaN(intValue)) intValue = Math.abs(intValue);
+        this.data[row].used = intValue;
+        changedEntry.used = intValue;
+        break;
       default:
         // edit other columns not supported
         oldValue = newValue;
@@ -809,7 +826,7 @@ HistoryTreeView.prototype = {
     }
     if (oldValue != newValue) {
       if (null != this.editColumnCallBackFunc) {
-        this.editColumnCallBackFunc(changedEntry);
+        this.editColumnCallBackFunc(changedEntry, oldEntry);
       }
     }
   },
@@ -831,7 +848,7 @@ HistoryTreeView.prototype = {
   },
 
   isEditable: function(idx, column)  {
-    return (column.id=='nameCol' || column.id=='valueCol');
+    return (column.id=='nameCol' || column.id=='valueCol' || column.id=='timesusedCol');
   },
 
   getLevel: function(row) {

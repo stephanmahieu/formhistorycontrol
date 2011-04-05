@@ -100,6 +100,11 @@ const FhcEntryDialog = {
       document.getElementById("errorMessageBlank").hidden = false;
       return false;
     }
+    // check if TimesUsed value is valid
+    if (!FhcUtil.isNumeric(eUsed)) {
+      document.getElementById("errorMessageTimesUsed").hidden = false;
+      return false;
+    }
 
     var entry = {
       name:  eName,
@@ -134,12 +139,17 @@ const FhcEntryDialog = {
    */
   onInput: function() {
     document.getElementById("errorMessageExist").hidden = true;
+    
     if (document.getElementById("name").value != ""
       && document.getElementById("value").value != ""
       && document.getElementById("used").value != ""
       && !document.getElementById("errorMessageBlank").hidden)
     {
       document.getElementById("errorMessageBlank").hidden = true;
+    }
+
+    if (FhcUtil.isNumeric(document.getElementById("used").value)) {
+      document.getElementById("errorMessageTimesUsed").hidden = true;
     }
   },
 
