@@ -277,10 +277,11 @@ FhcDbHandler.prototype = {
     try {
       var statement = mDBConn.createStatement(
           "UPDATE moz_formhistory" +
-          "   SET fieldname = :name, value = :value" +
+          "   SET fieldname = :name, value = :value, timesUsed = :used" +
           " WHERE id = :id");
       statement.params.name  = entry.name;
       statement.params.value = entry.value;
+      statement.params.used  = entry.used;
       statement.params.id    = entry.id;
       result = this._executeStatement(statement);
     } finally {
@@ -294,10 +295,10 @@ FhcDbHandler.prototype = {
    * the given fieldname and value, return true on succes.
    *
    * @param  fieldname {String}
-   *         the fieldname of the entries to be deleted
+   *         the fieldname of the entries to be updated
    *
    * @param  value {String}
-   *         the value of the entries to be deleted
+   *         the value of the entries to be updated
    *
    * @param  nowDate {Integer}
    *         Date when entry was last used (usually the current systemdate)

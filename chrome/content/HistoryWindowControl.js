@@ -1791,7 +1791,7 @@ const HistoryWindowControl = {
             id:    -1,
             name:  params.out.name,
             value: params.out.value,
-            used:  0,
+            used:  params.out.used,
             first: now,
             last:  now,
             place: []
@@ -1857,7 +1857,7 @@ const HistoryWindowControl = {
           id:    selected[0].id,
           name:  params.out.name,
           value: params.out.value,
-          used:  selected[0].used,
+          used:  params.out.used,
           first: selected[0].first,
           last:  selected[0].last,
           place: selected[0].place

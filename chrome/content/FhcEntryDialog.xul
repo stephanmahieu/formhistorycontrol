@@ -64,7 +64,7 @@
         </row>
         <row align="baseline">
           <label value="&fhentrydlg.timesused.label;" control="used"/>
-          <textbox id="used" disabled="true" />
+          <textbox id="used" oninput="FhcEntryDialog.onInput();"/>
         </row>
         <row align="baseline">
           <label value="&fhentrydlg.firstused.label;" control="first"/>
