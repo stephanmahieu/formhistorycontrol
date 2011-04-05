@@ -181,6 +181,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Alle velden moeten een waarde bevatten">
 <!ENTITY fhentrydlg.existerror.label "Deze veldnaam en waarde bestaat reeds">
+<!ENTITY fhentrydlg.timesusederror.label "Alleen numerieke waarden toegestaan voor Aantal keer gebruikt">
 
 <!ENTITY fhcriteriadlg.windowtitle "Onderhoud Opschoon Criteria">
 <!ENTITY fhcriteriadlg.edit.description "Wijzig een opschoon criterium">

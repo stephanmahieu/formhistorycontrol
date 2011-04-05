@@ -142,6 +142,17 @@ const FhcUtil = {
   },
 
   /**
+   * Test if value n can be interpreted as an integer.
+   *
+   * @param n {}
+   * @return {Boolean}
+   *         whether or not value n can be interpreted as an integer
+   */
+  isNumeric: function(n) {
+    return !isNaN(parseInt(n)) && isFinite(n);
+  },
+
+  /**
    * Display a confirmation dialog, return true if user confirmed.
    * 
    * @param  title {String}
