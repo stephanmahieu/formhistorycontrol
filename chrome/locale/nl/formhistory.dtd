@@ -166,6 +166,7 @@
 
 <!ENTITY fhentrydlg.windowtitle "Onderhoud Webformulier Historie">
 <!ENTITY fhentrydlg.edit.description "Wijzig een bestaande formulier waarde">
+<!ENTITY fhentrydlg.editmultiple.description "Wijzig meerdere formulier waarden">
 <!ENTITY fhentrydlg.add.description "Voeg een nieuwe formulier waarde toe">
 
 <!ENTITY fhentrydlg.fieldname.label "Veldnaam">

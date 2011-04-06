@@ -260,7 +260,40 @@ FhcDbHandler.prototype = {
     }
     return result;
   },
-  
+
+  /**
+   * Edit existing formhistory entries in the database.
+   *
+   * @param  oldEntries {Array}
+   *         an array of formhistory entry objects to be modified
+   *         
+   * @param  newUsedValue {String}
+   *         the new used value
+   *
+   * @return {Boolean}
+   *         whether or not updating succeeded
+   */
+  bulkEditEntries: function(oldEntries, newUsedValue) {
+    var mDBConn = this._getHistDbConnection(true);
+
+    var result = true, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "UPDATE moz_formhistory" +
+          "   SET timesUsed = :used" +
+          " WHERE id = :id");
+      for(var ii=0; result && ii < oldEntries.length; ii++) {
+        statement.params.id   = oldEntries[ii].id;
+        statement.params.used = newUsedValue;
+        result = this._executeReusableStatement(statement);
+      }
+    } finally {
+      this._closeStatement(statement);
+      this._endHistDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
   /**
    * Update a formhistory entry in the database, return true on succes.
    *

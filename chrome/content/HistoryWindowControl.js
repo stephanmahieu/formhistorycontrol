@@ -527,7 +527,7 @@ const HistoryWindowControl = {
   // Right-click popup contextmenu activation from FormHistoryControl Dialog
   menuPopup: function(event) {
     var selected = this.treeView.getSelected();
-    document.getElementById("mnEdit").setAttribute("disabled", (1 != selected.length));
+    document.getElementById("mnEdit").setAttribute("disabled", (0 == selected.length));
     document.getElementById("mnDelete").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnDeleteName").setAttribute("disabled", 1 != selected.length);
     document.getElementById("mnDeleteValue").setAttribute("disabled", 1 != selected.length);
@@ -1833,18 +1833,22 @@ const HistoryWindowControl = {
 
   // Edit an entry, use a dialog to obtain new name/value
   _editEntry: function(selected) {
-    var entryExistCallbackFunction = function(changedEntry) {
-          if (changedEntry.name == selected[0].name
-                && changedEntry.value == selected[0].value) {
-            // nothing changed, no error
-            return false;
-          } else {
-            return HistoryWindowControl.treeView.entryExists(changedEntry);
-          }
-    };
+    var entryExistCallbackFunction = null;
+    var params;
 
     if (selected.length == 1) {
-      var params = {
+      // edit one entry
+      entryExistCallbackFunction = function(changedEntry) {
+        if (changedEntry.name == selected[0].name
+              && changedEntry.value == selected[0].value) {
+          // nothing changed, no error
+          return false;
+        } else {
+          return HistoryWindowControl.treeView.entryExists(changedEntry);
+        }
+      };
+
+      params = {
         inn:{name:  selected[0].name,
              value: selected[0].value,
              used:  selected[0].used,
@@ -1871,6 +1875,25 @@ const HistoryWindowControl = {
         };
         if (this.dbHandler.updateEntry(editEntry)) {
           this.treeView.updateEntry(editEntry);
+        }
+      }
+    }
+    else {
+      // edit multiple entries
+      params = {
+        inn:{name: "", value: "", used: "", first: "", last: "",
+             place: [], firstRaw: "", lastRaw:  ""
+            },
+        out:null,
+        action:"editmultiple",
+        entryExistCallback: null
+      };
+      FhcShowDialog.doShowFhcEditEntry(params);
+      if (params.out) {
+        var newUsedValue = params.out.used;
+        if (this.dbHandler.bulkEditEntries(selected, newUsedValue)) {
+          this._repopulateView();
+          this.treeView.restoreSelection(selected);
         }
       }
     }
