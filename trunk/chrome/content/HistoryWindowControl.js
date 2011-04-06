@@ -102,7 +102,7 @@ const HistoryWindowControl = {
     CleanupWindowControl.init(
       this.dbHandler, this.dateHandler, this.preferences, this.bundle);
     CleanupProtectView.init(
-      this.dbHandler, this.dateHandler, this.bundle);
+      this.dbHandler, this.dateHandler, this.bundle, this.preferences);
 
     // initialize count label vars
     this.countLabel = document.getElementById("itemCount");
@@ -110,7 +110,7 @@ const HistoryWindowControl = {
 
     // initialize tree vars
     var formTree = document.getElementById("formHistoryTree");
-    this.treeView = new HistoryTreeView(this.dateHandler);
+    this.treeView = new HistoryTreeView(this.dateHandler, this.preferences);
     formTree.view = this.treeView;
 
     // set callbackfunction to receive update from tree column editing

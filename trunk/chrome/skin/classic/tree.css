@@ -91,34 +91,14 @@ caption {
   font-weight: bold;
 }
 
-treechildren::-moz-tree-row { 
-  background-color: #F0F0F0;
-}
-treechildren::-moz-tree-row(selected) {
-  background-color: #C0C0C0;
-}
-treechildren::-moz-tree-row(odd) {
-  background-color: #F6F6F6;
-}
-treechildren::-moz-tree-row(odd, selected) {
-  background-color: #BABABA;
-}
-
-treechildren::-moz-tree-row(hover) {
-  background-color: #D3E8ED;
-}
-treechildren::-moz-tree-row(hover, selected) {
-  background-color: #8AA8B8;
-}
-
 treechildren::-moz-tree-cell-text(placeColumn) {
   font-style: italic;
-  color: #707070;
+  /* color: #707070; */
 }
 
 treechildren::-moz-tree-cell-text(placeUrlColumn) {
   font-style: italic;
-  color: #707070;
+  /* color: #707070; */
   text-decoration: underline;
   cursor: pointer;
 }

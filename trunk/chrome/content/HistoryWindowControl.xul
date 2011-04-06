@@ -3,6 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/menu.css" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/tree.css" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/treerows.css" type="text/css"?>
 
 <!DOCTYPE frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd">
 
