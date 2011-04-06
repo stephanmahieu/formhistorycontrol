@@ -263,6 +263,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Verberg het Extra menu item">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Verberg het Context menu item ">
+<!ENTITY fhprefs.group.treeskin.caption "AchtergrondKleur lijsten">
+<!ENTITY fhprefs.label.treeskin.label "Vergroot de leesbaarheid van lijsten">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Selecteer een van deze opties om de leesbaarheid van lijsten te verbeteren (voornamelijk bedoeld voor besturingsystemen met donkere systeemkleuren)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Licht">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Donker">
+<!ENTITY fhprefs.radio.treeskin.none.label "Geen">
 
 <!ENTITY fhprefs.prefpane.quickfill.label "Snel Invullen">
 <!ENTITY fhprefs.quickfillinfo.label "Optioneel markeren van alle invoer velden die gevuld zijn met de meest recente of de meest gebruikte waarde.">

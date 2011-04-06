@@ -91,26 +91,6 @@ tooltip .example {
   text-align: center
 }
 
-treechildren::-moz-tree-row {
-  background-color: #F0F0F0;
-}
-treechildren::-moz-tree-row(selected) {
-  background-color: #C0C0C0;
-}
-treechildren::-moz-tree-row(odd) {
-  background-color: #F6F6F6;
-}
-treechildren::-moz-tree-row(odd, selected) {
-  background-color: #BABABA;
-}
-
-treechildren::-moz-tree-row(hover) {
-  background-color: #D3E8ED;
-}
-treechildren::-moz-tree-row(hover, selected) {
-  background-color: #8AA8B8;
-}
-
 treechildren::-moz-tree-checkbox {
   /* unchecked checkbox treecells. This style MUST come first. */
   list-style-image: url("chrome://formhistory/skin/unticked.png");;

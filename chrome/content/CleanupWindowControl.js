@@ -1132,7 +1132,11 @@ const CleanupWindowControl = {
   },
 
   getRowProperties: function(row,props) {
-  },
+    var aserv = Components.classes["@mozilla.org/atom-service;1"]
+              .getService(Components.interfaces.nsIAtomService);
+    var styleProp = this.prefHandler.getCustomTreeSkin();
+    props.AppendElement(aserv.getAtom(styleProp));
+},
 
   getCellProperties: function(row,col,props) {
     var critObj = this.data[row];

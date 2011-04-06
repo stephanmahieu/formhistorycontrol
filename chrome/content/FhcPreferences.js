@@ -73,9 +73,10 @@ const FhcPreferences = {
     this.toggleCustomDateFormatList();
     this.initCleanupPanel();
     this.fillKeyBindings();
+    this.treeskinRadioInit();
     
     FhcRegexpView.init(
-      this.dbHandler, this.bundle);
+      this.dbHandler, this.bundle, this.prefHandler);
 
     if ("arguments" in window && window.arguments.length > 0) {
       if (window.arguments[0]) {
@@ -117,6 +118,42 @@ const FhcPreferences = {
     } else {
       menuElem.setAttribute("hidden", true);
     }
+  },
+
+  /**
+   * Set the tree skin.
+   *
+   * @param elmRadio {radio}
+   */
+  treeskinPrefChecked: function(elmRadio) {
+    switch (elmRadio.id) {
+      case "light":
+        this.prefHandler.setCustomTreeSkin("CustomDefault");
+        break;
+      case "dark":
+        this.prefHandler.setCustomTreeSkin("CustomDark");
+        break;
+      case "none":
+        this.prefHandler.setCustomTreeSkin("");
+        break;
+    }
+  },
+
+  /**
+   * Initialize the radiobuttons to reflect the current treeskin setting.
+   */
+  treeskinRadioInit: function() {
+    var curProperty = this.prefHandler.getCustomTreeSkin();
+    var radioElm = document.getElementById("light");
+    switch (curProperty) {
+      case "CustomDark":
+        radioElm = document.getElementById("dark");
+        break;
+      case "":
+        radioElm = document.getElementById("none");
+        break;
+    }
+    document.getElementById("treeskinRadiogroup").selectedItem = radioElm;
   },
 
   /**
@@ -533,7 +570,7 @@ const FhcPreferences = {
     var statusBox = document.getElementById("cleanup-status");
 
     // display statusbox for max. 10 seconds
-    statusLbl.value = statusText
+    statusLbl.value = statusTextd
     statusBox.height = 2;
     statusBox.collapsed = false;
     this._showCleanupStatus();

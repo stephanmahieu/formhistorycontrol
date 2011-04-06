@@ -53,13 +53,14 @@ const FhcRegexpView = {
   selectCountLabel: "",
   dbHandler: null,
   bundle: null,
+  prefHandler: null,
   alldata: [],
   data: [],
  
   /**
    * Initialize.
    */
-  init: function(aDbHandler, aBundle) {
+  init: function(aDbHandler, aBundle, aPrefHandler) {
     // initialize tree
     var formTree = document.getElementById("regexpTree");
     formTree.view = this;
@@ -71,6 +72,7 @@ const FhcRegexpView = {
     // initialize handlers
     this.dbHandler = aDbHandler;
     this.bundle = aBundle;
+    this.prefHandler = aPrefHandler;
 
     // read all regexp from the db into the treeView
     this.alldata = this.dbHandler.getAllRegexp();
@@ -959,6 +961,10 @@ const FhcRegexpView = {
   },
 
   getRowProperties: function(row,props) {
+    var aserv = Components.classes["@mozilla.org/atom-service;1"]
+              .getService(Components.interfaces.nsIAtomService);
+    var styleProp = this.prefHandler.getCustomTreeSkin();
+    props.AppendElement(aserv.getAtom(styleProp));
   },
 
   getCellProperties: function(row,col,props) {

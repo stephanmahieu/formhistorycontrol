@@ -41,3 +41,4 @@ pref("extensions.formhistory.keybinding.shortcutCleanupNow", "");
 pref("extensions.formhistory.keybinding.shortcutSaveThisField", "");
 pref("extensions.formhistory.keybinding.shortcutSaveThisPage", "");
 pref("extensions.formhistory.manageFormhistoryByFHC", false);
+pref("extensions.formhistory.customTreeSkin", "CustomDefault");

@@ -43,9 +43,10 @@
  *
  * Dependencies: FhcUtil.js, FhcDateHandler.js
  */
-function HistoryTreeView(fhcDatehandler) {
+function HistoryTreeView(fhcDatehandler, fhcPrefHandler) {
   // date handler
   this.dateHandler = fhcDatehandler;
+  this.prefHandler = fhcPrefHandler;
   
   // Current date
   this.nowDate = this.dateHandler.getCurrentDate();
@@ -860,6 +861,10 @@ HistoryTreeView.prototype = {
   },
   
   getRowProperties: function(row,props) {
+    var aserv = Components.classes["@mozilla.org/atom-service;1"]
+              .getService(Components.interfaces.nsIAtomService);
+    var styleProp = this.prefHandler.getCustomTreeSkin();
+    props.AppendElement(aserv.getAtom(styleProp));
   },
   
   getCellProperties: function(row,col,props) {

@@ -231,6 +231,13 @@ FhcPreferenceHandler.prototype = {
     return value;
   },
 
+  getCustomTreeSkin: function() {
+    return this.prefService.getCharPref("customTreeSkin");
+  },
+  setCustomTreeSkin: function(newSkin) {
+     this.prefService.setCharPref("customTreeSkin", newSkin);
+  },
+
   //----------------------------------------------------------------------------
   // Global preferences (FireFox's options)
   //----------------------------------------------------------------------------

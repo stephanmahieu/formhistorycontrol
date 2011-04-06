@@ -263,6 +263,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Hide the Tools menu item">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Hide the context menu item">
+<!ENTITY fhprefs.group.treeskin.caption "Backgroundcolor lists">
+<!ENTITY fhprefs.label.treeskin.label "Improve the readability of lists">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Select one of these options to improve the readability (typically useful for dark OS themes)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Light">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Dark">
+<!ENTITY fhprefs.radio.treeskin.none.label "None">
 
 <!ENTITY fhprefs.prefpane.quickfill.label "Quick Fill">
 <!ENTITY fhprefs.quickfillinfo.label "Optionally mark all inputfields which have been filled with the most recent or the most often used value.">

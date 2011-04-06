@@ -54,12 +54,13 @@ const CleanupProtectView = {
   dbHandler: null,
   dateHandler: null,
   bundle: null,
+  prefHandler: null,
   data: [],
  
   /**
    * Initialize.
    */
-  init: function(aDbHandler, aDateHandler, aBundle) {
+  init: function(aDbHandler, aDateHandler, aBundle, aPrefHandler) {
     // initialize tree
     var formTree = document.getElementById("protectTree");
     formTree.view = this;
@@ -72,6 +73,7 @@ const CleanupProtectView = {
     this.dbHandler = aDbHandler;
     this.dateHandler = aDateHandler;
     this.bundle = aBundle;
+    this.prefHandler = aPrefHandler;
 
     // read all cleanup criteria from the db into the treeView
     this.data = this.dbHandler.getAllProtectCriteria();
@@ -975,6 +977,10 @@ const CleanupProtectView = {
   },
 
   getRowProperties: function(row,props) {
+    var aserv = Components.classes["@mozilla.org/atom-service;1"]
+              .getService(Components.interfaces.nsIAtomService);
+    var styleProp = this.prefHandler.getCustomTreeSkin();
+    props.AppendElement(aserv.getAtom(styleProp));
   },
 
   getCellProperties: function(row,col,props) {

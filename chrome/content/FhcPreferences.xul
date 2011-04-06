@@ -3,6 +3,7 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/menu.css" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/preferences.css" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/treerows.css" type="text/css"?>
 
 <!DOCTYPE frmhistDTD SYSTEM "chrome://formhistory/locale/formhistory.dtd">
 
@@ -112,13 +113,38 @@
         </description>
       </hbox>
     </groupbox>
-    <groupbox>
-      <caption label="&fhprefs.group.showmenu.caption;"/>
+    <hbox>
+      <groupbox>
+        <caption label="&fhprefs.group.showmenu.caption;"/>
         <checkbox label="&fhprefs.checkbox.hidetoolsmenuitem.label;"
                   preference="extensions.formhistory.hideToolsMenuItem" />
         <checkbox label="&fhprefs.checkbox.hidecontextmenuitem.label;"
                   preference="extensions.formhistory.hideContextMenuItem" />
-    </groupbox>
+      </groupbox>
+      <groupbox flex="1">
+        <caption label="&fhprefs.group.treeskin.caption;"/>
+        <hbox>
+          <vbox style="margin-left: 8px">
+            <image class="info_icon" flex="0"
+                   src="chrome://formhistory/skin/information.png"
+                   tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;"/>
+            <spacer flex="1"/>
+          </vbox>
+          <description style="width: 250px; margin-top: 5px; margin-left: 2px;"
+                       tooltiptext="&fhprefs.image.treeskin.tooltiptext;">
+                       &fhprefs.label.treeskin.label;
+          </description>
+        </hbox>
+        <radiogroup id="treeskinRadiogroup" orient="horizontal">
+          <radio id="light" label="&fhprefs.radio.treeskin.light.label;"
+                 oncommand="FhcPreferences.treeskinPrefChecked(this)"/>
+          <radio id="dark" label="&fhprefs.radio.treeskin.dark.label;"
+                 oncommand="FhcPreferences.treeskinPrefChecked(this)"/>
+          <radio id="none" label="&fhprefs.radio.treeskin.none.label;"
+                 oncommand="FhcPreferences.treeskinPrefChecked(this)"/>
+        </radiogroup>
+      </groupbox>
+    </hbox>
   </prefpane>
 
   <!-- Miscellaneous -->
