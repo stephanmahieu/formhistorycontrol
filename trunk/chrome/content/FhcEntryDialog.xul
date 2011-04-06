@@ -47,6 +47,8 @@
              &fhentrydlg.add.description;</description>
         <description id="descriptionEdit" style="display:none" class="description">
              &fhentrydlg.edit.description;</description>
+        <description id="descriptionMultiple" style="display:none" class="description">
+             &fhentrydlg.editmultiple.description;</description>
         <hbox>
           <label id="errorMessageBlank" hidden="true" class="errormessage"
                  value="&fhentrydlg.blankfielderror.label;"/>

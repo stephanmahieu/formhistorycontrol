@@ -166,6 +166,7 @@
 
 <!ENTITY fhentrydlg.windowtitle "Edit Formhistory">
 <!ENTITY fhentrydlg.edit.description "Edit an existing formhistory entry">
+<!ENTITY fhentrydlg.editmultiple.description "Edit multiple formhistory entries">
 <!ENTITY fhentrydlg.add.description "Insert a new formhistory entry">
 
 <!ENTITY fhentrydlg.fieldname.label "Fieldname">

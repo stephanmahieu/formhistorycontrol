@@ -77,6 +77,13 @@ const FhcEntryDialog = {
       case "edit":
            document.getElementById("descriptionEdit").style.display = "block";
            break;
+      case "editmultiple":
+           document.getElementById("descriptionMultiple").style.display = "block";
+           document.getElementById("placefirstbutton").hidden = true;
+           document.getElementById("placelastbutton").hidden = true;
+           document.getElementById("name").setAttribute("disabled", "true");
+           document.getElementById("value").setAttribute("disabled", "true");
+           break;
     }
   },
 
@@ -95,11 +102,18 @@ const FhcEntryDialog = {
     var eValue = document.getElementById("value").value;
     var eUsed = document.getElementById("used").value;
 
+    var action = window.arguments[0].action;
+
     // check if editable textboxes are not empty
-    if (eName == "" || eValue == "" || eUsed == "") {
+    if ("editmultiple" != action && (eName == "" || eValue == "")) {
       document.getElementById("errorMessageBlank").hidden = false;
       return false;
     }
+    else if (eUsed == "") {
+      document.getElementById("errorMessageBlank").hidden = false;
+      return false;
+    }
+
     // check if TimesUsed value is valid
     if (!FhcUtil.isNumeric(eUsed)) {
       document.getElementById("errorMessageTimesUsed").hidden = false;
