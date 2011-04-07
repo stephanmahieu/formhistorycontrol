@@ -121,13 +121,14 @@
         <checkbox label="&fhprefs.checkbox.hidecontextmenuitem.label;"
                   preference="extensions.formhistory.hideContextMenuItem" />
       </groupbox>
-      <groupbox flex="1">
+      <spacer flex="1"/>
+      <groupbox>
         <caption label="&fhprefs.group.treeskin.caption;"/>
         <hbox>
           <vbox style="margin-left: 8px">
             <image class="info_icon" flex="0"
                    src="chrome://formhistory/skin/information.png"
-                   tooltiptext="&fhprefs.image.showtoolbaricon.tooltiptext;"/>
+                   tooltiptext="&fhprefs.image.treeskin.tooltiptext;"/>
             <spacer flex="1"/>
           </vbox>
           <description style="width: 250px; margin-top: 5px; margin-left: 2px;"
@@ -145,6 +146,7 @@
         </radiogroup>
       </groupbox>
     </hbox>
+    <spacer height="5"/><!-- MacOS -->
   </prefpane>
 
   <!-- Miscellaneous -->
@@ -199,7 +201,7 @@
         <tab label="&fhprefs.prefpane.quickfill.label;"/>
       </tabs>
       <tabpanels>
-        <tabpanel>
+        <tabpanel style="margin-top: 4px">
           <!-- Miscellaneous -->
           <vbox flex="1">
             <groupbox>
@@ -229,7 +231,7 @@
             </groupbox>
           </vbox>
         </tabpanel>
-        <tabpanel>
+        <tabpanel style="margin-top: 4px">
           <!-- Manual Save -->
           <vbox flex="1">
             <hbox style="margin-top: 5px">
@@ -251,7 +253,7 @@
                       oncommand="FhcPreferences.manualsavePrefChecked(this)"/>
           </vbox>
         </tabpanel>
-        <tabpanel>
+        <tabpanel style="margin-top: 4px">
           <!-- Keyboard shortcuts -->
           <vbox flex="1" style="overflow: auto; height: 250px">
             <spacer height="6"/>
@@ -378,7 +380,7 @@
             </grid>
           </vbox>
         </tabpanel>
-        <tabpanel>
+        <tabpanel style="margin-top: 4px">
           <!-- Quick Fill -->
           <vbox flex="1">
             <hbox style="margin-top: 5px">

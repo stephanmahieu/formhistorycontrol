@@ -78,15 +78,19 @@ const FhcPreferences = {
     FhcRegexpView.init(
       this.dbHandler, this.bundle, this.prefHandler);
 
+    var prefWin = document.getElementById("formhistoryPrefs");
     if ("arguments" in window && window.arguments.length > 0) {
       if (window.arguments[0]) {
         // parameters only used for regexp pane, always select this pane if arguments
         var prefPane = document.getElementById("regexp");
-        var prefWin = document.getElementById("formhistoryPrefs");
+        
         prefWin.showPane(prefPane);
         FhcRegexpView.setFilter(window.arguments[0]);
       }
     }
+
+    // fix size (height) problem on MacOS
+    prefWin.showPane(prefWin.currentPane);
   },
 
   /**
