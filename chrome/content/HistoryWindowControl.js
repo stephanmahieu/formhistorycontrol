@@ -1880,9 +1880,16 @@ const HistoryWindowControl = {
     }
     else {
       // edit multiple entries
+      var commonUsedValue = selected[0].used;
+      for (var ii=1; ii < selected.length; ii++) {
+        if (commonUsedValue != selected[ii].used) {
+          commonUsedValue = "";
+          ii = selected.length;
+        }
+      }
       params = {
-        inn:{name: "", value: "", used: "", first: "", last: "",
-             place: [], firstRaw: "", lastRaw:  ""
+        inn:{name: "", value: "", used: commonUsedValue, first: "",
+              last: "", place: [], firstRaw: "", lastRaw:  ""
             },
         out:null,
         action:"editmultiple",
@@ -1890,11 +1897,13 @@ const HistoryWindowControl = {
       };
       FhcShowDialog.doShowFhcEditEntry(params);
       if (params.out) {
+        window.setCursor("wait"); // might be slow
         var newUsedValue = params.out.used;
         if (this.dbHandler.bulkEditEntries(selected, newUsedValue)) {
           this._repopulateView();
           this.treeView.restoreSelection(selected);
         }
+        window.setCursor("auto");
       }
     }
   },
