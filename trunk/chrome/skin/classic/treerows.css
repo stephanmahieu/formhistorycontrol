@@ -21,20 +21,20 @@ treechildren::-moz-tree-row(CustomDefault, hover, selected) {
 
 /* Dark tree skin, suitable for dark (light text on dark BG) OS theme */
 treechildren::-moz-tree-row(CustomDark) {
-  background-color: #313131;
+  background-color: #515151;
 }
 treechildren::-moz-tree-row(CustomDark, odd) {
-  background-color: #363636;
+  background-color: #565656;
 }
 treechildren::-moz-tree-row(CustomDark, selected) {
-  background-color: #606060;
+  background-color: #808080;
 }
 treechildren::-moz-tree-row(CustomDark, odd, selected) {
-  background-color: #5A5A5A;
+  background-color: #7A7A7A;
 }
 treechildren::-moz-tree-row(CustomDark, hover) {
-  background-color: #43585D;
+  background-color: #63787D;
 }
 treechildren::-moz-tree-row(CustomDark, hover, selected) {
-  background-color: #4A6878;
+  background-color: #6A8898;
 }
