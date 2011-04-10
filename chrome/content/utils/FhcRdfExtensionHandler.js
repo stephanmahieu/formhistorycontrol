@@ -308,7 +308,7 @@ FhcRdfExtensionHandler.prototype = {
     req.onload = function() {
        FhcRdfExtensionHandler.fhcInstallRdfXML = req.responseXML;
     };
-    req.open("GET", uri, false);
+    req.open("GET", uri, false); // retrieve file from local chrome directory
     req.send(null);
     return FhcRdfExtensionHandler.fhcInstallRdfXML;
   },
