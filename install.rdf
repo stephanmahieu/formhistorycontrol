@@ -6,6 +6,7 @@
 		<em:id>formhistory@yahoo.com</em:id>
 		<em:version>1.2.9pre1</em:version>
 		<em:type>2</em:type>
+		<em:unpack>true</em:unpack>
 		
 		<!-- Target Application this extension can install into. -->
 		<em:targetApplication>
