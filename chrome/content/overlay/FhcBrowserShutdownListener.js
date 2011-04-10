@@ -11,7 +11,7 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is FhcBrowserListener.
+ * The Original Code is FhcBrowserShutdownListener.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
  * Portions created by the Initial Developer are Copyright (C) 2009
@@ -41,7 +41,7 @@
  * Dependencies:
  *   FhcPreferenceHandler.js
  */
-const FhcBrowserListener = {
+const FhcBrowserShutdownListener = {
   prefHandler: null,
   dbHandler: null,
   dateHandler: null,
@@ -77,8 +77,8 @@ const FhcBrowserListener = {
   handleEvent: function(aEvent) {
     switch(aEvent.type) {
       case "load":
-        gBrowser.tabContainer.addEventListener("TabClose", FhcBrowserListener, false);
-        window.removeEventListener("load", FhcBrowserListener, false);
+        gBrowser.tabContainer.addEventListener("TabClose", FhcBrowserShutdownListener, false);
+        window.removeEventListener("load", FhcBrowserShutdownListener, false);
         break;
   
       case "unload":
@@ -86,7 +86,7 @@ const FhcBrowserListener = {
         if (this.prefHandler.isCleanupOnShutdown()) {
           this.cleanupFormHistory();
         }
-        window.removeEventListener("unload", FhcBrowserListener, false);
+        window.removeEventListener("unload", FhcBrowserShutdownListener, false);
         this.destroy();
         break;
 
@@ -131,7 +131,7 @@ const FhcBrowserListener = {
 }
 
 // call handleEvent method for the following events:
-window.addEventListener("load", FhcBrowserListener, false);
-window.addEventListener("unload", FhcBrowserListener, false);
+window.addEventListener("load", FhcBrowserShutdownListener, false);
+window.addEventListener("unload", FhcBrowserShutdownListener, false);
 // TabClose handler is added by the load handler,
 // that way we know for sure gBrowser is initialized.
