@@ -62,7 +62,6 @@ const FhcBrowseHistoryDialog = {
 
     this.bundle = new FhcBundle();
     this.dbHandler = new FhcDbHandler();
-    this.bundle = new FhcBundle();
     this.dateHandler = new FhcDateHandler(this.bundle);
 
     this.currentDate = dateUsed;
