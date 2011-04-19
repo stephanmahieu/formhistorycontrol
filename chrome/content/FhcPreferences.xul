@@ -137,6 +137,8 @@
           </description>
         </hbox>
         <radiogroup id="treeskinRadiogroup" orient="horizontal">
+          <radio id="auto" label="&fhprefs.radio.treeskin.auto.label;"
+                 oncommand="FhcPreferences.treeskinPrefChecked(this)"/>
           <radio id="light" label="&fhprefs.radio.treeskin.light.label;"
                  oncommand="FhcPreferences.treeskinPrefChecked(this)"/>
           <radio id="dark" label="&fhprefs.radio.treeskin.dark.label;"
