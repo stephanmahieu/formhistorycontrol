@@ -267,6 +267,7 @@
 <!ENTITY fhprefs.group.treeskin.caption "AchtergrondKleur lijsten">
 <!ENTITY fhprefs.label.treeskin.label "Vergroot de leesbaarheid van lijsten">
 <!ENTITY fhprefs.image.treeskin.tooltiptext "Selecteer een van deze opties om de leesbaarheid van lijsten te verbeteren (voornamelijk bedoeld voor besturingsystemen met donkere systeemkleuren)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automatisch">
 <!ENTITY fhprefs.radio.treeskin.light.label "Licht">
 <!ENTITY fhprefs.radio.treeskin.dark.label "Donker">
 <!ENTITY fhprefs.radio.treeskin.none.label "Geen">

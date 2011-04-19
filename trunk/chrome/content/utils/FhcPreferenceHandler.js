@@ -231,11 +231,41 @@ FhcPreferenceHandler.prototype = {
     return value;
   },
 
+  getBackgroundTree: function() {
+    return this.prefService.getCharPref("backgroundTree");
+  },
+  setBackgroundTree: function(newSkin) {
+     this.prefService.setCharPref("backgroundTree", newSkin);
+  },
+
   getCustomTreeSkin: function() {
     return this.prefService.getCharPref("customTreeSkin");
   },
-  setCustomTreeSkin: function(newSkin) {
-     this.prefService.setCharPref("customTreeSkin", newSkin);
+  setCustomTreeSkin: function(treeElm) {
+    var background = this.getBackgroundTree();
+    switch (background) {
+      case "auto":
+        if ("Darwin" == this._getOS()) {
+          // System default is okay
+          this.prefService.setCharPref("customTreeSkin", "");
+        }
+        else {
+          // choose skin based on color contrast
+          var contrast = this._getContrastColor(treeElm);
+          this.prefService.setCharPref("customTreeSkin",
+                    ("black" == contrast) ? "CustomDark" : "CustomDefault");
+        }
+        break;
+      case "light":
+        this.prefService.setCharPref("customTreeSkin", "CustomDefault");
+        break;
+      case "dark":
+        this.prefService.setCharPref("customTreeSkin", "CustomDark");
+        break;
+      case "none":
+        this.prefService.setCharPref("customTreeSkin", "");
+        break;
+    }
   },
 
   //----------------------------------------------------------------------------
@@ -263,5 +293,35 @@ FhcPreferenceHandler.prototype = {
     str.data = stringData;
     // Return the Unicode String:
     return str;
+  },
+
+  /**
+   * Determine the OS.
+   *
+   * @return "WINNT" on Windows Vista, XP, 2000, and NT systems;
+   *         "Linux" on GNU/Linux; and "Darwin" on Mac OS X.
+   */
+  _getOS: function() {
+    return Components.classes["@mozilla.org/xre/app-info;1"]
+	       .getService(Components.interfaces.nsIXULRuntime).OS;
+  },
+
+  /**
+   * Determine whether black or white contrasts most with the textcolor of the
+   * given element.
+   *
+   * @param elem {DOM element}
+   * @return {String} black or white
+   */
+  _getContrastColor: function(elem) {
+    var textColor = window.getComputedStyle(elem, null).getPropertyValue("color");
+    var rgb = textColor.replace(/rgb\(|\)/g, "").split(",");
+    var r = parseInt(rgb[0]);
+    var g = parseInt(rgb[1]);
+    var b = parseInt(rgb[2]);
+
+    //YIQ takes advantage of human color-response characteristics
+    var yiq = ((r*299)+(g*587)+(b*114))/1000;
+    return ((yiq >= 128) ? "black" : "white");
   }
 }

@@ -68,6 +68,10 @@ const FhcPreferences = {
                                 this.dateHandler);
     this.keyBindings   = new FhcKeyBindings(this.prefHandler);
 
+    // Initialize tree-skin
+    var treeElm = document.getElementById("regexpTree");
+    this.prefHandler.setCustomTreeSkin(treeElm);
+
     this.fillInformationPanel();
     this.adjustQuickFillPreview();
     this.toggleCustomDateFormatList();
@@ -131,29 +135,42 @@ const FhcPreferences = {
    */
   treeskinPrefChecked: function(elmRadio) {
     switch (elmRadio.id) {
+      case "auto":
+        this.prefHandler.setBackgroundTree("auto");
+        break;
       case "light":
-        this.prefHandler.setCustomTreeSkin("CustomDefault");
+        this.prefHandler.setBackgroundTree("light");
         break;
       case "dark":
-        this.prefHandler.setCustomTreeSkin("CustomDark");
+        this.prefHandler.setBackgroundTree("dark");
         break;
       case "none":
-        this.prefHandler.setCustomTreeSkin("");
+        this.prefHandler.setBackgroundTree("none");
         break;
     }
+
+    // Activate new skin based on color contrast of a tree element
+    var treeElm = document.getElementById("regexpTree");
+    this.prefHandler.setCustomTreeSkin(treeElm);
   },
 
   /**
    * Initialize the radiobuttons to reflect the current treeskin setting.
    */
   treeskinRadioInit: function() {
-    var curProperty = this.prefHandler.getCustomTreeSkin();
-    var radioElm = document.getElementById("light");
+    var curProperty = this.prefHandler.getBackgroundTree();
+
+    // default selection
+    var radioElm = document.getElementById("auto");
+
     switch (curProperty) {
-      case "CustomDark":
+      case "dark":
         radioElm = document.getElementById("dark");
         break;
-      case "":
+      case "light":
+        radioElm = document.getElementById("light");
+        break;
+      case "none":
         radioElm = document.getElementById("none");
         break;
     }

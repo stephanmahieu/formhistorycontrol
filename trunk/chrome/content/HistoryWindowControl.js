@@ -73,6 +73,10 @@ const HistoryWindowControl = {
     this.dbHandler = new FhcDbHandler();
     this.dateHandler = new FhcDateHandler(this.bundle);
 
+    // Initialize tree-skin
+    var treeElm = document.getElementById("formHistoryTree");
+    this.preferences.setCustomTreeSkin(treeElm);
+
     // test formhistory db status, show anomalies
     if (!this.dbHandler.formhistoryDbReady()) {
       this.showNotificationBox("historywindow.notification.dbnotready", "warn");
