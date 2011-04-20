@@ -228,6 +228,7 @@
 <!ENTITY fhprefs.group.treeskin.caption "Color de fondo de listas">
 <!ENTITY fhprefs.label.treeskin.label "Para mejorar la legibilidad de las listas">
 <!ENTITY fhprefs.image.treeskin.tooltiptext "Seleccione una de estas opciones para mejorar la legibilidad (suele resultar útil con temas oscuros del SO)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automático">
 <!ENTITY fhprefs.radio.treeskin.light.label "Claro">
 <!ENTITY fhprefs.radio.treeskin.dark.label "Oscuro">
 <!ENTITY fhprefs.radio.treeskin.none.label "Ninguno">
