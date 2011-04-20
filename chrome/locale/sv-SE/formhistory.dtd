@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Inställningar">
 <!ENTITY fhentrydlg.windowtitle "Redigera formulärhistorik">
 <!ENTITY fhentrydlg.edit.description "Redigera en befintlig formulärhistorikpost">
+<!ENTITY fhentrydlg.editmultiple.description "Redigera flera formulärhistorikposter">
 <!ENTITY fhentrydlg.add.description "Infoga en ny formulärhistorikpost">
 <!ENTITY fhentrydlg.fieldname.label "Fältnamn">
 <!ENTITY fhentrydlg.value.label "Värde">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Du kan inte lämna något fält tomt">
 <!ENTITY fhentrydlg.existerror.label "Ett formulärhistorikobjekt med samma namn och värde finns redan">
+<!ENTITY fhentrydlg.timesusederror.label "Endast numeriska värden tillåtna för &quot;Använt ggr.&quot;">
 <!ENTITY fhcriteriadlg.windowtitle "Redigera saneringskriterier">
 <!ENTITY fhcriteriadlg.edit.description "Redigera befintliga saneringskriterier">
 <!ENTITY fhcriteriadlg.add.description "Infoga nya saneringskriterier">
@@ -223,6 +225,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Meny">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Göm Verktyg-menyobjektet">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Göm snabbmenyobjektet">
+<!ENTITY fhprefs.group.treeskin.caption "Bakgrundsfärgslistor">
+<!ENTITY fhprefs.label.treeskin.label "Förbättra läsbarheten för listor">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Välj ett av dessa alternativ för att förbättra läsbarheten (vanligtvis användbart för mörka OS-teman)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Ljust">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Mörkt">
+<!ENTITY fhprefs.radio.treeskin.none.label "Inget">
 <!ENTITY fhprefs.prefpane.quickfill.label "Snabbfyll">
 <!ENTITY fhprefs.quickfillinfo.label "(Valfritt) Om du vill kan du märka alla indatafält som har fyllts i med det senast använda eller det oftast använda värdet.">
 <!ENTITY fhprefs.group.quickfill.caption "Indikering av snabbfyllda formulärfält">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisekunder">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Visa historik">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Låt Form History Control hantera formulärhistorik">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Oavsett om sparande av formulärhistorik kontrolleras av tillägget Form History Control eller inte">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Inställningar">
 <!ENTITY fhabout.label.description "Beskrivning">
 <!ENTITY fhabout.label.creator "Skapat av">
 <!ENTITY fhabout.label.homepage "Besök webbplatsen">

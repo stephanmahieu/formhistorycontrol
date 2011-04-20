@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Einstellungen">
 <!ENTITY fhentrydlg.windowtitle "Formulareinträge editieren">
 <!ENTITY fhentrydlg.edit.description "Bestehende Formulareinträge editieren">
+<!ENTITY fhentrydlg.editmultiple.description "Mehrere Formulareinträge editieren">
 <!ENTITY fhentrydlg.add.description "Neue Formulareinträge einfügen">
 <!ENTITY fhentrydlg.fieldname.label "Feldname">
 <!ENTITY fhentrydlg.value.label "Wert">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Lassen sie keine der Felder leer">
 <!ENTITY fhentrydlg.existerror.label "Es existiert bereits ein Formulareintrag mit diesem Wert">
+<!ENTITY fhentrydlg.timesusederror.label "Nur numerische Werte erlaubt">
 <!ENTITY fhcriteriadlg.windowtitle "Reinigungs Kriterium editieren">
 <!ENTITY fhcriteriadlg.edit.description "Vorhandenes Reinigungs Kriterium editieren">
 <!ENTITY fhcriteriadlg.add.description "Neues Reinigungs Kriterium einfügen">
@@ -223,6 +225,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menü">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Versteckt Einträge im Menü Extras">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Versteckt Kontextmenü Einträge">
+<!ENTITY fhprefs.group.treeskin.caption "Hintergrundfarbe der Liste">
+<!ENTITY fhprefs.label.treeskin.label "Verbessern Sie die Lesbarkeit der Listen">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Wählen Sie eine dieser Optionen um die Lesbarkeit zu verbessern(typischerweise nützlich bei dunklen OS Themen)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Hell">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Dunkel">
+<!ENTITY fhprefs.radio.treeskin.none.label "Keine">
 <!ENTITY fhprefs.prefpane.quickfill.label "Schnellfüller">
 <!ENTITY fhprefs.quickfillinfo.label "Markiert optional alle Eingabefelder die mit den neuesten oder am häufigsten verwendeten Werte gefüllt wurden">
 <!ENTITY fhprefs.group.quickfill.caption "Hervorhebung des Eingabefelds bei Schnellausfüllung">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisekunde">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Formulareinträge anzeigen">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "F">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Lassen Form History Control ihre Formulareinträge verwalten">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Ob Sie Formulareinträge speichern wird von der Erweiterung Form History Control bestimmt">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Einstellungen">
 <!ENTITY fhabout.label.description "Beschreibung">
 <!ENTITY fhabout.label.creator "Erstellt von">
 <!ENTITY fhabout.label.homepage "Besucht meine Homepage">

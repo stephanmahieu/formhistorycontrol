@@ -15,7 +15,7 @@
 <!ENTITY fhwin.advancedfilter.host.label "Servidor">
 <!ENTITY fhwin.menuitem.regexpsearch.title "Expresiones regulares">
 <!ENTITY fhwin.menuitem.regexpsearch.tooltip "Elegir de entre las expresiones regulares predefinidas de una lista">
-<!ENTITY fhwin.menuitem.regexpsearch.manage "Administrar...">
+<!ENTITY fhwin.menuitem.regexpsearch.manage "Administrar…">
 <!ENTITY fhwin.menuitem.urlmenu.tooltip "Menú de enlace">
 <!ENTITY fhwin.menuitem.urlmenu.openurl "Abrir enlace">
 <!ENTITY fhwin.menuitem.urlmenu.openurlnoparam "Abrir enlace sin parámetros">
@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Opciones">
 <!ENTITY fhentrydlg.windowtitle "Editar historial de formularios">
 <!ENTITY fhentrydlg.edit.description "Editar una entrada del historial de formularios">
+<!ENTITY fhentrydlg.editmultiple.description "Editar varias entradas del historial de formularios">
 <!ENTITY fhentrydlg.add.description "Insertar una nueva entrada del historial de formularios">
 <!ENTITY fhentrydlg.fieldname.label "Campo">
 <!ENTITY fhentrydlg.value.label "Valor">
@@ -155,11 +156,12 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "No puede dejar ningún campo en blanco">
 <!ENTITY fhentrydlg.existerror.label "Ya existe un elemento del historial con este nombre y valor">
+<!ENTITY fhentrydlg.timesusederror.label "Sólo se permiten valores númericos para las horas">
 <!ENTITY fhcriteriadlg.windowtitle "Editar criterios de borrado">
 <!ENTITY fhcriteriadlg.edit.description "Editar criterios de borrado ya existentes">
 <!ENTITY fhcriteriadlg.add.description "Insertar nuevos criterios de borrado">
-<!ENTITY fhcriteriapdlg.windowtitle "Editar criterior de protección">
-<!ENTITY fhcriteriapdlg.edit.description "Editar criterior de protección existentes">
+<!ENTITY fhcriteriapdlg.windowtitle "Editar criterios de protección">
+<!ENTITY fhcriteriapdlg.edit.description "Editar criterios de protección existentes">
 <!ENTITY fhcriteriapdlg.add.description "Insertar nuevos criterios de protección">
 <!ENTITY fhcriteriadlg.description.label "Descripción">
 <!ENTITY fhcriteriadlg.fieldname.label "Nombre">
@@ -218,11 +220,17 @@
 <!ENTITY fhprefs.group.taskbar.caption "Barra de tareas">
 <!ENTITY fhprefs.checkbox.showtaskbaricon.label "Mostrar icono en barra de tareas">
 <!ENTITY fhprefs.group.toolbar.caption "Barra de herramientas">
-<!ENTITY fhprefs.label.showtoolbaricon.label "Utilice la opción Personalizar... de la barra para añadir el icono de FormHistory.">
+<!ENTITY fhprefs.label.showtoolbaricon.label "Utilice la opción Personalizar… de la barra para añadir el icono de FormHistory.">
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Haga clic derecho en la barra de herramientas y seleccione Personalizar... Añada FormHistory arrastrando el icono hasta la barra.">
 <!ENTITY fhprefs.group.showmenu.caption "Menú">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Ocultar elemento del menú Herramientas">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Ocultar elemento del menú contextual">
+<!ENTITY fhprefs.group.treeskin.caption "Color de fondo de listas">
+<!ENTITY fhprefs.label.treeskin.label "Para mejorar la legibilidad de las listas">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Seleccione una de estas opciones para mejorar la legibilidad (suele resultar útil con temas oscuros del SO)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Claro">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Oscuro">
+<!ENTITY fhprefs.radio.treeskin.none.label "Ninguno">
 <!ENTITY fhprefs.prefpane.quickfill.label "Relleno rápido">
 <!ENTITY fhprefs.quickfillinfo.label "Opcionalmente marca todos los campos de entrada en los que se ha introducido el valor más reciente o más usado.">
 <!ENTITY fhprefs.group.quickfill.caption "Indicación de rellenado rápido de campos de formulario">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Milisegundo">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Mostrar historial">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "h">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Permitir que Form History Control administre el historial de formularios">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "El guardar o no el historial de formularios se controla desde el complemento Form History Control">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Predisposiciones">
 <!ENTITY fhabout.label.description "Descripción">
 <!ENTITY fhabout.label.creator "Creado por">
 <!ENTITY fhabout.label.homepage "Visitar página web">
