@@ -71,8 +71,8 @@
 <!ENTITY fhwin.menu.view.accesskey "A">
 <!ENTITY fhwin.menu.tools.label "Outils">
 <!ENTITY fhwin.menu.tools.accesskey "O">
-<!ENTITY fhwin.menu.help.label "?">
-<!ENTITY fhwin.menu.help.accesskey "?">
+<!ENTITY fhwin.menu.help.label "Aide">
+<!ENTITY fhwin.menu.help.accesskey "i">
 <!ENTITY fhwin.menuitem.insert.label "Nouvelle insertion">
 <!ENTITY fhwin.menuitem.insert.accelkey "N">
 <!ENTITY fhwin.menuitem.edit.label "Éditer">
@@ -129,7 +129,7 @@
 <!ENTITY fhmnuovl.menu.main.manager.label "Historique de formulaire">
 <!ENTITY fhmnuovl.menuitem.manager.label "Form History Control">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Supprimer la valeur courante de ce champ">
-<!ENTITY fhmnuovl.menuitem.deletethis.label "Supprimer toute l'historique de ce champ">
+<!ENTITY fhmnuovl.menuitem.deletethis.label "Supprimer tout l'historique de ce champ">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Gérer les entrées de ce champ">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Remplir les champs avec les entrées les plus récentes">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Remplir les champs avec les entrées les plus souvent utilisées">
@@ -198,7 +198,7 @@
 <!ENTITY fhprefs.group.preferences.caption "Préférences">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "La recherche est sensible à la casse">
 <!ENTITY fhprefs.checkbox.hideLoginmanagedFields.label "Masquer les éléments d'historique gérés par le gestionnaire de connexion Firefox">
-<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.tooltip "Masque les noms de champ listés dans le gestionnaire de connexion pour le champ/la page courante. Lors de l'affichage de l'historique complet, tous (probablement trop) les noms de champ listés dans le gestionnaire de connexion sont masqués.">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.tooltip "Masque les noms de champ listés dans le gestionnaire de connexion pour le champ/la page courante. Lors de l'affichage de l'historique complet, tous (probablement trop) les noms de champs listés dans le gestionnaire de connexion sont masqués.">
 <!ENTITY fhprefs.group.warnings.caption "Afficher les avertissements">
 <!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Avertir avant de supprimer un élément">
 <!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Avertir avant de supprimer plusieurs éléments">
@@ -228,6 +228,7 @@
 <!ENTITY fhprefs.group.treeskin.caption "Listes des couleurs de fond">
 <!ENTITY fhprefs.label.treeskin.label "Améliorer la lisibilité des listes">
 <!ENTITY fhprefs.image.treeskin.tooltiptext "Choisissez une de ces options pour améliorer la lisibilité (Utile typiquement pour les thèmes dark OS)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automatique">
 <!ENTITY fhprefs.radio.treeskin.light.label "Clair">
 <!ENTITY fhprefs.radio.treeskin.dark.label "Sombre">
 <!ENTITY fhprefs.radio.treeskin.none.label "Aucun">

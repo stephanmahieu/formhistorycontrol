@@ -228,6 +228,7 @@
 <!ENTITY fhprefs.group.treeskin.caption "Baggrundsfarve lister">
 <!ENTITY fhprefs.label.treeskin.label "Forbedr læsbarheden af lister">
 <!ENTITY fhprefs.image.treeskin.tooltiptext "Vælg en af disse indstillinger for at forbedre læsbarheden (typisk nyttig til mørke OS-temaer)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automatisk">
 <!ENTITY fhprefs.radio.treeskin.light.label "Lys">
 <!ENTITY fhprefs.radio.treeskin.dark.label "Mørk">
 <!ENTITY fhprefs.radio.treeskin.none.label "Ingen">

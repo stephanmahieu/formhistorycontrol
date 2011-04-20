@@ -225,12 +225,13 @@
 <!ENTITY fhprefs.group.showmenu.caption "Nabídky">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skrýt položku v nabídce Nástroje">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skrýt položku v místní nabídce">
-<!ENTITY fhprefs.group.treeskin.caption "Seznamy barev pozadí">
-<!ENTITY fhprefs.label.treeskin.label "Zlepšit čitelnost seznamů">
+<!ENTITY fhprefs.group.treeskin.caption "Barva pozadí seznamů">
+<!ENTITY fhprefs.label.treeskin.label "Zlepší čitelnost seznamů">
 <!ENTITY fhprefs.image.treeskin.tooltiptext "Volbou můžete zlepšit čitelnost (zpravidla užitečné pro tmavé motivy OS)">
-<!ENTITY fhprefs.radio.treeskin.light.label "Světlé">
-<!ENTITY fhprefs.radio.treeskin.dark.label "Tmavé">
-<!ENTITY fhprefs.radio.treeskin.none.label "Žádné">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automatická">
+<!ENTITY fhprefs.radio.treeskin.light.label "Světlá">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Tmavá">
+<!ENTITY fhprefs.radio.treeskin.none.label "Žádná">
 <!ENTITY fhprefs.prefpane.quickfill.label "Rychlé vyplnění">
 <!ENTITY fhprefs.quickfillinfo.label "Volitelně označí všechna vstupní pole, která byla vyplněna nejnovější nebo nejčastěji používanou hodnotou.">
 <!ENTITY fhprefs.group.quickfill.caption "Odlišovat pole formuláře zadaná rychlým vyplněním">
