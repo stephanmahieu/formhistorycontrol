@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Indstillinger">
 <!ENTITY fhentrydlg.windowtitle "Rediger formularhistorik">
 <!ENTITY fhentrydlg.edit.description "Rediger en eksisterende post i formularhistorikken">
+<!ENTITY fhentrydlg.editmultiple.description "Rediger flere poster i formularhistorikken">
 <!ENTITY fhentrydlg.add.description "Indtast en ny post i formularhistorikken">
 <!ENTITY fhentrydlg.fieldname.label "Feltnavn">
 <!ENTITY fhentrydlg.value.label "Værdi">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Lad ikke nogle af felterne være tomme">
 <!ENTITY fhentrydlg.existerror.label "En post i formularhistorikken med dette navn og værdi findes allerede">
+<!ENTITY fhentrydlg.timesusederror.label "Kun numeriske værdier er tilladte i feltet Anvendt antal gange">
 <!ENTITY fhcriteriadlg.windowtitle "Rediger oprydningskriterier">
 <!ENTITY fhcriteriadlg.edit.description "Rediger eksisterende oprydningskriterier">
 <!ENTITY fhcriteriadlg.add.description "Indtast nyt oprydningskriterium">
@@ -223,6 +225,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skjul menupunktet i menuen Funktioner">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skjul menupunktet i genvejsmenuen">
+<!ENTITY fhprefs.group.treeskin.caption "Baggrundsfarve lister">
+<!ENTITY fhprefs.label.treeskin.label "Forbedr læsbarheden af lister">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Vælg en af disse indstillinger for at forbedre læsbarheden (typisk nyttig til mørke OS-temaer)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Lys">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Mørk">
+<!ENTITY fhprefs.radio.treeskin.none.label "Ingen">
 <!ENTITY fhprefs.prefpane.quickfill.label "Kvik-udfyld">
 <!ENTITY fhprefs.quickfillinfo.label "Valgfri markering af alle input-felter, der har været udfyldt med de seneste eller med de oftest anvendte poster.">
 <!ENTITY fhprefs.group.quickfill.caption "Kvik-udfyld formularfeltindikator">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisekund">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Vis historik">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "t">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Lad Form History Control håndtere formularhistorikken">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Om formularhistorik gemmes eller ej kontrolleres af udvidelsen Form History Control">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Indstillinger">
 <!ENTITY fhabout.label.description "Beskrivelse">
 <!ENTITY fhabout.label.creator "Lavet af">
 <!ENTITY fhabout.label.homepage "Besøg hjemmeside">

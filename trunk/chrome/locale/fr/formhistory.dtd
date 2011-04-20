@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Options">
 <!ENTITY fhentrydlg.windowtitle "Éditer l'historique de formulaire">
 <!ENTITY fhentrydlg.edit.description "Éditer une entrée d'historique de formulaire existante">
+<!ENTITY fhentrydlg.editmultiple.description "Éditer plusieurs entrées d'historique de formulaire">
 <!ENTITY fhentrydlg.add.description "Insérer une nouvelle entrée d'historique de formulaire">
 <!ENTITY fhentrydlg.fieldname.label "Nom de champ">
 <!ENTITY fhentrydlg.value.label "Valeur">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Ne laisser aucun champ vide">
 <!ENTITY fhentrydlg.existerror.label "Un élément d'historique de formulaire comportant ce nom et cette valeur existe déjà">
+<!ENTITY fhentrydlg.timesusederror.label "Seules les valeurs numériques sont autorisées pour la date et l'heure">
 <!ENTITY fhcriteriadlg.windowtitle "Éditer le critère de nettoyage">
 <!ENTITY fhcriteriadlg.edit.description "Éditer le critère de nettoyage existant">
 <!ENTITY fhcriteriadlg.add.description "Insérer un nouveau critère de nettoyage">
@@ -223,6 +225,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Masquer l'entrée du menu Outils">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Masquer l'entrée du menu contextuel">
+<!ENTITY fhprefs.group.treeskin.caption "Listes des couleurs de fond">
+<!ENTITY fhprefs.label.treeskin.label "Améliorer la lisibilité des listes">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Choisissez une de ces options pour améliorer la lisibilité (Utile typiquement pour les thèmes dark OS)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Clair">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Sombre">
+<!ENTITY fhprefs.radio.treeskin.none.label "Aucun">
 <!ENTITY fhprefs.prefpane.quickfill.label "Remplissage express">
 <!ENTITY fhprefs.quickfillinfo.label "Facultativement marquer tous les champs de saisie qui ont été remplis avec la valeur la plus récente ou la plus utilisée.">
 <!ENTITY fhprefs.group.quickfill.caption "Indication de remplissage express des champs de formulaire">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisecondes">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Afficher l'historique">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "f">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Laisser Form History Control gérer l'historique de formulaire">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "L'enregistrement de l'historique de formulaire est contrôlée ou pas par l'extension Form History Control">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Paramètres">
 <!ENTITY fhabout.label.description "Description">
 <!ENTITY fhabout.label.creator "Créée par">
 <!ENTITY fhabout.label.homepage "Se rendre à la page Web">

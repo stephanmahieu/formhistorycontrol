@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Možnosti">
 <!ENTITY fhentrydlg.windowtitle "Upravit historii formuláře">
 <!ENTITY fhentrydlg.edit.description "Upravit existující položku historie formulářů">
+<!ENTITY fhentrydlg.editmultiple.description "Upravit více položek historie formulářů">
 <!ENTITY fhentrydlg.add.description "Vložit novou položku historie formulářů">
 <!ENTITY fhentrydlg.fieldname.label "Název pole">
 <!ENTITY fhentrydlg.value.label "Hodnota">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Nelze ponechat žádné pole prázdné">
 <!ENTITY fhentrydlg.existerror.label "Položka historie formuláře s tímto názvem a hodnotou už existuje">
+<!ENTITY fhentrydlg.timesusederror.label "Počet použití musí být číselná hodnota">
 <!ENTITY fhcriteriadlg.windowtitle "Upravit kritéria pro čištění">
 <!ENTITY fhcriteriadlg.edit.description "Upravit existující kritéria pro čištění">
 <!ENTITY fhcriteriadlg.add.description "Vložit nová kritéria pro čištění">
@@ -223,6 +225,12 @@
 <!ENTITY fhprefs.group.showmenu.caption "Nabídky">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Skrýt položku v nabídce Nástroje">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Skrýt položku v místní nabídce">
+<!ENTITY fhprefs.group.treeskin.caption "Seznamy barev pozadí">
+<!ENTITY fhprefs.label.treeskin.label "Zlepšit čitelnost seznamů">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Volbou můžete zlepšit čitelnost (zpravidla užitečné pro tmavé motivy OS)">
+<!ENTITY fhprefs.radio.treeskin.light.label "Světlé">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Tmavé">
+<!ENTITY fhprefs.radio.treeskin.none.label "Žádné">
 <!ENTITY fhprefs.prefpane.quickfill.label "Rychlé vyplnění">
 <!ENTITY fhprefs.quickfillinfo.label "Volitelně označí všechna vstupní pole, která byla vyplněna nejnovější nebo nejčastěji používanou hodnotou.">
 <!ENTITY fhprefs.group.quickfill.caption "Odlišovat pole formuláře zadaná rychlým vyplněním">
@@ -282,6 +290,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Milisekunda">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Zobrazit historii">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "h">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Nechat rozšíření Form History Control spravovat historii formulářů">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "To, zda se bude, nebo nebude ukládat historie formulářů, určuje rozšíření Form History Control">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Nastavení">
 <!ENTITY fhabout.label.description "Popis">
 <!ENTITY fhabout.label.creator "Vytvořil">
 <!ENTITY fhabout.label.homepage "Navštívit domovskou stránku">
