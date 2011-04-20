@@ -2,7 +2,7 @@ User:
 - Available locales (+Russian)
 - Added support for new html5 text input fields
 - "Times used" field is now editable (also for multiple selected entries)
-- Tree background(rows) skinnable (light, dark, none)
+- Tree background(rows) skinnable (automatic, light, dark, none)
 - FuzzyAge: show up to 59 seconds before switching to minutes (was up to 30 secs)
 - Displayed host: show "localhost" for url file:///
 - Fix: skip duplicate entries from imported xml-file
