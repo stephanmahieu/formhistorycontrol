@@ -14,7 +14,7 @@
  * The Original Code is FhcRdfExtensionHandler.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2010
+ * Portions created by the Initial Developer are Copyright (C) 2011
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -304,12 +304,33 @@ FhcRdfExtensionHandler.prototype = {
    *         the xml file.
    */
   _getXMLFromURI: function(uri) {
+    FhcRdfExtensionHandler.fhcInstallRdfXML = "";
+
+    // Asynchronous request
     var req = new XMLHttpRequest();
-    req.onload = function() {
-       FhcRdfExtensionHandler.fhcInstallRdfXML = req.responseXML;
+    req.open("GET", uri, true); // retrieve file from local chrome directory
+    req.onreadystatechange = function (aEvt) {
+      if (req.readyState == 4) {
+        if (req.status == 0) {
+          FhcRdfExtensionHandler.fhcInstallRdfXML = req.responseXML;
+        } else {
+          FhcRdfExtensionHandler.fhcInstallRdfXML = "ERR";
+          dump("_getXMLFromURI: Error loading uri!\n");
+        }
+      }
     };
-    req.open("GET", uri, false); // retrieve file from local chrome directory
     req.send(null);
+
+    // If slow, wait for completion
+    if (FhcRdfExtensionHandler.fhcInstallRdfXML == "") {
+      var thread = Components.classes["@mozilla.org/thread-manager;1"]
+                    .getService(Components.interfaces.nsIThreadManager)
+                    .currentThread;
+      while (FhcRdfExtensionHandler.fhcInstallRdfXML == "") {
+        thread.processNextEvent(true);
+      }
+    }
+
     return FhcRdfExtensionHandler.fhcInstallRdfXML;
   },
 
