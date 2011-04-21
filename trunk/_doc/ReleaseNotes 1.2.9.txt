@@ -1,5 +1,5 @@
 User:
-- Available locales (+Russian)
+- Available locales (cs da de en es fr nl sv)
 - Added support for new html5 text input fields
 - "Times used" field is now editable (also for multiple selected entries)
 - Tree background(rows) skinnable (automatic, light, dark, none)
