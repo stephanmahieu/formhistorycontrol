@@ -14,7 +14,7 @@
  * The Original Code is FhcXmlHandler.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2009
+ * Portions created by the Initial Developer are Copyright (C) 2011
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -71,15 +71,16 @@ FhcXmlHandler.prototype = {
     // create the fields
     var fieldsElem = doc.createElement("fields");
     rootElem.appendChild(fieldsElem);
+    
     var fieldElem;
     for(var ii=0; ii<entries.length; ii++) {
       fieldElem = doc.createElement("field");
-      this._appendElement    (doc, fieldElem, "name",      entries[ii].name);
+      this._appendElement(fieldElem,          doc.createElement("name"), entries[ii].name);
       // cdata for value would be nice but is removed by XML.toXMLString()
-      this._appendElement    (doc, fieldElem, "value",     this._encode(entries[ii].value));
-      this._appendElement    (doc, fieldElem, "timesUsed", entries[ii].used);
-      this._appendDateElement(doc, fieldElem, "firstUsed", entries[ii].first);
-      this._appendDateElement(doc, fieldElem, "lastUsed",  entries[ii].last);
+      this._appendElement(fieldElem,          doc.createElement("value"), this._encode(entries[ii].value));
+      this._appendElement(fieldElem,          doc.createElement("timesUsed"), entries[ii].used);
+      this._appendDateElement(doc, fieldElem, doc.createElement("firstUsed"), entries[ii].first);
+      this._appendDateElement(doc, fieldElem, doc.createElement("lastUsed"),  entries[ii].last);
       fieldsElem.appendChild(fieldElem);
     }
     
@@ -162,15 +163,19 @@ FhcXmlHandler.prototype = {
     // general time/usage criteria from preferences
     var generalElem = doc.createElement("general");
     criteriaElem.appendChild(generalElem);
+    
     var child;
-    child = this._appendElement(doc, generalElem, "daysUsedLimit", prefHandler.getCleanupDays());
+    child = doc.createElement("daysUsedLimit");
     child.setAttribute("active", prefHandler.isCleanupDaysChecked());
-    child = this._appendElement(doc, generalElem, "timesUsedLimit", prefHandler.getCleanupTimes());
+    this._appendElement(generalElem, child, prefHandler.getCleanupDays());
+
+    child = doc.createElement("timesUsedLimit");
     child.setAttribute("active", prefHandler.isCleanupTimesChecked());
+    this._appendElement(generalElem, child, prefHandler.getCleanupTimes());
 
     // general automatic cleanup from preferences
-    child = this._appendElement(doc, generalElem, "cleanupOnShutdown", prefHandler.isCleanupOnShutdown());
-    child = this._appendElement(doc, generalElem, "cleanupOnTabClose", prefHandler.isCleanupOnTabClose());
+    this._appendElement(generalElem, doc.createElement("cleanupOnShutdown"), prefHandler.isCleanupOnShutdown());
+    this._appendElement(generalElem, doc.createElement("cleanupOnTabClose"), prefHandler.isCleanupOnTabClose());
 
     // name/value pairs
     var namevalPairsElem = doc.createElement("nameValuePairs");
@@ -453,20 +458,14 @@ FhcXmlHandler.prototype = {
    *  @param  parentElem {DOM Element}
    *          the DOM element in which to add the data child element
    *
-   *  @param  aName {String}
-   *          the tagname of the date element
+   *  @param  dateElem {DOM Element}
+   *          the DOM element representing the child date element
    *
    *  @param  uSeconds {Object}
    *          the date in microseconds, the content of this element
-   *
-   *  @return {DOM Element}
-   *          the newly create date element
    */
-  _appendDateElement: function(doc, parentElem, aName, uSeconds) {
-    var dateElem = null;
+  _appendDateElement: function(doc, parentElem, dateElem, uSeconds) {
     if (uSeconds != undefined) {
-      dateElem = doc.createElement(aName);
-  
       var uSecondsElem = doc.createElement("date");
       uSecondsElem.textContent = uSeconds;
   
@@ -477,36 +476,24 @@ FhcXmlHandler.prototype = {
       
       parentElem.appendChild(dateElem);
     }
-    return dateElem;
   },
   
   /**
    *  Create a DOM element holding a string value and append it to the
    *  parentElem.
    *
-   *  @param  doc {DOM Document}
-   *          the document object
-   *
    *  @param  parentElem {DOM Element}
    *          the DOM element in which to add the data child element
    *
-   *  @param  aName {String}
-   *          the tagname of the date element
+   *  @param  childElem {DOM Element
+   *          the DOM element representing the child element
    *
    *  @param  aValue {String}
-   *          the value
-   *
-   *  @return {DOM Element}
-   *          the newly created element
+   *          the text value
    */
-  _appendElement: function(doc, parentElem, aName, aValue) {
-    var childElem = null;
-    if (aValue != undefined) {
-      childElem = doc.createElement(aName);
-      childElem.textContent = aValue;
-      parentElem.appendChild(childElem);
-    }
-    return childElem;
+  _appendElement: function(parentElem, childElem, aValue) {
+    childElem.textContent = aValue;
+    parentElem.appendChild(childElem);
   },
   
   /**
@@ -605,18 +592,20 @@ FhcXmlHandler.prototype = {
     var namevalElem, child, description;
     namevalElem = doc.createElement("nameValue");
     description = cleanupCriteria.description;
-    this._appendElement(doc, namevalElem, "description", ((description)?this._encode(description):""));
+    this._appendElement(namevalElem, doc.createElement("description"), ((description)?this._encode(description):""));
     if (cleanupCriteria.name) {
-      child = this._appendElement(doc, namevalElem, "name", this._encode(cleanupCriteria.name));
+      child = doc.createElement("name");
       child.setAttribute("case",  cleanupCriteria.nameCase);
       child.setAttribute("exact", cleanupCriteria.nameExact);
       child.setAttribute("regex", cleanupCriteria.nameRegex);
+      this._appendElement(namevalElem, child, this._encode(cleanupCriteria.name));
     }
     if (cleanupCriteria.value) {
-      child = this._appendElement(doc, namevalElem, "value", this._encode(cleanupCriteria.value));
+      child = doc.createElement("value");
       child.setAttribute("case",  cleanupCriteria.valueCase);
       child.setAttribute("exact", cleanupCriteria.valueExact);
       child.setAttribute("regex", cleanupCriteria.valueRegex);
+      this._appendElement(namevalElem, child, this._encode(cleanupCriteria.value));
     }
     return namevalElem;
   },
@@ -636,12 +625,15 @@ FhcXmlHandler.prototype = {
   _createRegexpElement: function(doc, regExp) {
     var regExpElem, child;
     regExpElem = doc.createElement("regularExpression");
-    this._appendElement(doc, regExpElem, "description",        this._encode(regExp.description));
-    this._appendElement(doc, regExpElem, "category",           this._encode(regExp.category));
-    child = this._appendElement(doc, regExpElem, "expression", this._encode(regExp.regexp));
-    child.setAttribute("case",                                 regExp.caseSens);
-    this._appendElement(doc, regExpElem, "useFor",             regExp.useFor);
-    this._appendElement(doc, regExpElem, "type", ("b" == regExp.regexpType ? "built-in" : "user-defined"));
+    this._appendElement(regExpElem, doc.createElement("description"), this._encode(regExp.description));
+    this._appendElement(regExpElem, doc.createElement("category"), this._encode(regExp.category));
+
+    child = doc.createElement("expression");
+    child.setAttribute("case", regExp.caseSens);
+    this._appendElement(regExpElem, child, this._encode(regExp.regexp));
+
+    this._appendElement(regExpElem, doc.createElement("useFor"), regExp.useFor);
+    this._appendElement(regExpElem, doc.createElement("type"), ("b" == regExp.regexpType ? "built-in" : "user-defined"));
     return regExpElem;
   },
 

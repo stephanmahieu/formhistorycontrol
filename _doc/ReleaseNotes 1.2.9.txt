@@ -12,6 +12,7 @@ User:
 Technical:
 - Create the formhistory database when it does not exist yet (SeaMonkey)
 - Rewritten FhcSearchbarOverlay.js (simpler)
+- Fix Mozilla validation warning FhcXmlHandler: createElement used with a variable rather than a raw string
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
