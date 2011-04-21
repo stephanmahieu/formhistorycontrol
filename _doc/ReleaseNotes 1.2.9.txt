@@ -10,6 +10,7 @@ User:
 - Fix: Sorting on ageFirst column not working properly
 
 Technical:
+- MaxVersion FF to 6.0a1
 - Create the formhistory database when it does not exist yet (SeaMonkey)
 - Rewritten FhcSearchbarOverlay.js (simpler)
 - Fix Mozilla validation warning FhcXmlHandler: createElement used with a variable rather than a raw string
