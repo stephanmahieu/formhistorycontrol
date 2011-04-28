@@ -141,6 +141,7 @@
 <!ENTITY fhmnuovl.menuitem.options.label "opções">
 <!ENTITY fhentrydlg.windowtitle "Editar histórico de formulários">
 <!ENTITY fhentrydlg.edit.description "Editar uma entrada existente de histórico de formulários">
+<!ENTITY fhentrydlg.editmultiple.description "Editar várias entradas de histórico de formulário">
 <!ENTITY fhentrydlg.add.description "Inserir uma nova entrada de histórico de formulários">
 <!ENTITY fhentrydlg.fieldname.label "Nome do campo">
 <!ENTITY fhentrydlg.value.label "Valor">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Não deixar nenhum dos campos vazio">
 <!ENTITY fhentrydlg.existerror.label "Já existe um item de histórico de formulários com este nome e valor">
+<!ENTITY fhentrydlg.timesusederror.label "Apenas os valores numéricos são permitidos para Nº de Vezes Usado">
 <!ENTITY fhcriteriadlg.windowtitle "Editar critério de limpeza">
 <!ENTITY fhcriteriadlg.edit.description "Edita um critério de limpeza existente">
 <!ENTITY fhcriteriadlg.add.description "Insere um novo critério de limpeza">
@@ -223,6 +225,13 @@
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Ocultar o item do menu Ferramentas">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Ocultar o item do menu de contexto">
+<!ENTITY fhprefs.group.treeskin.caption "Cor de fundo das listas">
+<!ENTITY fhprefs.label.treeskin.label "Melhorar a legibilidade das listas">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Selecione uma destas opções para melhorar a legibilidade (normalmente útil para temas escuros do sistema operacional)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Automático">
+<!ENTITY fhprefs.radio.treeskin.light.label "Claro">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Escuro">
+<!ENTITY fhprefs.radio.treeskin.none.label "Nenhum">
 <!ENTITY fhprefs.prefpane.quickfill.label "Preenchimento rápido">
 <!ENTITY fhprefs.quickfillinfo.label "Opcionalmente, marcar todos os campos de entrada que foram preenchidos com o valor mais recente ou mais frequentemente utilizado.">
 <!ENTITY fhprefs.group.quickfill.caption "Indicação de campos de formulário de preenchimento rápido">
@@ -282,6 +291,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Milissegundo">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Exibir histórico">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "b">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Permitir que o Form History Control gerencie o histórico de formulários">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Se deve ou não controlar o salvamento do histórico formulários usando a extensão Form History Control">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Configurações">
 <!ENTITY fhabout.label.description "Descrição">
 <!ENTITY fhabout.label.creator "Criado por">
 <!ENTITY fhabout.label.homepage "Visitar o site">
