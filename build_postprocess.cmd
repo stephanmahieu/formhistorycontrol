@@ -18,6 +18,7 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\bg-BG ^
           chrome\locale\hu ^
           chrome\locale\it-IT ^
+          chrome\locale\ru ^
           chrome\locale\sk-SK ^
           chrome\locale\zh-CN
 if errorlevel 1 goto error
