@@ -140,13 +140,13 @@ const FhcBrowseHistoryDialog = {
     var reportDoc = report.contentWindow.document;
 
     var datetime = reportDoc.getElementById("datetime");
-    datetime.innerHTML = this.dateHandler.toDateString(dateUsed);
+    datetime.textContent = this.dateHandler.toDateString(dateUsed);
 
     var fieldname = reportDoc.getElementById("fieldname");
-    fieldname.innerHTML = fieldName;
+    fieldname.textContent = fieldName;
 
     var fieldvalue = reportDoc.getElementById("fieldvalue");
-    fieldvalue.innerHTML = fieldValue;
+    fieldvalue.textContent = fieldValue;
 
     //localization navigation buttons
     this._setLocaleString("gocurrent");
@@ -174,7 +174,7 @@ const FhcBrowseHistoryDialog = {
     var element = document.getElementById("browsereport")
                     .contentDocument.getElementById(code);
     if (element) {
-      element.innerHTML = this.bundle.getString("browsehistorywindow.report." + code);
+      element.textContent = this.bundle.getString("browsehistorywindow.report." + code);
     }
   },
 
@@ -191,7 +191,7 @@ const FhcBrowseHistoryDialog = {
     var template = doc.getElementById("placetemplate");
     var box = template.cloneNode(true);
     box.className = "box " + type;
-    box.getElementsByClassName("datetime")[0].innerHTML = this.dateHandler.toDateString(place.date);
+    box.getElementsByClassName("datetime")[0].textContent = this.dateHandler.toDateString(place.date);
 
     var fuzzyage;
     if ("older" == type) {
@@ -199,11 +199,11 @@ const FhcBrowseHistoryDialog = {
     } else {
       fuzzyage = this.dateHandler.getFuzzyAge(place.date, this.currentDate);
     }
-    box.getElementsByClassName("fuzzyage")[0].innerHTML = "(" + fuzzyage.trimLeft() + ")";
+    box.getElementsByClassName("fuzzyage")[0].textContent = "(" + fuzzyage.trimLeft() + ")";
 
-    box.getElementsByClassName("placehost")[0].innerHTML = place.host;
-    box.getElementsByClassName("placetitle")[0].innerHTML = place.title;
-    box.getElementsByClassName("placeurl")[0].innerHTML = place.url;
+    box.getElementsByClassName("placehost")[0].textContent = place.host;
+    box.getElementsByClassName("placetitle")[0].textContent = place.title;
+    box.getElementsByClassName("placeurl")[0].textContent = place.url;
     return box;
   }
 }
