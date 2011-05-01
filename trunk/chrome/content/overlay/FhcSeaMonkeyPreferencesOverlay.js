@@ -46,9 +46,17 @@ const FhcSeaMonkeyPreferencesOverlay = {
   
   // implementation of EventListener Interface for listening to events
   handleEvent: function(aEvent) {
+    dump("FhcSeaMonkeyPreferencesOverlay::handleEvent = " + aEvent.type + "\n");
     switch(aEvent.type) {
       // have to use select, load will not fire if treeitem is not yet selected
-      case "select":
+      case "paneload":
+        // NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING!
+        // handleEvent is not called for the the history pane the first time the preference dialog is opened
+        // also the first time the form history preferences are not shown (all zero/false)!
+        // The second time preferences is opened everything works as expected.
+        // Only NOT overlaying via crome.manifest will load history preferences correctly first time.
+        // NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING! NOT WORKING!
+
         var tree = document.getElementById("prefsTree");
         var selectedTreeItem = tree.contentView.getItemAtIndex(tree.currentIndex);
 
@@ -81,6 +89,8 @@ const FhcSeaMonkeyPreferencesOverlay = {
 
   // Add a button to the privacy pane after the rememberForms checkbox
   _addFormHistoryButton: function() {
+    dump("add FormHistoryButton\n");
+
     if (document.getElementById("formfillEnable") == null) {
       // wait till history panel has been loaded
       var main = Components.classes["@mozilla.org/thread-manager;1"]
@@ -102,11 +112,11 @@ const FhcSeaMonkeyPreferencesOverlay = {
 
       // move the new box into the desired position and unhide
       newBox.setAttribute("hidden", false);
-      newBox.parentNode.removeChild(newBox);
+      // newBox.parentNode.removeChild(newBox);
       historyGroup.insertBefore(newBox, rememberFormsCheckbox);
 
       // move the existing checkbox into the new box before the button
-      historyGroup.removeChild(rememberFormsCheckbox);
+      // historyGroup.removeChild(rememberFormsCheckbox);
       rememberFormsCheckbox.setAttribute("flex", "1");
       newHBox.insertBefore(rememberFormsCheckbox, formhistButtonBox);
 
@@ -129,4 +139,5 @@ const FhcSeaMonkeyPreferencesOverlay = {
 }
 
 // Implement the handleEvent() method for this to work
-addEventListener("select", FhcSeaMonkeyPreferencesOverlay, false);
+//addEventListener("select", FhcSeaMonkeyPreferencesOverlay, false);
+addEventListener("paneload", FhcSeaMonkeyPreferencesOverlay, false);

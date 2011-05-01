@@ -11,7 +11,7 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is FhcBrowserListener.
+ * The Original Code is FhcManageFormHistoryOverlay.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
  * Portions created by the Initial Developer are Copyright (C) 2009
@@ -66,7 +66,7 @@ const FhcManageFormHistoryOverlay = {
 
     // fallback for SeaMonkey: delete formhistory entries afterwards (if times used == 1)
     if ("SeaMonkey" == FhcUtil.getBrowserName() && "1" == FhcUtil.getGeckoVersion()[0]) {
-      dump("Add SeaMonkey fallback\n");
+      //dump("Add SeaMonkey fallback\n");
       window.addEventListener("submit", function() {
         FhcManageFormHistoryOverlay.onLateFormSubmit()
       }, true);
@@ -131,7 +131,7 @@ const FhcManageFormHistoryOverlay = {
    * to make sure to restore all temporarily changed preferences.
    */
   onFormSubmit: function() {
-    dump("\n=== onFormSubmit ===\n");
+    //dump("\n=== onFormSubmit ===\n");
     if (this.prefHandler.isManageHistoryByFHCEnabled() && !FhcUtil.inPrivateBrowsingMode()) {
       dump("- ManageByFHC is enabled.\n");
       var URI = gBrowser.selectedBrowser.currentURI;
@@ -166,7 +166,7 @@ const FhcManageFormHistoryOverlay = {
    * Form submit finished, restore global preference.
    */
   onFormSubmitDone: function() {
-    dump("...onFormSubmitDone...\n");
+    //dump("...onFormSubmitDone...\n");
     if (this.submitting) {
       this.cancelRunAfterTimeout();
       if (this.currentSaveFormhistory != null)  {
@@ -223,7 +223,7 @@ const FhcManageFormHistoryOverlay = {
    * immediately afterwards (fallback scenario).
    */
   onLateFormSubmit: function() {
-    dump("=== onLateFormSubmit ===\n");
+    //dump("=== onLateFormSubmit ===\n");
     if (this.submitting && !this.doSaveFormhistory) {
       dump("new entries have to be deleted after submit...\n\n");
       this.checkHistoryDB = true;
@@ -245,15 +245,15 @@ const FhcManageFormHistoryOverlay = {
    * Change the icon to reflect the current formfill status.
    */
   setStatusIcon: function() {
-    dump("=== setStatusIcon ===\n");
+    //dump("=== setStatusIcon ===\n");
     if (!this.prefHandler.isGlobalRememberFormEntriesActive() || FhcUtil.inPrivateBrowsingMode()) {
       // remember formhistory globally disabled
-      dump("- Remember formhistory globally disabled\n");
+      //dump("- Remember formhistory globally disabled\n");
       this.setIcons("neversave");
     }
     else if (!this.prefHandler.isManageHistoryByFHCEnabled()) {
       // remember formhistory globally enabled
-      dump("- Remember formhistory globally enabled\n");
+      //dump("- Remember formhistory globally enabled\n");
       this.setIcons(null); // default icon
     } else {
       // remember formhistory  managed by FHC
