@@ -16,10 +16,17 @@ goto error
 rem --(delete incomplete locales)-------------------------------
 7z.exe d %XPI_FILE% ^
           chrome\locale\bg-BG ^
+          chrome\locale\cs ^
+          chrome\locale\da ^
+          chrome\locale\de ^
+          chrome\locale\es-ES ^
+          chrome\locale\fr ^
           chrome\locale\hu ^
           chrome\locale\it-IT ^
+          chrome\locale\pt-BR ^
           chrome\locale\ru ^
           chrome\locale\sk-SK ^
+          chrome\locale\sv-SE ^
           chrome\locale\zh-CN
 if errorlevel 1 goto error
 
