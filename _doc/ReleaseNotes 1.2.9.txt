@@ -1,5 +1,5 @@
 User:
-- Available locales (cs da de en es fr nl sv)
+- Available locales (cs da de en es fr nl pt sv)
 - Added support for new html5 text input fields
 - "Times used" field is now editable (also for multiple selected entries)
 - Tree background(rows) skinnable (automatic, light, dark, none)
@@ -8,6 +8,7 @@ User:
 - Fix: skip duplicate entries from imported xml-file
 - Fix: toLowercase is not a function error (when sorting host or title treeview-column)
 - Fix: Sorting on ageFirst column not working properly
+- Fix: Browsing history dialog view was unintentionally clickable
 
 Technical:
 - MaxVersion FF to 6.0a1
@@ -15,6 +16,8 @@ Technical:
 - Rewritten FhcSearchbarOverlay.js (simpler)
 - Fix Mozilla validation warning FhcXmlHandler: createElement used with a variable rather than a raw string
 - Fix Mozilla validation warning FhcRdfExtensionHandler: Synchronous HTTP requests can cause serious UI performance problems
+- Fix Mozilla validation warning FhcContextMenu/FhcUtil: on* attribute, use addEventListener instead
+- Fix Mozilla validation warning FhcBrowseHisrtory: replaced innerHTML with textContent
 
 ToDo:
 - Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
