@@ -214,9 +214,7 @@ const FhcUtil = {
       'background-color:#000; opacity: 0.70;' +
       '' + shadow + ': 3px 3px 3px rgba(0, 0, 0, 0.4);' +
       '' + radius + ': 5px; border:2px outset #585B5C');
-    // on* attribute use addEventListener Mozilla validation warning!
-    // div is added to an existing HTML page, impossible to use addEventListener.
-    div.setAttribute(FhcUtil.strReverse('kcilcno'), "this.style.display='none';");
+    div.addEventListener("click", function(){this.style.display='none';}, false);
 
     // inner div holding the message with an image
     var msgDiv = document.createElement('div');
