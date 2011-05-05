@@ -1,0 +1,3 @@
+- Fixed empty XML-Export (wrong method was used to obtain extension-name and version)
+- Fixed missing-file-exception when opening preferences and cleanup-db has not been created yet
+- maxVersion FF to 4.0b2pre

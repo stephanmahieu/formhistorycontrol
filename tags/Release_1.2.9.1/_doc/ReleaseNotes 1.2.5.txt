@@ -1,0 +1,25 @@
+- Changes
+  - install.rdf
+     maxversion SeaMonkey to 2.1a3pre
+
+  - FhcUtil.js
+    added method getBrowserName()
+
+  - HistoryWindowControl.js
+    init() -> formhistoryDbReady() before databaseDirOkay()
+
+  - FhcDbHandler.js
+    formhistoryDbReady() -> !(NOT) forgotten
+
+  - FhcRdfExtensionHandler.js
+    _getXMLFile() -> SeaMonkey exception (new Addon object does not have method getResourceURL)
+
+  
+  
+
+- Locales unfinished
+  not (completely) translated yet: hu-HU, ru-RU, sk-SK, tr-TR, zh-CN
+  still in progress: bg-BG, it-IT
+
+- Locales present in this release:
+  cs-CZ, de-DE, en-US, es-ES, fr, it-IT, nl, pt-BR
