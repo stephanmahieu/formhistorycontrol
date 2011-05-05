@@ -484,9 +484,7 @@ const FhcContextMenu = {
     style += 'left:' + (left + width + padding + border + 4) + 'px; ';
 
     div.setAttribute('id', id);
-    // on* attribute use addEventListener Mozilla validation warning!
-    // div is added to an existing HTML page, impossible to use addEventListener.
-    div.setAttribute(FhcUtil.strReverse('kcilcno'), "this.style.display='none';");
+    div.addEventListener("click", function(){this.style.display='none';}, false);
     div.setAttribute('style', style);
 
     var img = document.createElement('img');
@@ -877,25 +875,22 @@ const FhcContextMenu = {
     div.setAttribute('id', id);
     div.setAttribute('title', this._getFormInfo(sourceElem, false));
     div.setAttribute('style', style);
-    // on* attribute use addEventListener Mozilla validation warning!
-    // div is added to an existing HTML page, impossible to use addEventListener.
-    div.setAttribute(FhcUtil.strReverse('revoesuomno'), 'this.style.opacity=1; this.style.zIndex=1002;');
-    div.setAttribute(FhcUtil.strReverse('tuoesuomno'), 'this.style.opacity=0.75; this.style.zIndex=1001;');
+    div.addEventListener("mouseover", function(){this.style.opacity=1; this.style.zIndex=1002;}, false);
+    div.addEventListener("mouseout", function(){this.style.opacity=0.75; this.style.zIndex=1001;}, false);
     div.appendChild(document.createTextNode(fldName));
 
     var innerDiv = document.createElement('div');
     div.appendChild(innerDiv);
-    // -- on* attribute use addEventListener Mozilla validation warning!
-    // -- Div is added to an existing HTML page, impossible to use addEventListener.
-    div.setAttribute(FhcUtil.strReverse('kcilcno'),
-      "var e=document.getElementById('" + id + "inner');" +
-      "if(e.style.display=='none') {" +
-         "e.style.display='block';" +
-         "this.style.zIndex=1001;" +
-       "} else {" +
-         "e.style.display='none';" +
-         "this.style.zIndex=1000;" +
-       "}");
+    div.addEventListener("click", function(){
+      var e=document.getElementById(this.id + 'inner');
+      if(e.style.display=='none') {
+         e.style.display='block';
+         this.style.zIndex=1001;
+       } else {
+         e.style.display='none';
+         this.style.zIndex=1000;
+       }
+    }, false);
     innerDiv.setAttribute('id', id + 'inner');
     innerDiv.setAttribute('title', ' ');
     innerDiv.setAttribute('style', 
