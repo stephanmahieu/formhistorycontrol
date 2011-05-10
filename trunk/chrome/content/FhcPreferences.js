@@ -253,6 +253,10 @@ const FhcPreferences = {
         "criteria::" + this.dbHandler.getNoOfCleanupAndProtectItems();
       document.getElementById("fhc-datacount2").value =
         "regexp::" + this.dbHandler.getNoOfRegexpItems();
+      document.getElementById("fhc-datacount3").value =
+        "multiline::" + this.dbHandler.getNoOfMultilineItems();
+      document.getElementById("fhc-datacount4").value =
+        "customsave::" + this.dbHandler.getNoOfCustomsaveItems();
     }
     catch(ex) {
       // when preferences is shown but the extension itself has never been opened yet,
