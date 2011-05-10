@@ -39,14 +39,18 @@
 /**
  * Methods for saving data in textarea's.
  * 
- * Dependencies: 
+ * Dependencies: FhcDbHandler.js
  */
 
 const FhcFormSaveOverlay = {
-  timer: null,
+  timer:      null,
+  timer2:     null,
   eventQueue: [],
+  dbHandler:  null,
 
   init: function() {
+    this.dbHandler = new FhcDbHandler();
+    
     addEventListener("submit", function(e){FhcFormSaveOverlay.submit(e)}, false);
     addEventListener("reset", function(e){FhcFormSaveOverlay.reset(e)}, false);
     addEventListener("keyup", function(e){FhcFormSaveOverlay.keyup(e)}, false);
@@ -60,11 +64,23 @@ const FhcFormSaveOverlay = {
     this.timer = Components.classes["@mozilla.org/timer;1"]
                   .createInstance(Components.interfaces.nsITimer);
     this.timer.init(timerEvent, 5*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+    
+    // dispatch maintenance event every 10 minutes
+    var timerEvent2 = {
+      observe: function(subject, topic, data) {
+        FhcFormSaveOverlay.doMaintenance();
+      }
+    }
+    this.timer2 = Components.classes["@mozilla.org/timer;1"]
+                   .createInstance(Components.interfaces.nsITimer);
+    this.timer2.init(timerEvent2, 10*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
   },
 
   destroy: function() {
     this.eventQueue = [];
     if (this.timer != null) this.timer.cancel();
+    if (this.timer2 != null) this.timer2.cancel();
+    delete this.dbHandler;
   },
 
   submit: function(event) {
@@ -105,10 +121,12 @@ const FhcFormSaveOverlay = {
 
   _contentChanged: function(type, node) {
     var uri;
+    var formid = null;
     var id = (node.id) ? node.id : ((node.name) ? node.name : "");
     switch(type) {
       case "textarea":
         uri = node.ownerDocument.documentURI;
+        formid = this._getFormId(node);
         break;
       case "html":
         uri = node.documentURI;
@@ -123,7 +141,7 @@ const FhcFormSaveOverlay = {
 //    dump(">>> content\n" + content + "\n<<< content\n");
 
     // add tot queue (if not already queued)
-    this._queueEvent(type, id, uri, node);
+    this._queueEvent(type, id, formid, uri, node);
   },
 
   _alreadyQueued: function(event) {
@@ -137,12 +155,13 @@ const FhcFormSaveOverlay = {
     return false;
   },
 
-  _queueEvent: function(type, id, uri, node) {
+  _queueEvent: function(type, id, formid, uri, node) {
     var event = {
-        type: type,
-        id: id,
-        uri: uri,
-        node: node
+        type:   type,
+        id:     id,
+        formid: formid,
+        uri:    uri,
+        node:   node
       };
     if (!this._alreadyQueued(event)) {
       this.eventQueue.push(event);
@@ -167,9 +186,29 @@ const FhcFormSaveOverlay = {
 
   _saveContent: function(event) {
     var content = this._getContent(event);
-    // asynchronous save to db?
-    //dump("- Saving for uri: " + event.uri + "\n");
-    //dump(">>> content\n" + content + "\n<<< content\n");
+    //TODO asynchronous save to db
+    dump("- Saving for uri: " + event.uri + "\n");
+    dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
+    dump(">>> content\n" + content + "\n<<< content\n");
+  },
+
+  _getFormId: function(element) {
+    var insideForm = false;
+    var parentElm = element;
+    while(parentElm && !insideForm) {
+      parentElm = parentElm.parentNode;
+      insideForm = ("FORM" == parentElm.tagName);
+    }
+    return (insideForm && parentElm) ? this._getId(parentElm) : null;
+  },
+  
+  _getId: function(element) {
+    if (element.id && element.id.length > 0) {
+        return element.id;
+    } else if (element.name && element.name.length > 0) {
+       return element.name;
+    }
+    return null;
   },
 
   dispatchEvent: function() {
@@ -181,6 +220,11 @@ const FhcFormSaveOverlay = {
       this.eventQueue = [];
       //dump("Finished processing queue\n");
     }
+  },
+  
+  doMaintenance: function() {
+    //TODO cleanup old history
+    //dump("doMaintenance event...\n")
   }
 };
 

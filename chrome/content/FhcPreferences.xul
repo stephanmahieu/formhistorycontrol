@@ -825,6 +825,14 @@
                       <label value=""/>
                       <textbox id="fhc-datacount2" readonly="true"/>
                     </row>
+                    <row align="baseline">
+                      <label value=""/>
+                      <textbox id="fhc-datacount3" readonly="true"/>
+                    </row>
+                    <row align="baseline">
+                      <label value=""/>
+                      <textbox id="fhc-datacount4" readonly="true"/>
+                    </row>
                     <row>
                       <spacer height="10"/>
                     </row>

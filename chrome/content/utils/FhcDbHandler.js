@@ -1511,6 +1511,70 @@ FhcDbHandler.prototype = {
 
 
   //----------------------------------------------------------------------------
+  // Multiline methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Return the total number of multiline entries in the database.
+   *
+   * @return {Integer}
+   *         the total number of multiline entries in the database
+   */
+  getNoOfMultilineItems: function() {
+    var mDBConn = this._getDbCleanupConnection();
+
+    var count = 0, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT count(*)" +
+          "  FROM multiline");
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getNoOfMultilineItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    return count;
+  },
+
+
+
+  //----------------------------------------------------------------------------
+  // Customsave methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Return the total number of customsave entries in the database.
+   *
+   * @return {Integer}
+   *         the total number of customsave entries in the database
+   */
+  getNoOfCustomsaveItems: function() {
+    var mDBConn = this._getDbCleanupConnection();
+
+    var count = 0, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT count(*)" +
+          "  FROM customsave");
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getNoOfCustomsaveItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    return count;
+  },
+
+
+
+  //----------------------------------------------------------------------------
   // ID Helper methods
   //----------------------------------------------------------------------------
 
@@ -1786,6 +1850,50 @@ FhcDbHandler.prototype = {
       }
       catch(e) {
         dump("Migrate: Adding table regexp failed!\n\n" + e);
+        return false;
+      }
+    }
+    // check multiline table (new since 1.2.10)
+    colCount = this._getNoOfColumns(mDBConnection, "multiline");
+    if (0 == colCount) {
+      try {
+        mDBConnection.executeSimpleSQL(
+          "CREATE TABLE IF NOT EXISTS multiline " +
+          "(id          TEXT," +
+          " type        TEXT," +
+          " formid      TEXT," +
+          " content     TEXT," +
+          " host        TEXT," +
+          " url         TEXT," +
+          " firstsaved  INTEGER," +
+          " lastsaved   INTEGER)"
+        );
+      }
+      catch(e) {
+        dump("Migrate: Adding table multiline failed!\n\n" + e);
+        return false;
+      }
+    }
+    // check customsave table (new since 1.2.10)
+    colCount = this._getNoOfColumns(mDBConnection, "customsave");
+    if (0 == colCount) {
+      try {
+        mDBConnection.executeSimpleSQL(
+          "CREATE TABLE IF NOT EXISTS customsave " +
+          "(url         TEXT," +
+          " fieldname   TEXT," +
+          " value       TEXT," +
+          " urlRegex    INTEGER DEFAULT 0," +
+          " nameExact   INTEGER DEFAULT 0," +
+          " nameCase    INTEGER DEFAULT 0," +
+          " nameRegex   INTEGER DEFAULT 0," +
+          " valueExact  INTEGER DEFAULT 0," +
+          " valueCase   INTEGER DEFAULT 0," +
+          " valueRegex  INTEGER DEFAULT 0)"
+        );
+      }
+      catch(e) {
+        dump("Migrate: Adding table customsave failed!\n\n" + e);
         return false;
       }
     }
