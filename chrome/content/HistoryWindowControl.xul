@@ -1116,7 +1116,7 @@
       <tabpanel>
         <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
           <separator class="thin"/>
-          <label id="formHistoryTreeLabel" value="Backup of multiline editor items:"/>
+          <label id="formHistoryTreeLabel" value="Backup of automatically saved editor fields:"/>
 
           <separator class="thin"/>
           <tree id="multilineHistoryTree" alternatingbackground="true"
