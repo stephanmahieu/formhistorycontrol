@@ -43,14 +43,18 @@
  */
 
 const FhcFormSaveOverlay = {
-  timer:      null,
-  timer2:     null,
-  eventQueue: [],
-  dbHandler:  null,
+  timer:            null,
+  maintenanceTimer: null,
+  eventQueue:       [],
+  dbHandler:        null,
+  observerService:  null,
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
-    
+
+    this.observerService = Components.classes["@mozilla.org/observer-service;1"]
+                          .getService(Components.interfaces.nsIObserverService);
+
     addEventListener("submit", function(e){FhcFormSaveOverlay.submit(e)}, false);
     addEventListener("reset", function(e){FhcFormSaveOverlay.reset(e)}, false);
     addEventListener("keyup", function(e){FhcFormSaveOverlay.keyup(e)}, false);
@@ -66,20 +70,20 @@ const FhcFormSaveOverlay = {
     this.timer.init(timerEvent, 5*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
     
     // dispatch maintenance event every 10 minutes
-    var timerEvent2 = {
+    var maintenanceEvent = {
       observe: function(subject, topic, data) {
         FhcFormSaveOverlay.doMaintenance();
       }
     }
-    this.timer2 = Components.classes["@mozilla.org/timer;1"]
-                   .createInstance(Components.interfaces.nsITimer);
-    this.timer2.init(timerEvent2, 10*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+    this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
+                           .createInstance(Components.interfaces.nsITimer);
+    this.maintenanceTimer.init(maintenanceEvent, 10*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
   },
 
   destroy: function() {
     this.eventQueue = [];
+    if (this.maintenanceTimer != null) this.maintenanceTimer.cancel();
     if (this.timer != null) this.timer.cancel();
-    if (this.timer2 != null) this.timer2.cancel();
     delete this.dbHandler;
   },
 
@@ -136,10 +140,6 @@ const FhcFormSaveOverlay = {
         uri = node.ownerDocument.documentURI;
         break;
     }
-//    dump("Type: " + type + "\n");
-//    dump("Id  : " + id +   "\n");
-//    dump("Uri : " + uri +  "\n");
-//    dump(">>> content\n" + content + "\n<<< content\n");
 
     // add tot queue (if not already queued)
     this._queueEvent(name, type, id, formid, uri, node);
@@ -165,7 +165,7 @@ const FhcFormSaveOverlay = {
         formid:     formid,
         url:        uri,
         host:       null,
-        firstsaved: null,
+      //firstsaved: null,
         lastsaved:  null,
         content:    null
       };
@@ -191,25 +191,21 @@ const FhcFormSaveOverlay = {
   },
 
   _saveContent: function(event) {
-    //TODO save to db
-
     var d = new Date();
     var now = d.getTime() * 1000;
     
-    event.host = this._getHost(event.url);
     //event.firstsaved = ;
     event.lastsaved = now;
+    event.host = this._getHost(event.url);
     event.content = this._getContent(event);
     
     this.dbHandler.saveOrUpdateMultilineItem(event);
-    dump("- Saving for uri: " + event.url + "\n");
-    dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
-    dump(">>> content\n" + event.content + "\n<<< content\n");
+    //dump("- Saving for uri: " + event.url + "\n");
+    //dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
+    //dump(">>> content\n" + event.content + "\n<<< content\n");
 
     // notify observers
-    var observerService = Components.classes["@mozilla.org/observer-service;1"]
-                            .getService(Components.interfaces.nsIObserverService);
-    observerService.notifyObservers(null, "multiline-store-changed", "");
+    this.observerService.notifyObservers(null, "multiline-store-changed", "");
   },
 
   _getFormId: function(element) {
@@ -257,7 +253,7 @@ const FhcFormSaveOverlay = {
   },
   
   doMaintenance: function() {
-    //TODO cleanup old history
+    //TODO multiline cleanup old history
     //dump("doMaintenance event...\n")
   }
 };

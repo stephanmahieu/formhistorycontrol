@@ -1518,6 +1518,7 @@ FhcDbHandler.prototype = {
     var mDBConn = this._getDbCleanupConnection();
     
     // check if item exist
+    //TODO multiline saveOrUpdate: insert new item after some timeperiod or if field was submitted
     var count = 0, statement;
     try {
       statement = mDBConn.createStatement(
@@ -1610,6 +1611,45 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('addMultilineItem:Exception: ' + ex);
     } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
+  /**
+   * Delete multiline items from the database, return true on succes.
+   *
+   * @param  items {Array}
+   *         an array of existing multiline item objects to be deleted from
+   *         the database
+   *
+   * @return {Boolean}
+   *         whether or not deleting succeeded
+   */
+  deleteMultiline: function(items) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "DELETE" +
+        "  FROM multiline" +
+        " WHERE url    = :url" +
+        "   AND type   = :type" +
+        "   AND id     = :id" +
+        "   AND name   = :name" +
+        "   AND formid = :formid");
+      for (var it=0; it < items.length; it++) {
+        statement.params.url    = items[it].url;
+        statement.params.type   = items[it].type;
+        statement.params.id     = items[it].id;
+        statement.params.name   = items[it].name;
+        statement.params.formid = items[it].formid;
+        result = this._executeReusableStatement(statement);
+        if (!result) break;
+      }
+    } finally {
+      this._closeStatement(statement);
       this._closeDbConnection(mDBConn, result);
     }
     return result;

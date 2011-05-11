@@ -18,7 +18,7 @@
                   type="bool" />
     </preferences>
     <groupbox id="historyGroup">
-      <vbox insertafter="rememberForms" id="preferencesFormHistoryControlBox">
+      <vbox insertafter="rememberForms" id="preferencesFormHistoryControlBox" hidden="true">
         <hbox id="preferencesFormHistoryControlBoxInnerHbox">
           <button id="preferencesFormHistoryControlButton"
                   label="&fhprefovl.privacy.button.showhistory.label;..."

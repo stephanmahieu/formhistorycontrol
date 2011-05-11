@@ -56,6 +56,7 @@ const MultilineWindowControl = {
   prefHandler: null,
   bundle: null,
   data: [],
+  dbObserver: null,
  
   /**
    * Initialize.
@@ -96,27 +97,32 @@ const MultilineWindowControl = {
 
     // set initial sort
     this.sortColumn();
-    
-//    var my_topicObserver = {
-//      observe: function(subject, topic, state) {
-//        if (topic == "multiline-store-changed") {
-//          alert("my-topic sent: topic=" + subject + ". state=" + state + ".") 
-//        }
-//      }
-//    } 
-//    var observerService = Components.classes["@mozilla.org/observer-service;1"]
-//                          .getService(Components.interfaces.nsIObserverService);
-//    observerService.addObserver(my_topicObserver, "multiline-store-changed", false);    
+
+    // observe changes to the database
+    this.dbObserver = {
+      observe: function(subject, topic, state) {
+        MultilineWindowControl.repopulateView();
+      },
+      register: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .addObserver(this, "multiline-store-changed", false);
+      },
+      unregister: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .removeObserver(this, "multiline-store-changed");
+      }
+    };
+    this.dbObserver.register();
   },
 
   /**
    * Extension close.
    */
   destroy: function() {
-//    var observerService = Components.classes["@mozilla.org/observer-service;1"]
-//                            .getService(Components.interfaces.nsIObserverService);
-//    observerService.removeObserver(MultilineWindowControl, "multiline-store-changed");
-    
+    this.dbObserver.unregister();
+    delete this.dbObserver;
     return true;
   },
 
@@ -154,8 +160,7 @@ const MultilineWindowControl = {
     if (selected.length > 0) {
       switch(doAction) {
         case "Delete":
-          //TODO multiline WIP
-          //this._removeMultiline(selected);
+          this._removeMultiline(selected);
           break;
       }
     }
@@ -188,7 +193,7 @@ const MultilineWindowControl = {
    * @param event {Event}
    */
   treeDblclick: function(event) {
-    //TODO multiline WIP
+    //TODO multiline treeDblclick (view)
     //var selected = this.getSelected();
     //this._editCriteria(selected);
   },
@@ -268,7 +273,7 @@ const MultilineWindowControl = {
     this.treeBox.rowCountChanged(0, -this.rowCount);
     this.treeBox.invalidate();
     this.rowCount = 0;
-    this.data = this.dbHandler.getAllCleanupCriteria();
+    this.data = this.dbHandler.getAllMultilineItems();
     this.rowCount = this.data.length;
     this.treeBox.rowCountChanged(1, this.data.length);
 
@@ -284,7 +289,7 @@ const MultilineWindowControl = {
    *        the preference DOM element that has changed
    */
   prefsChanged: function(domElem) {
-    //TODO multiline WIP
+    //TODO multiline prefsChanged
 //    switch (domElem.id) {
 //      case "lastUsedCheck":
 //        this.prefHandler.setCleanupDaysChecked(domElem.checked);
@@ -367,7 +372,7 @@ const MultilineWindowControl = {
    * Read general preferences and synchronize with settings displayed by UI.
    */
   readAndShowPreferences: function() {
-    //TODO multiline WIP
+    //TODO multiline readAndShowPreferences
     //document.getElementById("lastUsedDaysLimit").value = this.prefHandler.getCleanupDays();
     //document.getElementById("cleanupOnShutdown").checked = this.prefHandler.isCleanupOnShutdown();
   },
@@ -404,29 +409,30 @@ const MultilineWindowControl = {
     this.selectCountLabel.setAttribute("value", msg);
   },
 
-//  /**
-//   * Remove criteria, ask for confirmation if more than 1 criteria is about to
-//   * be removed.
-//   *
-//   * @param criteria {Array}
-//   *        array of selected (at least 1) cleanup items
-//   */
-//  _removeCriteria: function(criteria) {
-//    var prefix = "cleanupwindow.prompt.delete.";
-//    var msg = (1 < criteria.length)
-//              ? this.bundle.getString(prefix + "multipleentries", [criteria.length])
-//              : this.bundle.getString(prefix + "singleentry");
-//    if (HistoryWindowControl.confirmDialogWithPref(
-//        this.bundle.getString(prefix + "title"),  msg, (1 < criteria.length)))
-//    {
-//      window.setCursor("wait");
-//      try {
-//        if (this.dbHandler.deleteCriteria(criteria)) {
+  /**
+   * Remove multiline items, ask for confirmation if more than 1 item is about
+   * to be removed.
+   *
+   * @param items {Array}
+   *        array of selected (at least 1) multiline item
+   */
+  _removeMultiline: function(items) {
+    var prefix = "cleanupwindow.prompt.delete.";
+    var msg = (1 < items.length)
+              ? this.bundle.getString(prefix + "multipleentries", [items.length])
+              : this.bundle.getString(prefix + "singleentry");
+    if (HistoryWindowControl.confirmDialogWithPref(
+        this.bundle.getString(prefix + "title"),  msg, (1 < items.length)))
+    {
+      window.setCursor("wait");
+      try {
+        if (this.dbHandler.deleteMultiline(items)) {
+          this.repopulateView();
 //          this.treeBox.beginUpdateBatch();
 //          try {
 //            var criteriaId, index;
-//            for (var it=0; it < criteria.length; it++) {
-//              criteriaId = criteria[it].id;
+//            for (var it=0; it < items.length; it++) {
+//              criteriaId = items[it].id;
 //              index = this._findCriteriaIndex(criteriaId);
 //              if (-1 < index) this.data.splice(index, 1);
 //              this.rowCount -= 1;
@@ -437,37 +443,12 @@ const MultilineWindowControl = {
 //            this.treeBox.endUpdateBatch();
 //            this.treeBox.invalidate();
 //          }
-//        }
-//      } finally {
-//        window.setCursor("auto");
-//      }
-//    }
-//  },
-
-//  /**
-//   * Update a single criteria already changed in data[];
-//   * 
-//   * @param criteria {Object}
-//   *        a single criteria object
-//   */
-//  _updateCriteria: function(criteria) {
-//    // update the database
-//    this.dbHandler.updateCriteria(criteria);
-//
-//    // update treeview
-//    this.treeBox.rowCountChanged(0, -this.rowCount);
-//    this.treeBox.invalidate();
-//    this.treeBox.rowCountChanged(1, this.data.length);
-//    this.sortColumn();
-//
-//    // select and scroll edited item into view
-//    var index = this._findCriteriaIndex(criteria.id);
-//    if (-1 < index) {
-//      this._getSelection().select(index);
-//      this.treeBox.ensureRowIsVisible(index);
-//    }
-//  },
-
+        }
+      } finally {
+        window.setCursor("auto");
+      }
+    }
+  },
 
 //  /**
 //   * Find a criteria by Id in an array of criteria, return the array index if
