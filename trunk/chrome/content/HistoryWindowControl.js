@@ -43,7 +43,7 @@
  * Dependencies:
  *   HistoryWindowControl.xul,
  *   HistoryTreeView.js, CleanupWindowControl.js,
- *   CleanupProtectView.js
+ *   CleanupProtectView.js, MultilineWindowControl,
  *   FhcDbHandler.js, FhcUtil.js, FhcBundle.js,
  *   FhcPreferenceHandler.js, FhcDateHandler.js,
  *   FhcBrowsingListener, FhcShowDialog.js,
@@ -108,6 +108,10 @@ const HistoryWindowControl = {
     CleanupProtectView.init(
       this.dbHandler, this.dateHandler, this.bundle, this.preferences);
 
+    // Multiline history support
+    MultilineWindowControl.init(
+      this.dbHandler, this.dateHandler, this.preferences, this.bundle)
+
     // initialize count label vars
     this.countLabel = document.getElementById("itemCount");
     this.selectCountLabel = document.getElementById("selectCount");
@@ -171,6 +175,7 @@ const HistoryWindowControl = {
   destroy: function() {
     CleanupWindowControl.destroy();
     CleanupProtectView.destroy();
+    MultilineWindowControl.destroy();
     this._unregisterPrefListener();
     this._unregisterBrowserListener();
     delete this.treeView;
@@ -521,9 +526,11 @@ const HistoryWindowControl = {
     for(var ii=0; ii<menuItems.length; ii++) {
       id7 = menuItems.item(ii).id.substring(0,7);
       if (id7 == 'mnbarFh') {
-        menuItems.item(ii).hidden = (1 == newIndex);
+        menuItems.item(ii).hidden = (0 != newIndex);
       } else if (id7 == 'mnbarCu') {
-        menuItems.item(ii).hidden = (0 == newIndex);
+        menuItems.item(ii).hidden = (1 != newIndex);
+      } else if (id7 == 'mnbarMl') {
+        menuItems.item(ii).hidden = (2 != newIndex);
       }
     }
   },
@@ -586,6 +593,9 @@ const HistoryWindowControl = {
                CleanupProtectView.editAction(doAction);
                break;
         }
+        break;
+      case 2:
+        MultilineWindowControl.editAction(doAction);
         break;
     }
   },
@@ -711,6 +721,9 @@ const HistoryWindowControl = {
                break;
         }
         break;
+      case 2:
+        MultilineWindowControl.selectAll();
+        break;
     }
   },
 
@@ -737,6 +750,9 @@ const HistoryWindowControl = {
                break;
         }
         break;
+      case 2:
+        MultilineWindowControl.selectNone();
+        break;
     }
   },
 
@@ -755,6 +771,10 @@ const HistoryWindowControl = {
       case 1:
         // not implemented
         // CleanupWindowControl.selectInvert();
+        break;
+      case 2:
+        // not implemented
+        // MultilineWindowControl.selectInvert();
         break;
     }
   },
@@ -1264,7 +1284,7 @@ const HistoryWindowControl = {
   },
 
   /**
-   * Cleanup Select all items from the edit menu.
+   * Cleanup Select no items from the edit menu.
    */
   selectCleanupNone: function() {
     var tabs = document.getElementById('historyWindowCleanupTabs');

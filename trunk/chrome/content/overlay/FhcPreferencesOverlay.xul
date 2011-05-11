@@ -18,7 +18,7 @@
                   type="bool" />
     </preferences>
     <groupbox id="historyGroup">
-      <vbox insertafter="rememberForms" id="preferencesFormHistoryControlBox" hidden="true">
+      <vbox insertafter="rememberForms" id="preferencesFormHistoryControlBox">
         <hbox id="preferencesFormHistoryControlBoxInnerHbox">
           <button id="preferencesFormHistoryControlButton"
                   label="&fhprefovl.privacy.button.showhistory.label;..."
@@ -26,12 +26,12 @@
                   oncommand="FhcShowDialog.doShowFormHistoryControl();" />
         </hbox>
         <hbox>
-          <checkbox class="indent" flex="1" style="padding-top:0" hidden="true"
+          <checkbox class="indent" flex="1" style="padding-top:0"
                     id="preferencesFormHistoryControlCheckboxManage"
                     preference="extensions.formhistory.manageFormhistoryByFHC"
                     label="&fhprefovl.privacy.checkbox.managebyfhc.label;"
                     tooltiptext="&fhprefovl.privacy.checkbox.managebyfhc.tooltip;"/>
-          <button id="preferencesFormHistoryControlSettingsButton" hidden="true"
+          <button id="preferencesFormHistoryControlSettingsButton"
                   label="&fhprefovl.privacy.button.rememberoptions.label;..."
                   oncommand="alert('not implemented')" />
         </hbox>

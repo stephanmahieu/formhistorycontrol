@@ -2,10 +2,11 @@
 
 <!ENTITY historywindow.notification.moreinfo "(meer)">
 
-<!ENTITY fhwin.historytab.formhistory "Toon History">
+<!ENTITY fhwin.historytab.formhistory "Toon Historie">
 <!ENTITY fhwin.historytab.formhistory.accesskey "o">
 <!ENTITY fhwin.historytab.cleanup "Opschonen">
 <!ENTITY fhwin.historytab.cleanup.accesskey "c">
+<!ENTITY fhwin.historytab.multiline "Editor Historie">
 
 <!ENTITY fhwin.filter.label "Zoek">
 <!ENTITY fhwin.filter.tooltip "Zoek naar webformulier waarden waarbij de veldnaam of waarde voldoet aan de opgegeven zoektekst">

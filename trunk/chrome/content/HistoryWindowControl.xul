@@ -18,6 +18,7 @@
   <script type="application/x-javascript" src="chrome://formhistory/content/HistoryTreeView.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupProtectView.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/MultilineWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcCleanupFilter.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDbHandler.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
@@ -167,6 +168,22 @@
               id="mnProtSelectNone"
               class="menuitem-iconic fh_menuitem_selectnone"
               oncommand="CleanupProtectView.selectNone();"/>
+  </menupopup>
+
+  <menupopup id="multilinePopup">
+    <menuitem label="&fhwin.menuitem.delete.label;"
+              id="mnDeleteMultiline" disabled="true"
+              class="menuitem-iconic fh_menuitem_delete"
+              oncommand="MultilineWindowControl.editAction('Delete');"/>
+    <menuseparator/>
+    <menuitem label="&fhwin.menuitem.selectall.label;"
+              id="mnSelectAll"
+              class="menuitem-iconic fh_menuitem_selectall"
+              oncommand="MultilineWindowControl.selectAll();"/>
+    <menuitem label="&fhwin.menuitem.selectnone.label;"
+              id="mnSelectNone"
+              class="menuitem-iconic fh_menuitem_selectnone"
+              oncommand="MultilineWindowControl.selectNone();"/>
   </menupopup>
 
   <menupopup id="regexp-namelist-menu">
@@ -323,6 +340,23 @@
                   class="menuitem-iconic fh_menuitem_selectnone"
                   oncommand="HistoryWindowControl.selectCleanupNone();"
                   hidden='true'/>
+        <!-- Multiline menu-items, initially hidden -->
+        <menuitem label="&fhwin.menuitem.delete.label;"
+                  id="mnbarMlDelete" disabled="true" key="delete-key"
+                  class="menuitem-iconic fh_menuitem_delete"
+                  oncommand="MultilineWindowControl.editAction('Delete');"
+                  hidden='true'/>
+        <menuseparator id="mnbarMlSep" hidden='true'/>
+        <menuitem label="&fhwin.menuitem.selectall.label;"
+                  id="mnbarMlSelectAll" key="selectall-key"
+                  class="menuitem-iconic fh_menuitem_selectall"
+                  oncommand="MultilineWindowControl.selectAll();"
+                  hidden='true'/>
+        <menuitem label="&fhwin.menuitem.selectnone.label;"
+                  id="mnbarMlSelectNone" key="selectnone-key"
+                  class="menuitem-iconic fh_menuitem_selectnone"
+                  oncommand="MultilineWindowControl.selectNone();"
+                  hidden='true'/>
       </menupopup>
     </menu>
     <menu id="view-menu"
@@ -409,6 +443,7 @@
            accesskey="&fhwin.historytab.formhistory.accesskey;"/>
       <tab label="&fhwin.historytab.cleanup;"
            accesskey="&fhwin.historytab.cleanup.accesskey;"/>
+      <tab label="&fhwin.historytab.multiline;"/>
     </tabs>
     <tabpanels id="mainTabPanels" flex="1">
       
@@ -1076,7 +1111,86 @@
                     oncommand="window.close();return;"/>
           </hbox>
         </vbox>
+      </tabpanel>
+                
+      <tabpanel>
+        <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
+          <separator class="thin"/>
+          <label id="formHistoryTreeLabel" value="Backup of multiline editor items:"/>
 
+          <separator class="thin"/>
+          <tree id="multilineHistoryTree" alternatingbackground="true"
+                flex="1" style="width:55em;height:24em;"
+                editable="false"
+                hidecolumnpicker="false" enableColumnDrag="true"
+                onselect="MultilineWindowControl.treeSelect(event);"
+                context="multilinePopup"
+                oncontextmenu="MultilineWindowControl.menuPopup(event);"
+                onclick="MultilineWindowControl.treeClick(event);"
+                ondblclick="MultilineWindowControl.treeDblclick(event);">
+            <treecols>
+              <treecol id="firstsavedCol" hidden="true" flex="1"
+                       label="First Saved"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="lastsavedCol" flex="1"
+                       label="Last Saved"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="mlnameCol" flex="1"
+                       label="Fieldname"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="contentCol" flex="5"
+                       label="Content"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="typeCol" hidden="true" flex="1"
+                       label="Type"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="mlhostCol" flex="1"
+                       label="Host"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="mlurlCol" hidden="true" flex="5"
+                       label="URL"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+            </treecols>
+            <treechildren/>
+          </tree>
+          
+          <hbox>
+            <spacer flex="10"/>
+            <label id="multilineSelectCount" value="" style="margin-top:4px;"/>
+            <spacer flex="1"/>
+            <label id="multilineItemCount" value="0" style="margin-top:4px;"/>
+          </hbox>
+
+          <separator class="thin"/>
+          <hbox>
+            <button id="removeMultiline" disabled="true"
+                    label="Remove"
+                    accesskey=""
+                    oncommand=""/>
+            <button id="viewMultiline" disabled="true"
+                    label="View"
+                    accesskey=""
+                    oncommand=""/>
+            <spacer flex="1"/>
+            <button id="close3" icon="close"
+                    label="&fhwin.button.close.label;"
+                    accesskey="&fhwin.button.close.accesskey;"
+                    oncommand="window.close();return;"/>
+          </hbox>
+        </vbox>
       </tabpanel>
     </tabpanels>
   </tabbox>

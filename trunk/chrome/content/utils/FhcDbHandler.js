@@ -1514,6 +1514,107 @@ FhcDbHandler.prototype = {
   // Multiline methods
   //----------------------------------------------------------------------------
 
+  saveOrUpdateMultilineItem: function(item) {
+    var mDBConn = this._getDbCleanupConnection();
+    
+    // check if item exist
+    var count = 0, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT count(*)" +
+          "  FROM multiline" +
+          " WHERE url    = :url" +
+          "   AND type   = :type" +
+          "   AND id     = :id" +
+          "   AND name   = :name" +
+          "   AND formid = :formid");
+      statement.params.url    = item.url;
+      statement.params.type   = item.type;
+      statement.params.id     = item.id;
+      statement.params.name   = item.name;
+      statement.params.formid = item.formid;
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getNoOfMultilineItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    
+    if (count == 0) {
+      this.addMultilineItem(item);
+    } else {
+      this.updateMultilineItem(item);
+    }
+  },
+
+  /**
+   * Add a multiline item.
+   * 
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  addMultilineItem: function(item) {
+    var mDBConn = this._getDbCleanupConnection();
+    
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "INSERT INTO multiline (" +
+                "id, name, type, formid, content, " +
+                "host, url, firstsaved, lastsaved) " +
+        "VALUES (:id, :name, :type, :formid, :content, " +
+                ":host, :url, :firstsaved, :lastsaved)");
+      statement.params.id         = item.id;
+      statement.params.name       = item.name;
+      statement.params.type       = item.type;
+      statement.params.formid     = item.formid;
+      statement.params.content    = item.content;
+      statement.params.host       = item.host;
+      statement.params.url        = item.url;
+      statement.params.firstsaved = item.lastsaved; // !!
+      statement.params.lastsaved  = item.lastsaved;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('addMultilineItem:Exception: ' + ex);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
+  updateMultilineItem: function(item) {
+    var mDBConn = this._getDbCleanupConnection();
+    
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "UPDATE multiline" +
+        "   SET content    = :content," +
+        "       lastsaved  = :lastsaved" +
+        " WHERE url    = :url" +
+        "   AND type   = :type" +
+        "   AND id     = :id" +
+        "   AND name   = :name" +
+        "   AND formid = :formid");
+      statement.params.content   = item.content;
+      statement.params.lastsaved = item.lastsaved;
+      statement.params.url       = item.url;
+      statement.params.type      = item.type;
+      statement.params.id        = item.id;
+      statement.params.name      = item.name;
+      statement.params.formid    = item.formid;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('addMultilineItem:Exception: ' + ex);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
   /**
    * Return the total number of multiline entries in the database.
    *
@@ -1534,10 +1635,53 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('getNoOfMultilineItems:Exception: ' + ex);
     } finally {
-      this._closeStatement(statement);
       this._closeDbConnection(mDBConn, true);
     }
     return count;
+  },
+  
+  /**
+   * Query all multiline items from the cleanup database.
+   *
+   * @return {Array}
+   *         an array of all multiline items from the database table
+   */
+  getAllMultilineItems: function() {
+    var mDBConn = this._getDbCleanupConnection();
+    if (null == mDBConn) {
+      // Major problem with cleanupDb
+      return null;
+    }
+    var result = [];
+    var resultOk = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT id, name, type, formid," +
+          "       content, host, url," +
+          "       firstsaved, lastsaved" +
+          "  FROM multiline");
+        
+      while (statement.executeStep()) {
+        result.push({
+          id:         statement.row.id,
+          name:       statement.row.name,
+          type:       statement.row.type,
+          formid:     statement.row.formid,
+          content:    statement.row.content,
+          host:       statement.row.host,
+          url:        statement.row.url,
+          firstsaved: statement.row.firstsaved,
+          lastsaved:  statement.row.lastsaved
+        });
+      }
+      resultOk = true;
+    } catch(ex) {
+      dump('getAllMultilineItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, resultOk);
+    }
+    return result;
   },
 
 
@@ -1862,6 +2006,7 @@ FhcDbHandler.prototype = {
           "(id          TEXT," +
           " type        TEXT," +
           " formid      TEXT," +
+          " name        TEXT," +
           " content     TEXT," +
           " host        TEXT," +
           " url         TEXT," +
