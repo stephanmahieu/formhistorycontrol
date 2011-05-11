@@ -121,8 +121,9 @@ const FhcFormSaveOverlay = {
 
   _contentChanged: function(type, node) {
     var uri;
-    var formid = null;
+    var formid = "";
     var id = (node.id) ? node.id : ((node.name) ? node.name : "");
+    var name = (node.name) ? node.name : ((node.id) ? node.id : "");
     switch(type) {
       case "textarea":
         uri = node.ownerDocument.documentURI;
@@ -141,7 +142,7 @@ const FhcFormSaveOverlay = {
 //    dump(">>> content\n" + content + "\n<<< content\n");
 
     // add tot queue (if not already queued)
-    this._queueEvent(type, id, formid, uri, node);
+    this._queueEvent(name, type, id, formid, uri, node);
   },
 
   _alreadyQueued: function(event) {
@@ -155,13 +156,18 @@ const FhcFormSaveOverlay = {
     return false;
   },
 
-  _queueEvent: function(type, id, formid, uri, node) {
+  _queueEvent: function(name, type, id, formid, uri, node) {
     var event = {
-        type:   type,
-        id:     id,
-        formid: formid,
-        uri:    uri,
-        node:   node
+        node:       node,
+        type:       type,
+        id:         id,
+        name:       name,
+        formid:     formid,
+        url:        uri,
+        host:       null,
+        firstsaved: null,
+        lastsaved:  null,
+        content:    null
       };
     if (!this._alreadyQueued(event)) {
       this.eventQueue.push(event);
@@ -185,11 +191,25 @@ const FhcFormSaveOverlay = {
   },
 
   _saveContent: function(event) {
-    var content = this._getContent(event);
-    //TODO asynchronous save to db
-    dump("- Saving for uri: " + event.uri + "\n");
+    //TODO save to db
+
+    var d = new Date();
+    var now = d.getTime() * 1000;
+    
+    event.host = this._getHost(event.url);
+    //event.firstsaved = ;
+    event.lastsaved = now;
+    event.content = this._getContent(event);
+    
+    this.dbHandler.saveOrUpdateMultilineItem(event);
+    dump("- Saving for uri: " + event.url + "\n");
     dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
-    dump(">>> content\n" + content + "\n<<< content\n");
+    dump(">>> content\n" + event.content + "\n<<< content\n");
+
+    // notify observers
+    var observerService = Components.classes["@mozilla.org/observer-service;1"]
+                            .getService(Components.interfaces.nsIObserverService);
+    observerService.notifyObservers(null, "multiline-store-changed", "");
   },
 
   _getFormId: function(element) {
@@ -199,16 +219,30 @@ const FhcFormSaveOverlay = {
       parentElm = parentElm.parentNode;
       insideForm = ("FORM" == parentElm.tagName);
     }
-    return (insideForm && parentElm) ? this._getId(parentElm) : null;
+    return (insideForm && parentElm) ? this._getId(parentElm) : "";
   },
   
   _getId: function(element) {
-    if (element.id && element.id.length > 0) {
-        return element.id;
-    } else if (element.name && element.name.length > 0) {
-       return element.name;
+    return (element.id) ? element.id : ((element.name) ? element.name : "");
+  },
+  
+  /**
+   * Return the host of a URL (http://some.domain)
+   * if it cannot be determined return ""
+   * 
+   * @param  strURL {String}
+   * @return {String} the host of strURL
+   */
+  _getHost: function(strURL) {
+    if (strURL && (/^file:\/\/\//.test(strURL))) {
+      // For file protocol file://host/path
+      // if host is omitted, it is taken to be "localhost"
+      return "localhost";
     }
-    return null;
+    
+    var ioService = Components.classes["@mozilla.org/network/io-service;1"]
+                      .getService(Components.interfaces.nsIIOService);
+    return ioService.newURI(strURL, null, null).host;  
   },
 
   dispatchEvent: function() {

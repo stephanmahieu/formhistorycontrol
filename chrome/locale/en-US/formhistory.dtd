@@ -6,6 +6,7 @@
 <!ENTITY fhwin.historytab.formhistory.accesskey "w">
 <!ENTITY fhwin.historytab.cleanup "Clean Up">
 <!ENTITY fhwin.historytab.cleanup.accesskey "U">
+<!ENTITY fhwin.historytab.multiline "Editor History">
 
 <!ENTITY fhwin.filter.label "Search">
 <!ENTITY fhwin.filter.tooltip "Search for history items where fieldname or value matches the given searchtext">
