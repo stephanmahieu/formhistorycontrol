@@ -1538,7 +1538,7 @@ FhcDbHandler.prototype = {
         count = statement.getInt64(0);
       }
     } catch(ex) {
-      dump('getNoOfMultilineItems:Exception: ' + ex);
+      dump('saveOrUpdateMultilineItem:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
       this._closeDbConnection(mDBConn, true);
@@ -1663,7 +1663,7 @@ FhcDbHandler.prototype = {
    */
   getNoOfMultilineItems: function() {
     var mDBConn = this._getDbCleanupConnection();
-
+    
     var count = 0, statement;
     try {
       statement = mDBConn.createStatement(
@@ -1675,6 +1675,7 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('getNoOfMultilineItems:Exception: ' + ex);
     } finally {
+      this._closeStatement(statement);
       this._closeDbConnection(mDBConn, true);
     }
     return count;
