@@ -73,6 +73,7 @@
 <!ENTITY fhwin.button.add.accesskey "t">
 <!ENTITY fhwin.button.edit.label "Wijzigen">
 <!ENTITY fhwin.button.edit.accesskey "i">
+<!ENTITY fhwin.button.view.label "Inzien">
 <!ENTITY fhwin.button.closepreview.label "Sluit Voorbeeldweergave">
 <!ENTITY fhwin.button.close.label "Sluiten">
 <!ENTITY fhwin.button.close.accesskey "s">
@@ -228,6 +229,11 @@
 <!ENTITY fhbrowsehistorydlg.older.tooltip "Ophalen additionele oudere geschiedenis">
 <!ENTITY fhbrowsehistorydlg.newer.label "Nieuwer">
 <!ENTITY fhbrowsehistorydlg.newer.tooltip "Ophalen additionele nieuwere geschiedenis">
+
+<!ENTITY fhcmultilinedlg.windowtitle "Opgeslagen editor tekst">
+<!ENTITY fhcmultilinedlg.button.copytoclipboard "Kopieer naar klembord">
+<!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML">
+<!ENTITY fhcmultilinedlg.viewtab.textview "Platte Tekst">
 
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 

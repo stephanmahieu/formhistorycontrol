@@ -149,8 +149,8 @@ const MultilineWindowControl = {
   },
 
   /**
-   * Popup menu-item selected, perform the action indicated by doAction.
-   * Action is insert, edit or delete. Update the countlabel accordingly.
+   * Perform the action indicated by doAction.
+   * Action is Delete or View. Update the countlabel accordingly.
    *
    * @param doAction {String}
    *        one of ["Delete"]
@@ -161,10 +161,13 @@ const MultilineWindowControl = {
       switch(doAction) {
         case "Delete":
           this._removeMultiline(selected);
+          this._updateCountLabel();
+          break;
+        case "View":
+          FhcShowDialog.doShowFhcMultilineItem(selected[0]);
           break;
       }
     }
-    this._updateCountLabel();
   },
 
   /**
@@ -193,9 +196,8 @@ const MultilineWindowControl = {
    * @param event {Event}
    */
   treeDblclick: function(event) {
-    //TODO multiline treeDblclick (view)
-    //var selected = this.getSelected();
-    //this._editCriteria(selected);
+    var selected = this.getSelected();
+    FhcShowDialog.doShowFhcMultilineItem(selected[0]);
   },
 
   /**
