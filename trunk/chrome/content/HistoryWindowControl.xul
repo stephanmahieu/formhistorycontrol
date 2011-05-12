@@ -1177,13 +1177,13 @@
           <separator class="thin"/>
           <hbox>
             <button id="removeMultiline" disabled="true"
-                    label="Remove"
-                    accesskey=""
-                    oncommand=""/>
+                    label="&fhwin.button.remove.label;"
+                    accesskey="&fhwin.button.remove.accesskey;"
+                    oncommand="MultilineWindowControl.editAction('Delete')"/>
             <button id="viewMultiline" disabled="true"
-                    label="View"
+                    label="&fhwin.button.view.label;"
                     accesskey=""
-                    oncommand=""/>
+                    oncommand="MultilineWindowControl.editAction('View')"/>
             <spacer flex="1"/>
             <button id="close3" icon="close"
                     label="&fhwin.button.close.label;"

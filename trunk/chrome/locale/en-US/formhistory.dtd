@@ -73,6 +73,7 @@
 <!ENTITY fhwin.button.add.accesskey "i">
 <!ENTITY fhwin.button.edit.label "Edit">
 <!ENTITY fhwin.button.edit.accesskey "d">
+<!ENTITY fhwin.button.view.label "View">
 <!ENTITY fhwin.button.closepreview.label "Close Preview">
 <!ENTITY fhwin.button.close.label "Close">
 <!ENTITY fhwin.button.close.accesskey "c">
@@ -228,6 +229,11 @@
 <!ENTITY fhbrowsehistorydlg.older.tooltip "Get additional older history">
 <!ENTITY fhbrowsehistorydlg.newer.label "Newer">
 <!ENTITY fhbrowsehistorydlg.newer.tooltip "Get additional newer history">
+
+<!ENTITY fhcmultilinedlg.windowtitle "Saved editor text">
+<!ENTITY fhcmultilinedlg.button.copytoclipboard "Copy to clipboard">
+<!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML view">
+<!ENTITY fhcmultilinedlg.viewtab.textview "Plain text">
 
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 

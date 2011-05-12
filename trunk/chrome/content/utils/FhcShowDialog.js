@@ -144,6 +144,19 @@ var FhcShowDialog = {
   },
 
   /**
+   * Open the multiline dialog.
+   *
+   * @param params {Array}
+   *        array of input/output parameters
+   */
+  doShowFhcMultilineItem: function(params) {
+    openDialog(
+      "chrome://formhistory/content/FhcMultilineDialog.xul", "",
+      "centerscreen, chrome, dialog, modal, resizable=yes", params)
+    .focus();
+  },
+
+  /**
    * Open the date/time dialog.
    *
    * @param params {Array}

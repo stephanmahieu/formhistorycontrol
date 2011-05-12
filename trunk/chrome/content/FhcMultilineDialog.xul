@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://formhistory/locale/formhistory.dtd">
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        id="multilineDialog"
+        title="&fhcmultilinedlg.windowtitle;"
+        style="width:48em; height:40em"
+        buttons="extra1,cancel"
+        buttonlabelextra1="&fhcmultilinedlg.button.copytoclipboard;"
+        ondialogextra1="return FhcMultilineDialog.onCopyToClipboard()"
+        onload="FhcMultilineDialog.init()"
+        persist="width height screenX screenY">
+
+  <script type="application/x-javascript" src="chrome://formhistory/content/FhcMultilineDialog.js"/>
+    
+  <tabbox id="tabbox" flex="1">
+    <tabs id="tabs">
+      <tab id="tab-html" label="&fhcmultilinedlg.viewtab.htmlview;" />
+      <tab id="tab-text" label="&fhcmultilinedlg.viewtab.textview;" />
+    </tabs>
+    <tabpanels flex="1">
+      <tabpanel flex="1">
+        <iframe id="iframeContent" flex="1"
+                type="content"
+                src="about:blank"/>
+      </tabpanel>
+      <tabpanel>
+        <textbox id="textContent" flex="1"
+                 readonly="true"
+                 multiline="true"/>
+      </tabpanel>
+    </tabpanels>
+  </tabbox>  
+</dialog>
