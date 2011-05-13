@@ -1115,6 +1115,36 @@
                 
       <tabpanel>
         <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
+          
+          <checkbox id="enableMultilineStorage"
+                    label="Disable backup of multiline editor fields"
+                    accesskey=""
+                    oncommand=""/>
+          
+          <hbox>
+            <label    value="Remove entries after"
+                      style="padding-bottom:0; padding-top:4px" />
+            <textbox  id="removeMultilineAfter"
+                      width="30"
+                      onchange="MultilineWindowControl.prefsChanged(this);"/>
+            <menulist id="multilinePeriodList" editable="false"
+                      disableautoselect="true" sizetopopup="always"
+                      preference="">
+              <menupopup>
+                <menuitem label="seconds"/>
+                <menuitem label="minutes"/>
+                <menuitem label="hours"/>
+                <menuitem label="days"/>
+              </menupopup>
+            </menulist>
+          </hbox>
+          
+          <hbox>
+            <separator class="groove" orient="horizontal" flex="1" height="2px"/>
+          </hbox>
+          
+          
+          
           <separator class="thin"/>
           <label id="formHistoryTreeLabel" value="Backup of automatically saved editor fields:"/>
 
