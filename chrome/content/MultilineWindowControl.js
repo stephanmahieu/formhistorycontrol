@@ -55,6 +55,7 @@ const MultilineWindowControl = {
   dateHandler: null,
   prefHandler: null,
   bundle: null,
+  alldata: [],
   data: [],
   dbObserver: null,
  
@@ -261,11 +262,15 @@ const MultilineWindowControl = {
    * Repopulate the database and repaint the view.
    */
   repopulateView: function() {
+    this.alldata = [];
     this.data = [];
     this.treeBox.rowCountChanged(0, -this.rowCount);
     this.treeBox.invalidate();
     this.rowCount = 0;
-    this.data = this.dbHandler.getAllMultilineItems();
+    this.alldata = this.dbHandler.getAllMultilineItems();
+    
+    this._applyFilter();
+    
     this.rowCount = this.data.length;
     this.treeBox.rowCountChanged(1, this.data.length);
 
@@ -275,6 +280,23 @@ const MultilineWindowControl = {
   },
 
   /**
+   * Filtertext changed, apply new filter.
+   */
+  filterChanged: function(domObject) {
+    this.treeBox.rowCountChanged(0, -this.rowCount);
+    this.treeBox.invalidate();
+    
+    this._applyFilter();
+    
+    this.rowCount = this.data.length;
+    this.treeBox.rowCountChanged(1, this.data.length);
+
+    // re-apply sort and update the count
+    this.sortColumn();
+    this._updateCountLabel();
+  },
+  
+  /**
    * When preferences have changed, update the display accordingly.
    *
    * @param domElem {DOM element}
@@ -283,27 +305,8 @@ const MultilineWindowControl = {
   prefsChanged: function(domElem) {
     //TODO multiline prefsChanged
 //    switch (domElem.id) {
-//      case "lastUsedCheck":
-//        this.prefHandler.setCleanupDaysChecked(domElem.checked);
-//        document.getElementById("lastUsedDaysLimit").disabled = !domElem.checked;
-//        break;
-//      case "timesUsedCheck":
-//        this.prefHandler.setCleanupTimesChecked(domElem.checked);
-//        document.getElementById("timesUsedLimit").disabled = !domElem.checked;
-//        break;
-//      case "lastUsedDaysLimit":
-//        var days = parseInt(domElem.value);
-//        this.prefHandler.setCleanupDays(days);
-//        break;
-//      case "timesUsedLimit":
-//        var times = parseInt(domElem.value);
-//        this.prefHandler.setCleanupTimes(times);
-//        break;
 //      case "cleanupOnShutdown":
 //        this.prefHandler.setCleanupOnShutdown(domElem.checked);
-//        break;
-//      case "cleanupOnTabclose":
-//        this.prefHandler.setCleanupOnTabClose(domElem.checked);
 //        break;
 //    }
   },
@@ -365,7 +368,6 @@ const MultilineWindowControl = {
    */
   readAndShowPreferences: function() {
     //TODO multiline readAndShowPreferences
-    //document.getElementById("lastUsedDaysLimit").value = this.prefHandler.getCleanupDays();
     //document.getElementById("cleanupOnShutdown").checked = this.prefHandler.isCleanupOnShutdown();
   },
 
@@ -383,6 +385,32 @@ const MultilineWindowControl = {
     var tbox = this.treeBox;
     var view = tbox.view;
     return view.selection;
+  },
+  
+  /**
+   * Filter on content.
+   */
+  _applyFilter: function() {
+    var filterText = document.getElementById("filterMLText").value;
+    var currentHostOnly = document.getElementById("displayhostonly").checked;
+    
+    var host = "";
+    if (currentHostOnly) {
+      if (window.opener) {
+        var curWindow = window.opener.opener ? window.opener.opener : window.opener;
+        host = curWindow.content.document.baseURIObject.host;
+      }
+    }
+    
+    this.data = [];
+    for(var ii=0; ii<this.alldata.length; ii++) {
+
+      if ("" == host || host == this.alldata[ii].host) {
+        if ("" == filterText || FhcUtil.inStr(this.alldata[ii].content, filterText)) {
+          this.data.push(this.alldata[ii]);
+        }
+      }
+    }
   },
 
   /**
@@ -420,47 +448,12 @@ const MultilineWindowControl = {
       try {
         if (this.dbHandler.deleteMultiline(items)) {
           this.repopulateView();
-//          this.treeBox.beginUpdateBatch();
-//          try {
-//            var criteriaId, index;
-//            for (var it=0; it < items.length; it++) {
-//              criteriaId = items[it].id;
-//              index = this._findCriteriaIndex(criteriaId);
-//              if (-1 < index) this.data.splice(index, 1);
-//              this.rowCount -= 1;
-//              this.treeBox.rowCountChanged(index, -1);
-//            }
-//          } finally {
-//            // make sure endbatch is called
-//            this.treeBox.endUpdateBatch();
-//            this.treeBox.invalidate();
-//          }
         }
       } finally {
         window.setCursor("auto");
       }
     }
   },
-
-//  /**
-//   * Find a criteria by Id in an array of criteria, return the array index if
-//   * found, -1 otherwise.
-//   *
-//   * @param  criteriaId {String}
-//   *         the Id of the criteria to be found
-//   *
-//   * @returs {Number}
-//   *         the array index if found, otherwise -1
-//   */
-//  _findCriteriaIndex: function(criteriaId) {
-//    // iterate over all criteria
-//    for (var it=0; it < this.data.length; it++) {
-//      if (this.data[it].id == criteriaId) {
-//        return it;
-//      }
-//    }
-//    return -1;
-//  },
 
   /**
    * Return the current sorted column (defaults to first column if none found).
