@@ -1,0 +1,13 @@
+User:
+- Available locales (en nl ...)
+- Backup multiline fields while typing (editor fields)
+- Added button to show/hide cleanup options (cleanup tab)- Fix: skip duplicate entries from imported xml-file
+- Changed: improved regular expression for Creditcards
+
+
+Technical:
+- MaxVersion FF to ...
+- Minor bugfix: formhistorycontrols toolbarmenu or statusbarmenu can be null (fixes: "Error: tbMenu is null")
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
