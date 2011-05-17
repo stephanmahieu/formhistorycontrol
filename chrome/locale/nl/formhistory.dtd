@@ -122,6 +122,8 @@
 
 <!ENTITY fhwin.cleanup.label "Criteria voor het opschonen van ongewenste webformulier waarden">
 
+<!ENTITY fhwin.cleanup.showoptions "Toon opties">
+<!ENTITY fhwin.cleanup.hideoptions "Verberg opties">
 <!ENTITY fhwin.cleanup.timeusage.group.caption "Tijd/gebruik criteria">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "Verwijder alle waarden die niet gebruikt zijn in de afgelopen">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "dagen">

@@ -122,6 +122,8 @@
 
 <!ENTITY fhwin.cleanup.label "Criteria for the removal of unwanted formhistory entries">
 
+<!ENTITY fhwin.cleanup.showoptions "Show options">
+<!ENTITY fhwin.cleanup.hideoptions "Hide options">
 <!ENTITY fhwin.cleanup.timeusage.group.caption "Time/Usage criteria">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "Remove all Form History entries not used in the past">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "days">

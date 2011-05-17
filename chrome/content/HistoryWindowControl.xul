@@ -848,52 +848,81 @@
       <tabpanel>
         <vbox id="blacklist" flex="1" style="padding: 9px 10px 7px 10px">
 
-          <label value="&fhwin.cleanup.label;:" class="description"/>
-          <separator class="thin"/>
+          <!-- Options expanded -->
+          <vbox id="cleanupoptions-visible" hidden="false" persist="hidden">
+            <hbox align="center">
+              <label value="&fhwin.cleanup.label;:" class="description"/>
+              <spacer flex="1"/>
+              <label control="hidecleanupoptions" value="&fhwin.cleanup.hideoptions;"/>
+              <vbox>
+                <spacer/>
+                <button id="hidecleanupoptions" class="expander-up searchtype-button"
+                        oncommand="CleanupWindowControl.toggleOptions()"
+                        tooltiptext="&fhwin.cleanup.hideoptions;"/>
+                <spacer/>
+              </vbox>
+            </hbox>
 
-          <hbox>
-            <groupbox flex="1">
-              <caption label="&fhwin.cleanup.timeusage.group.caption;:"/>
-              <hbox>
-                <checkbox id="lastUsedCheck"
-                          label="&fhwin.cleanup.checkbox.daysused.label;"
-                          accesskey="&fhwin.cleanup.checkbox.daysused.accesskey;"
-                          oncommand="CleanupWindowControl.prefsChanged(this);"
-                          checked="false"
-                          style="margin-right:0; padding-right:0"/>
-                <textbox  id="lastUsedDaysLimit"
-                          disabled="true"
-                          width="30"
-                          onchange="CleanupWindowControl.prefsChanged(this);"/>
-                <label    value="&fhwin.cleanup.checkbox.daysused.label2;"
-                          style="padding-bottom:0; padding-top:4px; margin:0" />
-              </hbox>
-              <hbox>
-                <checkbox id="timesUsedCheck"
-                          label="&fhwin.cleanup.checkbox.timesused.label;"
-                          accesskey="&fhwin.cleanup.checkbox.timesused.accesskey;"
-                          oncommand="CleanupWindowControl.prefsChanged(this);"
-                          checked="false"
-                          style="margin-right:0; padding-right:0"/>
-                <textbox  id="timesUsedLimit"
-                          disabled="true"
-                          width="30"
-                          onchange="CleanupWindowControl.prefsChanged(this);"/>
-                <label    value="&fhwin.cleanup.checkbox.timesused.label2;"
-                          style="padding-bottom:0; padding-top:4px; margin:0" />
-              </hbox>
-            </groupbox>
-            <groupbox flex="1">
-               <caption label="&fhwin.cleanup.automaticcleanup.group.caption;:"/>
-               <checkbox id="cleanupOnShutdown"
-                         label="&fhprefs.checkbox.cleanupshutdown.label;"
-                         oncommand="CleanupWindowControl.prefsChanged(this);"/>
-               <checkbox id="cleanupOnTabclose"
-                         label="&fhprefs.checkbox.cleanuptabclose.label;"
-                         oncommand="CleanupWindowControl.prefsChanged(this);"/>
-            </groupbox>
-          </hbox>
+            <hbox>
+              <groupbox flex="1">
+                <caption label="&fhwin.cleanup.timeusage.group.caption;:"/>
+                <hbox>
+                  <checkbox id="lastUsedCheck"
+                            label="&fhwin.cleanup.checkbox.daysused.label;"
+                            accesskey="&fhwin.cleanup.checkbox.daysused.accesskey;"
+                            oncommand="CleanupWindowControl.prefsChanged(this);"
+                            checked="false"
+                            style="margin-right:0; padding-right:0"/>
+                  <textbox  id="lastUsedDaysLimit"
+                            disabled="true"
+                            width="30"
+                            onchange="CleanupWindowControl.prefsChanged(this);"/>
+                  <label    value="&fhwin.cleanup.checkbox.daysused.label2;"
+                            style="padding-bottom:0; padding-top:4px; margin:0" />
+                </hbox>
+                <hbox>
+                  <checkbox id="timesUsedCheck"
+                            label="&fhwin.cleanup.checkbox.timesused.label;"
+                            accesskey="&fhwin.cleanup.checkbox.timesused.accesskey;"
+                            oncommand="CleanupWindowControl.prefsChanged(this);"
+                            checked="false"
+                            style="margin-right:0; padding-right:0"/>
+                  <textbox  id="timesUsedLimit"
+                            disabled="true"
+                            width="30"
+                            onchange="CleanupWindowControl.prefsChanged(this);"/>
+                  <label    value="&fhwin.cleanup.checkbox.timesused.label2;"
+                            style="padding-bottom:0; padding-top:4px; margin:0" />
+                </hbox>
+              </groupbox>
+              <groupbox flex="1">
+                 <caption label="&fhwin.cleanup.automaticcleanup.group.caption;:"/>
+                 <checkbox id="cleanupOnShutdown"
+                           label="&fhprefs.checkbox.cleanupshutdown.label;"
+                           oncommand="CleanupWindowControl.prefsChanged(this);"/>
+                 <checkbox id="cleanupOnTabclose"
+                           label="&fhprefs.checkbox.cleanuptabclose.label;"
+                           oncommand="CleanupWindowControl.prefsChanged(this);"/>
+              </groupbox>
+            </hbox>
+          </vbox>
 
+          <!-- Options collapsed -->
+          <vbox id="cleanupoptions-hidden" hidden="false" persist="hidden">
+            <hbox align="center">
+              <label value="&fhwin.cleanup.label;:" class="description"/>
+              <spacer flex="1"/>
+              <label control="showcleanupoptions" value="&fhwin.cleanup.showoptions;"/>
+              <vbox>
+                <spacer/>
+                <button id="showcleanupoptions" class="expander-down searchtype-button"
+                        oncommand="CleanupWindowControl.toggleOptions()"
+                        tooltiptext="&fhwin.cleanup.showoptions;"/>
+                <spacer/>
+              </vbox>
+            </hbox>  
+          </vbox>
+          
           <separator class="thin"/>
           <groupbox flex="1">
             <caption label="&fhwin.cleanup.namevalue.group.caption;:"/>
@@ -1145,7 +1174,8 @@
           
           <hbox align="center" id="simple-mlsearch" persist="hidden">
             <label    control="filterMLText"
-                      value="&fhwin.filter.label;"/>
+                      value="&fhwin.filter.label;"
+                      accesskey="&fhwin.filter.accesskey;"/>
             <textbox  id="filterMLText" flex="1"
                       type="search" timeout="500"
                       oncommand="MultilineWindowControl.filterChanged(this);"/>

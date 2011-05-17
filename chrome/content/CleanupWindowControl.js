@@ -184,6 +184,25 @@ const CleanupWindowControl = {
     document.getElementById("mnbarCuDeleteCriteria").setAttribute("disabled", 0 == selectCount);
     return true;
   },
+  
+  /**
+   * Show or hide the cleanup options (activated from dropdown button).
+   */
+  toggleOptions: function() {
+    var visibleBox = document.getElementById('cleanupoptions-visible');
+    var hiddenBox = document.getElementById('cleanupoptions-hidden');
+
+    visibleBox.hidden = !visibleBox.hidden;
+    hiddenBox.hidden = !hiddenBox.hidden;
+    
+    if (!visibleBox.hidden) {
+      // for persistence to work (absence of attr can not be persisted)
+      visibleBox.setAttribute("hidden", "false");      
+    } else {
+      // for persistence to work (absence of attr can not be persisted)
+      hiddenBox.setAttribute("hidden", "false");
+    }
+  },
 
   /**
    * Popup menu-item selected, perform the action indicated by doAction.
