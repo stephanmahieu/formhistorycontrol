@@ -75,22 +75,12 @@ const MultilineWindowControl = {
     this.dateHandler = aDateHandler;
     this.prefHandler = aPrefHandler;
     this.bundle = aBundle;
-
-    // read all multiline items from the db into the treeView
-    this.data = this.dbHandler.getAllMultilineItems();
-    if (null == this.data) {
-      // major problem with Cleanup DB!
-      dump('\nMajor problem with Multiline DB! (folder and/or file permissions?)\n');
-      // return empty data so the rest of the app keeps working
-      this.data = [];
-    }
-    this.rowCount = this.data.length;
-    this.treeBox.rowCountChanged(1, this.data.length);
-
-    // display count
+    
     this.countLabel = document.getElementById("multilineItemCount");
     this.selectCountLabel = document.getElementById("multilineSelectCount");
-    this._updateCountLabel();
+
+    // read all multiline items from the db into the treeView
+    this.repopulateView();
 
     // read preferences and apply to UI
     this.readAndShowPreferences();
@@ -479,7 +469,7 @@ const MultilineWindowControl = {
    *          the currently sorted column, or the first column if none found
    */
   _getCurrentSortedColumn: function() {
-    var sortableCols = ["firstsavedCol", "lastsavedCol", "mlnameCol", "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
+    var sortableCols = ["lastsavedCol", "firstsavedCol", "mlnameCol", "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
     var elem, firstColumn, sortedColumn = null;
     for (var ii=0; ii<sortableCols.length; ii++) {
       elem = document.getElementById(sortableCols[ii]);
@@ -491,7 +481,7 @@ const MultilineWindowControl = {
     }
     if (!sortedColumn) {
       sortedColumn = firstColumn;
-      sortedColumn.setAttribute("sortDirection", "ascending");
+      sortedColumn.setAttribute("sortDirection", "descending");
     }
     return sortedColumn;
   },
