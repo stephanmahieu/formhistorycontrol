@@ -145,13 +145,15 @@ treechildren::-moz-tree-checkbox(na){
   min-height: 22px;
 }
 
-#showadvancedsearch {
+#showadvancedsearch,
+#showcleanupoptions {
   list-style-image: url("chrome://formhistory/skin/expand.png");
   min-width: 30px;
   margin-right: 0px;
 }
 
-#showsimplesearch {
+#showsimplesearch,
+#hidecleanupoptions {
   list-style-image: url("chrome://formhistory/skin/collapse.png");
   min-width: 30px;
   margin-right: 0px;
