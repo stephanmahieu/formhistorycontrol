@@ -418,6 +418,9 @@ const MultilineWindowControl = {
    */
   _updateCountLabel: function() {
     var msg = this.bundle.getString("historywindow.itemcount.label", [this.rowCount]);
+    if (this.alldata.length > this.rowCount) {
+      msg += " " + this.bundle.getString("historywindow.itemcountof.label", [this.alldata.length]);
+    }
     this.countLabel.setAttribute("value", msg);
   },
 
