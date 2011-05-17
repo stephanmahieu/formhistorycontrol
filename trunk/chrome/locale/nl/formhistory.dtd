@@ -152,6 +152,18 @@
 <!ENTITY fhwin.cleanup.button.preview.label "Preview waarden">
 <!ENTITY fhwin.cleanup.button.preview.accesskey "">
 
+
+<!ENTITY fhwin.multiline.label "Reservekopie van automatisch opgeslagen teksteditor velden">
+
+<!ENTITY fhwin.multiline.treeview.column.firstsaved.label "Eerst opgeslagen">
+<!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Laatst opgeslagen">
+<!ENTITY fhwin.multiline.treeview.column.fieldname.label "Veldnaam">
+<!ENTITY fhwin.multiline.treeview.column.content.label "Inhoud">
+<!ENTITY fhwin.multiline.treeview.column.type.label "Type">
+<!ENTITY fhwin.multiline.treeview.column.host.label "Bron">
+<!ENTITY fhwin.multiline.treeview.column.url.label "URL">
+<!ENTITY fhwin.multiline.checkbox.searchhostonly.label "Toon uitsluitend voor huidige bron">
+
 <!ENTITY fhmnuovl.menu.main.manager.label "Formulier Historie">
 <!ENTITY fhmnuovl.menuitem.manager.label "Historie Beheer">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Verwijder huidige waarde dit veld">
