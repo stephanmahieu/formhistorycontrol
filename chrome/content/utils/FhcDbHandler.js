@@ -1307,7 +1307,7 @@ FhcDbHandler.prototype = {
   },
 
   /**
-   * Update a protect-criteria in the database, return true on succes.
+   * Update a regular expression in the database, return true on succes.
    *
    * @param  regExp {Object}
    *         the regExp object to be updated

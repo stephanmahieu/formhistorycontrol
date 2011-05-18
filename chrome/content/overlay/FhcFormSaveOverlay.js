@@ -130,14 +130,14 @@ const FhcFormSaveOverlay = {
     var name = (node.name) ? node.name : ((node.id) ? node.id : "");
     switch(type) {
       case "textarea":
-        uri = node.ownerDocument.documentURI;
+        uri = node.ownerDocument.documentURIObject;
         formid = this._getFormId(node);
         break;
       case "html":
-        uri = node.documentURI;
+        uri = node.documentURIObject;
         break;
       case "iframe":
-        uri = node.ownerDocument.documentURI;
+        uri = node.ownerDocument.documentURIObject;
         break;
     }
 
@@ -156,6 +156,27 @@ const FhcFormSaveOverlay = {
     return false;
   },
 
+  /**
+   * Place an event on the queue.
+   * 
+   * @param name {String}
+   *        the name of the field if present otherwise the id
+   *        
+   * @param type {String}
+   *        the type of the field (textarea|html|iframe)
+   *        
+   * @param id {String}
+   *        the id of the field if present otherwise the name
+   *        
+   * @param formid {String}
+   *        the id of the parent form of the field
+   *        
+   * @param uri {nsIURI}
+   *        the uri of the page
+   *        
+   * @param node {Node}
+   *        the node object representing the field
+   */
   _queueEvent: function(name, type, id, formid, uri, node) {
     var event = {
         node:       node,
@@ -223,22 +244,17 @@ const FhcFormSaveOverlay = {
   },
   
   /**
-   * Return the host of a URL (http://some.domain)
-   * if it cannot be determined return ""
+   * Return the host of a URL (http://host:port/path).
    * 
-   * @param  strURL {String}
+   * @param  aURI {nsIURI}
    * @return {String} the host of strURL
    */
-  _getHost: function(strURL) {
-    if (strURL && (/^file:\/\/\//.test(strURL))) {
-      // For file protocol file://host/path
-      // if host is omitted, it is taken to be "localhost"
+  _getHost: function(aURI) {
+    if (aURI.schemeIs("file")) {
       return "localhost";
+    } else {
+      return aURI.host;
     }
-    
-    var ioService = Components.classes["@mozilla.org/network/io-service;1"]
-                      .getService(Components.interfaces.nsIIOService);
-    return ioService.newURI(strURL, null, null).host;  
   },
 
   dispatchEvent: function() {

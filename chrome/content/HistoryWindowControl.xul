@@ -908,7 +908,7 @@
           </vbox>
 
           <!-- Options collapsed -->
-          <vbox id="cleanupoptions-hidden" hidden="false" persist="hidden">
+          <vbox id="cleanupoptions-hidden" hidden="true" persist="hidden">
             <hbox align="center">
               <label value="&fhwin.cleanup.label;:" class="description"/>
               <spacer flex="1"/>
