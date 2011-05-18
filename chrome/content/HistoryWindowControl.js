@@ -934,11 +934,6 @@ const HistoryWindowControl = {
   filterMatchCaseChanged: function(isCaseSensitive) {
     // Adjust preferences
     this.preferences.setSearchCaseSensitive(isCaseSensitive);
-    FhcUtil.isCaseSensitive = isCaseSensitive;
-    
-    // re-apply searchfilter
-    this.treeView.applyFilter();
-    this._updateCountLabel();
   },
 
   // Search only fieldnames matching the current text input field

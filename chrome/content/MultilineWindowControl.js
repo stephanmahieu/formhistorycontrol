@@ -48,6 +48,7 @@ const MultilineWindowControl = {
   treeBox: null,
   rowCount: 0,
   atomService: null,
+  preferenceListener: null,
   //
   countLabel: "",
   selectCountLabel: "",
@@ -88,6 +89,9 @@ const MultilineWindowControl = {
 
     // set initial sort
     this.sortColumn();
+    
+    // listen to preference updates
+    this._registerPrefListener();
 
     // observe changes to the database
     this.dbObserver = {
@@ -114,6 +118,7 @@ const MultilineWindowControl = {
   destroy: function() {
     this.dbObserver.unregister();
     delete this.dbObserver;
+    this._unregisterPrefListener();
     return true;
   },
 
@@ -304,11 +309,11 @@ const MultilineWindowControl = {
    */
   prefsChanged: function(domElem) {
     //TODO multiline prefsChanged
-//    switch (domElem.id) {
-//      case "cleanupOnShutdown":
-//        this.prefHandler.setCleanupOnShutdown(domElem.checked);
-//        break;
-//    }
+    switch (domElem.id) {
+      case "filterMlMatchCase":
+        this.prefHandler.setSearchCaseSensitive(domElem.checked);
+        break;
+    }
   },
 
   /**
@@ -579,6 +584,47 @@ const MultilineWindowControl = {
     return compareFunc;
   },
 
+
+  // Register a preference listener to act upon relevant changes
+  _registerPrefListener: function() {
+    var thisHwc = this;
+    this.preferenceListener = new FhcUtil.PrefListener("extensions.formhistory.",
+      function(branch, name) {
+        switch (name) {
+          case "searchCaseSensitive":
+               // adjust local var to reflect new preference value
+               FhcUtil.isCaseSensitive = thisHwc.prefHandler.isSearchCaseSensitive();
+
+               // adjust displayed search control accordingly
+               var checkboxElem = document.getElementById("filterMlMatchCase");
+               checkboxElem.checked = FhcUtil.isCaseSensitive;
+
+               // apply changes to view
+               thisHwc.filterChanged(null);
+               break;
+          case "useCustomDateTimeFormat":
+          case "customDateTimeFormat":
+               if (thisHwc.prefHandler.isUseCustomDateTimeFormat()) {
+                 thisHwc.dateHandler.setCustomDateFormat(thisHwc.prefHandler.getCustomDateTimeFormat());
+               } else {
+                 thisHwc.dateHandler.setCustomDateFormat(null);
+               }
+
+               // apply new dateformat to treeview
+               this.treeBox.invalidate();
+               break;
+        }
+      });
+    this.preferenceListener.register();
+  },
+ 
+  // Unregister the preference listener
+  _unregisterPrefListener: function() {
+    if (this.preferenceListener) {
+      this.preferenceListener.unregister();
+      this.preferenceListener = null;
+    }
+  },
 
 
   //----------------------------------------------------------------------------
