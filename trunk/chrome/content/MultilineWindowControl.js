@@ -407,7 +407,11 @@ const MultilineWindowControl = {
         if (mainDocument.baseURIObject.schemeIs("file")) {
           host = "localhost";
         } else {
-          host = mainDocument.baseURIObject.host;
+          try {
+            host = mainDocument.baseURIObject.host;
+          } finally {
+            host = ":"; //no page, no host
+          }
         }
       }
     }
