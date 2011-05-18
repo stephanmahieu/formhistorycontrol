@@ -398,7 +398,12 @@ const MultilineWindowControl = {
     if (currentHostOnly) {
       if (window.opener) {
         var curWindow = window.opener.opener ? window.opener.opener : window.opener;
-        host = curWindow.content.document.baseURIObject.host;
+        var mainDocument = curWindow.content.document;
+        if (mainDocument.baseURIObject.schemeIs("file")) {
+          host = "localhost";
+        } else {
+          host = mainDocument.baseURIObject.host;
+        }
       }
     }
     
