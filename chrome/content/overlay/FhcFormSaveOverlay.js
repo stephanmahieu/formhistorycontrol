@@ -51,7 +51,7 @@ const FhcFormSaveOverlay = {
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
-
+    
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                           .getService(Components.interfaces.nsIObserverService);
 
@@ -184,8 +184,8 @@ const FhcFormSaveOverlay = {
         id:         id,
         name:       name,
         formid:     formid,
-        url:        uri,
-        host:       null,
+        url:        uri.spec,
+        host:       this._getHost(uri),
       //firstsaved: null,
         lastsaved:  null,
         content:    null
@@ -217,7 +217,6 @@ const FhcFormSaveOverlay = {
     
     //event.firstsaved = ;
     event.lastsaved = now;
-    event.host = this._getHost(event.url);
     event.content = this._getContent(event);
     
     this.dbHandler.saveOrUpdateMultilineItem(event);
