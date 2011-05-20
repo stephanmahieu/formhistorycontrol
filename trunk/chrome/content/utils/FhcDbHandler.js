@@ -1514,14 +1514,47 @@ FhcDbHandler.prototype = {
   // Multiline methods
   //----------------------------------------------------------------------------
 
+  /**
+   * Save or update a multiline item.
+   * 
+   * @param  item {Object}
+   *         the multiline objects save or update
+   */
   saveOrUpdateMultilineItem: function(item) {
+    //TODO multiline saveOrUpdate: insert new item after some timeperiod or if field was submitted
     var mDBConn = this._getDbCleanupConnection();
     
-    // check if item exist
-    //TODO multiline saveOrUpdate: insert new item after some timeperiod or if field was submitted
+    try {
+      // check if item exist
+      var count = this._countMultilineItem(mDBConn, item);
+      
+      if (count == 0) {
+        this._addMultilineItem(mDBConn, item);
+      } else {
+        this._updateMultilineItem(mDBConn, item);
+      }
+    } finally {
+      this._closeDbConnection(mDBConn, true);
+    }
+  },
+
+
+  /**
+   * Count the number of specific multiline items.
+   * 
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @param  item {Object}
+   *         the multiline objects find
+   * 
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  _countMultilineItem: function(mDBConnection, item) {
     var count = 0, statement;
     try {
-      statement = mDBConn.createStatement(
+      statement = mDBConnection.createStatement(
           "SELECT count(*)" +
           "  FROM multiline" +
           " WHERE url    = :url" +
@@ -1538,31 +1571,29 @@ FhcDbHandler.prototype = {
         count = statement.getInt64(0);
       }
     } catch(ex) {
-      dump('saveOrUpdateMultilineItem:Exception: ' + ex);
+      dump('_countMultilineItem:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-    }
-    
-    if (count == 0) {
-      this.addMultilineItem(item);
-    } else {
-      this.updateMultilineItem(item);
+      return count;
     }
   },
 
   /**
    * Add a multiline item.
    * 
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @param  item {Object}
+   *         the multiline object to add
+   * 
    * @return {Boolean}
    *         whether or not adding succeeded
    */
-  addMultilineItem: function(item) {
-    var mDBConn = this._getDbCleanupConnection();
-    
+  _addMultilineItem: function(mDBConnection, item) {
     var result = false, statement;
     try {
-      statement = mDBConn.createStatement(
+      statement = mDBConnection.createStatement(
         "INSERT INTO multiline (" +
                 "id, name, type, formid, content, " +
                 "host, url, firstsaved, lastsaved) " +
@@ -1579,19 +1610,28 @@ FhcDbHandler.prototype = {
       statement.params.lastsaved  = item.lastsaved;
       result = this._executeStatement(statement);
     } catch(ex) {
-      dump('addMultilineItem:Exception: ' + ex);
+      dump('_addMultilineItem:Exception: ' + ex);
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      return result;
     }
-    return result;
   },
 
-  updateMultilineItem: function(item) {
-    var mDBConn = this._getDbCleanupConnection();
-    
+  /**
+   * Update a multiline item.
+   * 
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @param  item {Object}
+   *         the multiline object to update
+   * 
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  _updateMultilineItem: function(mDBConnection, item) {
     var result = false, statement;
     try {
-      statement = mDBConn.createStatement(
+      statement = mDBConnection.createStatement(
         "UPDATE multiline" +
         "   SET content    = :content," +
         "       lastsaved  = :lastsaved" +
@@ -1609,11 +1649,10 @@ FhcDbHandler.prototype = {
       statement.params.formid    = item.formid;
       result = this._executeStatement(statement);
     } catch(ex) {
-      dump('addMultilineItem:Exception: ' + ex);
+      dump('_updateMultilineItem:Exception: ' + ex);
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      return result;
     }
-    return result;
   },
 
   /**
