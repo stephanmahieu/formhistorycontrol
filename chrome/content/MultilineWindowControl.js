@@ -454,7 +454,7 @@ const MultilineWindowControl = {
    *        array of selected (at least 1) multiline item
    */
   _removeMultiline: function(items) {
-    var prefix = "cleanupwindow.prompt.delete.";
+    var prefix = "multilinewindow.prompt.delete.";
     var msg = (1 < items.length)
               ? this.bundle.getString(prefix + "multipleentries", [items.length])
               : this.bundle.getString(prefix + "singleentry");
