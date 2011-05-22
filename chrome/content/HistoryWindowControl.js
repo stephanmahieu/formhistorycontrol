@@ -2047,6 +2047,8 @@ const HistoryWindowControl = {
   _updateSearchElements: function() {
     var checkboxElem = document.getElementById("filterMatchCase");
     checkboxElem.checked = FhcUtil.isCaseSensitive;
+    checkboxElem = document.getElementById("filterMlMatchCase");
+    checkboxElem.checked = FhcUtil.isCaseSensitive;
   },
 
   // Register a preference listener to act upon relevant changes
