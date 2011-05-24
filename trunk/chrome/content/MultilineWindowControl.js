@@ -316,6 +316,14 @@ const MultilineWindowControl = {
     }
   },
 
+  getAll: function() {
+    return this.alldata;
+  },
+
+  getAllDisplayed: function() {
+    return this.data;
+  },
+  
   /**
    * Return the selected multiline items.
    *
@@ -374,6 +382,13 @@ const MultilineWindowControl = {
   readAndShowPreferences: function() {
     //TODO multiline readAndShowPreferences
     //document.getElementById("cleanupOnShutdown").checked = this.prefHandler.isCleanupOnShutdown();
+  },
+
+  /**
+   * Test if a filter is in effect
+   */
+  isDataFiltered: function() {
+    return !(this.alldata.length == this.rowCount);
   },
 
   //----------------------------------------------------------------------------
