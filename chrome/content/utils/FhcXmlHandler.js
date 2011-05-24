@@ -243,6 +243,20 @@ FhcXmlHandler.prototype = {
         keyBindingsElem.appendChild(keyBinding);
       }
     }
+    
+//TODO Export with config or separate export of editorFields
+//    // editorfields backup
+//    var editorfieldsElem = doc.createElement("editorFields");
+//    rootElem.appendChild(editorfieldsElem);
+//
+//    // editorfield
+//    var editorfieldElem;
+//    var editorfieldData = dbHandler.getAllMultilineItems();
+//    for(var nn=0; nn<editorfieldData.length; nn++) {
+//      editorfieldElem = this._createEditorfieldElement(doc, editorfieldData[nn]);
+//      editorfieldsElem.appendChild(editorfieldElem);
+//    }
+//    editorfieldData = null;
 
     // serialize to string (pretty printed)
     XML.ignoreComments = false;
@@ -363,6 +377,28 @@ FhcXmlHandler.prototype = {
              prefHandler.setKeybindingValue(bindingId, bindingValue);
           }
         }
+        
+//TODO Import with config or separate export of editorFields
+//        // editorFields
+//        var parsedEditorfield = [];
+//        var editorfieldElem = doc.getElementsByTagName("editorField");
+//        var edFldElem;
+//        for(var nn=0; nn<editorfieldElem.length; nn++) {
+//          if (editorfieldElem[nn].hasChildNodes()) {
+//            edFldElem = editorfieldElem[nn];
+//            parsedEditorfield.push({
+//              id:         this._decode(this._getElementValue(edFldElem, "id", "")),
+//              name:       this._decode(this._getElementValue(edFldElem, "name", "")),
+//              type:       this._decode(this._getElementValue(edFldElem, "type", "")),
+//              formid:     this._decode(this._getElementValue(edFldElem, "formid", "")),
+//              content:    this._decode(this._getElementValue(edFldElem, "content", "")),
+//              host:       this._decode(this._getElementValue(edFldElem, "host", "")),
+//              url:        this._decode(this._getElementValue(edFldElem, "url", "")),
+//              firstsaved: this._getElemenDate(edFldElem, "firstsaved",  0),
+//              lastsaved:  this._getElemenDate(edFldElem, "lastsaved",  0)
+//            });
+//          }
+//        }
       }
     } catch(ex) {
       alert("XML parser exception: " + ex);
@@ -637,10 +673,54 @@ FhcXmlHandler.prototype = {
     return regExpElem;
   },
 
+
+  /**
+   * Create a keybinding element.
+   *
+   * @param doc {DOM-document}
+   *        the document containing DOM-elements
+   *
+   * @param id {String}
+   *        the id of the keybinding
+   *
+   * @param binding {String}
+   *        the actual keybinding
+   *
+   * @return {DOM element}
+   *         the keybinding element
+   */
   _createKeyBindingElement: function(doc, id, binding) {
     var bindingElem = doc.createElement("keyBinding");
     bindingElem.textContent = this._encode(binding);
     bindingElem.setAttribute("id", id);
     return bindingElem;
+  },
+  
+
+  /**
+   * Create an editorfield element for a multiline field.
+   *
+   * @param doc {DOM-document}
+   *        the document containing DOM-elements
+   *
+   * @param editorField {Object}
+   *        the multiline object
+   *
+   * @return {DOM element}
+   *         the editorField element
+   */
+  _createEditorfieldElement: function(doc, editorField) {
+    var editorElem;
+    editorElem = doc.createElement("editorField");
+    this._appendElement(editorElem, doc.createElement("id"), this._encode(editorField.id));
+    this._appendElement(editorElem, doc.createElement("name"), this._encode(editorField.name));
+    this._appendElement(editorElem, doc.createElement("type"), this._encode(editorField.type));
+    this._appendElement(editorElem, doc.createElement("formid"), this._encode(editorField.formid));
+    this._appendElement(editorElem, doc.createElement("host"), this._encode(editorField.host));
+    this._appendElement(editorElem, doc.createElement("url"), this._encode(editorField.url));
+    this._appendDateElement(doc, editorElem, doc.createElement("firstsaved"), editorField.firstsaved);
+    this._appendDateElement(doc, editorElem, doc.createElement("lastsaved"), editorField.lastsaved);
+    this._appendElement(editorElem, doc.createElement("content"), this._encode(editorField.content));
+    return editorElem;
   }
 }

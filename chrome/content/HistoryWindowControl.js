@@ -1067,11 +1067,48 @@ const HistoryWindowControl = {
   // Export all data to a user specified file
   exportActionAll: function() {
     //dump('exportAction!\n');
-    FhcUtil.exportEntries(
-      this.bundle.getString("historywindow.prompt.exportdialog.title"),
-      this.treeView.getAll(),
-      this.preferences,
-      this.dateHandler);
+    var selectedHist = 0 < this.treeView.getSelectCount();
+    var filteredHist = this.treeView.isDataFiltered() && (0 < this.treeView.rowCount);
+    
+    var selectedMulti = 0 < MultilineWindowControl.getSelectCount();
+    var filteredMulti = MultilineWindowControl.isDataFiltered();
+    
+    var params = {
+          inn: {haveSelectedHist: selectedHist,
+                haveFilteredHist: filteredHist,
+                haveSelectedMulti: selectedMulti,
+                haveFilteredMulti: filteredMulti
+               },
+          out: null
+        };
+    FhcShowDialog.doShowFhcExport(params);
+    
+    var hist  = [];
+    var mult  = [];
+    var exportClean = params.out.exportCleanupCfg;
+    var exportKeys  = params.out.exportKeyBindings;
+    if (params.out) {
+      if (params.out.exportHistory) {
+        switch (params.out.exportHistoryWhat) {
+            case "all":      hist = this.treeView.getAll();  break;
+            case "selected": hist = this.treeView.getSelected(); break;
+            case "search":   hist = this.treeView.getAllDisplayed(); break;
+        }
+      if (params.out.exportMultiline) {
+        switch (params.out.exportMultilineWhat) {
+            case "all":      mult = MultilineWindowControl.getAll();  break;
+            case "selected": mult = MultilineWindowControl.getSelected(); break;
+            case "search":   mult = MultilineWindowControl.getAllDisplayed(); break;
+        }
+      }
+      
+      FhcUtil.exportEntries(
+        this.bundle.getString("historywindow.prompt.exportdialog.title"),
+        hist,
+        this.preferences,
+        this.dateHandler);
+      }
+    }
   },
 
   // Export all visible (filtered) data to a user specified file

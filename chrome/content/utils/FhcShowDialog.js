@@ -170,6 +170,19 @@ var FhcShowDialog = {
   },
 
   /**
+   * Open the export dialog.
+   *
+   * @param params {Array}
+   *        array of input/output parameters
+   */
+  doShowFhcExport: function(params) {
+    openDialog(
+      "chrome://formhistory/content/FhcExportDialog.xul", "",
+      "centerscreen, chrome, dialog, modal, resizable=yes", params)
+    .focus();
+  },
+
+  /**
    * Open the Browse History dialog.
    *
    * @param params {Array}
