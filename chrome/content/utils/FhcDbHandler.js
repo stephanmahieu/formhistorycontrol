@@ -1765,6 +1765,45 @@ FhcDbHandler.prototype = {
   },
 
 
+  /**
+   * Add new multiline items to the database.
+   *
+   * @param  newMultiline {Array}
+   *         an array of new multiline objects to be added to the database
+   *
+   * @return {Boolean}
+   *         whether or not bulk adding succeeded
+   */
+  bulkAddMultilineItems: function(newMultiline) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = true, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "INSERT INTO multiline (" +
+                "id, name, type, formid, content, " +
+                "host, url, firstsaved, lastsaved) " +
+        "VALUES (:id, :name, :type, :formid, :content, " +
+                ":host, :url, :firstsaved, :lastsaved)");
+      for(var ii=0; result && ii < newMultiline.length; ii++) {
+        statement.params.id         = newMultiline[ii].id;
+        statement.params.name       = newMultiline[ii].name;
+        statement.params.type       = newMultiline[ii].type;
+        statement.params.formid     = newMultiline[ii].formid;
+        statement.params.content    = newMultiline[ii].content;
+        statement.params.host       = newMultiline[ii].host;
+        statement.params.url        = newMultiline[ii].url;
+        statement.params.firstsaved = newMultiline[ii].firstsaved;
+        statement.params.lastsaved  = newMultiline[ii].lastsaved;
+        result = this._executeReusableStatement(statement);
+      }
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
 
   //----------------------------------------------------------------------------
   // Customsave methods

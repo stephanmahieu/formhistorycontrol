@@ -102,10 +102,8 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Invert Selection">
 <!ENTITY fhwin.menuitem.addcleanup.label "Add as cleanup criteria">
 <!ENTITY fhwin.menuitem.addprotect.label "Add as protect criteria">
-<!ENTITY fhwin.menuitem.exportall.label "Export All History Entries">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Export Entries Matching Searchresult">
-<!ENTITY fhwin.menuitem.exportselected.label "Export Selected Entries Only">
-<!ENTITY fhwin.menuitem.import.label "Import History">
+<!ENTITY fhwin.menuitem.exportmanager.label "Export manager XML">
+<!ENTITY fhwin.menuitem.importmanager.label "Import manager XML">
 
 <!ENTITY fhwin.menuitem.exportcsv.label "Export Complete History as CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Reload">

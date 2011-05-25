@@ -72,7 +72,10 @@ const FhcExportDialog = {
     document.getElementById("multilineRadiogroup").disabled = !cbMultiEnabled;
     document.getElementById("selectedmulti").disabled = !cbMultiEnabled || !this.haveSelectedMulti;
     document.getElementById("searchmulti").disabled = !cbMultiEnabled || !this.haveFilteredMulti;
-    
+
+    var cbRegexpEnabled = (true == document.getElementById("regexp").checked);
+    document.getElementById("regexpRadiogroup").disabled = !cbRegexpEnabled;
+
     if (this._isValidSelection()) {
       document.getElementById("errorMessageNoSelection").hidden = true;
     }
@@ -110,7 +113,8 @@ const FhcExportDialog = {
       exportMultiline    : document.getElementById("multiline").checked,
       exportMultilineWhat: multWhat,
       exportCleanupCfg   : document.getElementById("cleanup").checked,
-      exportKeyBindings  : document.getElementById("keys").checked
+      exportKeyBindings  : document.getElementById("keys").checked,
+      exportRegexp       : document.getElementById("regexp").checked
     };
     return true;
   },
@@ -127,7 +131,8 @@ const FhcExportDialog = {
     var multi = document.getElementById("multiline").checked;
     var clean = document.getElementById("cleanup").checked;
     var keys  = document.getElementById("keys").checked;
+    var regex = document.getElementById("regexp").checked;
     
-    return hist || multi || clean || keys;
+    return hist || multi || clean || keys || regex;
   }
 }

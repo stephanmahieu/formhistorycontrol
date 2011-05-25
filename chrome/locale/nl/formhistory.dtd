@@ -102,10 +102,8 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Inverteer Selectie">
 <!ENTITY fhwin.menuitem.addcleanup.label "Voeg toe als opschoon criterium">
 <!ENTITY fhwin.menuitem.addprotect.label "Voeg toe als nooit-opschonen criterium">
-<!ENTITY fhwin.menuitem.exportall.label "Exporteer Alle Historie Waarden">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Exporteer Alleen de Zoekresultaten">
-<!ENTITY fhwin.menuitem.exportselected.label "Exporteer Alleen Geselecteerde Waarden">
-<!ENTITY fhwin.menuitem.import.label "Importeer Historie">
+<!ENTITY fhwin.menuitem.exportmanager.label "Export beheer XML">
+<!ENTITY fhwin.menuitem.importmanager.label "Import beheer XML">
 
 <!ENTITY fhwin.menuitem.exportcsv.label "Exporteer Complete History als CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Vernieuwen">

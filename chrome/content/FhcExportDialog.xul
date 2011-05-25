@@ -27,7 +27,7 @@
   </hbox>
   
   <vbox class="box-padded">
-    <description id="descriptionExport" class="description">Export data to XML</description>
+    <description id="descriptionExport" class="description">Select the type of data to export:</description>
 
     <grid>
       <columns>
@@ -49,6 +49,14 @@
             <radio id="allmulti" label="All" selected="true"/>
             <radio id="selectedmulti" label="Selected"/>
             <radio id="searchmulti" label="Search result"/>
+          </radiogroup>
+        </row>
+        <row>
+          <checkbox id="regexp" label="Regular expressions" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
+          <radiogroup id="regexpRadiogroup" orient="horizontal" disabled="true">
+            <radio id="allregexp" label="All" selected="true"/>
+            <radio id="customregexp" label="User defined"/>
+            <radio id="builtinregexp" label="Built in"/>
           </radiogroup>
         </row>
         <row>

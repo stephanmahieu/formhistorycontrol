@@ -374,7 +374,7 @@ const FhcPreferences = {
       if (preserveData) {
         var exportFile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
         exportFile.append("cleanup.sqlite.backup.xml");
-        FhcUtil.exportCleanupFile(exportFile, this.dbHandler, this.prefHandler, this.dateHandler);
+        FhcUtil.exportCleanupDatabase(exportFile, this.dbHandler, this.prefHandler, this.dateHandler);
       }
       
       // rename databasefile
@@ -391,7 +391,7 @@ const FhcPreferences = {
 
       // import the xml data backup
       if (okay && preserveData) {
-        var cleanupConfig = FhcUtil.importCleanupFile(exportFile, this.prefHandler, this.dateHandler);
+        var cleanupConfig = FhcUtil.importCleanupDatabase(exportFile, this.prefHandler, this.dateHandler);
         if (cleanupConfig && cleanupConfig.cleanup) {
           this.dbHandler.bulkAddCleanupCriteria(cleanupConfig.cleanup);
         }
@@ -400,6 +400,9 @@ const FhcPreferences = {
         }
         if (cleanupConfig && cleanupConfig.regexp) {
           this.dbHandler.bulkAddRegexp(cleanupConfig.regexp);
+        }
+        if (cleanupConfig && cleanupConfig.multiline) {
+          this.dbHandler.bulkAddMultilineItems(cleanupConfig.multiline);
         }
       }
     }
