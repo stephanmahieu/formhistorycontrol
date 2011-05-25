@@ -557,12 +557,6 @@ const HistoryWindowControl = {
     document.getElementById("mnbarFhAddCleanup").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnbarFhAddProtect").setAttribute("disabled", 0 == selected.length);
 
-    document.getElementById("mnbarExportSelected").setAttribute("disabled", 0 == selected.length);
-    
-    // only display "export displayed" if filtering is active and data is present
-    var doShow = this.treeView.isDataFiltered() && (this.treeView.rowCount > 0);
-    document.getElementById("mnbarExportDisplayed").setAttribute("disabled", !doShow);
-
     var tabs = document.getElementById('historyWindowCleanupTabs');
     switch (tabs.selectedIndex) {
       case 0:
@@ -1083,17 +1077,19 @@ const HistoryWindowControl = {
         };
     FhcShowDialog.doShowFhcExport(params);
     
-    var hist  = [];
-    var mult  = [];
-    var exportClean = params.out.exportCleanupCfg;
-    var exportKeys  = params.out.exportKeyBindings;
     if (params.out) {
+      var hist  = [];
+      var mult  = [];
+      var exportClean  = params.out.exportCleanupCfg;
+      var exportKeys   = params.out.exportKeyBindings;
+      var exportRegexp = params.out.exportRegexp;
       if (params.out.exportHistory) {
         switch (params.out.exportHistoryWhat) {
             case "all":      hist = this.treeView.getAll();  break;
             case "selected": hist = this.treeView.getSelected(); break;
             case "search":   hist = this.treeView.getAllDisplayed(); break;
         }
+      }
       if (params.out.exportMultiline) {
         switch (params.out.exportMultilineWhat) {
             case "all":      mult = MultilineWindowControl.getAll();  break;
@@ -1102,73 +1098,106 @@ const HistoryWindowControl = {
         }
       }
       
-      FhcUtil.exportEntries(
+      var exportOptions = {
+        entries:      hist,
+        multilines:   mult,
+        exportClean:  exportClean,
+        exportKeys:   exportKeys,
+        exportRegexp: exportRegexp
+      };
+      
+      FhcUtil.exportXMLdata(
         this.bundle.getString("historywindow.prompt.exportdialog.title"),
-        hist,
+        exportOptions,
         this.preferences,
+        this.dbHandler,
         this.dateHandler);
-      }
     }
-  },
-
-  // Export all visible (filtered) data to a user specified file
-  exportActionDisplayed: function() {
-    //dump('exportAction!\n');
-    FhcUtil.exportEntries(
-      this.bundle.getString("historywindow.prompt.exportdialog.title"),
-      this.treeView.getAllDisplayed(),
-      this.preferences,
-      this.dateHandler);
-  },
-
-  // Export all selected data to a user specified file
-  exportActionSelected: function() {
-    //dump('exportAction!\n');
-    FhcUtil.exportEntries(
-      this.bundle.getString("historywindow.prompt.exportdialog.title"),
-      this.treeView.getSelected(),
-      this.preferences,
-      this.dateHandler);
   },
 
   // Import History-data from file, only add new entries
   importAction: function() {
     //dump('importAction!\n');
-    var importedEntries = FhcUtil.importEntries(
+    var data = FhcUtil.importXMLdata(
           this.bundle.getString("historywindow.prompt.importdialog.title"),
           this.preferences,
           this.dateHandler);
-    if (importedEntries != null) {
-      var noAdded = 0, noSkipped = 0, noErrors = 0;
+          
+    if (data == null) {
+      return;
+    }
+    
+    window.setCursor("wait"); // could be slow
+    try {
+      var hiResult = this._importAction(data.entries);
+      var prResult = CleanupProtectView.importAction(data.protect);
+      var mlResult = MultilineWindowControl.importAction(data.multiline);
+      var cuResult = CleanupWindowControl.importAction(data.cleanup);
 
-      window.setCursor("wait"); // could be slow
-      try {
-        // filter out what is really new
-        var newEntries = this.treeView.extractUniqueEntries(importedEntries);
+      var noTotalC   = data.cleanup.length + data.protect.length;
+      var noAddedC   = cuResult.noAdded   + prResult.noAdded;
+      var noSkippedC = cuResult.noSkipped + prResult.noSkipped;
+      var noErrorsC  = cuResult.noErrors  + prResult.noErrors;
 
-        // add new entries to the database and repopulate the treeview
-        if (0 < newEntries.length) {
-          // add all new entries to the database in bulk
-          if (this.dbHandler.bulkAddEntries(newEntries)) {
-            noAdded   = newEntries.length;
-            noSkipped = importedEntries.length - noAdded;
+      // import regular expressions
+      var reResult = this._importRegexp(data.regexp);
 
-            // rebuild/show all
-            this._repopulateView();
-          }
-        } else {
-          noSkipped = importedEntries.length;
-        }
-        noErrors = importedEntries.length - (noAdded + noSkipped);
-      } finally {
-        window.setCursor("auto");
-      }
-      
+      // report import status
+      var msg0 = this.bundle.getString("historywindow.prompt.importdialog.result.status",
+                   [data.entries.length, hiResult.noAdded,
+                    hiResult.noSkipped, hiResult.noErrors]).replace("\n\n", "\n");
+      var msg1 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
+                   [noTotalC, noAddedC, noSkippedC, noErrorsC]).replace("\n\n", "\n");
+      var msg2 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
+                   [data.regexp.length, reResult.noAdded,
+                    reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
+      var msg3 = this.bundle.getString("multilinewindow.prompt.importdialog.result.status",
+                   [data.multiline.length, mlResult.noAdded,
+                    mlResult.noSkipped, mlResult.noErrors]).replace("\n\n", "\n");
+
       FhcUtil.alertDialog(
         this.bundle.getString("historywindow.prompt.importdialog.result.title"),
-        this.bundle.getString("historywindow.prompt.importdialog.result.status",
-        [importedEntries.length, noAdded, noSkipped, noErrors])
-      );
+        msg0 + "\n\n" + msg1 + "\n\n" + msg2 + "\n\n" + msg3);
+        
+    } finally {
+      data = null;
+      
+      // re-apply searchfilters to reflect changes to cleanup criteria
+      this.treeView.applyFilter();
+      this._updateCountLabel();
+      
+      window.setCursor("auto");
+    }
+  },
+
+  _importAction: function(importedEntries) {
+    var noAdded = 0, noSkipped = 0, noErrors = 0;
+      
+    if (0 < importedEntries.length) {
+      // filter out what is really new
+      var newEntries = this.treeView.extractUniqueEntries(importedEntries);
+
+      // add new entries to the database and repopulate the treeview
+      if (0 < newEntries.length) {
+        // add all new entries to the database in bulk
+        if (this.dbHandler.bulkAddEntries(newEntries)) {
+          noAdded   = newEntries.length;
+          noSkipped = importedEntries.length - noAdded;
+          
+          // rebuild/show all
+          this._repopulateView();
+        }
+      } else {
+        noSkipped = importedEntries.length;
+      }
+      noErrors = importedEntries.length - (noAdded + noSkipped);
+    }
+
+    // return the status
+    return {
+      noAdded:   noAdded,
+      noSkipped: noSkipped,
+      noErrors:  noErrors
     }
   },
 
@@ -1331,42 +1360,6 @@ const HistoryWindowControl = {
   },
 
   /**
-   * Called from the menu.
-   */
-  importCleanupAction: function() {
-    var importedConfig = FhcUtil.importCleanupConfig(
-          this.bundle.getString("cleanupwindow.prompt.importdialog.title"),
-          this.preferences,
-          this.dateHandler);
-
-    var cuResult = CleanupWindowControl.importAction(importedConfig.cleanup);
-    var prResult = CleanupProtectView.importAction(importedConfig.protect);
-
-    var noTotal = importedConfig.cleanup.length + importedConfig.protect.length;
-    var noAdded   = cuResult.noAdded   + prResult.noAdded;
-    var noSkipped = cuResult.noSkipped + prResult.noSkipped;
-    var noErrors  = cuResult.noErrors  + prResult.noErrors;
-
-    // re-apply searchfilters to reflect changes to cleanup criteria
-    this.treeView.applyFilter();
-    this._updateCountLabel();
-
-    // import regular expressions
-    var reResult = this._importRegexp(importedConfig.regexp);
-
-    // report import status
-    var msg1 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
-                 [noTotal, noAdded, noSkipped, noErrors]).replace("\n\n", "\n");
-    var msg2 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
-                 [importedConfig.regexp.length, reResult.noAdded,
-                  reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
-    FhcUtil.alertDialog(
-      this.bundle.getString("cleanupwindow.prompt.importdialog.result.title"),
-      msg1 + "\n\n" + msg2);
-    importedConfig = null;
-  },
-
-  /**
    * Import regexp, only add new entries.
    *
    * @param importedRegexps {Array}
@@ -1378,37 +1371,32 @@ const HistoryWindowControl = {
     var noAdded = 0, noSkipped = 0, noErrors = 0, noTotal = 0;
 
     if (importedRegexps != null) {
-      window.setCursor("wait"); // could be slow
-      try {
-        var exist, newRegexp = [];
-        var curRegexp = this.dbHandler.getAllRegexp();
-        for(var ii=0; ii<importedRegexps.length; ii++) {
-          ++noTotal;
-          exist = false;
-          for(var cc=0; cc<curRegexp.length; cc++) {
-            exist = (importedRegexps[ii].regexp == curRegexp[cc].regexp) &&
-                    (importedRegexps[ii].caseSens == curRegexp[cc].caseSens);
-            if (exist) break;
-          }
-          if (!exist) {
-            newRegexp.push(importedRegexps[ii]);
-          }
+      var exist, newRegexp = [];
+      var curRegexp = this.dbHandler.getAllRegexp();
+      for(var ii=0; ii<importedRegexps.length; ii++) {
+        ++noTotal;
+        exist = false;
+        for(var cc=0; cc<curRegexp.length; cc++) {
+          exist = (importedRegexps[ii].regexp == curRegexp[cc].regexp) &&
+                  (importedRegexps[ii].caseSens == curRegexp[cc].caseSens);
+          if (exist) break;
         }
-
-        // add new criteria to the database and repopulate the treeview
-        if (0 < newRegexp.length) {
-          // add all new criteria to the database in bulk
-          if (this.dbHandler.bulkAddRegexp(newRegexp)) {
-            noAdded   = newRegexp.length;
-            noSkipped = noTotal - noAdded;
-          }
-        } else {
-          noSkipped = noTotal;
+        if (!exist) {
+          newRegexp.push(importedRegexps[ii]);
         }
-        noErrors = noTotal - (noAdded + noSkipped);
-      } finally {
-        window.setCursor("auto");
       }
+
+      // add new criteria to the database and repopulate the treeview
+      if (0 < newRegexp.length) {
+        // add all new criteria to the database in bulk
+        if (this.dbHandler.bulkAddRegexp(newRegexp)) {
+          noAdded   = newRegexp.length;
+          noSkipped = noTotal - noAdded;
+        }
+      } else {
+        noSkipped = noTotal;
+      }
+      noErrors = noTotal - (noAdded + noSkipped);
     }
 
     // return the status

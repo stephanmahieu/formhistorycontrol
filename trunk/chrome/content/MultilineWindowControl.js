@@ -264,6 +264,77 @@ const MultilineWindowControl = {
   },
 
   /**
+   * Import multiline fields from file, only add new entries.
+   *
+   * @param importedEntries {Array}
+   *        array of multiline items
+   *
+   * @return {Object} status
+   */
+  importAction: function(importedEntries) {
+    var noAdded = 0, noSkipped = 0, noErrors = 0;
+
+    if (0 < importedEntries.length) {
+      // filter out what is really new
+      var newEntries = this._extractUniqueEntries(importedEntries);
+
+      // add new entries to the database and repopulate the treeview
+      if (0 < newEntries.length) {
+        // add all new entries to the database in bulk
+        if (this.dbHandler.bulkAddMultilineItems(newEntries)) {
+          noAdded   = newEntries.length;
+          noSkipped = importedEntries.length - noAdded;
+          
+          // rebuild/show all
+          this.repopulateView();
+        }
+      } else {
+        noSkipped = importedEntries.length;
+      }
+      noErrors = importedEntries.length - (noAdded + noSkipped);
+    }
+
+    // return the status
+    return {
+      noAdded: noAdded,
+      noSkipped: noSkipped,
+      noErrors: noErrors
+    };
+  },
+  
+  // Extract from the entriesToTest only the entries that do not already exist
+  _extractUniqueEntries: function(entriesToTest) {
+    var uniqueEntries = [];
+
+//TODO Implement _extractUniqueEntries
+//    // create a name-value hashmap of the existing formhistory entries
+//    var key;
+//    var hashMap = new Array();
+//    for(var ii=0; ii<this.alldata.length; ii++) {
+//      key = this.alldata[ii].name + "]=[" + this.alldata[ii].value;
+//      if (undefined == hashMap[key])
+//        hashMap[key] = key;
+//    }
+//
+//    // check entriesToTest against hashmap
+//    for (var jj=0; jj<entriesToTest.length; jj++) {
+//      key = entriesToTest[jj].name + "]=[" + entriesToTest[jj].value;
+//      if (undefined == hashMap[key]) {
+//        uniqueEntries.push(entriesToTest[jj]);
+//        
+//        // add also to hashmap to detect duplicate entries in entriesToTest itself
+//        // only the first occurrence is added to uniqueEntries
+//        hashMap[key] = key;
+//      }
+//    }
+//
+//    // free bulky overhead
+//    delete hashMap;
+    
+    return uniqueEntries;
+  },
+  
+  /**
    * Repopulate the database and repaint the view.
    */
   repopulateView: function() {

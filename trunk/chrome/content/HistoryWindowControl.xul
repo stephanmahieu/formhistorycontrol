@@ -229,31 +229,14 @@
           label="&fhwin.menu.file.label;"
           accesskey="&fhwin.menu.file.accesskey;">
       <menupopup id="file-popup">
-        <menuitem label="&fhwin.menuitem.exportall.label;"
+        <menuitem label="&fhwin.menuitem.exportmanager.label;"
                   id="mnbarExportAll"
                   class="menuitem-iconic fh_menuitem_export"
                   oncommand="HistoryWindowControl.exportActionAll();"/>
-        <menuitem label="&fhwin.menuitem.exportdisplayed.label;"
-                  id="mnbarExportDisplayed"
-                  class="menuitem-iconic fh_menuitem_export"
-                  oncommand="HistoryWindowControl.exportActionDisplayed();"/>
-        <menuitem label="&fhwin.menuitem.exportselected.label;"
-                  id="mnbarExportSelected"
-                  class="menuitem-iconic fh_menuitem_export"
-                  oncommand="HistoryWindowControl.exportActionSelected();"/>
-        <menuitem label="&fhwin.menuitem.import.label;"
+        <menuitem label="&fhwin.menuitem.importmanager.label;"
                   id="mnbarImport"
                   class="menuitem-iconic fh_menuitem_import"
                   oncommand="HistoryWindowControl.importAction();"/>
-        <menuseparator/>
-        <menuitem label="&fhwin.cleanup.menuitem.exportcfg.label;"
-                  id="mnbarExportCriteria"
-                  class="menuitem-iconic fh_menuitem_export"
-                  oncommand="CleanupWindowControl.exportAction();"/>
-        <menuitem label="&fhwin.cleanup.menuitem.importcfg.label;"
-                  id="mnbarImportCriteria"
-                  class="menuitem-iconic fh_menuitem_import"
-                  oncommand="HistoryWindowControl.importCleanupAction();"/>
         <menuseparator/>
         <menuitem label="&fhwin.menuitem.exportcsv.label;"
                   id="mnbarExportCSV"
