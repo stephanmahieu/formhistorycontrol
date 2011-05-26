@@ -288,17 +288,15 @@ FhcXmlHandler.prototype = {
         }
 
         // keyBindings
-        if (prefHandler.isExportConfigKeyBindings()) {
-          var keyBindingsElem = doc.getElementsByTagName("keyBinding");
-          var bindingId, bindingValue;
-          for(var kk=0; kk<keyBindingsElem.length; kk++) {
-             bindingValue = this._decode(keyBindingsElem[kk].textContent);
-             bindingId = keyBindingsElem[kk].getAttribute("id");
-             parsedKeybindings.push({
-               id:    bindingId,
-               value: bindingValue
-             });
-          }
+        var keyBindingsElem = doc.getElementsByTagName("keyBinding");
+        var bindingId, bindingValue;
+        for(var kk=0; kk<keyBindingsElem.length; kk++) {
+           bindingValue = this._decode(keyBindingsElem[kk].textContent);
+           bindingId = keyBindingsElem[kk].getAttribute("id");
+           parsedKeybindings.push({
+             id:    bindingId,
+             value: bindingValue
+           });
         }
         
       }
@@ -311,7 +309,7 @@ FhcXmlHandler.prototype = {
       multiline: parsedEditorfield,
       cleanup:   parsedCleanupCriteria,
       protect:   parsedProtectCriteria,
-      keys:      keyBindingsElem,
+      keys:      parsedKeybindings,
       regexp:    parsedRegexp
     }
     return result;

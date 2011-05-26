@@ -306,7 +306,6 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Zet waarden tussen">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape met voorloop">
 <!ENTITY fhprefs.group.configexport.caption "Configuratie Importeren/Exporteren">
-<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importeren en Exporteren sneltoetsen">
 
 <!ENTITY fhprefs.prefpane.cleanup.label "Opschonen">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Opschonen bij afsluiten browser">
