@@ -229,14 +229,14 @@
           label="&fhwin.menu.file.label;"
           accesskey="&fhwin.menu.file.accesskey;">
       <menupopup id="file-popup">
-        <menuitem label="&fhwin.menuitem.exportmanager.label;"
-                  id="mnbarExportAll"
-                  class="menuitem-iconic fh_menuitem_export"
-                  oncommand="HistoryWindowControl.exportActionAll();"/>
         <menuitem label="&fhwin.menuitem.importmanager.label;"
                   id="mnbarImport"
                   class="menuitem-iconic fh_menuitem_import"
                   oncommand="HistoryWindowControl.importAction();"/>
+        <menuitem label="&fhwin.menuitem.exportmanager.label;"
+                  id="mnbarExportAll"
+                  class="menuitem-iconic fh_menuitem_export"
+                  oncommand="HistoryWindowControl.exportActionAll();"/>
         <menuseparator/>
         <menuitem label="&fhwin.menuitem.exportcsv.label;"
                   id="mnbarExportCSV"

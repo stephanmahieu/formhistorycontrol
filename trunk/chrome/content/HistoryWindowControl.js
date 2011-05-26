@@ -557,14 +557,24 @@ const HistoryWindowControl = {
     document.getElementById("mnbarFhAddCleanup").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnbarFhAddProtect").setAttribute("disabled", 0 == selected.length);
 
-    var tabs = document.getElementById('historyWindowCleanupTabs');
-    switch (tabs.selectedIndex) {
+    var tabs = document.getElementById('historyWindowTabs');
+    switch(tabs.selectedIndex) {
       case 0:
-           CleanupWindowControl.menubarPopup(event);
-           break;
+        // this menubarPopup()
+        break;
       case 1:
-           CleanupProtectView.menubarPopup(event);
-           break;
+        var cleanupTabs = document.getElementById('historyWindowCleanupTabs');
+        switch (cleanupTabs.selectedIndex) {
+          case 0:
+               CleanupWindowControl.menubarPopup(event);
+               break;
+          case 1:
+               CleanupProtectView.menubarPopup(event);
+               break;
+        }
+      case 2:
+        MultilineWindowControl.menubarPopup(event);
+        break;
     }
 
     return true;
@@ -1085,16 +1095,16 @@ const HistoryWindowControl = {
       var exportRegexp = params.out.exportRegexp;
       if (params.out.exportHistory) {
         switch (params.out.exportHistoryWhat) {
-            case "all":      hist = this.treeView.getAll();  break;
-            case "selected": hist = this.treeView.getSelected(); break;
-            case "search":   hist = this.treeView.getAllDisplayed(); break;
+            case "all":hist = this.treeView.getAll();break;
+            case "selected":hist = this.treeView.getSelected();break;
+            case "search":hist = this.treeView.getAllDisplayed();break;
         }
       }
       if (params.out.exportMultiline) {
         switch (params.out.exportMultilineWhat) {
-            case "all":      mult = MultilineWindowControl.getAll();  break;
-            case "selected": mult = MultilineWindowControl.getSelected(); break;
-            case "search":   mult = MultilineWindowControl.getAllDisplayed(); break;
+            case "all":mult = MultilineWindowControl.getAll();break;
+            case "selected":mult = MultilineWindowControl.getSelected();break;
+            case "search":mult = MultilineWindowControl.getAllDisplayed();break;
         }
       }
       
@@ -1127,46 +1137,79 @@ const HistoryWindowControl = {
       return;
     }
     
-    window.setCursor("wait"); // could be slow
-    try {
-      var hiResult = this._importAction(data.entries);
-      var prResult = CleanupProtectView.importAction(data.protect);
-      var mlResult = MultilineWindowControl.importAction(data.multiline);
-      var cuResult = CleanupWindowControl.importAction(data.cleanup);
-
-      var noTotalC   = data.cleanup.length + data.protect.length;
-      var noAddedC   = cuResult.noAdded   + prResult.noAdded;
-      var noSkippedC = cuResult.noSkipped + prResult.noSkipped;
-      var noErrorsC  = cuResult.noErrors  + prResult.noErrors;
-
-      // import regular expressions
-      var reResult = this._importRegexp(data.regexp);
-
-      // report import status
-      var msg0 = this.bundle.getString("historywindow.prompt.importdialog.result.status",
-                   [data.entries.length, hiResult.noAdded,
-                    hiResult.noSkipped, hiResult.noErrors]).replace("\n\n", "\n");
-      var msg1 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
-                   [noTotalC, noAddedC, noSkippedC, noErrorsC]).replace("\n\n", "\n");
-      var msg2 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
-                   [data.regexp.length, reResult.noAdded,
-                    reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
-      var msg3 = this.bundle.getString("multilinewindow.prompt.importdialog.result.status",
-                   [data.multiline.length, mlResult.noAdded,
-                    mlResult.noSkipped, mlResult.noErrors]).replace("\n\n", "\n");
-
-      FhcUtil.alertDialog(
-        this.bundle.getString("historywindow.prompt.importdialog.result.title"),
-        msg0 + "\n\n" + msg1 + "\n\n" + msg2 + "\n\n" + msg3);
+    
+    var params = {
+          inn: {history: data.entries.length,
+                multiline: data.multiline.length,
+                cleanup: data.protect.length + data.cleanup.length,
+                keys: data.keys.length,
+                regexp: data.regexp.length
+               },
+          out: null
+        };
+    FhcShowDialog.doShowFhcImport(params);
+    
+    if (params.out) {
+      
+      window.setCursor("wait"); // could be slow
+      try {
+        var msg = "";
         
-    } finally {
-      data = null;
-      
-      // re-apply searchfilters to reflect changes to cleanup criteria
-      this.treeView.applyFilter();
-      this._updateCountLabel();
-      
-      window.setCursor("auto");
+        if (params.out.importHistory) {
+          var hiResult = this._importAction(data.entries);
+          if (msg.length > 0) msg += "\n\n";
+          msg += this.bundle.getString("historywindow.prompt.importdialog.result.status",
+                       [data.entries.length, hiResult.noAdded,
+                        hiResult.noSkipped, hiResult.noErrors]).replace("\n\n", "\n");
+        }
+
+        if (params.out.importMultiline) {
+          var mlResult = MultilineWindowControl.importAction(data.multiline);
+          if (msg.length > 0) msg += "\n\n";
+          msg += this.bundle.getString("multilinewindow.prompt.importdialog.result.status",
+                       [data.multiline.length, mlResult.noAdded,
+                        mlResult.noSkipped, mlResult.noErrors]).replace("\n\n", "\n");
+        }
+
+        if (params.out.importCleanup) {
+          var prResult = CleanupProtectView.importAction(data.protect);
+          var cuResult = CleanupWindowControl.importAction(data.cleanup);
+          if (msg.length > 0) msg += "\n\n";
+          msg += this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
+                       [data.cleanup.length + data.protect.length, cuResult.noAdded + prResult.noAdded, 
+                        cuResult.noSkipped + prResult.noSkipped, cuResult.noErrors + prResult.noErrors]).replace("\n\n", "\n");
+        }
+
+        if (params.out.importRegexp) {
+          var reResult = this._importRegexp(data.regexp);
+          if (msg.length > 0) msg += "\n\n";
+          msg += this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
+                       [data.regexp.length, reResult.noAdded,
+                        reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
+        }
+
+        if (params.out.importKeys) {
+          for(var kk=0; kk<data.keys.length; kk++) {
+            this.preferences.setKeybindingValue(data.keys[kk].id, data.keys[kk].value);
+          }
+          if (msg.length > 0) msg += "\n\n";
+          msg += this.bundle.getString("historywindow.prompt.importdialog.resultkeys.status",
+                       [data.keys.length, data.keys.length]).replace("\n\n", "\n");
+        }
+
+        // report import status
+        FhcUtil.alertDialog(
+          this.bundle.getString("historywindow.prompt.importdialog.result.title"), msg);
+          
+      } finally {
+        data = null;
+
+        // re-apply searchfilters to reflect changes to cleanup criteria
+        this.treeView.applyFilter();
+        this._updateCountLabel();
+
+        window.setCursor("auto");
+      }
     }
   },
 

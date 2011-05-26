@@ -154,6 +154,7 @@ FhcXmlHandler.prototype = {
     var parsedEditorfield = [];
     var parsedCleanupCriteria = [];
     var parsedProtectCriteria = [];
+    var parsedKeybindings = [];
     var parsedRegexp = [];
     
     var now = this.dateHandler.getCurrentDate();
@@ -293,7 +294,10 @@ FhcXmlHandler.prototype = {
           for(var kk=0; kk<keyBindingsElem.length; kk++) {
              bindingValue = this._decode(keyBindingsElem[kk].textContent);
              bindingId = keyBindingsElem[kk].getAttribute("id");
-             prefHandler.setKeybindingValue(bindingId, bindingValue);
+             parsedKeybindings.push({
+               id:    bindingId,
+               value: bindingValue
+             });
           }
         }
         
@@ -307,6 +311,7 @@ FhcXmlHandler.prototype = {
       multiline: parsedEditorfield,
       cleanup:   parsedCleanupCriteria,
       protect:   parsedProtectCriteria,
+      keys:      keyBindingsElem,
       regexp:    parsedRegexp
     }
     return result;

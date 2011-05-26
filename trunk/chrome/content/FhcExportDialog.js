@@ -38,7 +38,7 @@
  * Methods for the form history edit dialog.
  * Only used within FhcEntryDialog.xul, thus no danger of namespace conflicts.
  *
- * Dependencies: FhcEntryDialog.xul, FhcShowDialog.js
+ * Dependencies: FhcExportDialog.xul
  */
 const FhcExportDialog = {
   haveSelectedHist: false,

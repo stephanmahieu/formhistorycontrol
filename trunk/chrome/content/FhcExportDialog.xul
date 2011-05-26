@@ -9,7 +9,6 @@
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="exportDialog"
         title="Export manager"
-        style="width:40em;"
         buttons="cancel,accept"
         buttonlabelaccept="Export"
         ondialogaccept="return FhcExportDialog.onOkay();"
@@ -17,8 +16,6 @@
         persist="width height screenX screenY">
 
   <script type="application/x-javascript" src="chrome://formhistory/content/FhcExportDialog.js"/>
-  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcShowDialog.js"/>
-  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcUtil.js" />
 
   <hbox>
     <label id="errorMessageNoSelection" hidden="true" class="errormessage"
@@ -35,7 +32,8 @@
         <column flex="1"/>
       </columns>
       <rows>
-        <row align="baseline">
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
+        <row>
           <checkbox id="history" label="Form history entries" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
           <radiogroup id="historyRadiogroup" orient="horizontal" disabled="true">
             <radio id="allhist" label="All" selected="true"/>
@@ -43,6 +41,7 @@
             <radio id="searchhist" label="Search result"/>
           </radiogroup>
         </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
           <checkbox id="multiline" label="Editor fields" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
           <radiogroup id="multilineRadiogroup" orient="horizontal" disabled="true">
@@ -51,20 +50,24 @@
             <radio id="searchmulti" label="Search result"/>
           </radiogroup>
         </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
           <checkbox id="regexp" label="Regular expressions" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
-          <radiogroup id="regexpRadiogroup" orient="horizontal" disabled="true">
+          <!-- radiogroup id="regexpRadiogroup" orient="horizontal" disabled="true">
             <radio id="allregexp" label="All" selected="true"/>
             <radio id="customregexp" label="User defined"/>
             <radio id="builtinregexp" label="Built in"/>
-          </radiogroup>
+          </radiogroup -->
         </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
           <checkbox id="cleanup" label="Cleanup configuration" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
         </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
           <checkbox id="keys" label="Keyboard shortcuts" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
         </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
       </rows>
     </grid>
 
