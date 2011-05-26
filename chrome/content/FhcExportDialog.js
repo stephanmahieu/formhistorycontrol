@@ -74,7 +74,7 @@ const FhcExportDialog = {
     document.getElementById("searchmulti").disabled = !cbMultiEnabled || !this.haveFilteredMulti;
 
     var cbRegexpEnabled = (true == document.getElementById("regexp").checked);
-    document.getElementById("regexpRadiogroup").disabled = !cbRegexpEnabled;
+    //document.getElementById("regexpRadiogroup").disabled = !cbRegexpEnabled;
 
     if (this._isValidSelection()) {
       document.getElementById("errorMessageNoSelection").hidden = true;
