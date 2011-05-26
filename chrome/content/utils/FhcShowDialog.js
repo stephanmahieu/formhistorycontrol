@@ -183,6 +183,19 @@ var FhcShowDialog = {
   },
 
   /**
+   * Open the import dialog.
+   *
+   * @param params {Array}
+   *        array of input/output parameters
+   */
+  doShowFhcImport: function(params) {
+    openDialog(
+      "chrome://formhistory/content/FhcImportDialog.xul", "",
+      "centerscreen, chrome, dialog, modal, resizable=yes", params)
+    .focus();
+  },
+
+  /**
    * Open the Browse History dialog.
    *
    * @param params {Array}

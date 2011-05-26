@@ -302,34 +302,41 @@ const MultilineWindowControl = {
     };
   },
   
-  // Extract from the entriesToTest only the entries that do not already exist
+  /**
+   * Extract from the entriesToTest only the entries that do not already exist.
+   * 
+   * @param  entriesToTest {Array}
+   *         array of multiline entries
+   * 
+   * @return {Array}
+   *         array of multiline entries that do not already exist.
+   */
   _extractUniqueEntries: function(entriesToTest) {
     var uniqueEntries = [];
 
-//TODO Implement _extractUniqueEntries
-//    // create a name-value hashmap of the existing formhistory entries
-//    var key;
-//    var hashMap = new Array();
-//    for(var ii=0; ii<this.alldata.length; ii++) {
-//      key = this.alldata[ii].name + "]=[" + this.alldata[ii].value;
-//      if (undefined == hashMap[key])
-//        hashMap[key] = key;
-//    }
-//
-//    // check entriesToTest against hashmap
-//    for (var jj=0; jj<entriesToTest.length; jj++) {
-//      key = entriesToTest[jj].name + "]=[" + entriesToTest[jj].value;
-//      if (undefined == hashMap[key]) {
-//        uniqueEntries.push(entriesToTest[jj]);
-//        
-//        // add also to hashmap to detect duplicate entries in entriesToTest itself
-//        // only the first occurrence is added to uniqueEntries
-//        hashMap[key] = key;
-//      }
-//    }
-//
-//    // free bulky overhead
-//    delete hashMap;
+    // create a hashmap of existing multiline entries (firstsaved/lastsaved)
+    var key;
+    var hashMap = new Array();
+    for(var ii=0; ii<this.alldata.length; ii++) {
+      key = this.alldata[ii].firstsaved + "|" + this.alldata[ii].lastsaved;
+      if (undefined == hashMap[key])
+        hashMap[key] = key;
+    }
+
+    // check entriesToTest against hashmap
+    for (var jj=0; jj<entriesToTest.length; jj++) {
+      key = entriesToTest[jj].firstsaved + "|" + entriesToTest[jj].lastsaved;
+      if (undefined == hashMap[key]) {
+        uniqueEntries.push(entriesToTest[jj]);
+        
+        // add to hashmap also to detect duplicate entries in entriesToTest itself
+        // only the first occurrence is added to uniqueEntries
+        hashMap[key] = key;
+      }
+    }
+
+    // free bulky overhead
+    delete hashMap;
     
     return uniqueEntries;
   },
