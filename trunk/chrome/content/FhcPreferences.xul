@@ -466,9 +466,6 @@
       <preference id="extensions.formhistory.exportCSV.escape"
                   name="extensions.formhistory.exportCSV.escape"
                   type="string" />
-      <preference id="extensions.formhistory.exportConfig.keybindings"
-                  name="extensions.formhistory.exportConfig.keybindings"
-                  type="bool" />
     </preferences>
     <groupbox>
       <caption label="&fhprefs.group.csvexport.caption;"/>
@@ -494,13 +491,9 @@
         </rows>
       </grid>
     </groupbox>
-    <groupbox>
+<!--    <groupbox>
       <caption label="&fhprefs.group.configexport.caption;"/>
-      <checkbox id="exportKeybindings"
-                label="&fhprefs.checkbox.configexportkeybindings.label;"
-                style="margin-right:0; padding-right:0"
-                preference="extensions.formhistory.exportConfig.keybindings"/>
-    </groupbox>
+    </groupbox>-->
   </prefpane>
 
   <!-- Clean Up -->
