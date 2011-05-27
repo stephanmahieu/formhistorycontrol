@@ -1137,13 +1137,12 @@ const HistoryWindowControl = {
       return;
     }
     
-    
     var params = {
-          inn: {history: data.entries.length,
+          inn: {history:   data.entries.length,
                 multiline: data.multiline.length,
-                cleanup: data.protect.length + data.cleanup.length,
-                keys: data.keys.length,
-                regexp: data.regexp.length
+                cleanup:   data.protect.length + data.cleanup.length,
+                keys:      data.keys.length,
+                regexp:    data.regexp.length
                },
           out: null
         };
@@ -1153,53 +1152,48 @@ const HistoryWindowControl = {
       
       window.setCursor("wait"); // could be slow
       try {
-        var msg = "";
+        var hiResult = null;
+        var mlResult = null;
+        var clResult = null;
+        var reResult = null;
+        var keResult = null;
         
         if (params.out.importHistory) {
-          var hiResult = this._importAction(data.entries);
-          if (msg.length > 0) msg += "\n\n";
-          msg += this.bundle.getString("historywindow.prompt.importdialog.result.status",
-                       [data.entries.length, hiResult.noAdded,
-                        hiResult.noSkipped, hiResult.noErrors]).replace("\n\n", "\n");
+          hiResult = this._importAction(data.entries);
         }
 
         if (params.out.importMultiline) {
-          var mlResult = MultilineWindowControl.importAction(data.multiline);
-          if (msg.length > 0) msg += "\n\n";
-          msg += this.bundle.getString("multilinewindow.prompt.importdialog.result.status",
-                       [data.multiline.length, mlResult.noAdded,
-                        mlResult.noSkipped, mlResult.noErrors]).replace("\n\n", "\n");
+          mlResult = MultilineWindowControl.importAction(data.multiline);
         }
 
         if (params.out.importCleanup) {
           var prResult = CleanupProtectView.importAction(data.protect);
           var cuResult = CleanupWindowControl.importAction(data.cleanup);
-          if (msg.length > 0) msg += "\n\n";
-          msg += this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
-                       [data.cleanup.length + data.protect.length, cuResult.noAdded + prResult.noAdded, 
-                        cuResult.noSkipped + prResult.noSkipped, cuResult.noErrors + prResult.noErrors]).replace("\n\n", "\n");
+          clResult = {
+            noTotal: prResult.noTotal + cuResult.noTotal,
+            noAdded: cuResult.noAdded + prResult.noAdded,
+            noSkipped: cuResult.noSkipped + prResult.noSkipped,
+            noErrors: cuResult.noErrors + prResult.noErrors
+          };
         }
 
         if (params.out.importRegexp) {
-          var reResult = this._importRegexp(data.regexp);
-          if (msg.length > 0) msg += "\n\n";
-          msg += this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
-                       [data.regexp.length, reResult.noAdded,
-                        reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
+          reResult = this._importRegexp(data.regexp);
         }
 
         if (params.out.importKeys) {
-          for(var kk=0; kk<data.keys.length; kk++) {
-            this.preferences.setKeybindingValue(data.keys[kk].id, data.keys[kk].value);
-          }
-          if (msg.length > 0) msg += "\n\n";
-          msg += this.bundle.getString("historywindow.prompt.importdialog.resultkeys.status",
-                       [data.keys.length, data.keys.length]).replace("\n\n", "\n");
+          keResult = this._importKeys(data.keys);
         }
 
         // report import status
-        FhcUtil.alertDialog(
-          this.bundle.getString("historywindow.prompt.importdialog.result.title"), msg);
+        var statusParams = {
+          history: hiResult,
+          multiline: mlResult,
+          cleanup: clResult,
+          regexp: reResult,
+          keys: keResult
+        }
+        FhcShowDialog.doShowFhcImportStatus(statusParams);
           
       } finally {
         data = null;
@@ -1211,6 +1205,28 @@ const HistoryWindowControl = {
         window.setCursor("auto");
       }
     }
+  },
+
+  _importKeys: function(importedEntries) {
+    var bindingValueComplex, bindingValue;
+    
+    var added = 0;
+    for(var kk=0; kk<importedEntries.length; kk++) {
+
+      bindingValueComplex = this.preferences.getKeybindingValue(importedEntries[kk].id);
+      bindingValue = bindingValueComplex ? bindingValueComplex.data : "";
+
+      if (bindingValue != importedEntries[kk].value) {
+        added++;
+        this.preferences.setKeybindingValue(importedEntries[kk].id, importedEntries[kk].value);
+      }
+    }
+    return {
+      noTotal: importedEntries.length,
+      noAdded: added,
+      noSkipped: importedEntries.length - added,
+      noErrors: 0
+    };
   },
 
   _importAction: function(importedEntries) {
@@ -1238,6 +1254,7 @@ const HistoryWindowControl = {
 
     // return the status
     return {
+      noTotal:   importedEntries.length,
       noAdded:   noAdded,
       noSkipped: noSkipped,
       noErrors:  noErrors
@@ -1444,6 +1461,7 @@ const HistoryWindowControl = {
 
     // return the status
     return {
+      noTotal: importedRegexps.length,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors
