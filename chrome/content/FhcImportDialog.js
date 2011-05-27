@@ -35,8 +35,8 @@
  * ***** END LICENSE BLOCK ***** */
 
 /**
- * Methods for the form history edit dialog.
- * Only used within FhcEntryDialog.xul, thus no danger of namespace conflicts.
+ * Methods for the form history import dialog.
+ * Only used within FhcImportDialog.xul, thus no danger of namespace conflicts.
  *
  * Dependencies: FhcImportDialog.xul
  */

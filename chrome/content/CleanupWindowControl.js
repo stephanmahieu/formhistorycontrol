@@ -369,6 +369,7 @@ const CleanupWindowControl = {
 
     // return the status
     return {
+      noTotal: noTotal,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors

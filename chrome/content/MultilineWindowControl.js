@@ -296,6 +296,7 @@ const MultilineWindowControl = {
 
     // return the status
     return {
+      noTotal: importedEntries.length,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors
