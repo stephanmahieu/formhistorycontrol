@@ -102,8 +102,8 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Inverteer Selectie">
 <!ENTITY fhwin.menuitem.addcleanup.label "Voeg toe als opschoon criterium">
 <!ENTITY fhwin.menuitem.addprotect.label "Voeg toe als nooit-opschonen criterium">
-<!ENTITY fhwin.menuitem.exportmanager.label "Export beheer XML">
-<!ENTITY fhwin.menuitem.importmanager.label "Import beheer XML">
+<!ENTITY fhwin.menuitem.exportmanager.label "Export">
+<!ENTITY fhwin.menuitem.importmanager.label "Import">
 
 <!ENTITY fhwin.menuitem.exportcsv.label "Exporteer Complete History als CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Vernieuwen">
@@ -306,6 +306,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Zet waarden tussen">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape met voorloop">
 <!ENTITY fhprefs.group.configexport.caption "Configuratie Importeren/Exporteren">
+<!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "Exporteer datums in ISO formaat">
 
 <!ENTITY fhprefs.prefpane.cleanup.label "Opschonen">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Opschonen bij afsluiten browser">

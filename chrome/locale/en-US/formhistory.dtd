@@ -102,8 +102,8 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Invert Selection">
 <!ENTITY fhwin.menuitem.addcleanup.label "Add as cleanup criteria">
 <!ENTITY fhwin.menuitem.addprotect.label "Add as protect criteria">
-<!ENTITY fhwin.menuitem.exportmanager.label "Export manager XML">
-<!ENTITY fhwin.menuitem.importmanager.label "Import manager XML">
+<!ENTITY fhwin.menuitem.exportmanager.label "Export">
+<!ENTITY fhwin.menuitem.importmanager.label "Import">
 
 <!ENTITY fhwin.menuitem.exportcsv.label "Export Complete History as CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Reload">
@@ -306,6 +306,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Surround values with">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape with prefix">
 <!ENTITY fhprefs.group.configexport.caption "Configuration Import/Export">
+<!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "Export dates ISO formatted">
 
 <!ENTITY fhprefs.prefpane.cleanup.label "Clean Up">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Perform Clean-Up on browser shutdown">

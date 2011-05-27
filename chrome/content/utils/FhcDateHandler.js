@@ -210,6 +210,57 @@ FhcDateHandler.prototype = {
   },
 
   /**
+   * Convert a date/time in microseconds to a date string according to
+   * the w3 recommendation (http://www.w3.org/TR/xmlschema-2/#dateTime).
+   * (closely related to dates and times described in ISO 8601)
+   * 
+   * Format:
+   * '-'? yyyy '-' mm '-' dd 'T' hh ':' mm ':' ss ('.' s+)? (zzzzzz)?
+   * 
+   * Example: 2009-10-19T13:08:34.000
+   *
+   * @param  uSeconds {Number}
+   *         the date/time in microseconds (internal firefox representation)
+   *
+   * @return {String}
+   *         date formatted according to widely accepted xmlschema standard.
+   */
+  toISOdateString: function(uSeconds) {
+    if (!uSeconds) return "";
+    var d = new Date(uSeconds / 1000);
+    var uSecondsPart = uSeconds % 1000;
+    var iso = 
+      this._padZero(d.getFullYear(), 4) + "-" +
+      this._padZero(d.getMonth()+1, 2) + "-" +
+      this._padZero(d.getDate(), 2) + "T" +
+      this._getTimeString(d) + "." +
+      this._padZero(uSecondsPart, 3);
+    return iso;
+  },
+
+  /**
+   * Convert ISO date/time back to microseconds.
+   *
+   * @param  aDateString {String}
+   *         the date/time in ISO format (2009-10-19T13:08:34.000)
+   *
+   * @return {Number}
+   *         date in uSeconds (internal representation)
+   */
+  fromISOdateString: function(aDateString) {
+    var d = new Date(
+      parseInt(aDateString.substr(0, 4)),   // year
+      parseInt(aDateString.substr(5, 2))-1, // month (zero based!)
+      parseInt(aDateString.substr(8, 2)),   // day
+      parseInt(aDateString.substr(11,2)),   // hour
+      parseInt(aDateString.substr(14,2)),   // minute
+      parseInt(aDateString.substr(17,2)),   // seconds
+      parseInt(aDateString.substr(20,3))    // msec
+    );
+    return d.getTime()*1000; //msec * 1000
+  },
+
+  /**
    * Get friendly/fuzzy formatted age (3 days) measured as the time between
    * uSecDate and nowDate (uSecDate presumed before to be before nowDate).
    *
@@ -324,6 +375,7 @@ FhcDateHandler.prototype = {
     theDate.setMilliseconds(0);
     return theDate;
   },
+
 
   //----------------------------------------------------------------------------
   // Helper methods

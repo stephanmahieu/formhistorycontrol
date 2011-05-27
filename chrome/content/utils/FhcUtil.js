@@ -766,7 +766,7 @@ const FhcUtil = {
     fileOut.init(file, 0x02/*PR_WRONLY*/ | 0x08/*PR_CREATE_FILE*/ | 0x20/*PR_TRUNCATE*/, -1/*default permission*/, null);
     
     try {
-      var xmlHandler = new FhcXmlHandler(dateHandler);
+      var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
       var xml = xmlHandler.dataToXMLString(options, preferenceHandler, dbHandler);
       delete xmlHandler;
 
@@ -800,7 +800,7 @@ const FhcUtil = {
                        .createInstance(Components.interfaces.nsIFileInputStream);
       streamIn.init(fp.file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
       try {
-        var xmlHandler = new FhcXmlHandler(dateHandler);
+        var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
         importedData = xmlHandler.parseXMLdata(streamIn, preferenceHandler);
         delete xmlHandler;
       } finally {
@@ -832,7 +832,7 @@ const FhcUtil = {
                     .createInstance(Components.interfaces.nsIFileOutputStream);
     fileOut.init(file, 0x02/*PR_WRONLY*/ | 0x08/*PR_CREATE_FILE*/ | 0x20/*PR_TRUNCATE*/, -1/*default permission*/, null);
     try {
-      var xmlHandler = new FhcXmlHandler(dateHandler);
+      var xmlHandler = new FhcXmlHandler(dateHandler, true);
       var xml = xmlHandler.dataToXMLString(exportOptions, preferenceHandler, dbHandler);
       delete xmlHandler;
       delete exportOptions;
@@ -858,7 +858,7 @@ const FhcUtil = {
                      .createInstance(Components.interfaces.nsIFileInputStream);
     streamIn.init(file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
     try {
-      var xmlHandler = new FhcXmlHandler(dateHandler);
+      var xmlHandler = new FhcXmlHandler(dateHandler, true);
         importedConfig = xmlHandler.parseXMLdata(streamIn, preferenceHandler);
       delete xmlHandler;
     } finally {
