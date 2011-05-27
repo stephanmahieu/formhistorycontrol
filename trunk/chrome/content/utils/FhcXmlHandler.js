@@ -42,10 +42,12 @@
  *
  * Dependencies: FhcDateHandler.js, FhcRdfExtensionHandler.js
  */
-function FhcXmlHandler(fhcDatehandler) {
+function FhcXmlHandler(fhcDatehandler, useISOdates) {
   this.serializer = Components.classes["@mozilla.org/xmlextras/xmlserializer;1"]
                               .createInstance(Components.interfaces.nsIDOMSerializer);
   this.dateHandler = fhcDatehandler;
+  
+  this.useISOdateFormat = useISOdates;
 }
 
 FhcXmlHandler.prototype = {
@@ -508,13 +510,21 @@ FhcXmlHandler.prototype = {
    */
   _appendDateElement: function(doc, parentElem, dateElem, uSeconds) {
     if (uSeconds != undefined) {
-      var uSecondsElem = doc.createElement("date");
-      uSecondsElem.textContent = uSeconds;
-  
-      var commentElem = doc.createComment(this.dateHandler.toFullDateString(uSeconds));
-  
-      dateElem.appendChild(commentElem);
-      dateElem.appendChild(uSecondsElem);
+
+      if (this.useISOdateFormat) {
+        // ISO date format
+        dateElem.textContent = this.dateHandler.toISOdateString(uSeconds);
+      }
+      else {
+        // uSeconds format
+        var uSecondsElem = doc.createElement("date");
+        uSecondsElem.textContent = uSeconds;
+
+        var commentElem = doc.createComment(this.dateHandler.toFullDateString(uSeconds));
+
+        dateElem.appendChild(commentElem);
+        dateElem.appendChild(uSecondsElem);
+      }
       
       parentElem.appendChild(dateElem);
     }
@@ -612,8 +622,15 @@ FhcXmlHandler.prototype = {
   _getElemenDate: function(parentElem, tagName, defaultValue) {
     var result = defaultValue;
     var childElem = parentElem.getElementsByTagName(tagName);
-    if (1 == childElem.length && childElem[0].hasChildNodes()) {
-      result = this._getElementValue(childElem[0], "date");
+    if (1 == childElem.length) {
+      if ("" == childElem[0].textContent && childElem[0].hasChildNodes()) {
+        // uSeconds format
+        result = this._getElementValue(childElem[0], "date");
+      }
+      else {
+        // ISO format
+        result = this.dateHandler.fromISOdateString(childElem[0].textContent);
+      }
     }
     return result;
   },

@@ -466,6 +466,9 @@
       <preference id="extensions.formhistory.exportCSV.escape"
                   name="extensions.formhistory.exportCSV.escape"
                   type="string" />
+      <preference id="extensions.formhistory.exportXML.ISOexportDateFormat"
+                  name="extensions.formhistory.exportXML.ISOexportDateFormat"
+                  type="bool" />
     </preferences>
     <groupbox>
       <caption label="&fhprefs.group.csvexport.caption;"/>
@@ -491,9 +494,13 @@
         </rows>
       </grid>
     </groupbox>
-<!--    <groupbox>
+    <groupbox>
       <caption label="&fhprefs.group.configexport.caption;"/>
-    </groupbox>-->
+      <checkbox id="exportISOdateFormat"
+                label="&fhprefs.checkbox.configexportXmlIsoDate.label;"
+                style="margin-right:0; padding-right:0"
+                preference="extensions.formhistory.exportXML.ISOexportDateFormat"/>
+    </groupbox>
   </prefpane>
 
   <!-- Clean Up -->

@@ -90,6 +90,13 @@ FhcPreferenceHandler.prototype = {
     this.prefService.setCharPref("lastUsedExportFilename", newFilename);
   },
 
+  isISOdateFormat: function() {
+    return this.prefService.getBoolPref("exportXML.ISOexportDateFormat");
+  },
+  setISOdateFormat: function(newBoolPref) {
+    return this.prefService.setBoolPref("exportXML.ISOexportDateFormat", newBoolPref);
+  },
+
   getLastUsedCSVExportFilename: function() {
     return this.prefService.getCharPref("lastUsedCSVExportFilename");
   },

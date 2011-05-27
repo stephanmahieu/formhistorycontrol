@@ -15,6 +15,7 @@ pref("extensions.formhistory.cleanupOnTabClose", false);
 pref("extensions.formhistory.useCustomDateTimeFormat", false);
 pref("extensions.formhistory.customDateTimeFormat", "dd-MM-yyyy hh:mm:ss");
 pref("extensions.formhistory.showStatusBarIcon", true);
+pref("extensions.formhistory.exportXML.ISOexportDateFormat", true);
 pref("extensions.formhistory.exportCSV.separator", ";");
 pref("extensions.formhistory.exportCSV.quote", "\"");
 pref("extensions.formhistory.exportCSV.escape", "\"");
