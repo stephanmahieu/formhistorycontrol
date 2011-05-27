@@ -227,14 +227,14 @@ FhcDateHandler.prototype = {
    */
   toISOdateString: function(uSeconds) {
     if (!uSeconds) return "";
-    var d = new Date(uSeconds / 1000);
-    var uSecondsPart = uSeconds % 1000;
+    var msec = uSeconds / 1000;
+    var d = new Date(msec);
+    var msecPart = msec.toString().substr(-3);
     var iso = 
       this._padZero(d.getFullYear(), 4) + "-" +
       this._padZero(d.getMonth()+1, 2) + "-" +
       this._padZero(d.getDate(), 2) + "T" +
-      this._getTimeString(d) + "." +
-      this._padZero(uSecondsPart, 3);
+      this._getTimeString(d) + "." +  msecPart;
     return iso;
   },
 
