@@ -623,7 +623,7 @@ FhcXmlHandler.prototype = {
     var result = defaultValue;
     var childElem = parentElem.getElementsByTagName(tagName);
     if (1 == childElem.length) {
-      if ("" == childElem[0].textContent && childElem[0].hasChildNodes()) {
+      if (childElem[0].firstElementChild != null) {
         // uSeconds format
         result = this._getElementValue(childElem[0], "date");
       }
