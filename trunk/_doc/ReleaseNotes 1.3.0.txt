@@ -1,8 +1,10 @@
 User:
 - Available locales (en nl ...)
-- Backup multiline fields while typing (editor fields)
+- Backup multiline fields while typing (editor fields) -> manage from main UI
 - Added button to show/hide cleanup options (cleanup tab)- Fix: skip duplicate entries from imported xml-file
 - Changed: improved regular expression for Creditcards
+- Added Export/Import manager (choose what to export/import)
+- Added option to export/import dates in ISO format (default)
 
 
 Technical:
