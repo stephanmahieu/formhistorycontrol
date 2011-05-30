@@ -299,3 +299,12 @@
 <!ENTITY fhabout.label.homepage "Visitar o site">
 <!ENTITY fhabout.label.contributors "Contribuidores">
 <!ENTITY fhabout.label.translators "Tradutores">
+<!ENTITY browsehistorywindow.report.gocurrent "Atual">
+<!ENTITY browsehistorywindow.report.showurl "Exibir URL">
+<!ENTITY browsehistorywindow.report.showtitle "Exibir título">
+<!ENTITY browsehistorywindow.report.showhost "Exibir servidor">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Nome de campo">
+<!ENTITY browsehistorywindow.report.valuelabel "Valor">
+<!ENTITY browsehistorywindow.report.titlelabel "Título">
+<!ENTITY browsehistorywindow.report.hostlabel "Servidor">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

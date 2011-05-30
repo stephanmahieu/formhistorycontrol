@@ -299,3 +299,12 @@
 <!ENTITY fhabout.label.homepage "Besøg hjemmeside">
 <!ENTITY fhabout.label.contributors "Bidragydere">
 <!ENTITY fhabout.label.translators "Oversættere">
+<!ENTITY browsehistorywindow.report.gocurrent "Nuværende">
+<!ENTITY browsehistorywindow.report.showurl "Vis URL">
+<!ENTITY browsehistorywindow.report.showtitle "Vis titel">
+<!ENTITY browsehistorywindow.report.showhost "Vis vært">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Feltnavn">
+<!ENTITY browsehistorywindow.report.valuelabel "Værdi">
+<!ENTITY browsehistorywindow.report.titlelabel "Titel">
+<!ENTITY browsehistorywindow.report.hostlabel "Vært">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

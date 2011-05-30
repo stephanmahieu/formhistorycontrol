@@ -365,3 +365,13 @@
 <!ENTITY fhabout.label.homepage "Visit Homepage">
 <!ENTITY fhabout.label.contributors "Contributors">
 <!ENTITY fhabout.label.translators "Translators">
+
+<!ENTITY browsehistorywindow.report.gocurrent "Current">
+<!ENTITY browsehistorywindow.report.showurl "Show URL">
+<!ENTITY browsehistorywindow.report.showtitle "Show Title">
+<!ENTITY browsehistorywindow.report.showhost "Show Host">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Fieldname">
+<!ENTITY browsehistorywindow.report.valuelabel "Value">
+<!ENTITY browsehistorywindow.report.titlelabel "Title">
+<!ENTITY browsehistorywindow.report.hostlabel "Host">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

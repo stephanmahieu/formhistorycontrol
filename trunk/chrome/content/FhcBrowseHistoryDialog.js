@@ -14,7 +14,7 @@
  * The Original Code is FhcBrowseHistoryDialog.
  *
  * The Initial Developer of the Original Code is Stephan Mahieu.
- * Portions created by the Initial Developer are Copyright (C) 2009
+ * Portions created by the Initial Developer are Copyright (C) 2011
  * the Initial Developer. All Rights Reserved.
  *
  * Contributor(s):
@@ -72,9 +72,7 @@ const FhcBrowseHistoryDialog = {
     this.getOlder();
     //this.getNewer();
 
-    var report = document.getElementById("browsereport");
-    var reportDoc = report.contentWindow.document;
-    reportDoc.getElementById("newer").scrollIntoView(true);
+    //document.getElementById("newer").scrollIntoView(true);
   },
 
   /**
@@ -91,18 +89,15 @@ const FhcBrowseHistoryDialog = {
    * Get additional older history.
    */
   getOlder: function() {
-    var report = document.getElementById("browsereport");
-    var reportDoc = report.contentWindow.document;
-
     // get pages visited before the field was submitted
     var places = this.dbHandler.getVisitedPlaces(this.lastHistDate, this.LOOKUP_COUNT);
     if (places.length > 0) {
-      var parent = reportDoc.getElementById("older");
+      var parent = document.getElementById("older");
       for (var ii=0; ii<places.length; ii++) {
-        parent.appendChild(this._getPlaceInfo(reportDoc, "older", places[ii]));
+        parent.appendChild(this._getPlaceInfo("older", places[ii]));
       }
       this.lastHistDate = places[places.length-1].date;
-      parent.lastChild.scrollIntoView(true);
+      //parent.lastChild.scrollIntoView(true);
     }
   },
 
@@ -110,21 +105,18 @@ const FhcBrowseHistoryDialog = {
    * Get additional newer history.
    */
   getNewer: function() {
-    var report = document.getElementById("browsereport");
-    var reportDoc = report.contentWindow.document;
-
     // get pages visited after the field was submitted
     var places = this.dbHandler.getVisitedPlacesAfter(this.firstHistDate, this.LOOKUP_COUNT);
     if (places.length > 0) {
-      var parent = reportDoc.getElementById("newer");
+      var parent = document.getElementById("newer");
       for (var ii=0; ii<places.length; ii++) {
         parent.insertBefore(
-          this._getPlaceInfo(reportDoc, "newer", places[ii]),
+          this._getPlaceInfo("newer", places[ii]),
           parent.firstChild
         );
       }
       this.firstHistDate = places[places.length-1].date;
-      parent.firstChild.scrollIntoView(true);
+      //parent.firstChild.scrollIntoView(true);
     }
   },
 
@@ -136,62 +128,27 @@ const FhcBrowseHistoryDialog = {
    * @param dateUsed {Integer}
    */
   setFieldInfo: function(fieldName, fieldValue, dateUsed) {
-    var report = document.getElementById("browsereport");
-    var reportDoc = report.contentWindow.document;
+    var datetime = document.getElementById("datetime");
+    datetime.setAttribute("value", this.dateHandler.toDateString(dateUsed));
 
-    var datetime = reportDoc.getElementById("datetime");
-    datetime.textContent = this.dateHandler.toDateString(dateUsed);
+    var fieldname = document.getElementById("fieldname");
+    fieldname.setAttribute("value", fieldName);
 
-    var fieldname = reportDoc.getElementById("fieldname");
-    fieldname.textContent = fieldName;
-
-    var fieldvalue = reportDoc.getElementById("fieldvalue");
-    fieldvalue.textContent = fieldValue;
-
-    //localization navigation buttons
-    this._setLocaleString("gocurrent");
-    this._setLocaleString("hideurl");
-    this._setLocaleString("showurl");
-    this._setLocaleString("hidehost");
-    this._setLocaleString("showhost");
-    this._setLocaleString("hidetitle");
-    this._setLocaleString("showtitle");
-
-    //localization report
-    this._setLocaleString("fieldnamelabel");
-    this._setLocaleString("valuelabel");
-    this._setLocaleString("titlelabel");
-    this._setLocaleString("hostlabel");
-    this._setLocaleString("urllabel");
-  },
-
-  /**
-   * Set the locale string of an html element inside the iframe document.
-   * @param code {String]
-   *        the code used for both elementId as well as bundle lookup key.
-   */
-  _setLocaleString: function(code) {
-    var element = document.getElementById("browsereport")
-                    .contentDocument.getElementById(code);
-    if (element) {
-      element.textContent = this.bundle.getString("browsehistorywindow.report." + code);
-    }
+    var fieldvalue = document.getElementById("fieldvalue");
+    fieldvalue.setAttribute("value", fieldValue);
   },
 
   /**
    * Get the place info inside a div.
    *
-   * @param doc {Document}
    * @param type {String}
    * @param place {Object}
    * 
    * @return {Element} placeinfo
    */
-  _getPlaceInfo: function(doc, type, place) {
-    var template = doc.getElementById("placetemplate");
+  _getPlaceInfo: function(type, place) {
+    var template = document.getElementById("placetemplate");
     var box = template.cloneNode(true);
-    box.className = "box " + type;
-    box.getElementsByClassName("datetime")[0].textContent = this.dateHandler.toDateString(place.date);
 
     var fuzzyage;
     if ("older" == type) {
@@ -199,11 +156,15 @@ const FhcBrowseHistoryDialog = {
     } else {
       fuzzyage = this.dateHandler.getFuzzyAge(place.date, this.currentDate);
     }
-    box.getElementsByClassName("fuzzyage")[0].textContent = "(" + fuzzyage.trimLeft() + ")";
+    box.getElementsByClassName("fuzzyage")[0].setAttribute("value", "(" + fuzzyage.trimLeft() + ")");
+    box.getElementsByClassName("datetime")[0].setAttribute("value", this.dateHandler.toDateString(place.date));
 
-    box.getElementsByClassName("placehost")[0].textContent = place.host;
-    box.getElementsByClassName("placetitle")[0].textContent = place.title;
-    box.getElementsByClassName("placeurl")[0].textContent = place.url;
+    box.getElementsByClassName("value placehost")[0].setAttribute("value", place.host);
+    box.getElementsByClassName("value placetitle")[0].setAttribute("value", place.title);
+    box.getElementsByClassName("value placeurl")[0].setAttribute("value", place.url);
+    
+    box.className = "box " + type;
+    box.hidden = false;
     return box;
   }
 }
