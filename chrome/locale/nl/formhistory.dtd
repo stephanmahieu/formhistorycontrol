@@ -365,3 +365,13 @@
 <!ENTITY fhabout.label.homepage "Homepage bezoeken">
 <!ENTITY fhabout.label.contributors "Bijdragen">
 <!ENTITY fhabout.label.translators "Vertalers">
+
+<!ENTITY browsehistorywindow.report.gocurrent "Huidige">
+<!ENTITY browsehistorywindow.report.showurl "Toon URL">
+<!ENTITY browsehistorywindow.report.showtitle "Toon Titel">
+<!ENTITY browsehistorywindow.report.showhost "Toon Host">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Veldnaam">
+<!ENTITY browsehistorywindow.report.valuelabel "Waarde">
+<!ENTITY browsehistorywindow.report.titlelabel "Titel">
+<!ENTITY browsehistorywindow.report.hostlabel "Host">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

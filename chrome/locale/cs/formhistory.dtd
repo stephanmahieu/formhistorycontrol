@@ -299,3 +299,12 @@
 <!ENTITY fhabout.label.homepage "Navštívit domovskou stránku">
 <!ENTITY fhabout.label.contributors "Přispěvatelé">
 <!ENTITY fhabout.label.translators "Překladatelé">
+<!ENTITY browsehistorywindow.report.gocurrent "Aktuální">
+<!ENTITY browsehistorywindow.report.showurl "Ukázat URL">
+<!ENTITY browsehistorywindow.report.showtitle "Ukázat název">
+<!ENTITY browsehistorywindow.report.showhost "Ukázat server">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Název pole">
+<!ENTITY browsehistorywindow.report.valuelabel "Hodnota">
+<!ENTITY browsehistorywindow.report.titlelabel "Název">
+<!ENTITY browsehistorywindow.report.hostlabel "Server">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

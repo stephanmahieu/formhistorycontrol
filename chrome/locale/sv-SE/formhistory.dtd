@@ -299,3 +299,12 @@
 <!ENTITY fhabout.label.homepage "Besök webbplatsen">
 <!ENTITY fhabout.label.contributors "Medarbetare">
 <!ENTITY fhabout.label.translators "Översättare">
+<!ENTITY browsehistorywindow.report.gocurrent "Aktuell">
+<!ENTITY browsehistorywindow.report.showurl "Visa URL">
+<!ENTITY browsehistorywindow.report.showtitle "Visa rubrik">
+<!ENTITY browsehistorywindow.report.showhost "Visa värd">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "Fältnamn">
+<!ENTITY browsehistorywindow.report.valuelabel "Värde">
+<!ENTITY browsehistorywindow.report.titlelabel "Rubrik">
+<!ENTITY browsehistorywindow.report.hostlabel "Värd">
+<!ENTITY browsehistorywindow.report.urllabel "URL">

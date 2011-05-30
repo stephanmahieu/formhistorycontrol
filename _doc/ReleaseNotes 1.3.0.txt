@@ -10,6 +10,7 @@ User:
 Technical:
 - MaxVersion FF to ...
 - Minor bugfix: formhistorycontrols toolbarmenu or statusbarmenu can be null (fixes: "Error: tbMenu is null")
+- Converted BrowseHistory from HTML-XUL mix (iframe+places.html) into pure XUL
 
 ToDo:
 - Prevent formhistory for specific fields (not related to a domain)
