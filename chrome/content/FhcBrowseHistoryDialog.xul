@@ -20,23 +20,6 @@
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDateHandler.js"/>
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcUtil.js"/>
-  
-  <script type="text/javascript">
-    <![CDATA[
-    function toggleRows(checkbox, what) {
-      var elems = document.getElementsByClassName(what+'row');
-      for (var i=0; i<elems.length; i++) {
-        elems[i].hidden = !checkbox.checked;
-      }
-    }
-    function scrollIntoView(elementId) {
-      var element = document.getElementById(elementId);
-      var scrollbox = document.getElementById('content');
-      
-      scrollbox.ensureElementIsVisible(element);
-    }
-    ]]>
-  </script>
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="formhistory.stringbundle" src="chrome://formhistory/locale/formhistory.properties"/>
@@ -50,13 +33,19 @@
 
       <!-- navigation: does not work 
       <button label="&lt;&lt;" oncommand=""/>
-      <button label="&browsehistorywindow.report.gocurrent;" oncommand="scrollIntoView('current')"/>
+      <button label="&browsehistorywindow.report.gocurrent;" oncommand="FhcBrowseHistoryDialog.scrollIntoView('current')"/>
       <button label="&gt;&gt;" oncommand=""/>
       -->
       <spacer flex="1"/>
-      <button label="&browsehistorywindow.report.showtitle;" type="checkbox" checked="true" oncommand="toggleRows(this, 'title')"/>
-      <button label="&browsehistorywindow.report.showhost;" type="checkbox" checked="true" oncommand="toggleRows(this, 'host')"/>
-      <button label="&browsehistorywindow.report.showurl;" type="checkbox" checked="true" oncommand="toggleRows(this, 'url')"/>
+      <button id="titleButton" label="&browsehistorywindow.report.showtitle;"
+              type="checkbox" checked="true"
+              oncommand="FhcBrowseHistoryDialog.toggleRows(this, 'title')"/>
+      <button id="hostButton" label="&browsehistorywindow.report.showhost;"
+              type="checkbox" checked="true"
+              oncommand="FhcBrowseHistoryDialog.toggleRows(this, 'host')"/>
+      <button id="urlButton" label="&browsehistorywindow.report.showurl;"
+              type="checkbox"
+              oncommand="FhcBrowseHistoryDialog.toggleRows(this, 'url')"/>
     </hbox>
     
     <scrollbox id="content" flex="1" orient="vertical">
