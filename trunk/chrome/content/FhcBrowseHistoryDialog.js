@@ -68,11 +68,16 @@ const FhcBrowseHistoryDialog = {
     this.lastHistDate = dateUsed;
     this.firstHistDate = dateUsed;
 
+    // Adjust display according to initial state checkbox buttons
+    this.toggleRows(document.getElementById("titleButton"), "title");
+    this.toggleRows(document.getElementById("hostButton"), "host");
+    this.toggleRows(document.getElementById("urlButton"), "url");
+
     this.setFieldInfo(fieldName, fieldValue, dateUsed);
     this.getOlder();
     //this.getNewer();
 
-    //document.getElementById("newer").scrollIntoView(true);
+    //this._scrollIntoView("newer");
   },
 
   /**
@@ -83,6 +88,28 @@ const FhcBrowseHistoryDialog = {
     delete this.bundle;
     delete this.dbHandler;
     return true;
+  },
+  
+  /**
+   * Toggle display of title, host and url.
+   * 
+   * @param checkbox {Element}
+   * @param what {String} ['title'|'host'|'url']
+   */
+  toggleRows: function(checkbox, what) {
+    var elems = document.getElementsByClassName(what+'row');
+    for (var i=0; i<elems.length; i++) {
+      elems[i].hidden = !checkbox.hasAttribute("checked");
+    }
+  },
+  
+  /**
+   * DOES NOT WORK!
+   */
+  _scrollIntoView: function(elementId) {
+    var element = document.getElementById(elementId);
+    var scrollbox = document.getElementById('content');
+    scrollbox.ensureElementIsVisible(element);
   },
 
   /**
@@ -98,6 +125,7 @@ const FhcBrowseHistoryDialog = {
       }
       this.lastHistDate = places[places.length-1].date;
       //parent.lastChild.scrollIntoView(true);
+      
     }
   },
 
@@ -116,7 +144,7 @@ const FhcBrowseHistoryDialog = {
         );
       }
       this.firstHistDate = places[places.length-1].date;
-      //parent.firstChild.scrollIntoView(true);
+      //this._scrollIntoView("newer");
     }
   },
 
