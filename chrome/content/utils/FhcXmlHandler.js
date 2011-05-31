@@ -569,7 +569,11 @@ FhcXmlHandler.prototype = {
     var versionElem = doc.createElement("version");
     versionElem.textContent = extHandler.getVersion();
     var dateElem = doc.createElement("exportDate");
-    dateElem.textContent = this.dateHandler.getCurrentDateString();
+    if (this.useISOdateFormat) {
+      dateElem.textContent = this.dateHandler.getCurrentISOdateString();
+    } else {
+      dateElem.textContent = this.dateHandler.getCurrentDateString();
+    }
     
     headerElem.appendChild(appinfoElem);
     headerElem.appendChild(versionElem);

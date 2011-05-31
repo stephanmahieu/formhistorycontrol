@@ -186,6 +186,16 @@ FhcDateHandler.prototype = {
   },
   
   /**
+   * Get current date/time as ISO formatted string.
+   *
+   * @return {String}
+   *         the date/time ISO formatted.
+   */
+  getCurrentISOdateString: function() {
+    return this.toISOdateString(this.getCurrentDate());
+  },
+  
+  /**
    * Convert a date/time in microseconds to a full date/time string including
    * the fractional seconds.
    *
@@ -453,27 +463,27 @@ FhcDateHandler.prototype = {
         function($1) {
             var h;
             switch ($1) {
-              case 'yyyy': return aDate.getFullYear();
-              case 'yy':   return dh._padZero(aDate.getFullYear() % 100, 2);
-              case 'MMMM': return dh.monthNames[aDate.getMonth()];
-              case 'MMM':  return dh.monthNames[aDate.getMonth()].substr(0, 3);
-              case 'MM':   return dh._padZero(aDate.getMonth()+1, 2);
-              case 'M':    return aDate.getMonth()+1;
-              case 'dddd': return dh.dayNames[aDate.getDay()];
-              case 'ddd':  return dh.dayNames[aDate.getDay()].substr(0, 3);
-              case 'dd':   return dh._padZero(aDate.getDate(), 2);
-              case 'd':    return aDate.getDate();
-              case 'H':    return aDate.getHours();
-              case 'HH':   return dh._padZero(aDate.getHours(), 2);
-              case 'h':    return ((h = aDate.getHours() % 12) ? h : 12);
-              case 'hh':   return dh._padZero(((h = aDate.getHours() % 12) ? h : 12), 2);
-              case 'm':    return aDate.getMinutes();
-              case 'mm':   return dh._padZero(aDate.getMinutes(), 2);
-              case 's':    return aDate.getSeconds();
-              case 'ss':   return dh._padZero(aDate.getSeconds(), 2);
-              case 'SSS':  return dh._padZero(aDate.getMilliseconds(), 3);
-              case 'a':    return aDate.getHours() < 12 ? 'am' : 'pm';
-              case 'A':    return aDate.getHours() < 12 ? 'AM' : 'PM';
+              case 'yyyy':return aDate.getFullYear();
+              case 'yy':return dh._padZero(aDate.getFullYear() % 100, 2);
+              case 'MMMM':return dh.monthNames[aDate.getMonth()];
+              case 'MMM':return dh.monthNames[aDate.getMonth()].substr(0, 3);
+              case 'MM':return dh._padZero(aDate.getMonth()+1, 2);
+              case 'M':return aDate.getMonth()+1;
+              case 'dddd':return dh.dayNames[aDate.getDay()];
+              case 'ddd':return dh.dayNames[aDate.getDay()].substr(0, 3);
+              case 'dd':return dh._padZero(aDate.getDate(), 2);
+              case 'd':return aDate.getDate();
+              case 'H':return aDate.getHours();
+              case 'HH':return dh._padZero(aDate.getHours(), 2);
+              case 'h':return ((h = aDate.getHours() % 12) ? h : 12);
+              case 'hh':return dh._padZero(((h = aDate.getHours() % 12) ? h : 12), 2);
+              case 'm':return aDate.getMinutes();
+              case 'mm':return dh._padZero(aDate.getMinutes(), 2);
+              case 's':return aDate.getSeconds();
+              case 'ss':return dh._padZero(aDate.getSeconds(), 2);
+              case 'SSS':return dh._padZero(aDate.getMilliseconds(), 3);
+              case 'a':return aDate.getHours() < 12 ? 'am' : 'pm';
+              case 'A':return aDate.getHours() < 12 ? 'AM' : 'PM';
             }
         }
     );
