@@ -387,7 +387,6 @@ const MultilineWindowControl = {
    *        the preference DOM element that has changed
    */
   prefsChanged: function(domElem) {
-    //TODO multiline prefsChanged
     switch (domElem.id) {
       case "filterMlMatchCase":
         this.prefHandler.setSearchCaseSensitive(domElem.checked);
