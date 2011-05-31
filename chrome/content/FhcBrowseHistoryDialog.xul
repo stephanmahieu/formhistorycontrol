@@ -70,10 +70,12 @@
           </columns>
           <rows>
             <row>
-              <label id="fieldnamelabel" class="field" value="&browsehistorywindow.report.fieldnamelabel;"/><label id="fieldname" class="value"/>
+              <label id="fieldnamelabel" class="field" value="&browsehistorywindow.report.fieldnamelabel;"/>
+              <label id="fieldname" class="value"/>
             </row>
             <row>
-              <label id="valuelabel" class="field" value="&browsehistorywindow.report.valuelabel;"/><label id="fieldvalue" class="value"/>
+              <label id="valuelabel" class="field" value="&browsehistorywindow.report.valuelabel;"/>
+              <label id="fieldvalue" class="value"/>
             </row>
           </rows>
         </grid>
@@ -83,7 +85,10 @@
 
     <!-- hidden template -->
     <vbox id="placetemplate" hidden="true">
-      <hbox class="datarow"><label name="datetime" class="datetime" value="empty"/><label class="fuzzyage" value="empty"/></hbox>
+      <hbox>
+        <label name="datetime" class="datetime" value="empty"/>
+        <label class="fuzzyage" value="empty"/>
+      </hbox>
       <grid>
         <columns>
           <column/>
@@ -91,13 +96,16 @@
         </columns>
         <rows>
           <row class="titlerow">
-            <label id="titlelabel" class="place" value="&browsehistorywindow.report.titlelabel;"/><label class="value placetitle"/>
+            <label id="titlelabel" class="place" value="&browsehistorywindow.report.titlelabel;"/>
+            <label class="value placetitle"/>
           </row>
           <row class="hostrow">
-            <label id="hostlabel" class="place" value="&browsehistorywindow.report.hostlabel;"/><label class="value placehost"/>
+            <label id="hostlabel" class="place" value="&browsehistorywindow.report.hostlabel;"/>
+            <label class="value placehost"/>
           </row>
           <row class="urlrow">
-            <label id="urllabel" class="place" value="&browsehistorywindow.report.urllabel;"/><label class="value placeurl"/>
+            <label id="urllabel" class="place" value="&browsehistorywindow.report.urllabel;"/>
+            <label class="value placeurl"/>
           </row>
         </rows>
       </grid>
