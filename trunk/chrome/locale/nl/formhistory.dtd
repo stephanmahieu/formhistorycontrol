@@ -249,6 +249,39 @@
 
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 
+<!ENTITY fhprefs.prefpane.multiline.label "Editor velden">
+<!ENTITY fhprefs.multilineinfo.tooltip "Form History Control kan editor velden opslaan terwijl U tikt, zodat de tekst hersteld kan worden voor het geval er iets fout gaat">
+<!ENTITY fhprefs.checkbox.multilineenable "Activeer de automatische backup van editor velden en meerregelige tekst velden">
+<!ENTITY fhprefs.tab.multiline.configuration "Configuratie">
+<!ENTITY fhprefs.tab.multiline.exclusions "Uitzonderingen">
+<!ENTITY fhprefs.tab.multiline.privacy "Privacy">
+<!ENTITY fhprefs.group.multilineversion.caption "Versie controle">
+<!ENTITY fhprefs.group.multilinecleanup.caption "Opschonen">
+<!ENTITY fhprefs.group.multilineexceptions.caption "Excepties">
+<!ENTITY fhprefs.label.multilinesaveolder "Bewaar een nieuwe versie als de oude versie ouder is dan">
+<!ENTITY fhprefs.label.multilinesavelength "Bewaar een nieuwe versie als de lengte verandert met meer dan">
+<!ENTITY fhprefs.label.multilinecleanup "Verwijder versies automatisch indien ouder dan">
+<!ENTITY fhprefs.label.multilinelist.never "nooit">
+<!ENTITY fhprefs.multilinesavewarning.tooltip "Waarschuwing: het opslaan van veel versies zonder regelmatig op te schonen, kan leiden tot een grote groei in database omvang!">
+<!ENTITY fhprefs.label.multilinelist.minute "minuut">
+<!ENTITY fhprefs.label.multilinelist.minutes "minuten">
+<!ENTITY fhprefs.label.multilinelist.hour "uur">
+<!ENTITY fhprefs.label.multilinelist.hours "uur">
+<!ENTITY fhprefs.label.multilinelist.day "dag">
+<!ENTITY fhprefs.label.multilinelist.days "dagen">
+<!ENTITY fhprefs.label.multilinelist.week "week">
+<!ENTITY fhprefs.label.multilinelist.weeks "weken">
+<!ENTITY fhprefs.label.multilinelist.month "maand">
+<!ENTITY fhprefs.label.multilinelist.months "maanden">
+<!ENTITY fhprefs.label.multilinelist.characters "karakters">
+<!ENTITY fhprefs.radio.multilinenoexception "Geen uitzonderingen">
+<!ENTITY fhprefs.radio.multilinewhitelist "Actief uitsluitend voor de hosts in de lijst hieronder">
+<!ENTITY fhprefs.radio.multilineblacklist "Uitgeschakeld voor de hosts in de lijst hieronder">
+<!ENTITY fhprefs.label.multilinehostlist "Hosts">
+<!ENTITY fhprefs.textbox.multilinehostlist "Lijst van hosts gescheiden door komma's">
+<!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden zelfs wanneer in privé navigatie modus">
+<!ENTITY fhprefs.checkbox.multilinesaveencrypted "Versleutel de inhoud van editor velden in de database">
+
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Diversen">
 <!ENTITY fhprefs.group.preferences.caption "Voorkeuren">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Zoeken is hoofdletter gevoelig">

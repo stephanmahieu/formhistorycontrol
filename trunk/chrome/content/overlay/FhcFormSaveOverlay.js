@@ -48,6 +48,7 @@ const FhcFormSaveOverlay = {
   eventQueue:       [],
   dbHandler:        null,
   observerService:  null,
+  prefListener:     null,
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
@@ -78,9 +79,12 @@ const FhcFormSaveOverlay = {
     this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
                            .createInstance(Components.interfaces.nsITimer);
     this.maintenanceTimer.init(maintenanceEvent, 10*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+    
+    this._registerPrefListener();
   },
 
   destroy: function() {
+    this._unregisterPrefListener();
     this.eventQueue = [];
     if (this.maintenanceTimer != null) this.maintenanceTimer.cancel();
     if (this.timer != null) this.timer.cancel();
@@ -270,7 +274,70 @@ const FhcFormSaveOverlay = {
   doMaintenance: function() {
     //TODO multiline cleanup old history
     //dump("doMaintenance event...\n")
+  },
+  
+  // Register a preference listener to act upon multiline pref changes
+  _registerPrefListener: function() {
+    var thisHwc = this;
+    this.prefListener = new Prefs.PrefListener(
+      function(branch, name) {
+        switch (name) {
+          case "backupenabled":
+               break;
+          case "saveolder":
+               break;
+          case "savelength":
+               break;
+          case "deleteolder":
+               break;
+          case "exception":
+          case "exceptionlist":
+               break;
+          case "savealways":
+               break;
+          case "saveencrypted":
+               break;
+        }
+      });
+    this.prefListener.register();
+  },
+ 
+  // Unregister the preference listener
+  _unregisterPrefListener: function() {
+    if (this.prefListener) {
+      this.prefListener.unregister();
+      this.prefListener = null;
+    }
   }
+};
+
+const Prefs = {
+  /**
+   * Method for registering an observer which gets called when any of the
+   * formhistory multiline preferences change.
+   *
+   * @param func {Function} the observer to call when preferences change
+   */
+  PrefListener: function(func) {
+    var prefService = Components.classes["@mozilla.org/preferences-service;1"]
+                        .getService(Components.interfaces.nsIPrefService);
+    var branch = prefService.getBranch("extensions.formhistory.multiline.");
+    branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+
+    this.register = function() {
+      branch.addObserver("", this, false);
+    };
+
+    this.unregister = function unregister() {
+      if (branch)
+        branch.removeObserver("", this);
+    };
+
+    this.observe = function(subject, topic, data) {
+      if ("nsPref:changed" == topic)
+        func(branch, data);
+    };
+  }  
 };
 
 addEventListener("load",

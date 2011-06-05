@@ -74,7 +74,8 @@ const FhcPreferences = {
 
     this.fillInformationPanel();
     this.adjustQuickFillPreview();
-    this.toggleCustomDateFormatList();
+    this.toggleCustomDateFormatList();1
+    this.initMultilinePanel();
     this.initCleanupPanel();
     this.fillKeyBindings();
     this.treeskinRadioInit();
@@ -262,6 +263,21 @@ const FhcPreferences = {
       // when preferences is shown but the extension itself has never been opened yet,
       // the cleanupFile does not exist yet causing an exception reading the  fileSize .
     }
+  },
+
+  initMultilinePanel: function() {
+    var isEnabled = document.getElementById("multilineenable").checked;
+    
+    document.getElementById("newVersionAfterTime").disabled = !isEnabled;
+    document.getElementById("newVersionAfterLength").disabled = !isEnabled;
+    document.getElementById("deleteAfter").disabled = !isEnabled;
+    document.getElementById("multilineradioexceptions").disabled = !isEnabled;
+    
+    var isExceptionListActive = !document.getElementById("multilinenoexception").selected;
+    document.getElementById("multilineexceptionlist").disabled = !(isEnabled && isExceptionListActive);
+    
+    document.getElementById("multilineprivacysavealways").disabled = !isEnabled;
+    document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;    
   },
 
   /**

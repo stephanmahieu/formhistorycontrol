@@ -272,6 +272,32 @@ FhcPreferenceHandler.prototype = {
     }
   },
 
+  isMultilineBackupEnabled: function() {
+    return this.prefService.getBoolPref("multiline.backupenabled");
+  },
+  getMultilineSaveNewIfOlder: function() {
+    return this.prefService.getCharPref("multiline.saveolder");
+  },
+  getMultilineSaveNewIfLength: function() {
+    return this.prefService.getCharPref("multiline.savelength");
+  },
+  getMultilineDeleteIfOlder: function() {
+    return this.prefService.getCharPref("multiline.deleteolder");
+  },
+  getMultilineException: function() {
+    return this.prefService.getCharPref("multiline.exception");
+  },
+  getMultilineExceptionList: function() {
+    return this.prefService.getCharPref("multiline.exceptionlist");
+  },
+  isMultilineSaveAlways: function() {
+    return this.prefService.getBoolPref("multiline.savealways");
+  },
+  isMultilineSaveEncrypted: function() {
+    return this.prefService.getBoolPref("multiline.saveencrypted");
+  },
+  
+
   //----------------------------------------------------------------------------
   // Global preferences (FireFox's options)
   //----------------------------------------------------------------------------
