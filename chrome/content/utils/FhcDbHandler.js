@@ -1526,12 +1526,27 @@ FhcDbHandler.prototype = {
     
     try {
       // check if item exist
-      var count = this._countMultilineItem(mDBConn, item);
+      var existingItem = this._findMatchingItem(mDBConn, item);
+      var doUpdate = false;
+      if (existingItem != null) {
+        
+        dump("\nFound matching item...\n");
+        dump("- content diff   =" + Math.abs(item.content.length - existingItem.content.length) + "\n");
+        dump("- lastsaved diff =" + (item.lastsaved - existingItem.lastsaved)/(1000*1000) + " sec \n");
+        
+        // IF only a small change in content-length AND lastupdate was recent
+        // THEN update the existing version
+        // ELSE create a new version
+        if ((Math.abs(item.content.length - existingItem.content.length) < 50) 
+             && ((item.lastsaved - existingItem.lastsaved) < (1000 * 1000 * 60 * 10))) {
+          doUpdate = true;
+        }
+      }
       
-      if (count == 0) {
-        this._addMultilineItem(mDBConn, item);
+      if (doUpdate) {
+        this._updateMultilineItem(mDBConn, existingItem, item.content, item.lastsaved);
       } else {
-        this._updateMultilineItem(mDBConn, item);
+        this._addMultilineItem(mDBConn, item);
       }
     } finally {
       this._closeDbConnection(mDBConn, true);
@@ -1539,8 +1554,47 @@ FhcDbHandler.prototype = {
   },
 
 
+//  /**
+//   * Count the number of specific multiline items.
+//   * 
+//   * @param  mDBConnection {mozIStorageConnection}
+//   *         the database connection
+//   *
+//   * @param  item {Object}
+//   *         the multiline objects find
+//   * 
+//   * @return {Boolean}
+//   *         whether or not adding succeeded
+//   */
+//  _countMultilineItem: function(mDBConnection, item) {
+//    var count = 0, statement;
+//    try {
+//      statement = mDBConnection.createStatement(
+//          "SELECT count(*)" +
+//          "  FROM multiline" +
+//          " WHERE url    = :url" +
+//          "   AND type   = :type" +
+//          "   AND id     = :id" +
+//          "   AND name   = :name" +
+//          "   AND formid = :formid");
+//      statement.params.url    = item.url;
+//      statement.params.type   = item.type;
+//      statement.params.id     = item.id;
+//      statement.params.name   = item.name;
+//      statement.params.formid = item.formid;
+//      if (statement.executeStep()) {
+//        count = statement.getInt64(0);
+//      }
+//    } catch(ex) {
+//      dump('_countMultilineItem:Exception: ' + ex);
+//    } finally {
+//      this._closeStatement(statement);
+//      return count;
+//    }
+//  },
+
   /**
-   * Count the number of specific multiline items.
+   * Find the last saved item matching the items field properties.
    * 
    * @param  mDBConnection {mozIStorageConnection}
    *         the database connection
@@ -1548,33 +1602,47 @@ FhcDbHandler.prototype = {
    * @param  item {Object}
    *         the multiline objects find
    * 
-   * @return {Boolean}
-   *         whether or not adding succeeded
+   * @return {Object}
+   *         item if found, null otherwise
    */
-  _countMultilineItem: function(mDBConnection, item) {
-    var count = 0, statement;
+  _findMatchingItem:function(mDBConnection, item) {
+    var statement, itemFound = null;
     try {
       statement = mDBConnection.createStatement(
-          "SELECT count(*)" +
+          "SELECT id, name, type, formid," +
+          "       content, host, url," +
+          "       firstsaved, lastsaved" +
           "  FROM multiline" +
           " WHERE url    = :url" +
           "   AND type   = :type" +
           "   AND id     = :id" +
           "   AND name   = :name" +
-          "   AND formid = :formid");
+          "   AND formid = :formid" +
+          " ORDER BY lastsaved DESC" +
+          " LIMIT 1");
       statement.params.url    = item.url;
       statement.params.type   = item.type;
       statement.params.id     = item.id;
       statement.params.name   = item.name;
       statement.params.formid = item.formid;
       if (statement.executeStep()) {
-        count = statement.getInt64(0);
+        itemFound = {
+          id:         statement.row.id,
+          name:       statement.row.name,
+          type:       statement.row.type,
+          formid:     statement.row.formid,
+          content:    statement.row.content,
+          host:       statement.row.host,
+          url:        statement.row.url,
+          firstsaved: statement.row.firstsaved,
+          lastsaved:  statement.row.lastsaved
+        }
       }
     } catch(ex) {
-      dump('_countMultilineItem:Exception: ' + ex);
+      dump('_findMatchingItem:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
-      return count;
+      return itemFound;
     }
   },
 
@@ -1625,28 +1693,38 @@ FhcDbHandler.prototype = {
    * @param  item {Object}
    *         the multiline object to update
    * 
+   * @param  newContent {String}
+   *         the updated text content
+   * 
+   * @param  newLastSaved {uSeconds}
+   *         the updated lastsaved date in microseconds
+   * 
    * @return {Boolean}
    *         whether or not adding succeeded
    */
-  _updateMultilineItem: function(mDBConnection, item) {
+  _updateMultilineItem: function(mDBConnection, item, newContent, newLastSaved) {
     var result = false, statement;
     try {
       statement = mDBConnection.createStatement(
         "UPDATE multiline" +
-        "   SET content    = :content," +
-        "       lastsaved  = :lastsaved" +
-        " WHERE url    = :url" +
-        "   AND type   = :type" +
-        "   AND id     = :id" +
-        "   AND name   = :name" +
-        "   AND formid = :formid");
-      statement.params.content   = item.content;
-      statement.params.lastsaved = item.lastsaved;
-      statement.params.url       = item.url;
-      statement.params.type      = item.type;
-      statement.params.id        = item.id;
-      statement.params.name      = item.name;
-      statement.params.formid    = item.formid;
+        "   SET content    = :newcontent," +
+        "       lastsaved  = :newlastsaved" +
+        " WHERE url        = :url" +
+        "   AND type       = :type" +
+        "   AND id         = :id" +
+        "   AND name       = :name" +
+        "   AND formid     = :formid" +
+        "   AND firstsaved = :firstsaved" +
+        "   AND lastsaved  = :lastsaved");
+      statement.params.newcontent   = newContent;
+      statement.params.newlastsaved = newLastSaved;
+      statement.params.url          = item.url;
+      statement.params.type         = item.type;
+      statement.params.id           = item.id;
+      statement.params.name         = item.name;
+      statement.params.formid       = item.formid;
+      statement.params.firstsaved   = item.firstsaved;
+      statement.params.lastsaved    = item.lastsaved;
       result = this._executeStatement(statement);
     } catch(ex) {
       dump('_updateMultilineItem:Exception: ' + ex);
@@ -1673,17 +1751,21 @@ FhcDbHandler.prototype = {
       statement = mDBConn.createStatement(
         "DELETE" +
         "  FROM multiline" +
-        " WHERE url    = :url" +
-        "   AND type   = :type" +
-        "   AND id     = :id" +
-        "   AND name   = :name" +
-        "   AND formid = :formid");
+        " WHERE url        = :url" +
+        "   AND type       = :type" +
+        "   AND id         = :id" +
+        "   AND name       = :name" +
+        "   AND formid     = :formid" +
+        "   AND firstsaved = :firstsaved" +
+        "   AND lastsaved  = :lastsaved");
       for (var it=0; it < items.length; it++) {
-        statement.params.url    = items[it].url;
-        statement.params.type   = items[it].type;
-        statement.params.id     = items[it].id;
-        statement.params.name   = items[it].name;
-        statement.params.formid = items[it].formid;
+        statement.params.url        = items[it].url;
+        statement.params.type       = items[it].type;
+        statement.params.id         = items[it].id;
+        statement.params.name       = items[it].name;
+        statement.params.formid     = items[it].formid;
+        statement.params.firstsaved = items[it].firstsaved;
+        statement.params.lastsaved  = items[it].lastsaved;
         result = this._executeReusableStatement(statement);
         if (!result) break;
       }

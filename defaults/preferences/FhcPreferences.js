@@ -43,3 +43,12 @@ pref("extensions.formhistory.keybinding.shortcutSaveThisPage", "");
 pref("extensions.formhistory.manageFormhistoryByFHC", false);
 pref("extensions.formhistory.backgroundTree", "auto");
 pref("extensions.formhistory.customTreeSkin", "CustomDefault");
+pref("extensions.formhistory.multiline.backupenabled", true);
+pref("extensions.formhistory.multiline.saveolder", "10");
+pref("extensions.formhistory.multiline.savelength", "100");
+pref("extensions.formhistory.multiline.deleteolder", "10080");
+pref("extensions.formhistory.multiline.exception", "none");
+pref("extensions.formhistory.multiline.exceptionlist", "");
+pref("extensions.formhistory.multiline.savealways", false);
+pref("extensions.formhistory.multiline.saveencrypted", false);
+

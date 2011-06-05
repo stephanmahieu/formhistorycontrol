@@ -249,6 +249,39 @@
 
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 
+<!ENTITY fhprefs.prefpane.multiline.label "Editor fields">
+<!ENTITY fhprefs.multilineinfo.tooltip "Form History Control can securely save editor fields as you type, allowing for safe recovery if anything goes wrong">
+<!ENTITY fhprefs.checkbox.multilineenable "Enable automatic backup of editor fields and multiline text fields">
+<!ENTITY fhprefs.tab.multiline.configuration "Configuration">
+<!ENTITY fhprefs.tab.multiline.exclusions "Exclusions">
+<!ENTITY fhprefs.tab.multiline.privacy "Privacy">
+<!ENTITY fhprefs.group.multilineversion.caption "Version control">
+<!ENTITY fhprefs.group.multilinecleanup.caption "Cleanup">
+<!ENTITY fhprefs.group.multilineexceptions.caption "Exceptions">
+<!ENTITY fhprefs.label.multilinesaveolder "Save a new version if last saved version is older than">
+<!ENTITY fhprefs.label.multilinesavelength "Save a new version if content length changes more than">
+<!ENTITY fhprefs.label.multilinecleanup "Delete versions automatically if older than">
+<!ENTITY fhprefs.multilinesavewarning.tooltip "Warning: saving many versions without cleaning up regularly, can lead to a large growth in database size!">
+<!ENTITY fhprefs.label.multilinelist.never "never">
+<!ENTITY fhprefs.label.multilinelist.minute "minute">
+<!ENTITY fhprefs.label.multilinelist.minutes "minutes">
+<!ENTITY fhprefs.label.multilinelist.hour "hour">
+<!ENTITY fhprefs.label.multilinelist.hours "hours">
+<!ENTITY fhprefs.label.multilinelist.day "day">
+<!ENTITY fhprefs.label.multilinelist.days "days">
+<!ENTITY fhprefs.label.multilinelist.week "week">
+<!ENTITY fhprefs.label.multilinelist.weeks "weeks">
+<!ENTITY fhprefs.label.multilinelist.month "month">
+<!ENTITY fhprefs.label.multilinelist.months "months">
+<!ENTITY fhprefs.label.multilinelist.characters "characters">
+<!ENTITY fhprefs.radio.multilinenoexception "No exceptions">
+<!ENTITY fhprefs.radio.multilinewhitelist "Enabled only for hosts listed below">
+<!ENTITY fhprefs.radio.multilineblacklist "Disabled for hosts listed below">
+<!ENTITY fhprefs.label.multilinehostlist "Hosts">
+<!ENTITY fhprefs.textbox.multilinehostlist "Comma separated lists of hosts">
+<!ENTITY fhprefs.checkbox.multilinesavealways "Save a backup of editor fields while typing even when in Private Browsing mode">
+<!ENTITY fhprefs.checkbox.multilinesaveencrypted "Encrypt the contents of editor fields in the database">
+
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Miscellaneous">
 <!ENTITY fhprefs.group.preferences.caption "Preferences">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Searching is case sensitive">
