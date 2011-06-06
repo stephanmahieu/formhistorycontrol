@@ -42,7 +42,7 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="multiline" label="Editor fields" persist="checked"/>
+          <checkbox id="multiline" label="Editor history" persist="checked"/>
           <label id="multilineItems" value="" style="text-align: right"/>
           <label value="items"/>
         </row>
@@ -54,14 +54,14 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="cleanup" label="Cleanup configuration" persist="checked"/>
-          <label id="cleanupItems" value="" style="text-align: right"/>
+          <checkbox id="keys" label="Keyboard shortcuts" persist="checked"/>
+          <label id="keysItems" value="" style="text-align: right"/>
           <label value="items"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="keys" label="Keyboard shortcuts" persist="checked"/>
-          <label id="keysItems" value="" style="text-align: right"/>
+          <checkbox id="cleanup" label="Cleanup configuration" persist="checked"/>
+          <label id="cleanupItems" value="" style="text-align: right"/>
           <label value="items"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>

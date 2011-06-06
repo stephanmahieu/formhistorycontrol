@@ -73,7 +73,7 @@ const FhcExportDialog = {
     document.getElementById("selectedmulti").disabled = !cbMultiEnabled || !this.haveSelectedMulti;
     document.getElementById("searchmulti").disabled = !cbMultiEnabled || !this.haveFilteredMulti;
 
-    var cbRegexpEnabled = (true == document.getElementById("regexp").checked);
+    //var cbRegexpEnabled = (true == document.getElementById("regexp").checked);
     //document.getElementById("regexpRadiogroup").disabled = !cbRegexpEnabled;
 
     if (this._isValidSelection()) {

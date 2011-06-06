@@ -43,7 +43,7 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
-          <checkbox id="multiline" label="Editor fields" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
+          <checkbox id="multiline" label="Editor history" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
           <radiogroup id="multilineRadiogroup" orient="horizontal" disabled="true">
             <radio id="allmulti" label="All" selected="true"/>
             <radio id="selectedmulti" label="Selected"/>
@@ -61,11 +61,11 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
-          <checkbox id="cleanup" label="Cleanup configuration" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
+          <checkbox id="keys" label="Keyboard shortcuts" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
-          <checkbox id="keys" label="Keyboard shortcuts" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
+          <checkbox id="cleanup" label="Cleanup configuration" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
       </rows>

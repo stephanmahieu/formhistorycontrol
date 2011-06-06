@@ -39,7 +39,7 @@
 /**
  * Methods for saving data in textarea's.
  * 
- * Dependencies: FhcDbHandler.js
+ * Dependencies: FhcDbHandler.js, FhcPreferenceHandler.js
  */
 
 const FhcFormSaveOverlay = {
@@ -47,11 +47,25 @@ const FhcFormSaveOverlay = {
   maintenanceTimer: null,
   eventQueue:       [],
   dbHandler:        null,
+  prefHandler:      null,
   observerService:  null,
   prefListener:     null,
+  
+  //preferences
+  backupEnabled: true,
+  saveNewIfOlder: 0,
+  saveNewIfLength: 0,
+  deleteIfOlder: 0,
+  exceptionType: "",
+  exceptionList: "",
+  saveAlways: false,
+  saveEncrypted: false,
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
+    this.prefHandler = new FhcPreferenceHandler();
+    
+    this._initPreferences();
     
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                           .getService(Components.interfaces.nsIObserverService);
@@ -70,7 +84,7 @@ const FhcFormSaveOverlay = {
                   .createInstance(Components.interfaces.nsITimer);
     this.timer.init(timerEvent, 5*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
     
-    // dispatch maintenance event every 10 minutes
+    // dispatch maintenance event every minute
     var maintenanceEvent = {
       observe: function(subject, topic, data) {
         FhcFormSaveOverlay.doMaintenance();
@@ -78,7 +92,7 @@ const FhcFormSaveOverlay = {
     }
     this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
                            .createInstance(Components.interfaces.nsITimer);
-    this.maintenanceTimer.init(maintenanceEvent, 10*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+    this.maintenanceTimer.init(maintenanceEvent, 1*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
     
     this._registerPrefListener();
   },
@@ -92,14 +106,18 @@ const FhcFormSaveOverlay = {
   },
 
   submit: function(event) {
+    if (!this._doSave()) return;
     //dump("FhcFormSaveOverlay::Form submit?\n");
   },
 
   reset: function(event) {
+    if (!this._doSave()) return;
     //dump("FhcFormSaveOverlay::Form reset?\n");
   },
 
   keyup: function(event) {
+    if (!this._doSave()) return;
+    
     // only handle displayable chars
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
 
@@ -145,7 +163,7 @@ const FhcFormSaveOverlay = {
         break;
     }
 
-    // add tot queue (if not already queued)
+    // add to queue (if not already queued)
     this._queueEvent(name, type, id, formid, uri, node);
   },
 
@@ -223,7 +241,7 @@ const FhcFormSaveOverlay = {
     event.lastsaved = now;
     event.content = this._getContent(event);
     
-    this.dbHandler.saveOrUpdateMultilineItem(event);
+    this.dbHandler.saveOrUpdateMultilineItem(event, this.saveNewIfOlder, this.saveNewIfLength);
     //dump("- Saving for uri: " + event.url + "\n");
     //dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
     //dump(">>> content\n" + event.content + "\n<<< content\n");
@@ -273,7 +291,58 @@ const FhcFormSaveOverlay = {
   
   doMaintenance: function() {
     //TODO multiline cleanup old history
-    //dump("doMaintenance event...\n")
+    dump("doMaintenance event...\n")
+    
+    var d = new Date();
+    var now = d.getTime() * 1000;
+    var treshold = now + (this.deleteIfOlder * 60 * 1000 * 1000);
+    
+    if (0 != this.deleteIfOlder) {
+      if (this.dbHandler.deleteMultilineItemsOlder(treshold)) {
+        // notify observers
+        this.observerService.notifyObservers(null, "multiline-store-changed", "");
+      }
+    }
+  },
+  
+  /**
+   * return false when backup is disabled OR in private browsing mode and
+   * saving not overridden.
+   */
+  _doSave: function() {
+    if (!this.backupEnabled) return false;
+    if (!this.saveAlways && this._inPrivateBrowsingMode()) return false;
+    return true;
+  },
+  
+  /**
+   * Detect whether or not the browser is in private-browsing mode.
+   *
+   * @return {boolean} whether or not in private-browsing mode.
+   */
+  _inPrivateBrowsingMode: function() {
+    var isPrivate = false;
+    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
+      try {
+        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
+                    .getService(Components.interfaces.nsIPrivateBrowsingService);
+        isPrivate = pbs.privateBrowsingEnabled;
+      } catch(e) {
+        // Seamonkey
+      }
+    }
+    return isPrivate;
+  },
+
+  _initPreferences: function() {
+    this.backupEnabled   = this.prefHandler.isMultilineBackupEnabled();
+    this.saveNewIfOlder  = this.prefHandler.getMultilineSaveNewIfOlder();
+    this.saveNewIfLength = this.prefHandler.getMultilineSaveNewIfLength();
+    this.deleteIfOlder   = this.prefHandler.getMultilineDeleteIfOlder();
+    this.exceptionType   = this.prefHandler.getMultilineException();
+    this.exceptionList   = this.prefHandler.getMultilineExceptionList();
+    this.saveAlways      = this.prefHandler.isMultilineSaveAlways();
+    this.saveEncrypted   = this.prefHandler.isMultilineSaveEncrypted();
   },
   
   // Register a preference listener to act upon multiline pref changes
@@ -283,19 +352,27 @@ const FhcFormSaveOverlay = {
       function(branch, name) {
         switch (name) {
           case "backupenabled":
+               thisHwc.backupEnabled = thisHwc.prefHandler.isMultilineBackupEnabled();
                break;
           case "saveolder":
+               thisHwc.saveNewIfOlder = thisHwc.prefHandler.getMultilineSaveNewIfOlder();
                break;
           case "savelength":
+               thisHwc.saveNewIfLength = thisHwc.prefHandler.getMultilineSaveNewIfLength();
                break;
           case "deleteolder":
+               thisHwc.deleteIfOlder = thisHwc.prefHandler.getMultilineDeleteIfOlder();
                break;
           case "exception":
           case "exceptionlist":
+               thisHwc.exceptionType = thisHwc.prefHandler.getMultilineException();
+               thisHwc.exceptionList = thisHwc.prefHandler.getMultilineExceptionList();
                break;
           case "savealways":
+               thisHwc.saveAlways = thisHwc.prefHandler.isMultilineSaveAlways();
                break;
           case "saveencrypted":
+               thisHwc.saveEncrypted = thisHwc.prefHandler.isMultilineSaveEncrypted();
                break;
         }
       });

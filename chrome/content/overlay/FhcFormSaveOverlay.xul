@@ -6,6 +6,7 @@
 <overlay id="FhcFormSaveOverlayOverlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="application/x-javascript" src="chrome://formhistory/content/overlay/FhcFormSaveOverlay.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDbHandler.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcPreferenceHandler.js" />
 
   <stringbundleset id="stringbundleset">
     <stringbundle id="formhistory.stringbundle"

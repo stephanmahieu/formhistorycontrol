@@ -272,29 +272,61 @@ FhcPreferenceHandler.prototype = {
     }
   },
 
+  /* Multiline configuration */
   isMultilineBackupEnabled: function() {
     return this.prefService.getBoolPref("multiline.backupenabled");
   },
+  setMultilineBackupEnabled: function (newBoolPref) {
+    return this.prefService.setBoolPref("multiline.backupenabled", newBoolPref);
+  },
+  
   getMultilineSaveNewIfOlder: function() {
     return this.prefService.getCharPref("multiline.saveolder");
   },
+  setMultilineSaveNewIfOlder: function(newCharPref) {
+     this.prefService.setCharPref("multiline.saveolder", newCharPref);
+  },
+  
   getMultilineSaveNewIfLength: function() {
     return this.prefService.getCharPref("multiline.savelength");
   },
+  setMultilineSaveNewIfLength: function(newCharPref) {
+     this.prefService.setCharPref("multiline.savelength", newCharPref);
+  },
+  
   getMultilineDeleteIfOlder: function() {
     return this.prefService.getCharPref("multiline.deleteolder");
   },
+  setMultilineDeleteIfOlder: function(newCharPref) {
+     this.prefService.setCharPref("multiline.deleteolder", newCharPref);
+  },
+  
   getMultilineException: function() {
     return this.prefService.getCharPref("multiline.exception");
   },
+  setMultilineException: function(newCharPref) {
+     this.prefService.setCharPref("multiline.exception", newCharPref);
+  },
+  
   getMultilineExceptionList: function() {
     return this.prefService.getCharPref("multiline.exceptionlist");
   },
+  setMultilineExceptionList: function(newCharPref) {
+     this.prefService.setCharPref("multiline.exceptionlist", newCharPref);
+  },
+    
   isMultilineSaveAlways: function() {
     return this.prefService.getBoolPref("multiline.savealways");
   },
+  setMultilineSaveAlways: function (newBoolPref) {
+    return this.prefService.setBoolPref("multiline.savealways", newBoolPref);
+  },
+  
   isMultilineSaveEncrypted: function() {
     return this.prefService.getBoolPref("multiline.saveencrypted");
+  },
+  setMultilineSaveEncrypted: function (newBoolPref) {
+    return this.prefService.setBoolPref("multiline.saveencrypted", newBoolPref);
   },
   
 
