@@ -432,7 +432,7 @@
         </tabpanel>
         <tabpanel style="margin-top: 4px">
           <!-- Keyboard shortcuts -->
-          <vbox flex="1" style="overflow: auto; height: 250px">
+          <vbox flex="1" style="overflow: auto; height: 275px">
             <spacer height="6"/>
             <hbox>
               <vbox style="margin-left: 0px">
@@ -814,7 +814,7 @@
                   tooltiptext="&fhprefs.checkbox.values.tooltip;"/>
       </hbox>
       <tree id="regexpTree" alternatingbackground="true"
-            flex="1" style="width:50em;height:18em;"
+            flex="1" style="width:50em;height:19em;"
             class="cleanuptree" editable="true"
             hidecolumnpicker="false" enableColumnDrag="true"
             onselect="FhcRegexpView.treeSelect(event);"
@@ -901,7 +901,7 @@
         <tab label="&fhprefs.group.information.fhdatabase.caption;"/>
         <tab label="&fhprefs.group.information.cudatabase.caption;"/>
       </tabs>
-      <tabpanels style="height: 269px; margin-bottom: 0">
+      <tabpanels style="height: 294px; margin-bottom: 0">
         <tabpanel>
           <vbox flex="1">
             <spacer height="5"/>

@@ -279,7 +279,7 @@ const FhcFormSaveOverlay = {
   // Register a preference listener to act upon multiline pref changes
   _registerPrefListener: function() {
     var thisHwc = this;
-    this.prefListener = new Prefs.PrefListener(
+    this.prefListener = new this.PrefListener(
       function(branch, name) {
         switch (name) {
           case "backupenabled":
@@ -308,10 +308,8 @@ const FhcFormSaveOverlay = {
       this.prefListener.unregister();
       this.prefListener = null;
     }
-  }
-};
-
-const Prefs = {
+  },
+  
   /**
    * Method for registering an observer which gets called when any of the
    * formhistory multiline preferences change.
