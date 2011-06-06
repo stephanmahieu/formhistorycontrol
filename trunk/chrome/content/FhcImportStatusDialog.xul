@@ -46,7 +46,7 @@
           <label id="error-history" value="-" style="text-align: right"/>
         </row>
         <row align="baseline">
-          <label value="Editor fields" persist="checked"/>
+          <label value="Editor history" persist="checked"/>
           <label id="total-multiline" value="-" style="text-align: right"/>
           <label id="import-multiline" value="-" style="text-align: right"/>
           <label id="skipped-multiline" value="-" style="text-align: right"/>
@@ -60,18 +60,18 @@
           <label id="error-regexp" value="-" style="text-align: right"/>
         </row>
         <row align="baseline">
-          <label value="Cleanup configuration" persist="checked"/>
-          <label id="total-cleanup" value="-" style="text-align: right"/>
-          <label id="import-cleanup" value="-" style="text-align: right"/>
-          <label id="skipped-cleanup" value="-" style="text-align: right"/>
-          <label id="error-cleanup" value="-" style="text-align: right"/>
-        </row>
-        <row align="baseline">
           <label value="Keyboard shortcuts" persist="checked"/>
           <label id="total-keys" value="-" style="text-align: right"/>
           <label id="import-keys" value="-" style="text-align: right"/>
           <label id="skipped-keys" value="-" style="text-align: right"/>
           <label id="error-keys" value="-" style="text-align: right"/>
+        </row>
+        <row align="baseline">
+          <label value="Cleanup configuration" persist="checked"/>
+          <label id="total-cleanup" value="-" style="text-align: right"/>
+          <label id="import-cleanup" value="-" style="text-align: right"/>
+          <label id="skipped-cleanup" value="-" style="text-align: right"/>
+          <label id="error-cleanup" value="-" style="text-align: right"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
       </rows>

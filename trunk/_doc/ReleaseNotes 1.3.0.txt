@@ -14,3 +14,4 @@ Technical:
 
 ToDo:
 - Prevent formhistory for specific fields (not related to a domain)
+- When importing from xml, import preferences only after okay (and maybe add a checkbox in the import/export dialog)

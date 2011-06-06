@@ -1519,8 +1519,16 @@ FhcDbHandler.prototype = {
    * 
    * @param  item {Object}
    *         the multiline objects save or update
+   * 
+   * @param  saveNewIfOlder {Integer}
+   *         maximum time in minutes after which a new version is created
+   *         instead of updating a previous saved version
+   * 
+   * @param  saveNewIfLength {Integer}
+   *         maximum number of change in content-length after which a new
+   *         version is created instead of updating a previous saved version
    */
-  saveOrUpdateMultilineItem: function(item) {
+  saveOrUpdateMultilineItem: function(item, saveNewIfOlder, saveNewIfLength) {
     //TODO multiline saveOrUpdate: insert new item after some timeperiod or if field was submitted
     var mDBConn = this._getDbCleanupConnection();
     
@@ -1537,8 +1545,8 @@ FhcDbHandler.prototype = {
         // IF only a small change in content-length AND lastupdate was recent
         // THEN update the existing version
         // ELSE create a new version
-        if ((Math.abs(item.content.length - existingItem.content.length) < 50) 
-             && ((item.lastsaved - existingItem.lastsaved) < (1000 * 1000 * 60 * 10))) {
+        if ((Math.abs(item.content.length - existingItem.content.length) < saveNewIfLength) 
+             && ((item.lastsaved - existingItem.lastsaved) < (saveNewIfOlder * 60 * 1000 * 1000))) {
           doUpdate = true;
         }
       }
@@ -1885,7 +1893,33 @@ FhcDbHandler.prototype = {
     }
     return result;
   },
+  
+  /**
+   * Delete all multiline items with lastsaved older than the number
+   * of provided minutes.
+   * 
+   * @param deleteIfOlder {Integer}
+   *        the lastsaved treshold in uSeconds, anything older will be deleted
+   *
+   * @return {Boolean}
+   *         whether or not deleting succeeded
+   */
+  deleteMultilineItemsOlder: function(deleteIfOlder) {
+    var mDBConn = this._getDbCleanupConnection(true);
 
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "DELETE" +
+        "  FROM multiline" +
+        " WHERE lastsaved > :lastsaved");
+      statement.params.lastsaved = deleteIfOlder;
+      result = this._executeStatement(statement);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
 
   //----------------------------------------------------------------------------
   // Customsave methods

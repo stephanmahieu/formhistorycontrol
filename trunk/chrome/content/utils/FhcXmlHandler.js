@@ -100,6 +100,12 @@ FhcXmlHandler.prototype = {
         editorfieldElem = this._createEditorfieldElement(doc, multilines[nn]);
         editorfieldsElem.appendChild(editorfieldElem);
       }
+      
+      // multiline configuration
+      var multilinecfgElem = doc.createElement("editorFields-configuration");
+      rootElem.appendChild(multilinecfgElem);
+      
+      this._appendMultilineConfig(doc, multilinecfgElem, prefHandler);
     }
     
     // add regular expressions
@@ -207,6 +213,24 @@ FhcXmlHandler.prototype = {
             });
           }
         }
+        
+        // multiline preferences
+        var mlBackupEnabled = doc.getElementsByTagName("backupEnabled");
+        if (mlBackupEnabled.length > 0) prefHandler.setMultilineBackupEnabled("true" == mlBackupEnabled[0].textContent);
+        var mlSaveNewIfOlder = doc.getElementsByTagName("saveNewIfOlder");
+        if (mlSaveNewIfOlder.length > 0) prefHandler.setMultilineSaveNewIfOlder(mlSaveNewIfOlder[0].textContent);
+        var mlSaveNewIfLength = doc.getElementsByTagName("saveNewIfLength");
+        if (mlSaveNewIfLength.length > 0) prefHandler.setMultilineSaveNewIfLength(mlSaveNewIfLength[0].textContent);
+        var mlDeleteIfOlder = doc.getElementsByTagName("deleteIfOlder");
+        if (mlDeleteIfOlder.length > 0) prefHandler.setMultilineDeleteIfOlder(mlDeleteIfOlder[0].textContent);
+        var mlException= doc.getElementsByTagName("exceptionEnable");
+        if (mlException.length > 0) prefHandler.setMultilineException(mlException[0].textContent);
+        var mlExceptionList = doc.getElementsByTagName("exceptionList");
+        if (mlExceptionList.length > 0) prefHandler.setMultilineExceptionList(mlExceptionList[0].textContent);
+        var mlSaveAlways = doc.getElementsByTagName("saveAlways");
+        if (mlSaveAlways.length > 0) prefHandler.setMultilineSaveAlways("true" == mlSaveAlways[0].textContent);
+        var mlSaveEncrypted = doc.getElementsByTagName("saveEncrypted");
+        if (mlSaveEncrypted.length > 0) prefHandler.setMultilineSaveEncrypted("true" == mlSaveEncrypted[0].textContent);
         
         // general preferences
         var daysUsed = doc.getElementsByTagName("daysUsedLimit");
@@ -416,6 +440,29 @@ FhcXmlHandler.prototype = {
       namevalPairsProtElem.appendChild(namevalElem);
     }
     protectCriteria = null;
+  },
+
+  /**
+   * Convert the editor backup configuration into a DOM representation.
+   *
+   * @param doc {DOM Document}
+   *        the document object
+   *
+   * @param parentElem {DOM Element}
+   *        the DOM element in which to add the new child elements
+   *
+   * @param  prefHandler {FhcPreferenceHandler}
+   *         the preferenceHandler providing cleanup preferences.
+   */
+  _appendMultilineConfig: function(doc, parentElem, prefHandler) {
+    this._appendElement(parentElem, doc.createElement("backupEnabled"), prefHandler.isMultilineBackupEnabled());
+    this._appendElement(parentElem, doc.createElement("saveNewIfOlder"), prefHandler.getMultilineSaveNewIfOlder());
+    this._appendElement(parentElem, doc.createElement("saveNewIfLength"), prefHandler.getMultilineSaveNewIfLength());
+    this._appendElement(parentElem, doc.createElement("deleteIfOlder"), prefHandler.getMultilineDeleteIfOlder());
+    this._appendElement(parentElem, doc.createElement("exceptionEnable"), prefHandler.getMultilineException());
+    this._appendElement(parentElem, doc.createElement("exceptionList"), this._encode(prefHandler.getMultilineExceptionList()));
+    this._appendElement(parentElem, doc.createElement("saveAlways"), prefHandler.isMultilineSaveAlways());
+    this._appendElement(parentElem, doc.createElement("saveEncrypted"), prefHandler.isMultilineSaveEncrypted());
   },
 
   /**
