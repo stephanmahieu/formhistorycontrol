@@ -1529,7 +1529,6 @@ FhcDbHandler.prototype = {
    *         version is created instead of updating a previous saved version
    */
   saveOrUpdateMultilineItem: function(item, saveNewIfOlder, saveNewIfLength) {
-    //TODO multiline saveOrUpdate: insert new item after some timeperiod or if field was submitted
     var mDBConn = this._getDbCleanupConnection();
     
     try {
@@ -1537,11 +1536,6 @@ FhcDbHandler.prototype = {
       var existingItem = this._findMatchingItem(mDBConn, item);
       var doUpdate = false;
       if (existingItem != null) {
-        
-        //dump("\nFound matching item...\n");
-        //dump("- content diff   =" + Math.abs(item.content.length - existingItem.content.length) + "\n");
-        //dump("- lastsaved diff =" + (item.lastsaved - existingItem.lastsaved)/(1000*1000) + " sec \n");
-        
         // IF only a small change in content-length AND lastupdate was recent
         // THEN update the existing version
         // ELSE create a new version
