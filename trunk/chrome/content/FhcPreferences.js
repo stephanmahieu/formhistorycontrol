@@ -95,7 +95,9 @@ const FhcPreferences = {
     }
 
     // fix size (height) problem on MacOS
-    prefWin.showPane(prefWin.currentPane);
+    var curPane = prefWin.currentPane;
+    prefWin.showPane(document.getElementById("regexp")); //largest pane
+    prefWin.showPane(curPane);
   },
 
   /**
