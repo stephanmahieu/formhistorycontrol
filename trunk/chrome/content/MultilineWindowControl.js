@@ -49,6 +49,7 @@ const MultilineWindowControl = {
   rowCount: 0,
   atomService: null,
   preferenceListener: null,
+  nowDate: null,
   //
   countLabel: "",
   selectCountLabel: "",
@@ -64,6 +65,8 @@ const MultilineWindowControl = {
    * Initialize.
    */
   init: function(aDbHandler, aDateHandler, aPrefHandler, aBundle) {
+    this.nowdate = aDateHandler.getCurrentDate();
+    
     // initialize tree
     var formTree = document.getElementById("multilineHistoryTree");
     formTree.view = this;
@@ -346,6 +349,8 @@ const MultilineWindowControl = {
    * Repopulate the database and repaint the view.
    */
   repopulateView: function() {
+    this.nowdate = this.dateHandler.getCurrentDate();
+    
     this.alldata = [];
     this.data = [];
     this.treeBox.rowCountChanged(0, -this.rowCount);
@@ -572,7 +577,8 @@ const MultilineWindowControl = {
    *          the currently sorted column, or the first column if none found
    */
   _getCurrentSortedColumn: function() {
-    var sortableCols = ["lastsavedCol", "firstsavedCol", "mlnameCol", "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
+    var sortableCols = ["lastsavedCol", "agelastsavedCol", "firstsavedCol", "agefirstsavedCol", 
+                        "mlnameCol", "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
     var elem, firstColumn, sortedColumn = null;
     for (var ii=0; ii<sortableCols.length; ii++) {
       elem = document.getElementById(sortableCols[ii]);
@@ -626,6 +632,7 @@ const MultilineWindowControl = {
 
     switch(columnId) {
       case "firstsavedCol":
+      case "agefirstsavedCol":
         compareFunc = function compare(a, b) {
           var result = a.firstsaved - b.firstsaved;
           return result;
@@ -633,6 +640,7 @@ const MultilineWindowControl = {
         break;
 
       case "lastsavedCol":
+      case "agelastsavedCol":
         compareFunc = function compare(a, b) {
           var result = a.lastsaved - b.lastsaved;
           return result;
@@ -642,6 +650,7 @@ const MultilineWindowControl = {
       case "mlnameCol":
         compareFunc = function compare(a, b) {
           var result = FhcUtil.stringCompare(a.name, b.name);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -649,6 +658,7 @@ const MultilineWindowControl = {
       case "contentCol":
         compareFunc = function compare(a, b) {
           var result = FhcUtil.stringCompare(a.content, b.content);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -656,6 +666,7 @@ const MultilineWindowControl = {
       case "typeCol":
         compareFunc = function compare(a, b) {
           var result = FhcUtil.stringCompare(a.type, b.type);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -663,6 +674,7 @@ const MultilineWindowControl = {
       case "mlhostCol":
         compareFunc = function compare(a, b) {
           var result = FhcUtil.stringCompare(a.host, b.host);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -670,6 +682,7 @@ const MultilineWindowControl = {
       case "mlurlCol":
         compareFunc = function compare(a, b) {
           var result = FhcUtil.stringCompare(a.url, b.url);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -734,8 +747,12 @@ const MultilineWindowControl = {
     switch(column.id) {
       case "firstsavedCol":
         return this.dateHandler.toDateString(multilineObj.firstsaved);
+      case "agefirstsavedCol":
+        return this.dateHandler.getFuzzyAge(this.nowdate, multilineObj.firstsaved);
       case "lastsavedCol":
         return this.dateHandler.toDateString(multilineObj.lastsaved);
+      case "agelastsavedCol":
+        return this.dateHandler.getFuzzyAge(this.nowdate, multilineObj.lastsaved);
       case "mlnameCol":
         return multilineObj.name;
       case "contentCol":

@@ -156,7 +156,9 @@
 <!ENTITY fhwin.multiline.label "Reservekopie van automatisch opgeslagen teksteditor velden">
 
 <!ENTITY fhwin.multiline.treeview.column.firstsaved.label "Eerst opgeslagen">
+<!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Oud eerst opgeslagen">
 <!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Laatst opgeslagen">
+<!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Oud laatst opgeslagen">
 <!ENTITY fhwin.multiline.treeview.column.fieldname.label "Veldnaam">
 <!ENTITY fhwin.multiline.treeview.column.content.label "Inhoud">
 <!ENTITY fhwin.multiline.treeview.column.type.label "Type">

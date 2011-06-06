@@ -1538,9 +1538,9 @@ FhcDbHandler.prototype = {
       var doUpdate = false;
       if (existingItem != null) {
         
-        dump("\nFound matching item...\n");
-        dump("- content diff   =" + Math.abs(item.content.length - existingItem.content.length) + "\n");
-        dump("- lastsaved diff =" + (item.lastsaved - existingItem.lastsaved)/(1000*1000) + " sec \n");
+        //dump("\nFound matching item...\n");
+        //dump("- content diff   =" + Math.abs(item.content.length - existingItem.content.length) + "\n");
+        //dump("- lastsaved diff =" + (item.lastsaved - existingItem.lastsaved)/(1000*1000) + " sec \n");
         
         // IF only a small change in content-length AND lastupdate was recent
         // THEN update the existing version
@@ -1901,24 +1901,39 @@ FhcDbHandler.prototype = {
    * @param deleteIfOlder {Integer}
    *        the lastsaved treshold in uSeconds, anything older will be deleted
    *
-   * @return {Boolean}
-   *         whether or not deleting succeeded
+   * @return {Integer}
+   *         total number of deleted items
    */
   deleteMultilineItemsOlder: function(deleteIfOlder) {
-    var mDBConn = this._getDbCleanupConnection(true);
+    var mDBConn = this._getDbCleanupConnection(false);
 
-    var result = false, statement;
+    var result = false, count = 0, statement;
     try {
       statement = mDBConn.createStatement(
-        "DELETE" +
+        "SELECT count(*)" +
         "  FROM multiline" +
-        " WHERE lastsaved > :lastsaved");
+        " WHERE lastsaved < :lastsaved");
       statement.params.lastsaved = deleteIfOlder;
-      result = this._executeStatement(statement);
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      this._closeStatement(statement);
     }
-    return result;
+    
+    if (count > 0) {
+      try {
+        statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM multiline" +
+          " WHERE lastsaved < :lastsaved");
+        statement.params.lastsaved = deleteIfOlder;
+        result = this._executeStatement(statement);
+      } finally {
+        this._closeDbConnection(mDBConn, result);
+      }
+    }
+    return result ? count : 0;
   },
 
   //----------------------------------------------------------------------------
@@ -2445,7 +2460,7 @@ FhcDbHandler.prototype = {
   },
   
   /**
-   * Reset and finalize a statment.
+   * Reset and finalize a statement.
    *
    * @param statement {String}
    *        the SQL reusable statement

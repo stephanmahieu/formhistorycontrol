@@ -1128,33 +1128,6 @@
       <tabpanel>
         <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
           
-          <!-- checkbox id="enableMultilineStorage"
-                    label="Disable backup of multiline editor fields"
-                    accesskey=""
-                    oncommand=""/>
-          
-          <hbox>
-            <label    value="Remove entries after"
-                      style="padding-bottom:0; padding-top:4px" />
-            <textbox  id="removeMultilineAfter"
-                      width="30"
-                      onchange="MultilineWindowControl.prefsChanged(this);"/>
-            <menulist id="multilinePeriodList" editable="false"
-                      disableautoselect="true" sizetopopup="always"
-                      preference="">
-              <menupopup>
-                <menuitem label="seconds"/>
-                <menuitem label="minutes"/>
-                <menuitem label="hours"/>
-                <menuitem label="days"/>
-              </menupopup>
-            </menulist>
-          </hbox>
-          
-          <hbox>
-            <separator class="groove" orient="horizontal" flex="1" height="2px"/>
-          </hbox-->
-          
           <hbox align="center" id="simple-mlsearch" persist="hidden">
             <label    control="filterMLText"
                       value="&fhwin.filter.label;"
@@ -1181,13 +1154,23 @@
                 onclick="MultilineWindowControl.treeClick(event);"
                 ondblclick="MultilineWindowControl.treeDblclick(event);">
             <treecols>
-              <treecol id="firstsavedCol" hidden="true" flex="2"
+              <treecol id="firstsavedCol" hidden="true" flex="1"
                        label="&fhwin.multiline.treeview.column.firstsaved.label;"
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
               <splitter class="tree-splitter"/>
-              <treecol id="lastsavedCol" flex="2"
+              <treecol id="agefirstsavedCol" hidden="true" flex="1"
+                       label="&fhwin.multiline.treeview.column.agefirstsaved.label;"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="lastsavedCol" flex="1"
                        label="&fhwin.multiline.treeview.column.lastsaved.label;"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="agelastsavedCol" flex="1"
+                       label="&fhwin.multiline.treeview.column.agelastsaved.label;"
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
               <splitter class="tree-splitter"/>
