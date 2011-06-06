@@ -275,6 +275,7 @@ const HistoryWindowControl = {
    */
   reloadView: function() {
     this._repopulateView();
+    MultilineWindowControl.repopulateView();
   },
 
   /**

@@ -81,8 +81,9 @@ const FhcFormSaveOverlay = {
       }
     }
     this.timer = Components.classes["@mozilla.org/timer;1"]
-                  .createInstance(Components.interfaces.nsITimer);
-    this.timer.init(timerEvent, 5*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+                 .createInstance(Components.interfaces.nsITimer);
+    this.timer.init(timerEvent, 5*1000, 
+                    Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
     
     // dispatch maintenance event every minute
     var maintenanceEvent = {
@@ -91,8 +92,9 @@ const FhcFormSaveOverlay = {
       }
     }
     this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
-                           .createInstance(Components.interfaces.nsITimer);
-    this.maintenanceTimer.init(maintenanceEvent, 1*60*1000, Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+                            .createInstance(Components.interfaces.nsITimer);
+    this.maintenanceTimer.init(maintenanceEvent, 1*60*1000, 
+                               Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
     
     this._registerPrefListener();
   },
@@ -290,15 +292,12 @@ const FhcFormSaveOverlay = {
   },
   
   doMaintenance: function() {
-    //TODO multiline cleanup old history
-    dump("doMaintenance event...\n")
-    
     var d = new Date();
     var now = d.getTime() * 1000;
-    var treshold = now + (this.deleteIfOlder * 60 * 1000 * 1000);
+    var treshold = now - (this.deleteIfOlder * 60 * 1000 * 1000);
     
     if (0 != this.deleteIfOlder) {
-      if (this.dbHandler.deleteMultilineItemsOlder(treshold)) {
+      if (0 < this.dbHandler.deleteMultilineItemsOlder(treshold)) {
         // notify observers
         this.observerService.notifyObservers(null, "multiline-store-changed", "");
       }
@@ -403,7 +402,7 @@ const FhcFormSaveOverlay = {
       branch.addObserver("", this, false);
     };
 
-    this.unregister = function unregister() {
+    this.unregister = function() {
       if (branch)
         branch.removeObserver("", this);
     };

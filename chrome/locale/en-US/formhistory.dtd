@@ -156,7 +156,9 @@
 <!ENTITY fhwin.multiline.label "Backup of automatically saved editor fields">
 
 <!ENTITY fhwin.multiline.treeview.column.firstsaved.label "First Saved">
+<!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Age First Saved">
 <!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Last Saved">
+<!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Age Last Saved">
 <!ENTITY fhwin.multiline.treeview.column.fieldname.label "Fieldname">
 <!ENTITY fhwin.multiline.treeview.column.content.label "Content">
 <!ENTITY fhwin.multiline.treeview.column.type.label "Type">
