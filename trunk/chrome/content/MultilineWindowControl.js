@@ -586,8 +586,10 @@ const MultilineWindowControl = {
    *          the currently sorted column, or the first column if none found
    */
   _getCurrentSortedColumn: function() {
-    var sortableCols = ["lastsavedCol", "agelastsavedCol", "firstsavedCol", "agefirstsavedCol", 
-                        "mlnameCol", "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
+    var sortableCols = ["lastsavedCol", "agelastsavedCol",
+                        "firstsavedCol", "agefirstsavedCol", 
+                        "mlidCol", "mlformidCol", "mlnameCol", 
+                        "contentCol", "typeCol", "mlhostCol", "mlurlCol"];
     var elem, firstColumn, sortedColumn = null;
     for (var ii=0; ii<sortableCols.length; ii++) {
       elem = document.getElementById(sortableCols[ii]);
@@ -652,6 +654,22 @@ const MultilineWindowControl = {
       case "agelastsavedCol":
         compareFunc = function compare(a, b) {
           var result = a.lastsaved - b.lastsaved;
+          return result;
+        };
+        break;
+
+      case "mlidCol":
+        compareFunc = function compare(a, b) {
+          var result = FhcUtil.stringCompare(a.id, b.id);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
+          return result;
+        };
+        break;
+
+      case "mlformidCol":
+        compareFunc = function compare(a, b) {
+          var result = FhcUtil.stringCompare(a.formid, b.formid);
+          if (result == 0) result = b.lastsaved - a.lastsaved;
           return result;
         };
         break;
@@ -762,6 +780,10 @@ const MultilineWindowControl = {
         return this.dateHandler.toDateString(multilineObj.lastsaved);
       case "agelastsavedCol":
         return this.dateHandler.getFuzzyAge(this.nowdate, multilineObj.lastsaved);
+      case "mlidCol":
+        return multilineObj.id;
+      case "mlformidCol":
+        return multilineObj.formid;
       case "mlnameCol":
         return multilineObj.name;
       case "contentCol":

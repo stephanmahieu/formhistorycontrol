@@ -37,7 +37,7 @@
 /**
  * Methods for the form history multiline dialog.
  *
- * Dependencies: 
+ * Dependencies: FhcMultilineDialog.js, FhcUtil.js, FhcDateHandler.js, FhcBundle.js
  */
 const FhcMultilineDialog = {
   multilineItem: null,
@@ -62,6 +62,20 @@ const FhcMultilineDialog = {
         document.getElementById("tabs").hidden = true;
         document.getElementById("tabbox").selectedTab = document.getElementById("tab-text");
       }
+      
+      //details
+      var bundle = new FhcBundle();
+      var dateHandler = new FhcDateHandler(bundle);
+      document.getElementById("firstsaved").value = dateHandler.toDateString(this.multilineItem.firstsaved);
+      document.getElementById("lastsaved").value = dateHandler.toDateString(this.multilineItem.lastsaved);
+      document.getElementById("fieldid").value = this.multilineItem.id;
+      document.getElementById("formid").value = this.multilineItem.formid;
+      document.getElementById("fieldname").value = this.multilineItem.name;
+      document.getElementById("type").value = this.multilineItem.type;
+      //document.getElementById("host").value = this.multilineItem.host;
+      document.getElementById("url").value = this.multilineItem.url;
+      delete dateHandler;
+      delete bundle;
     }
   },
 
@@ -76,6 +90,86 @@ const FhcMultilineDialog = {
               .getService(Components.interfaces.nsIClipboardHelper)
               .copyString(this.multilineItem.content);
     return true;
+  },
+  
+  /**
+   * Toggle between hidden and visible details.
+   */
+  toggleDetails: function() {
+    var hiddenDetailsBox = document.getElementById('details-hidden');
+    var visibleDetailsBox = document.getElementById('details-shown');
+
+    hiddenDetailsBox.hidden = !hiddenDetailsBox.hidden;
+    visibleDetailsBox.hidden = !visibleDetailsBox.hidden;
+
+    if (!visibleDetailsBox.hidden) {
+      // for persistence to work (absence of attr can not be persisted)
+      visibleDetailsBox.setAttribute("hidden", "false");
+    } else {
+      // for persistence to work (absence of attr can not be persisted)
+      hiddenDetailsBox.setAttribute("hidden", "false");
+    }
+  },
+  
+  /**
+   * Popup a link-menu for opening an URL in the browser or just copy the
+   * link location to the clipboard.
+   */
+  showURLmenu: function() {
+    var urlMenu = document.getElementById("open-url-menu");
+
+    if ("open" == urlMenu.state) {
+      urlMenu.hidePopup();
+    }
+    else {
+      var url = document.getElementById("url").value;
+      
+      var ioService = Components.classes["@mozilla.org/network/io-service;1"]
+                      .getService(Components.interfaces.nsIIOService);
+      var urlHost = ioService.newURI(url, null, null).prePath;
+
+      var idx = url.indexOf("?");
+      if (-1 < idx) {
+        var urlStripped = url.substr(0, idx);
+        document.getElementById("open-url-noparam").setAttribute("tooltiptext", urlStripped);
+      }
+      document.getElementById("open-url-noparam").setAttribute("disabled", (0 > idx));
+
+      var urlSameAsHost = (urlHost.length == url.length) || (urlHost.length+1 == url.length);
+      document.getElementById("open-url-host").setAttribute("disabled", urlSameAsHost);
+      document.getElementById("open-url-host").setAttribute("tooltiptext", urlHost);
+
+      document.getElementById("open-url").setAttribute("tooltiptext", url);
+      document.getElementById("copy-url").setAttribute("tooltiptext", url);
+
+      var anchor = document.getElementById("link_icon");
+      urlMenu.openPopup(anchor, "after_end", 0, 0, false, false);
+    }
+  },
+
+  /**
+   * User clicked on an open-url-menu item.
+   * 
+   * @param menuItem (menuitem)
+   *        the menutem clicked
+   *
+   * @param action {String}
+   *        the type of action to perform, either "url" or "copy"
+   */
+  openURLMenu: function(menuItem, action) {
+    var url = menuItem.getAttribute("tooltiptext");
+
+    switch (action) {
+      case "url":
+        FhcUtil.openAndReuseOneTabPerURL(url);
+        break;
+
+      case "copy":
+        var gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+                               .getService(Components.interfaces.nsIClipboardHelper);
+        gClipboardHelper.copyString(url);
+        break;
+    }
   },
   
   /**

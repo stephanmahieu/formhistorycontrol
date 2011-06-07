@@ -426,7 +426,7 @@
            accesskey="&fhwin.historytab.formhistory.accesskey;"/>
       <tab label="&fhwin.historytab.cleanup;"
            accesskey="&fhwin.historytab.cleanup.accesskey;"/>
-      <tab label="&fhwin.historytab.multiline;"/>
+      <tab label="&fhwin.historytab.multiline;" id="editorHistoryTab"/>
     </tabs>
     <tabpanels id="mainTabPanels" flex="1">
       
@@ -1125,7 +1125,7 @@
         </vbox>
       </tabpanel>
                 
-      <tabpanel>
+      <tabpanel id="editorHistoryTabPanel">
         <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
           
           <hbox align="center" id="simple-mlsearch" persist="hidden">
@@ -1174,13 +1174,23 @@
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
               <splitter class="tree-splitter"/>
-              <treecol id="mlnameCol" flex="1"
-                       label="&fhwin.multiline.treeview.column.fieldname.label;"
+              <treecol id="contentCol" flex="6"
+                       label="&fhwin.multiline.treeview.column.content.label;"
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
               <splitter class="tree-splitter"/>
-              <treecol id="contentCol" flex="6"
-                       label="&fhwin.multiline.treeview.column.content.label;"
+              <treecol id="mlidCol" flex="1" hidden="true"
+                       label="&fhwin.multiline.treeview.column.fieldid.label;"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="mlformidCol" flex="1" hidden="true"
+                       label="&fhwin.multiline.treeview.column.fieldformid.label;"
+                       onclick="MultilineWindowControl.sort(this);"
+                       persist="width ordinal hidden sortDirection"/>
+              <splitter class="tree-splitter"/>
+              <treecol id="mlnameCol" flex="1"
+                       label="&fhwin.multiline.treeview.column.fieldname.label;"
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
               <splitter class="tree-splitter"/>

@@ -159,6 +159,8 @@
 <!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Age First Saved">
 <!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Last Saved">
 <!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Age Last Saved">
+<!ENTITY fhwin.multiline.treeview.column.fieldid.label "Field Id">
+<!ENTITY fhwin.multiline.treeview.column.fieldformid.label "Form Id">
 <!ENTITY fhwin.multiline.treeview.column.fieldname.label "Fieldname">
 <!ENTITY fhwin.multiline.treeview.column.content.label "Content">
 <!ENTITY fhwin.multiline.treeview.column.type.label "Type">
@@ -248,6 +250,8 @@
 <!ENTITY fhcmultilinedlg.button.copytoclipboard "Copy to clipboard">
 <!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML view">
 <!ENTITY fhcmultilinedlg.viewtab.textview "Plain text">
+<!ENTITY fhcmultilinedlg.button.showdetails "Details">
+<!ENTITY fhcmultilinedlg.button.hidedetails "Hide details">
 
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 
