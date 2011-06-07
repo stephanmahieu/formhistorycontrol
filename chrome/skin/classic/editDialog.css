@@ -76,3 +76,21 @@ input {
   -moz-appearance: none;
   background-color: white !important;
 }
+
+/* -------- button (expand/collapse) with image -------- */
+.showhide-button {
+  height: 22px;
+  min-height: 22px;
+}
+
+#showdetails {
+  list-style-image: url("chrome://formhistory/skin/expand.png");
+  min-width: 30px;
+  margin-right: 0px;
+}
+
+#hidedetails {
+  list-style-image: url("chrome://formhistory/skin/collapse.png");
+  min-width: 30px;
+  margin-right: 0px;
+}

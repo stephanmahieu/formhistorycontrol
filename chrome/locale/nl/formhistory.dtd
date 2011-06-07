@@ -159,6 +159,8 @@
 <!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Oud eerst opgeslagen">
 <!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Laatst opgeslagen">
 <!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Oud laatst opgeslagen">
+<!ENTITY fhwin.multiline.treeview.column.fieldid.label "Veld Id">
+<!ENTITY fhwin.multiline.treeview.column.fieldformid.label "Form Id">
 <!ENTITY fhwin.multiline.treeview.column.fieldname.label "Veldnaam">
 <!ENTITY fhwin.multiline.treeview.column.content.label "Inhoud">
 <!ENTITY fhwin.multiline.treeview.column.type.label "Type">
@@ -248,6 +250,8 @@
 <!ENTITY fhcmultilinedlg.button.copytoclipboard "Kopieer naar klembord">
 <!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML">
 <!ENTITY fhcmultilinedlg.viewtab.textview "Platte Tekst">
+<!ENTITY fhcmultilinedlg.button.showdetails "Details">
+<!ENTITY fhcmultilinedlg.button.hidedetails "Verberg details">
 
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 

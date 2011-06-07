@@ -102,15 +102,16 @@ const HistoryWindowControl = {
     // set initial advanced checkboxes
     this._toggleMatchExactCheckboxes();
 
-    // Initialize objects related to the cleanup part
+    // initialize objects related to the cleanup part
     CleanupWindowControl.init(
       this.dbHandler, this.dateHandler, this.preferences, this.bundle);
     CleanupProtectView.init(
       this.dbHandler, this.dateHandler, this.bundle, this.preferences);
 
-    // Multiline history support
+    // multiline history support
     MultilineWindowControl.init(
-      this.dbHandler, this.dateHandler, this.preferences, this.bundle)
+      this.dbHandler, this.dateHandler, this.preferences, this.bundle);
+    this._hideOrShowMultilineTab();
 
     // initialize count label vars
     this.countLabel = document.getElementById("itemCount");
@@ -2138,6 +2139,20 @@ const HistoryWindowControl = {
     checkboxElem.checked = FhcUtil.isCaseSensitive;
   },
 
+  // Hide the multiline tab if editor history is disabled
+  _hideOrShowMultilineTab: function() {
+    var doShow = this.preferences.isMultilineBackupEnabled()
+    document.getElementById("editorHistoryTabPanel").hidden = !doShow;
+    document.getElementById("editorHistoryTab").hidden = !doShow;
+    if (!doShow) {
+     // if tab is to be hidden but is selected, select another tab
+     var tabs = document.getElementById('historyWindowTabs');
+     if (2 == tabs.selectedIndex) {
+       tabs.selectedIndex = 0;
+     }
+    }
+  },
+
   // Register a preference listener to act upon relevant changes
   _registerPrefListener: function() {
     var thisHwc = this;
@@ -2190,6 +2205,9 @@ const HistoryWindowControl = {
           case "cleanupTimesChecked":
           case "cleanupTimes":
                CleanupWindowControl.readAndShowPreferences();
+               break;
+          case "multiline.backupenabled":
+               thisHwc._hideOrShowMultilineTab();
                break;
         }
       });
