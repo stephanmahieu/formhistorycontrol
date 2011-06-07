@@ -205,7 +205,16 @@ const MultilineWindowControl = {
    * @param event {Event}
    */
   treeClick: function(event) {
-    // no action
+    // no action on right-click (context-menu)
+    if (2 != event.button) {
+      var tree = document.getElementById("multilineHistoryTree");
+      var row = {}, col = {}, child = {};
+      tree.treeBoxObject.getCellAt(event.clientX, event.clientY, row, col, child);
+      if (col.value && "mlurlCol" == col.value.id) {
+        var url = tree.view.getCellText(row.value, col.value);
+        if (url) HistoryWindowControl.onUrlTreeCellClicked(url, event);
+      }
+    }
   },
 
   /**
@@ -804,6 +813,16 @@ const MultilineWindowControl = {
 },
 
   getCellProperties: function(row,col,props) {
+    var aserv;
+    switch(col.id) {
+      case "mlurlCol":
+        aserv=Components.classes["@mozilla.org/atom-service;1"]
+                  .getService(Components.interfaces.nsIAtomService);
+        props.AppendElement(aserv.getAtom("urlColumn"));
+        break;
+      default:
+        break;
+    }
   },
 
   getColumnProperties: function(colid,col,props) {
