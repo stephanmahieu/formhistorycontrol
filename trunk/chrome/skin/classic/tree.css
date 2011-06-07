@@ -93,12 +93,15 @@ caption {
 
 treechildren::-moz-tree-cell-text(placeColumn) {
   font-style: italic;
-  /* color: #707070; */
 }
 
 treechildren::-moz-tree-cell-text(placeUrlColumn) {
   font-style: italic;
-  /* color: #707070; */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+treechildren::-moz-tree-cell-text(urlColumn) {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -112,7 +115,7 @@ treechildren::-moz-tree-checkbox(checked){
   list-style-image: url("chrome://formhistory/skin/ticked.png");
 }
 treechildren::-moz-tree-checkbox(na){
-  /* diabled (not applicable) checkbox treecells. */
+  /* disabled (not applicable) checkbox treecells. */
   list-style-image: url("chrome://formhistory/skin/tick_na.png");
 }
 
