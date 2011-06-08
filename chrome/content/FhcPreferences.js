@@ -74,7 +74,8 @@ const FhcPreferences = {
 
     this.fillInformationPanel();
     this.adjustQuickFillPreview();
-    this.toggleCustomDateFormatList();1
+    this.toggleCustomDateFormatList();
+    this.initDisplayPanel()
     this.initMultilinePanel();
     this.initCleanupPanel();
     this.fillKeyBindings();
@@ -267,6 +268,14 @@ const FhcPreferences = {
     }
   },
 
+  initDisplayPanel: function() {
+    var mainDoc = this._getParentDocument();
+    if (null == mainDoc.getElementById("appmenu-popup")) {
+      // if no app-menu (introduced in FF4), hide the preference option
+      document.getElementById("hideAppMenuItemCheckbox").hidden = true;
+    }
+  },
+  
   initMultilinePanel: function() {
     var isEnabled = document.getElementById("multilineenable").checked;
     

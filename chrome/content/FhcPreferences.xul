@@ -56,6 +56,9 @@
       <preference id="extensions.formhistory.hideToolsMenuItem"
                   name="extensions.formhistory.hideToolsMenuItem"
                   type="bool" />
+      <preference id="extensions.formhistory.hideAppMenuItem"
+                  name="extensions.formhistory.hideAppMenuItem"
+                  type="bool" />
       <preference id="extensions.formhistory.hideContextMenuItem"
                   name="extensions.formhistory.hideContextMenuItem"
                   type="bool" />
@@ -118,6 +121,9 @@
         <caption label="&fhprefs.group.showmenu.caption;"/>
         <checkbox label="&fhprefs.checkbox.hidetoolsmenuitem.label;"
                   preference="extensions.formhistory.hideToolsMenuItem" />
+        <checkbox id="hideAppMenuItemCheckbox"
+                  label="&fhprefs.checkbox.hideappmenuitem.label;"
+                  preference="extensions.formhistory.hideAppMenuItem" />
         <checkbox label="&fhprefs.checkbox.hidecontextmenuitem.label;"
                   preference="extensions.formhistory.hideContextMenuItem" />
       </groupbox>

@@ -109,6 +109,10 @@ const FhcContextMenu = {
         this._setVisibilityToolsMenu(!this.preferences.isToolsmenuHidden());
         this._setVisibilityContextMenu(!this.preferences.isContextmenuHidden());
 
+        // new firefox4 appmenu
+        this._checkInsertBeforeAfter_bugfix("formhistctrl_app_menu"); // !!!
+        this._setVisibilityAppMenu(!this.preferences.isAppmenuHidden());
+
         // initialize main keybindings
         this._initializeMainKeyset();
         break;
@@ -958,6 +962,10 @@ const FhcContextMenu = {
                doShow = !FhcContextMenu.preferences.isToolsmenuHidden();
                FhcContextMenu._setVisibilityToolsMenu(doShow);
                break;
+          case "hideAppMenuItem":
+               doShow = !FhcContextMenu.preferences.isAppmenuHidden();
+               FhcContextMenu._setVisibilityAppMenu(doShow);
+               break;
           case "hideContextMenuItem":
                doShow = !FhcContextMenu.preferences.isContextmenuHidden();
                FhcContextMenu._setVisibilityContextMenu(doShow);
@@ -998,6 +1006,24 @@ const FhcContextMenu = {
   },
 
   /**
+   * Set or clear the hidden attribute of the FormHistoryControl App menu,
+   * (menu introduced in FF4).
+   *
+   * @param doShow (Boolean)
+   *        show or hide the menu
+   */
+  _setVisibilityAppMenu: function(doShow) {
+    var menuElem = document.getElementById("formhistctrl_app_menu");
+    if (menuElem) {
+      if (!doShow) {
+        menuElem.setAttribute("hidden", true);
+      } else {
+        menuElem.removeAttribute("hidden");
+      }
+    }
+  },
+
+  /**
    * Set or clear the hidden attribute of the FormHistoryControl context menu.
    *
    * @param doShow (Boolean)
@@ -1034,7 +1060,46 @@ const FhcContextMenu = {
     for (var i=0; i<Ids.length; i++) {
       this.keyBindings.updateMainKeyset(Ids[i], false);
     }
-  }
+  },
+
+  /**
+   * Can not get the insertbefore or insertafter attribute working for
+   * menu elements overlayed to the new App-menu introduced in FF4.
+   * This method programatically achieves the expected behaviour.
+   * 
+   * @param fhcId {String}
+   *        the id of the element to check for insertbefore/insertafter
+   */
+  _checkInsertBeforeAfter_bugfix: function(fhcId) {
+    var menuElem = document.getElementById(fhcId);
+    if (menuElem && menuElem.attributes) {
+      var before = menuElem.attributes.getNamedItem("insertbefore");
+      var after = menuElem.attributes.getNamedItem("insertafter");
+      if (before && before.nodeValue) {
+        var beforeItem, beforeIds = before.nodeValue.split(",");
+        for (var i=0; i < beforeIds.length; i++) {
+          beforeItem = document.getElementById(beforeIds[i]);
+          if (beforeItem && beforeItem.previousSibling && fhcId != beforeItem.previousSibling.id) {
+            menuElem.parentNode.removeChild(menuElem);
+            beforeItem.parentNode.insertBefore(menuElem, beforeItem);
+            i = beforeIds.length;
+          }
+        }
+      }
+      else if (after && after.nodeValue) {
+        var afterItem, afterIds = after.nodeValue.split(",");
+        for (var j=0; j < afterIds.length; j++) {
+          afterItem = document.getElementById(afterIds[j]);
+          if (afterItem && (afterItem.nextSibling == null 
+                        || (afterItem.nextSibling && fhcId != afterItem.nextSibling.id))) {
+            menuElem.parentNode.removeChild(menuElem);
+            afterItem.parentNode.insertBefore(menuElem, afterItem.nextSibling);
+            j = afterIds.length;
+          }
+        }
+      }
+    }
+  }  
 }
 
 // Implement the handleEvent() method for this handler to work

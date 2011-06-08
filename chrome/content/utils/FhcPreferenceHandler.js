@@ -168,15 +168,11 @@ FhcPreferenceHandler.prototype = {
   isToolsmenuHidden: function() {
     return this.prefService.getBoolPref("hideToolsMenuItem");
   },
-  setToolsmenuHidden: function (newBoolPref) {
-    return this.prefService.setBoolPref("hideToolsMenuItem", newBoolPref);
+  isAppmenuHidden: function() {
+    return this.prefService.getBoolPref("hideAppMenuItem");
   },
-
   isContextmenuHidden: function() {
     return this.prefService.getBoolPref("hideContextMenuItem");
-  },
-  setContextmenuHidden: function (newBoolPref) {
-    return this.prefService.setBoolPref("hideContextMenuItem", newBoolPref);
   },
 
   getCSVSeparator: function() {
