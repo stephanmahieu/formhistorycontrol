@@ -879,8 +879,8 @@ const FhcContextMenu = {
     div.setAttribute('id', id);
     div.setAttribute('title', this._getFormInfo(sourceElem, false));
     div.setAttribute('style', style);
-    div.addEventListener("mouseover", function(){this.style.opacity=1; this.style.zIndex=1002;}, false);
-    div.addEventListener("mouseout", function(){this.style.opacity=0.75; this.style.zIndex=1001;}, false);
+    div.addEventListener("mouseover", function(){this.style.opacity=1;this.style.zIndex=1002;}, false);
+    div.addEventListener("mouseout", function(){this.style.opacity=0.75;this.style.zIndex=1001;}, false);
     div.appendChild(document.createTextNode(fldName));
 
     var innerDiv = document.createElement('div');
@@ -1017,6 +1017,10 @@ const FhcContextMenu = {
     if (menuElem) {
       if (!doShow) {
         menuElem.setAttribute("hidden", true);
+//        // BugFix: hiding the submenu initiated indirectly from the menu
+//        //         causes the menu to not function any more.
+//        var appMenu = document.getElementById("appmenu-popup");
+//        appMenu.parentNode.insertBefore(appMenu, null);
       } else {
         menuElem.removeAttribute("hidden");
       }
