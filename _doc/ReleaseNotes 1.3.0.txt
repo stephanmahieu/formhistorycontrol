@@ -1,5 +1,6 @@
 User:
 - Available locales (en nl ...)
+- Option to show/hide Formhistory Control in FF app menu (introduced in FF4), default is show
 - Backup multiline fields while typing (editor fields) -> manage from main UI
 - Added button to show/hide cleanup options (cleanup tab)- Fix: skip duplicate entries from imported xml-file
 - Changed: improved regular expression for Creditcards
