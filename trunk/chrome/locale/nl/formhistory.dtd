@@ -321,6 +321,7 @@
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Doe een rechts-klik op de gereedschapbalk van de browser en selecteer Aanpassen. Vervolgens kun je het FormHistory icoon verslepen naar de gereedschapbalk.">
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Verberg het Extra menu item">
+<!ENTITY fhprefs.checkbox.hideappmenuitem.label "Verberg het Applicatie menu item">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Verberg het Context menu item ">
 <!ENTITY fhprefs.group.treeskin.caption "AchtergrondKleur lijsten">
 <!ENTITY fhprefs.label.treeskin.label "Vergroot de leesbaarheid van lijsten">

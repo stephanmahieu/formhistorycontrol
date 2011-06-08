@@ -41,6 +41,14 @@
     </menu> 
   </menupopup>
 
+  <menupopup id="appmenu-popup">
+    <menuitem id="formhistctrl_app_menu"
+              class="menuitem-iconic fh_menuitem_manager"
+              label="&fhmnuovl.menuitem.manager.label;"
+              insertbefore="appmenu_webDeveloper,appmenu-quit"
+              command="fhc_cmd_ShowFormHistoryControl"/>
+  </menupopup>
+
   <popup id="contentAreaContextMenu">
     <menuseparator id="formhistory-sep"/>
     <menu id="formhistctrl_context_menu" class="menu-iconic fh_menu_formhistory"

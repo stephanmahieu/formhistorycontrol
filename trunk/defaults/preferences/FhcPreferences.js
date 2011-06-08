@@ -26,6 +26,7 @@ pref("extensions.formhistory.quickfill.bgcolor", "#FFFFCC");
 pref("extensions.formhistory.quickfill.bordrcolor", "#FF0000");
 pref("extensions.formhistory.quickfill.bordrthickness", 2);
 pref("extensions.formhistory.hideToolsMenuItem", false);
+pref("extensions.formhistory.hideAppMenuItem", false);
 pref("extensions.formhistory.hideContextMenuItem", false);
 pref("extensions.formhistory.exclusions", "");
 pref("extensions.formhistory.manualsave", false);

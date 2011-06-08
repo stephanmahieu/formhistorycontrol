@@ -321,6 +321,7 @@
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Right-click on the toolbar of the browser and select Customize.. You can add FormHistory by dragging the icon to the toolbar.">
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Hide the Tools menu item">
+<!ENTITY fhprefs.checkbox.hideappmenuitem.label "Hide the App menu item">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Hide the context menu item">
 <!ENTITY fhprefs.group.treeskin.caption "Backgroundcolor lists">
 <!ENTITY fhprefs.label.treeskin.label "Improve the readability of lists">
