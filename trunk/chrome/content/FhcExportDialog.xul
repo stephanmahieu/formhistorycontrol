@@ -50,6 +50,10 @@
             <radio id="searchmulti" label="Search result"/>
           </radiogroup>
         </row>
+        <row>
+          <label value=""/>
+          <checkbox id="cfgmulti" label="Editor history preferences"/>
+        </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
           <checkbox id="regexp" label="Regular expressions" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
