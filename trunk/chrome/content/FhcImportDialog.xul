@@ -46,6 +46,11 @@
           <label id="multilineItems" value="" style="text-align: right"/>
           <label value="items"/>
         </row>
+        <row align="baseline">
+          <checkbox id="multilineprefs" label="Editor history preferences" persist="checked"/>
+          <label id="multilineprefsItems" value="" style="text-align: right"/>
+          <label value="items"/>
+        </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
           <checkbox id="regexp" label="Regular expressions" persist="checked"/>

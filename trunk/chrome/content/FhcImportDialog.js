@@ -50,6 +50,7 @@ const FhcImportDialog = {
       var inn = window.arguments[0].inn;
       this._initItem("history", inn.history);
       this._initItem("multiline", inn.multiline);
+      this._initItem("multilineprefs", inn.multicfg);
       this._initItem("cleanup", inn.cleanup);
       this._initItem("keys", inn.keys);
       this._initItem("regexp", inn.regexp);
@@ -71,6 +72,7 @@ const FhcImportDialog = {
     window.arguments[0].out = {
       importHistory  : this._isChecked("history"),
       importMultiline: this._isChecked("multiline"),
+      importMulticfg : this._isChecked("multilineprefs"),
       importCleanup  : this._isChecked("cleanup"),
       importKeys     : this._isChecked("keys"),
       importRegexp   : this._isChecked("regexp")
@@ -86,13 +88,14 @@ const FhcImportDialog = {
    */
   _isValidSelection: function() {
     // any import selected?
-    var hist  = this._isChecked("history");
-    var multi = this._isChecked("multiline");
-    var clean = this._isChecked("cleanup");
-    var keys  = this._isChecked("keys");
-    var regex = this._isChecked("regexp");
+    var hist   = this._isChecked("history");
+    var multi  = this._isChecked("multiline");
+    var mulcfg = this._isChecked("multilineprefs");
+    var clean  = this._isChecked("cleanup");
+    var keys   = this._isChecked("keys");
+    var regex  = this._isChecked("regexp");
     
-    return hist || multi || clean || keys || regex;
+    return hist || multi || mulcfg || clean || keys || regex;
   },
   
   _initItem: function(elementId, count) {

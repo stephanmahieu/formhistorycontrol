@@ -100,7 +100,9 @@ FhcXmlHandler.prototype = {
         editorfieldElem = this._createEditorfieldElement(doc, multilines[nn]);
         editorfieldsElem.appendChild(editorfieldElem);
       }
-      
+    }
+    
+    if (options.exportMultiCfg) {
       // multiline configuration
       var multilinecfgElem = doc.createElement("editorFields-configuration");
       rootElem.appendChild(multilinecfgElem);
@@ -151,17 +153,16 @@ FhcXmlHandler.prototype = {
    * @param  streamIn {nsIInputStream}
    *         the inputstream (source ) of the XML
    *
-   * @param  prefHandler {FhcPreferenceHandler}
-   *         the preferenceHandler providing cleanup preferences.
-   *
    * @return {Array}
    *         an array of formhistory entries
    */
-  parseXMLdata: function(streamIn, prefHandler) {
+  parseXMLdata: function(streamIn) {
     var parsedEntries = [];
     var parsedEditorfield = [];
+    var parsedEditorfieldPrefs = null;
     var parsedCleanupCriteria = [];
     var parsedProtectCriteria = [];
+    var parsedCleanupPrefs = null;
     var parsedKeybindings = [];
     var parsedRegexp = [];
     
@@ -215,42 +216,29 @@ FhcXmlHandler.prototype = {
         }
         
         // multiline preferences
-        var mlBackupEnabled = doc.getElementsByTagName("backupEnabled");
-        if (mlBackupEnabled.length > 0) prefHandler.setMultilineBackupEnabled("true" == mlBackupEnabled[0].textContent);
-        var mlSaveNewIfOlder = doc.getElementsByTagName("saveNewIfOlder");
-        if (mlSaveNewIfOlder.length > 0) prefHandler.setMultilineSaveNewIfOlder(mlSaveNewIfOlder[0].textContent);
-        var mlSaveNewIfLength = doc.getElementsByTagName("saveNewIfLength");
-        if (mlSaveNewIfLength.length > 0) prefHandler.setMultilineSaveNewIfLength(mlSaveNewIfLength[0].textContent);
-        var mlDeleteIfOlder = doc.getElementsByTagName("deleteIfOlder");
-        if (mlDeleteIfOlder.length > 0) prefHandler.setMultilineDeleteIfOlder(mlDeleteIfOlder[0].textContent);
-        var mlException= doc.getElementsByTagName("exceptionEnable");
-        if (mlException.length > 0) prefHandler.setMultilineException(mlException[0].textContent);
-        var mlExceptionList = doc.getElementsByTagName("exceptionList");
-        if (mlExceptionList.length > 0) prefHandler.setMultilineExceptionList(mlExceptionList[0].textContent);
-        var mlSaveAlways = doc.getElementsByTagName("saveAlways");
-        if (mlSaveAlways.length > 0) prefHandler.setMultilineSaveAlways("true" == mlSaveAlways[0].textContent);
-        var mlSaveEncrypted = doc.getElementsByTagName("saveEncrypted");
-        if (mlSaveEncrypted.length > 0) prefHandler.setMultilineSaveEncrypted("true" == mlSaveEncrypted[0].textContent);
+        var mlEditorfieldPrefs = doc.getElementsByTagName("editorFields-configuration");
+        if (mlEditorfieldPrefs.length > 0) {
+          parsedEditorfieldPrefs = {
+            backupEnabled:   this._getTextContentOrNull(doc, "backupEnabled"),
+            saveNewIfOlder:  this._getTextContentOrNull(doc, "saveNewIfOlder"),
+            saveNewIfLength: this._getTextContentOrNull(doc, "saveNewIfLength"),
+            deleteIfOlder:   this._getTextContentOrNull(doc, "deleteIfOlder"),
+            exception:       this._getTextContentOrNull(doc, "exceptionEnable"),
+            exceptionList:   this._getTextContentOrNull(doc, "exceptionList"),
+            saveAlways:      this._getTextContentOrNull(doc, "saveAlways"),
+            saveEncrypted:   this._getTextContentOrNull(doc, "saveEncrypted")
+          };
+        }
         
-        // general preferences
-        var daysUsed = doc.getElementsByTagName("daysUsedLimit");
-        if (daysUsed.length > 0 ) {
-          var daysUsedActive = daysUsed[0].getAttribute("active");
-          prefHandler.setCleanupDays(daysUsed[0].textContent);
-          prefHandler.setCleanupDaysChecked(("true" == daysUsedActive));
-        }
-        var timesUsed = doc.getElementsByTagName("timesUsedLimit");
-        if (timesUsed.length > 0 ) {
-          var timesUsedActive = timesUsed[0].getAttribute("active");
-          prefHandler.setCleanupTimes(timesUsed[0].textContent);
-          prefHandler.setCleanupTimesChecked(("true" == timesUsedActive));
-        }
-
-        // added to config starting with v1.2.7
-        var cleanupOnShutdown = doc.getElementsByTagName("cleanupOnShutdown");
-        if (cleanupOnShutdown.length > 0) prefHandler.setCleanupOnShutdown("true" == cleanupOnShutdown[0].textContent);
-        var cleanupOnTabClose = doc.getElementsByTagName("cleanupOnTabClose");
-        if (cleanupOnTabClose.length > 0) prefHandler.setCleanupOnTabClose("true" == cleanupOnTabClose[0].textContent);
+        // cleanup preferences
+        parsedCleanupPrefs = {
+          cleanupDaysChecked:  this._getAttributeOrNull(doc,   "daysUsedLimit", "active"),
+          cleanupDays:         this._getTextContentOrNull(doc, "daysUsedLimit"),
+          cleanupTimesChecked: this._getAttributeOrNull(doc,   "timesUsedLimit", "active"),
+          cleanupTimes:        this._getTextContentOrNull(doc, "timesUsedLimit"),
+          cleanupOnShutdown:   this._getTextContentOrNull(doc, "cleanupOnShutdown"),
+          cleanupOnTabClose:   this._getTextContentOrNull(doc, "cleanupOnTabClose")
+        };
 
         // criteria nameValuePairs
         var namevalElem = doc.getElementsByTagName("nameValue");
@@ -269,7 +257,7 @@ FhcXmlHandler.prototype = {
               }
               criteria = {
                 id:          -1,
-                name:        (1==nameElem.length)  ? this._decode(nameElem[0].textContent) : "",
+                name:        (1==nameElem.length)  ? this._decode(nameElem[0].textContent)  : "",
                 value:       (1==valElem.length)   ? this._decode(valElem[0].textContent)   : "",
                 description: (1==descrElem.length) ? this._decode(descrElem[0].textContent) : "",
                 nameExact:   (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"exact")  : 0,
@@ -331,14 +319,32 @@ FhcXmlHandler.prototype = {
     }
     
     var result = {
-      entries:   parsedEntries,
-      multiline: parsedEditorfield,
-      cleanup:   parsedCleanupCriteria,
-      protect:   parsedProtectCriteria,
-      keys:      parsedKeybindings,
-      regexp:    parsedRegexp
+      entries:      parsedEntries,
+      multiline:    parsedEditorfield,
+      multilineCfg: parsedEditorfieldPrefs,
+      cleanup:      parsedCleanupCriteria,
+      protect:      parsedProtectCriteria,
+      cleanupCfg:   parsedCleanupPrefs,
+      keys:         parsedKeybindings,
+      regexp:       parsedRegexp
     }
     return result;
+  },
+
+  /**
+   * Get the textcontent of the tag with the given tagname.
+   */
+  _getTextContentOrNull: function(doc, tagname) {
+    var elements = doc.getElementsByTagName(tagname);
+    return (elements.length > 0) ? elements[0].textContent : null;
+  },
+
+  /**
+   * Get the requested atribute from the tag with the given tagname.
+   */
+  _getAttributeOrNull: function(doc, tagname, attributename) {
+    var elements = doc.getElementsByTagName(tagname);
+    return (elements.length  > 0) ? elements[0].getAttribute(attributename) : null;
   },
 
   /**

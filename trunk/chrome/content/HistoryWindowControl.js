@@ -1092,6 +1092,7 @@ const HistoryWindowControl = {
     if (params.out) {
       var hist  = [];
       var mult  = [];
+      var exportMutCfg = params.out.exportMultiCfg;
       var exportClean  = params.out.exportCleanupCfg;
       var exportKeys   = params.out.exportKeyBindings;
       var exportRegexp = params.out.exportRegexp;
@@ -1111,11 +1112,12 @@ const HistoryWindowControl = {
       }
       
       var exportOptions = {
-        entries:      hist,
-        multilines:   mult,
-        exportClean:  exportClean,
-        exportKeys:   exportKeys,
-        exportRegexp: exportRegexp
+        entries:        hist,
+        multilines:     mult,
+        exportMultiCfg: exportMutCfg,
+        exportClean:    exportClean,
+        exportKeys:     exportKeys,
+        exportRegexp:   exportRegexp
       };
       
       FhcUtil.exportXMLdata(
@@ -1139,9 +1141,17 @@ const HistoryWindowControl = {
       return;
     }
     
+    var multilineCfgItems = 0;
+    if (data.multilineCfg != null) {
+      for(var property in data.multilineCfg) {
+        multilineCfgItems++;
+      }
+    }
+    
     var params = {
           inn: {history:   data.entries.length,
                 multiline: data.multiline.length,
+                multicfg:  multilineCfgItems,
                 cleanup:   data.protect.length + data.cleanup.length,
                 keys:      data.keys.length,
                 regexp:    data.regexp.length
@@ -1156,6 +1166,7 @@ const HistoryWindowControl = {
       try {
         var hiResult = null;
         var mlResult = null;
+        var mcResult = null;
         var clResult = null;
         var reResult = null;
         var keResult = null;
@@ -1168,6 +1179,25 @@ const HistoryWindowControl = {
           mlResult = MultilineWindowControl.importAction(data.multiline);
         }
 
+        if (params.out.importMulticfg) {
+          var mlPrefs = data.multilineCfg;
+          var count = 0;
+          if (mlPrefs.backupEnabled)   {count++; this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
+          if (mlPrefs.saveNewIfOlder)  {count++; this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
+          if (mlPrefs.saveNewIfLength) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
+          if (mlPrefs.deleteIfOlder)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
+          if (mlPrefs.exception)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
+          if (mlPrefs.exceptionList)   {count++; this.preferences.setMultilineExceptionList(  mlPrefs.exceptionList);}
+          if (mlPrefs.saveAlways)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
+          if (mlPrefs.saveEncrypted)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
+          mcResult = {
+            noTotal:   count,
+            noAdded:   count,
+            noSkipped: "",
+            noErrors:  0
+          };
+        }
+
         if (params.out.importCleanup) {
           var prResult = CleanupProtectView.importAction(data.protect);
           var cuResult = CleanupWindowControl.importAction(data.cleanup);
@@ -1177,6 +1207,14 @@ const HistoryWindowControl = {
             noSkipped: cuResult.noSkipped + prResult.noSkipped,
             noErrors: cuResult.noErrors + prResult.noErrors
           };
+          
+          var clPrefs = data.cleanupCfg;
+          if (clPrefs.cleanupDaysChecked)  this.preferences.setCleanupDaysChecked( "true" == clPrefs.cleanupDaysChecked);
+          if (clPrefs.cleanupDays)         this.preferences.setCleanupDays(        clPrefs.cleanupDays);
+          if (clPrefs.cleanupTimesChecked) this.preferences.setCleanupTimesChecked("true" == clPrefs.cleanupTimesChecked);
+          if (clPrefs.cleanupTimes)        this.preferences.setCleanupTimes(       clPrefs.cleanupTimes);
+          if (clPrefs.cleanupOnShutdown)   this.preferences.setCleanupOnShutdown(  "true" == clPrefs.cleanupOnShutdown);
+          if (clPrefs.cleanupOnTabClose)   this.preferences.setCleanupOnTabClose(  "true" == clPrefs.cleanupOnTabClose);
         }
 
         if (params.out.importRegexp) {
@@ -1191,6 +1229,7 @@ const HistoryWindowControl = {
         var statusParams = {
           history: hiResult,
           multiline: mlResult,
+          multicfg: mcResult,
           cleanup: clResult,
           regexp: reResult,
           keys: keResult

@@ -801,7 +801,7 @@ const FhcUtil = {
       streamIn.init(fp.file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
       try {
         var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
-        importedData = xmlHandler.parseXMLdata(streamIn, preferenceHandler);
+        importedData = xmlHandler.parseXMLdata(streamIn);
         delete xmlHandler;
       } finally {
         streamIn.close();
@@ -820,11 +820,12 @@ const FhcUtil = {
    */
   exportCleanupDatabase: function(file, dbHandler, preferenceHandler, dateHandler) {
     var exportOptions = {
-        entries:      [],    /* not in cleanup databse */
-        multilines:   dbHandler.getAllMultilineItems(),
-        exportClean:  true,
-        exportKeys:   false, /* not in cleanup databse */
-        exportRegexp: true
+        entries:        [],    /* not in cleanup database */
+        multilines:     dbHandler.getAllMultilineItems(),
+        exportMultiCfg: false, /* not in cleanup database */
+        exportClean:    true,
+        exportKeys:     false, /* not in cleanup database */
+        exportRegexp:   true
     };
     
     // open file for writing, create if not exist, truncate to 0 if do exist
@@ -847,11 +848,10 @@ const FhcUtil = {
    * Retrieve the cleanup data from a specified XML file/location.
    *
    * @param  file {nsIFile}
-   * @param  preferenceHandler (FhcPreferenceHandler)
    * @param  dateHandler {FhcDateHandler}
    * @return {Object} an Object containing arrays with the cleanup configuration.
    */
-  importCleanupDatabase: function(file, preferenceHandler, dateHandler) {
+  importCleanupDatabase: function(file, dateHandler) {
     var importedConfig = null;
     // open file for reading
     var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
@@ -859,7 +859,7 @@ const FhcUtil = {
     streamIn.init(file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
     try {
       var xmlHandler = new FhcXmlHandler(dateHandler, true);
-        importedConfig = xmlHandler.parseXMLdata(streamIn, preferenceHandler);
+        importedConfig = xmlHandler.parseXMLdata(streamIn);
       delete xmlHandler;
     } finally {
       streamIn.close();

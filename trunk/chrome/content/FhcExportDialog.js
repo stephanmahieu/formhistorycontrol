@@ -72,7 +72,6 @@ const FhcExportDialog = {
     document.getElementById("multilineRadiogroup").disabled = !cbMultiEnabled;
     document.getElementById("selectedmulti").disabled = !cbMultiEnabled || !this.haveSelectedMulti;
     document.getElementById("searchmulti").disabled = !cbMultiEnabled || !this.haveFilteredMulti;
-    document.getElementById("cfgmulti").disabled = !cbMultiEnabled;
 
     //var cbRegexpEnabled = (true == document.getElementById("regexp").checked);
     //document.getElementById("regexpRadiogroup").disabled = !cbRegexpEnabled;
@@ -113,6 +112,7 @@ const FhcExportDialog = {
       exportHistoryWhat  : histWhat,
       exportMultiline    : document.getElementById("multiline").checked,
       exportMultilineWhat: multWhat,
+      exportMultiCfg     : document.getElementById("cfgmulti").checked,
       exportCleanupCfg   : document.getElementById("cleanup").checked,
       exportKeyBindings  : document.getElementById("keys").checked,
       exportRegexp       : document.getElementById("regexp").checked
@@ -130,10 +130,11 @@ const FhcExportDialog = {
     // any export selected?
     var hist  = document.getElementById("history").checked;
     var multi = document.getElementById("multiline").checked;
+    var mucfg = document.getElementById("cfgmulti").checked;
     var clean = document.getElementById("cleanup").checked;
     var keys  = document.getElementById("keys").checked;
     var regex = document.getElementById("regexp").checked;
     
-    return hist || multi || clean || keys || regex;
+    return hist || multi || mucfg || clean || keys || regex;
   }
 }

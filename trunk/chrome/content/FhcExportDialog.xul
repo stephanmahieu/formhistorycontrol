@@ -51,8 +51,7 @@
           </radiogroup>
         </row>
         <row>
-          <label value=""/>
-          <checkbox id="cfgmulti" label="Editor history preferences"/>
+          <checkbox id="cfgmulti" label="Editor history preferences" persist="checked"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>

@@ -50,6 +50,7 @@ const FhcImportStatusDialog = {
       var status = window.arguments[0];
       this._initItem("history", status.history);
       this._initItem("multiline", status.multiline);
+      this._initItem("multilinecfg", status.multicfg);
       this._initItem("cleanup", status.cleanup);
       this._initItem("keys", status.keys);
       this._initItem("regexp", status.regexp);
@@ -66,6 +67,8 @@ const FhcImportStatusDialog = {
       document.getElementById("import-"  + elementId).value = status.noAdded;
       document.getElementById("skipped-" + elementId).value = status.noSkipped;
       document.getElementById("error-"   + elementId).value = status.noErrors;
+      document.getElementById("status-"   + elementId).className = 
+        (0 == status.noErrors) ? "okay" : "error";
     }
   }
 }
