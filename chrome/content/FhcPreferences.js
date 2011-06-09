@@ -418,7 +418,7 @@ const FhcPreferences = {
 
       // import the xml data backup
       if (okay && preserveData) {
-        var cleanupConfig = FhcUtil.importCleanupDatabase(exportFile, this.prefHandler, this.dateHandler);
+        var cleanupConfig = FhcUtil.importCleanupDatabase(exportFile, this.dateHandler);
         if (cleanupConfig && cleanupConfig.cleanup) {
           this.dbHandler.bulkAddCleanupCriteria(cleanupConfig.cleanup);
         }
