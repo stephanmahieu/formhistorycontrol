@@ -173,7 +173,7 @@
       <preference id="extensions.formhistory.multiline.deleteolder"
                   name="extensions.formhistory.multiline.deleteolder"
                   type="string" />
-      <preference id="extensions.formhistory.multiline.exception"
+      <preference id="multiline-exception"
                   name="extensions.formhistory.multiline.exception"
                   type="string" />
       <preference id="extensions.formhistory.multiline.exceptionlist"
@@ -301,10 +301,10 @@
             <vbox flex="1">
               <groupbox>
                 <caption label="&fhprefs.group.multilineexceptions.caption;"/>
-                <radiogroup id="multilineradioexceptions" preference="extensions.formhistory.multiline.exception">
-                  <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.initMultilinePanel()"/>
-                  <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.initMultilinePanel()"/>
-                  <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.initMultilinePanel()"/>
+                <radiogroup id="multilineradioexceptions"> <!--  preference="multiline-exception"-->
+                  <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                  <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                  <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
                 </radiogroup>
                 <hbox align="baseline">
                   <label value="&fhprefs.label.multilinehostlist;:"/>

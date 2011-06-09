@@ -76,6 +76,7 @@ const FhcPreferences = {
     this.adjustQuickFillPreview();
     this.toggleCustomDateFormatList();
     this.initDisplayPanel()
+    this.mlexceptionRadioInit();
     this.initMultilinePanel();
     this.initCleanupPanel();
     this.fillKeyBindings();
@@ -179,6 +180,46 @@ const FhcPreferences = {
         break;
     }
     document.getElementById("treeskinRadiogroup").selectedItem = radioElm;
+  },
+
+  /**
+   * Set the exceptin.
+   *
+   * @param elmRadio {radio}
+   */
+  mlexceptionPrefChecked: function(elmRadio) {
+    switch (elmRadio.id) {
+      case "multilinenoexception":
+        this.prefHandler.setMultilineException("multilinenoexception");
+        break;
+      case "multilinewhitelist":
+        this.prefHandler.setMultilineException("multilinewhitelist");
+        break;
+      case "multilineblacklist":
+        this.prefHandler.setMultilineException("multilineblacklist");
+        break;
+    }
+    this.initMultilinePanel();
+  },
+
+  /**
+   * Initialize the radiobuttons to reflect the current exception setting.
+   */
+  mlexceptionRadioInit: function() {
+    var curProperty = this.prefHandler.getMultilineException();
+
+    // default selection
+    var radioElm = document.getElementById("multilinenoexception");
+
+    switch (curProperty) {
+      case "multilinewhitelist":
+        radioElm = document.getElementById("multilinewhitelist");
+        break;
+      case "multilineblacklist":
+        radioElm = document.getElementById("multilineblacklist");
+        break;
+    }
+    document.getElementById("multilineradioexceptions").selectedItem = radioElm;
   },
 
   /**
@@ -288,7 +329,9 @@ const FhcPreferences = {
     document.getElementById("multilineexceptionlist").disabled = !(isEnabled && isExceptionListActive);
     
     document.getElementById("multilineprivacysavealways").disabled = !isEnabled;
-    document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;    
+    document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
+    
+    
   },
 
   /**

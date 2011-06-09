@@ -1182,14 +1182,14 @@ const HistoryWindowControl = {
         if (params.out.importMulticfg) {
           var mlPrefs = data.multilineCfg;
           var count = 0;
-          if (mlPrefs.backupEnabled)   {count++; this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
-          if (mlPrefs.saveNewIfOlder)  {count++; this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
-          if (mlPrefs.saveNewIfLength) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
-          if (mlPrefs.deleteIfOlder)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
-          if (mlPrefs.exception)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
-          if (mlPrefs.exceptionList)   {count++; this.preferences.setMultilineExceptionList(  mlPrefs.exceptionList);}
-          if (mlPrefs.saveAlways)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
-          if (mlPrefs.saveEncrypted)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
+          if (mlPrefs.backupEnabled != null)   {count++; this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
+          if (mlPrefs.saveNewIfOlder != null)  {count++; this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
+          if (mlPrefs.saveNewIfLength != null) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
+          if (mlPrefs.deleteIfOlder != null)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
+          if (mlPrefs.exception != null)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
+          if (mlPrefs.exceptionList != null)   {count++; this.preferences.setMultilineExceptionList(  mlPrefs.exceptionList);}
+          if (mlPrefs.saveAlways != null)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
+          if (mlPrefs.saveEncrypted != null)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
           mcResult = {
             noTotal:   count,
             noAdded:   count,
@@ -1209,12 +1209,12 @@ const HistoryWindowControl = {
           };
           
           var clPrefs = data.cleanupCfg;
-          if (clPrefs.cleanupDaysChecked)  this.preferences.setCleanupDaysChecked( "true" == clPrefs.cleanupDaysChecked);
-          if (clPrefs.cleanupDays)         this.preferences.setCleanupDays(        clPrefs.cleanupDays);
-          if (clPrefs.cleanupTimesChecked) this.preferences.setCleanupTimesChecked("true" == clPrefs.cleanupTimesChecked);
-          if (clPrefs.cleanupTimes)        this.preferences.setCleanupTimes(       clPrefs.cleanupTimes);
-          if (clPrefs.cleanupOnShutdown)   this.preferences.setCleanupOnShutdown(  "true" == clPrefs.cleanupOnShutdown);
-          if (clPrefs.cleanupOnTabClose)   this.preferences.setCleanupOnTabClose(  "true" == clPrefs.cleanupOnTabClose);
+          if (clPrefs.cleanupDaysChecked != null)  this.preferences.setCleanupDaysChecked( "true" == clPrefs.cleanupDaysChecked);
+          if (clPrefs.cleanupDays != null)         this.preferences.setCleanupDays(        clPrefs.cleanupDays);
+          if (clPrefs.cleanupTimesChecked != null) this.preferences.setCleanupTimesChecked("true" == clPrefs.cleanupTimesChecked);
+          if (clPrefs.cleanupTimes != null)        this.preferences.setCleanupTimes(       clPrefs.cleanupTimes);
+          if (clPrefs.cleanupOnShutdown != null)   this.preferences.setCleanupOnShutdown(  "true" == clPrefs.cleanupOnShutdown);
+          if (clPrefs.cleanupOnTabClose != null)   this.preferences.setCleanupOnTabClose(  "true" == clPrefs.cleanupOnTabClose);
         }
 
         if (params.out.importRegexp) {
