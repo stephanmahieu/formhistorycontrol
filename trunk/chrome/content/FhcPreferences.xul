@@ -319,13 +319,16 @@
           <tabpanel style="margin-top: 4px">
             <!-- Privacy -->
             <vbox flex="1">
-              <checkbox label="&fhprefs.checkbox.multilinesavealways;"
-                        id="multilineprivacysavealways"
-                        preference="extensions.formhistory.multiline.savealways"/>
-              <checkbox label="&fhprefs.checkbox.multilinesaveencrypted;"
-                        id="multilineprivacysaveencrypted"
-                        preference="extensions.formhistory.multiline.saveencrypted"/>
-           </vbox>
+              <groupbox>
+                <caption label="&fhprefs.tab.multiline.privacy;"/>
+                <checkbox label="&fhprefs.checkbox.multilinesavealways;"
+                          id="multilineprivacysavealways"
+                          preference="extensions.formhistory.multiline.savealways"/>
+                <checkbox label="&fhprefs.checkbox.multilinesaveencrypted;"
+                          id="multilineprivacysaveencrypted"
+                          preference="extensions.formhistory.multiline.saveencrypted"/>
+              </groupbox>
+            </vbox>
           </tabpanel>
         </tabpanels>
       </tabbox>
