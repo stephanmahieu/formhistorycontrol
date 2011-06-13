@@ -43,13 +43,14 @@
  */
 
 const FhcFormSaveOverlay = {
-  timer:            null,
-  maintenanceTimer: null,
-  eventQueue:       [],
-  dbHandler:        null,
-  prefHandler:      null,
-  observerService:  null,
-  prefListener:     null,
+  timer:                   null,
+  maintenanceTimer:        null,
+  eventQueue:              [],
+  dbHandler:               null,
+  prefHandler:             null,
+  observerService:         null,
+  preferenceListener:      null,
+  privateBrowsingListener: null,
   
   //preferences
   backupEnabled: true,
@@ -60,65 +61,94 @@ const FhcFormSaveOverlay = {
   exceptionList: "",
   saveAlways: false,
   saveEncrypted: false,
+  
+  //private browsing
+  isPrivateBrowsing: false,
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
     this.prefHandler = new FhcPreferenceHandler();
     
     this._initPreferences();
+    this._registerPreferenceListener();
+    
+    this._initPrivateBrowsing();
+    this._registerPrivateBrowsingListener();
     
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                           .getService(Components.interfaces.nsIObserverService);
 
-    addEventListener("submit", function(e){FhcFormSaveOverlay.submit(e)}, false);
-    addEventListener("reset", function(e){FhcFormSaveOverlay.reset(e)}, false);
-    addEventListener("keyup", function(e){FhcFormSaveOverlay.keyup(e)}, false);
-
-    // dispatch event every 5 seconds
-    var timerEvent = {
-      observe: function(subject, topic, data) {
-        FhcFormSaveOverlay.dispatchEvent();
-      }
-    }
-    this.timer = Components.classes["@mozilla.org/timer;1"]
-                 .createInstance(Components.interfaces.nsITimer);
-    this.timer.init(timerEvent, 5*1000, 
-                    Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+    addEventListener("submit", function(e){FhcFormSaveOverlay.onSubmit(e)}, false);
+    addEventListener("reset",  function(e){FhcFormSaveOverlay.onReset(e)}, false);
+    addEventListener("keyup",  function(e){FhcFormSaveOverlay.onKeyup(e)}, false);
     
-    // dispatch maintenance event every minute
-    var maintenanceEvent = {
-      observe: function(subject, topic, data) {
-        FhcFormSaveOverlay.doMaintenance();
-      }
-    }
-    this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
-                            .createInstance(Components.interfaces.nsITimer);
-    this.maintenanceTimer.init(maintenanceEvent, 1*60*1000, 
-                               Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
-    
-    this._registerPrefListener();
+    this._initEventTimer();
+    this._initMaintenanceTimer();
   },
-
+  
   destroy: function() {
-    this._unregisterPrefListener();
+    this._unregisterPreferenceListener();
+    this._unregisterPrivateBrowsingListener();
     this.eventQueue = [];
     if (this.maintenanceTimer != null) this.maintenanceTimer.cancel();
     if (this.timer != null) this.timer.cancel();
     delete this.dbHandler;
   },
 
-  submit: function(event) {
-    if (!this._doSave()) return;
+
+  //----------------------------------------------------------------------------
+  // Event timers
+  //----------------------------------------------------------------------------
+  
+  /**
+   * Initialize the timer for handling events from the event queue.
+   * Handle events from the event-queue every 5 seconds.
+   */
+  _initEventTimer: function() {
+    var timerEvent = {
+      observe: function(subject, topic, data) {
+        FhcFormSaveOverlay.handleEvents();
+      }
+    }
+    this.timer = Components.classes["@mozilla.org/timer;1"]
+                 .createInstance(Components.interfaces.nsITimer);
+    this.timer.init(timerEvent, 5*1000, 
+                    Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+  },
+
+  /**
+   * Initialize the maintenance timer.
+   * Dispatch a maintenance event every minute.
+   */
+  _initMaintenanceTimer: function() {
+    var maintenanceEvent = {
+      observe: function(subject, topic, data) {
+        FhcFormSaveOverlay._dispatchMaintenanceEvent();
+      }
+    }
+    this.maintenanceTimer = Components.classes["@mozilla.org/timer;1"]
+                            .createInstance(Components.interfaces.nsITimer);
+    this.maintenanceTimer.init(maintenanceEvent, 1*60*1000, 
+                               Components.interfaces.nsITimer.TYPE_REPEATING_SLACK);
+  },
+
+
+  //----------------------------------------------------------------------------
+  // Event listeners
+  //----------------------------------------------------------------------------
+
+  onSubmit: function(event) {
+    if (!this._isSaveAllowed()) return;
     //dump("FhcFormSaveOverlay::Form submit?\n");
   },
 
-  reset: function(event) {
-    if (!this._doSave()) return;
+  onReset: function(event) {
+    if (!this._isSaveAllowed()) return;
     //dump("FhcFormSaveOverlay::Form reset?\n");
   },
 
-  keyup: function(event) {
-    if (!this._doSave()) return;
+  onKeyup: function(event) {
+    if (!this._isSaveAllowed()) return;
     
     // only handle displayable chars
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
@@ -128,13 +158,13 @@ const FhcFormSaveOverlay = {
     if ("textarea" == n) {
       //var id = (t.id) ? t.id : t.name;
       //dump("textarea with id: " + id + "\n");
-      this._contentChanged("textarea", t);
+      this._contentChangedHandler("textarea", t);
     }
     else if ("html" == n) {
       //dump("keyup from html\n");
       var p = t.parentNode;
       if (p && "on" == p.designMode) {
-        this._contentChanged("html", p);
+        this._contentChangedHandler("html", p);
       }
     }
     else if ("body" == n) {
@@ -142,12 +172,12 @@ const FhcFormSaveOverlay = {
       //dump("keyup from body\n");
       var e = t.ownerDocument.activeElement;
       if ("true" == e.contentEditable) {
-        this._contentChanged("iframe", e);
+        this._contentChangedHandler("iframe", e);
       }
     }
   },
 
-  _contentChanged: function(type, node) {
+  _contentChangedHandler: function(type, node) {
     var uri;
     var formid = "";
     var id = (node.id) ? node.id : ((node.name) ? node.name : "");
@@ -166,22 +196,26 @@ const FhcFormSaveOverlay = {
     }
 
     // add to queue (if not already queued)
-    this._queueEvent(name, type, id, formid, uri, node);
+    this._dispatchContentEvent(name, type, id, formid, uri, node);
+  },
+  
+  /**
+   * return false when backup is disabled OR in private browsing mode and
+   * saving not overridden.
+   */
+  _isSaveAllowed: function() {
+    if (!this.backupEnabled) return false;
+    if (!this.saveAlways && this.isPrivateBrowsing) return false;
+    return true;
   },
 
-  _alreadyQueued: function(event) {
-    var e;
-    for (var it=0; it<this.eventQueue.length; it++) {
-      e = this.eventQueue[it];
-      if (e.node == event.node) {
-        return true;
-      }
-    }
-    return false;
-  },
+
+  //----------------------------------------------------------------------------
+  // Event dispatching methods
+  //----------------------------------------------------------------------------
 
   /**
-   * Place an event on the queue.
+   * Place a content-changed event on the queue.
    * 
    * @param name {String}
    *        the name of the field if present otherwise the id
@@ -201,41 +235,86 @@ const FhcFormSaveOverlay = {
    * @param node {Node}
    *        the node object representing the field
    */
-  _queueEvent: function(name, type, id, formid, uri, node) {
+  _dispatchContentEvent: function(name, type, id, formid, uri, node) {
     var event = {
-        node:       node,
-        type:       type,
-        id:         id,
-        name:       name,
-        formid:     formid,
-        url:        uri.spec,
-        host:       this._getHost(uri),
-      //firstsaved: null,
-        lastsaved:  null,
-        content:    null
-      };
+      eventType:  0,
+      node:       node,
+      type:       type,
+      id:         id,
+      name:       name,
+      formid:     formid,
+      url:        uri.spec,
+      host:       this._getHost(uri),
+    //firstsaved: null,
+      lastsaved:  null,
+      content:    null
+    };
+    if (!this._alreadyQueued(event)) {
+      this.eventQueue.push(event);
+    }
+  },
+  
+  /**
+   * Place a maintenance event on the queue.
+   */
+  _dispatchMaintenanceEvent: function() {
+    var event = {
+      eventType: 1,
+      node:      0
+    };
     if (!this._alreadyQueued(event)) {
       this.eventQueue.push(event);
     }
   },
 
-  _getContent: function(event) {
-    var content = "";
-    switch(event.type) {
-      case "textarea":
-        content = event.node.value;
-        break;
-      case "html":
-        content = event.node.body.innerHTML;
-        break;
-      case "iframe":
-        content = event.node.innerHTML;
-        break;
+  /**
+   * Check wether the event is already placed on the queue.
+   * 
+   * @param event {Object}
+   *        a content or maintenance event
+   */
+  _alreadyQueued: function(event) {
+    var e;
+    for (var it=0; it<this.eventQueue.length; it++) {
+      e = this.eventQueue[it];
+      if (e.eventType == event.eventType && e.node == event.node) {
+        return true;
+      }
     }
-    return content;
+    return false;
   },
 
-  _saveContent: function(event) {
+
+  //----------------------------------------------------------------------------
+  // Event handling methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * handle all events in the event-queue.
+   */
+  handleEvents: function() {
+    if (0 < this.eventQueue.length) {
+      //dump("TimerEvent and queue not empty!\n");
+      var event;
+      for (var it=0; it<this.eventQueue.length; it++) {
+        event = this.eventQueue[it];
+        switch(event.eventType) {
+          case 0: this._handleContentEvent(event);
+                  break;
+          case 1: this._handleMaintenanceEvent();
+                  break;
+        }
+      }
+      this.eventQueue = [];
+      //dump("Finished processing queue\n");
+    }
+  },
+
+  /**
+   * Save the changed content to the database.
+   */
+  _handleContentEvent: function(event) {
+    //dump("_handleContentEvent\n");
     var d = new Date();
     var now = d.getTime() * 1000;
     
@@ -251,7 +330,60 @@ const FhcFormSaveOverlay = {
     // notify observers
     this.observerService.notifyObservers(null, "multiline-store-changed", "");
   },
+  
+  /**
+   * Perform the maintenance task.
+   */
+  _handleMaintenanceEvent: function() {
+    //dump("_handleMaintenanceEvent\n");
+    var d = new Date();
+    var now = d.getTime() * 1000;
+    var treshold = now - (this.deleteIfOlder * 60 * 1000 * 1000);
+    
+    if (0 != this.deleteIfOlder) {
+      if (0 < this.dbHandler.deleteMultilineItemsOlder(treshold)) {
+        // notify observers
+        this.observerService.notifyObservers(null, "multiline-store-changed", "");
+      }
+    }
+  },
 
+
+  //----------------------------------------------------------------------------
+  // HTML Field/Form helper methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Get the editor (multiline) content from a HTML element.
+   * 
+   * @param  event {Event}
+   *         eventlistener-event
+   * @return {String}
+   *         the editor/multiline text being edited by a user
+   */
+  _getContent: function(event) {
+    var content = "";
+    switch(event.type) {
+      case "textarea":
+           content = event.node.value;
+           break;
+      case "html":
+           content = event.node.body.innerHTML;
+           break;
+      case "iframe":
+           content = event.node.innerHTML;
+           break;
+    }
+    return content;
+  },
+  
+  /**
+   * Get the id (or name) of the parent form if any for the HTML element.
+   * 
+   * @param  element {HTML Element}
+   * @return {String} id, name or empty string of the parent form element
+   * 
+   */
   _getFormId: function(element) {
     var insideForm = false;
     var parentElm = element;
@@ -262,6 +394,13 @@ const FhcFormSaveOverlay = {
     return (insideForm && parentElm) ? this._getId(parentElm) : "";
   },
   
+  /**
+   * Get the id of a HTML element, if id not present return the name.
+   * If neither is present return an empty string.
+   * 
+   * @param  element {HTML Element}
+   * @return {String} id, name or empty string
+   */
   _getId: function(element) {
     return (element.id) ? element.id : ((element.name) ? element.name : "");
   },
@@ -280,58 +419,10 @@ const FhcFormSaveOverlay = {
     }
   },
 
-  dispatchEvent: function() {
-    if (0 < this.eventQueue.length) {
-      //dump("TimerEvent and queue not empty!\n");
-      for (var it=0; it<this.eventQueue.length; it++) {
-        this._saveContent(this.eventQueue[it]);
-      }
-      this.eventQueue = [];
-      //dump("Finished processing queue\n");
-    }
-  },
-  
-  doMaintenance: function() {
-    var d = new Date();
-    var now = d.getTime() * 1000;
-    var treshold = now - (this.deleteIfOlder * 60 * 1000 * 1000);
-    
-    if (0 != this.deleteIfOlder) {
-      if (0 < this.dbHandler.deleteMultilineItemsOlder(treshold)) {
-        // notify observers
-        this.observerService.notifyObservers(null, "multiline-store-changed", "");
-      }
-    }
-  },
-  
-  /**
-   * return false when backup is disabled OR in private browsing mode and
-   * saving not overridden.
-   */
-  _doSave: function() {
-    if (!this.backupEnabled) return false;
-    if (!this.saveAlways && this._inPrivateBrowsingMode()) return false;
-    return true;
-  },
-  
-  /**
-   * Detect whether or not the browser is in private-browsing mode.
-   *
-   * @return {boolean} whether or not in private-browsing mode.
-   */
-  _inPrivateBrowsingMode: function() {
-    var isPrivate = false;
-    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
-      try {
-        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
-                    .getService(Components.interfaces.nsIPrivateBrowsingService);
-        isPrivate = pbs.privateBrowsingEnabled;
-      } catch(e) {
-        // Seamonkey
-      }
-    }
-    return isPrivate;
-  },
+
+  //----------------------------------------------------------------------------
+  // Preference helper methods
+  //----------------------------------------------------------------------------
 
   _initPreferences: function() {
     this.backupEnabled   = this.prefHandler.isMultilineBackupEnabled();
@@ -344,73 +435,125 @@ const FhcFormSaveOverlay = {
     this.saveEncrypted   = this.prefHandler.isMultilineSaveEncrypted();
   },
   
-  // Register a preference listener to act upon multiline pref changes
-  _registerPrefListener: function() {
+  /**
+   *  Register a preference listener to act upon multiline preference changes.
+   */
+  _registerPreferenceListener: function() {
     var thisHwc = this;
-    this.prefListener = new this.PrefListener(
-      function(branch, name) {
-        switch (name) {
-          case "backupenabled":
-               thisHwc.backupEnabled = thisHwc.prefHandler.isMultilineBackupEnabled();
-               break;
-          case "saveolder":
-               thisHwc.saveNewIfOlder = thisHwc.prefHandler.getMultilineSaveNewIfOlder();
-               break;
-          case "savelength":
-               thisHwc.saveNewIfLength = thisHwc.prefHandler.getMultilineSaveNewIfLength();
-               break;
-          case "deleteolder":
-               thisHwc.deleteIfOlder = thisHwc.prefHandler.getMultilineDeleteIfOlder();
-               break;
-          case "exception":
-          case "exceptionlist":
-               thisHwc.exceptionType = thisHwc.prefHandler.getMultilineException();
-               thisHwc.exceptionList = thisHwc.prefHandler.getMultilineExceptionList();
-               break;
-          case "savealways":
-               thisHwc.saveAlways = thisHwc.prefHandler.isMultilineSaveAlways();
-               break;
-          case "saveencrypted":
-               thisHwc.saveEncrypted = thisHwc.prefHandler.isMultilineSaveEncrypted();
-               break;
+    this.preferenceListener = {
+      branch: null,
+      observe: function(subject, topic, data) {
+        if ("nsPref:changed" == topic) {
+          switch (data) {
+            case "backupenabled":
+                 thisHwc.backupEnabled = thisHwc.prefHandler.isMultilineBackupEnabled();
+                 break;
+            case "saveolder":
+                 thisHwc.saveNewIfOlder = thisHwc.prefHandler.getMultilineSaveNewIfOlder();
+                 break;
+            case "savelength":
+                 thisHwc.saveNewIfLength = thisHwc.prefHandler.getMultilineSaveNewIfLength();
+                 break;
+            case "deleteolder":
+                 thisHwc.deleteIfOlder = thisHwc.prefHandler.getMultilineDeleteIfOlder();
+                 break;
+            case "exception":
+            case "exceptionlist":
+                 thisHwc.exceptionType = thisHwc.prefHandler.getMultilineException();
+                 thisHwc.exceptionList = thisHwc.prefHandler.getMultilineExceptionList();
+                 break;
+            case "savealways":
+                 thisHwc.saveAlways = thisHwc.prefHandler.isMultilineSaveAlways();
+                 break;
+            case "saveencrypted":
+                 thisHwc.saveEncrypted = thisHwc.prefHandler.isMultilineSaveEncrypted();
+                 break;
+          }
         }
-      });
-    this.prefListener.register();
+      },
+      register: function() {
+        var prefService = Components.classes["@mozilla.org/preferences-service;1"]
+                            .getService(Components.interfaces.nsIPrefService);
+        this.branch = prefService.getBranch("extensions.formhistory.multiline.");
+        this.branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        this.branch.addObserver("", this, false);
+      },
+      unregister: function() {
+        if (this.branch) 
+          this.branch.removeObserver("", this);
+      }
+    }
+    this.preferenceListener.register();
   },
  
-  // Unregister the preference listener
-  _unregisterPrefListener: function() {
-    if (this.prefListener) {
-      this.prefListener.unregister();
-      this.prefListener = null;
+  /**
+   * Unregister the preference listener.
+   */
+  _unregisterPreferenceListener: function() {
+    if (this.preferenceListener) {
+      this.preferenceListener.unregister();
+      this.preferenceListener = null;
     }
+  },
+
+
+  //----------------------------------------------------------------------------
+  // Private browsing helper methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Observe changes to the private browsing mode
+   */
+  _registerPrivateBrowsingListener: function() {
+    var thisHwc = this;
+    this.privateBrowsingListener = {
+      observe: function(subject, topic, state) {
+        if ("private-browsing" == topic) {
+          switch (state) {
+            case "enter":
+                 thisHwc.isPrivateBrowsing = true;
+                 break;
+            case "exit":
+                 thisHwc.isPrivateBrowsing = false;
+                 break;              
+          }
+        }
+      },
+      register: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .addObserver(this, "private-browsing", false);
+      },
+      unregister: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .removeObserver(this, "private-browsing");
+      }
+    };
+    this.privateBrowsingListener.register();
+  },
+  
+  _unregisterPrivateBrowsingListener: function() {
+    this.privateBrowsingListener.unregister();
   },
   
   /**
-   * Method for registering an observer which gets called when any of the
-   * formhistory multiline preferences change.
+   * Detect whether or not the browser is in private-browsing mode.
    *
-   * @param func {Function} the observer to call when preferences change
+   * @return {boolean} whether or not in private-browsing mode.
    */
-  PrefListener: function(func) {
-    var prefService = Components.classes["@mozilla.org/preferences-service;1"]
-                        .getService(Components.interfaces.nsIPrefService);
-    var branch = prefService.getBranch("extensions.formhistory.multiline.");
-    branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
-
-    this.register = function() {
-      branch.addObserver("", this, false);
-    };
-
-    this.unregister = function() {
-      if (branch)
-        branch.removeObserver("", this);
-    };
-
-    this.observe = function(subject, topic, data) {
-      if ("nsPref:changed" == topic)
-        func(branch, data);
-    };
+  _initPrivateBrowsing: function() {
+    this.isPrivateBrowsing = false;
+    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
+      try {
+        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
+                    .getService(Components.interfaces.nsIPrivateBrowsingService);
+        this.isPrivateBrowsing = pbs.privateBrowsingEnabled;
+      } catch(e) {
+        // Seamonkey
+        this.isPrivateBrowsing = false;
+      }
+    }
   }  
 };
 
