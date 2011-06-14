@@ -322,13 +322,12 @@ const FhcFormSaveOverlay = {
     event.lastsaved = now;
     event.content = this._getContent(event);
     
-    this.dbHandler.saveOrUpdateMultilineItem(event, this.saveNewIfOlder, this.saveNewIfLength);
-    //dump("- Saving for uri: " + event.url + "\n");
-    //dump("  type: " + event.type + ", id[" + event.id + "], formId[" + event.formid + "]\n");
-    //dump(">>> content\n" + event.content + "\n<<< content\n");
+    if (event.content.length > 0)  {
+      this.dbHandler.saveOrUpdateMultilineItem(event, this.saveNewIfOlder, this.saveNewIfLength);
 
-    // notify observers
-    this.observerService.notifyObservers(null, "multiline-store-changed", "");
+      // notify observers
+      this.observerService.notifyObservers(null, "multiline-store-changed", "");
+    }
   },
   
   /**
