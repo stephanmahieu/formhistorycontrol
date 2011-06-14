@@ -172,6 +172,7 @@
 <!ENTITY fhmnuovl.menuitem.manager.label "Form History Control">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Delete current value for this field">
 <!ENTITY fhmnuovl.menuitem.deletethis.label "Delete complete history for this field">
+<!ENTITY fhmnuovl.menuitem.restorethis.label "Restore editor field">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Manage entries for this field">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Fill fields with most recent entries">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Fill fields with most often used entries">

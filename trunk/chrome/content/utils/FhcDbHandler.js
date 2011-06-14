@@ -1974,14 +1974,14 @@ FhcDbHandler.prototype = {
         })
       }
     } catch(ex) {
-      dump('_findLastTenItems:Exception: ' + ex);
+      dump('findLastsavedItems:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
       this._closeDbConnection(mDBConn, true);
       return result;
     }
   },
-
+  
   //----------------------------------------------------------------------------
   // Customsave methods
   //----------------------------------------------------------------------------

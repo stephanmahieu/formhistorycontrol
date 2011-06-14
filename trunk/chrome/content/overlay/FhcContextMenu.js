@@ -168,17 +168,17 @@ const FhcContextMenu = {
       case "contentAreaContextMenu":
         var inputField = document.commandDispatcher.focusedElement;
         var isInputText = FhcUtil.isInputTextElement(inputField);
-        var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
+        //var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("fhc_cmd_DeleteValueThisField", !isValueInFormHistory);
         this._disable("fhc_cmd_DeleteEntriesThisField", !isInputText);
         this._disable("fhc_cmd_ManageThisField", !isInputText);
-        this._disable("formhistctrl_restore_submenu", !isInputMultiline);
-        if (isInputMultiline) {
+        //this._disable("formhistctrl_restore_submenu", !isInputMultiline);
+        //if (isInputMultiline) {
           this._addRestoreMenuItems("formhistctrl_restore_submenu");
-        }
+        //}
         this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
         this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
         this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
@@ -442,7 +442,7 @@ const FhcContextMenu = {
       menu.removeItemAt(0);
     }
     
-    // try to find saved editor content
+    // try to find saved editor content for inputfield
     this.restoreItems = [];
     var inputField = document.commandDispatcher.focusedElement;
     if (inputField) {
@@ -452,29 +452,35 @@ const FhcContextMenu = {
     
     // add a menuitem for every found restoreItem
     var menuItem;
-    if (this.restoreItems.length > 0) {
+    if (this.restoreItems.length == 0) {
+      menuItem = menu.appendItem(
+        this.bundle.getString("contextmenu.item.restore.nobackupsfound"));
+      menuItem.setAttribute("disabled", true);
+    } else {
       var restoreItem, previewText;
       for (var ii=0; ii<this.restoreItems.length; ii++) {
         restoreItem = this.restoreItems[ii];
         
         previewText = "";
-        if (restoreItem.content.length>13) {
-          previewText = restoreItem.content.substr(0, 13);
+        if (restoreItem.content.length <= 13) {
+          previewText = restoreItem.content.substr(0, 20);
         } else {
-          previewText = restoreItem.content.substr(0, 10) + "...";
+          previewText = restoreItem.content.substr(0, 17) + "...";
         }
         
         menuItem = menu.appendItem(
-                this.dateHandler.toDateString(restoreItem.lastsaved) + 
+          this.dateHandler.toDateString(restoreItem.lastsaved) + 
                 ",  " + previewText);
         menuItem.addEventListener("click", function(event){FhcContextMenu._handleRestoreEvent(event)}, false);
         menuItem.setAttribute("restoreitemidx", ii);
-        menuItem.setAttribute("tooltiptext", restoreItem.content.substr(0, 100));
+        menuItem.setAttribute("tooltiptext", restoreItem.content.substr(0, 250));
       }
     }
-    //TODO localize this
-    menuItem = menu.appendItem("More...");
-    menuItem.addEventListener("click", function(){FhcShowDialog.doShowFormHistoryControl({multilineTab:true})}, false);
+    
+    menuItem = menu.appendItem(
+      this.bundle.getString("contextmenu.item.restore.more"));
+    menuItem.addEventListener("click", 
+      function(){FhcShowDialog.doShowFormHistoryControl({multilineTab:true})}, false);
   },
   
   /**
@@ -542,14 +548,7 @@ const FhcContextMenu = {
         uri = e.ownerDocument.documentURIObject;
       }
     }
-    
-    if (uri) {
-      if (uri.schemeIs("file")) {
-        result.host = "localhost";
-      } else {
-        result.host = uri.host;
-      }    
-    }
+    result.host = this._getHost(uri);
     
     var insideForm = false;
     var parentElm = inputField;
@@ -562,6 +561,20 @@ const FhcContextMenu = {
     }
     
     return result;
+  },
+  
+  /**
+   * Return the host of an URI.
+   */
+  _getHost: function(uri) {
+    if (uri) {
+      if (uri.schemeIs("file")) {
+        return "localhost";
+      } else {
+        return uri.host;
+      }    
+    }
+    return "";
   },
   
   /**

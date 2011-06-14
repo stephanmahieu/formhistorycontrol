@@ -155,6 +155,8 @@ const HistoryWindowControl = {
       // start with multilinetab selected
       if (!document.getElementById("editorHistoryTab").hidden) {
         document.getElementById('historyWindowTabs').selectedIndex = 2;
+        document.getElementById("displayhostonly").setAttribute("checked", true);
+        MultilineWindowControl.filterChanged();
       }
     } else if (this.preferences.isDefaultSearchCurrentPageChecked()) {
       // apply pagefilter
@@ -220,6 +222,8 @@ const HistoryWindowControl = {
       // start with multilinetab selected
       if (!document.getElementById("editorHistoryTab").hidden) {
         document.getElementById('historyWindowTabs').selectedIndex = 2;
+        document.getElementById("displayhostonly").setAttribute("checked", true);
+        MultilineWindowControl.filterChanged();
       }
     } 
   },

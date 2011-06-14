@@ -172,6 +172,7 @@
 <!ENTITY fhmnuovl.menuitem.manager.label "Historie Beheer">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Verwijder huidige waarde dit veld">
 <!ENTITY fhmnuovl.menuitem.deletethis.label "Verwijder complete historie dit veld">
+<!ENTITY fhmnuovl.menuitem.restorethis.label "Herstel editor veld">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Beheer waarden voor dit veld">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Vul velden met meest recente waarden">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Vul velden met meest gebruikte waarden">

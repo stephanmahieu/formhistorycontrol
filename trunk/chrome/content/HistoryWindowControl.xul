@@ -1134,7 +1134,7 @@
                       accesskey="&fhwin.filter.accesskey;"/>
             <textbox  id="filterMLText" flex="1"
                       type="search" timeout="500"
-                      oncommand="MultilineWindowControl.filterChanged(this);"/>
+                      oncommand="MultilineWindowControl.filterChanged();"/>
             <checkbox id="filterMlMatchCase" label="&fhwin.checkbox.matchcase.label;"
                       accesskey="&fhwin.checkbox.matchcase.accesskey;"
                       oncommand="MultilineWindowControl.prefsChanged(this);"/>
@@ -1217,7 +1217,7 @@
               <checkbox id="displayhostonly" flex="2" disabled="false" crop="end"
                         label="&fhwin.multiline.checkbox.searchhostonly.label;"
                         tooltiptext=""
-                        oncommand="MultilineWindowControl.filterChanged(this);"
+                        oncommand="MultilineWindowControl.filterChanged();"
                         accesskey=""/>
             </hbox>
             <spacer flex="10"/>
