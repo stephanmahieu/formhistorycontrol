@@ -151,6 +151,11 @@ const HistoryWindowControl = {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);
       this.searchOnlyFieldChanged(true, "searchbar-history");
+    } else if (hasArguments && window.arguments[0].multilineTab) {
+      // start with multilinetab selected
+      if (!document.getElementById("editorHistoryTab").hidden) {
+        document.getElementById('historyWindowTabs').selectedIndex = 2;
+      }
     } else if (this.preferences.isDefaultSearchCurrentPageChecked()) {
       // apply pagefilter
       document.getElementById("searchpageonly").setAttribute("checked", true);
@@ -211,7 +216,12 @@ const HistoryWindowControl = {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);
       this.searchOnlyFieldChanged(true, "searchbar-history");
-    }
+    } else if (parameters && parameters.multilineTab) {
+      // start with multilinetab selected
+      if (!document.getElementById("editorHistoryTab").hidden) {
+        document.getElementById('historyWindowTabs').selectedIndex = 2;
+      }
+    } 
   },
 
 

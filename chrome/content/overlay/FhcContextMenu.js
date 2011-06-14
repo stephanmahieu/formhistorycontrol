@@ -57,6 +57,7 @@ const FhcContextMenu = {
   dateHandler: null,
   cleanupFilter: null,
   keyBindings: null,
+  restoreItems: [],
   
   /**
    * Implementation of the EventListener Interface for listening to
@@ -167,12 +168,17 @@ const FhcContextMenu = {
       case "contentAreaContextMenu":
         var inputField = document.commandDispatcher.focusedElement;
         var isInputText = FhcUtil.isInputTextElement(inputField);
+        var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("fhc_cmd_DeleteValueThisField", !isValueInFormHistory);
         this._disable("fhc_cmd_DeleteEntriesThisField", !isInputText);
         this._disable("fhc_cmd_ManageThisField", !isInputText);
+        this._disable("formhistctrl_restore_submenu", !isInputMultiline);
+        if (isInputMultiline) {
+          this._addRestoreMenuItems("formhistctrl_restore_submenu");
+        }
         this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
         this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
         this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
@@ -421,6 +427,143 @@ const FhcContextMenu = {
     FhcUtil.showTrayMessage('fhcSaveMessageFields', msg, 3000);
   },
 
+
+  /**
+   * Get content backups (max. 10) for the current focussed multiline inputfield
+   * and add menuitems to the menu for each.
+   * 
+   * @param menuId {Element} the submenu
+   */
+  _addRestoreMenuItems: function(menuId) {
+    var menu = document.getElementById(menuId);
+    
+    // delete old menuitems
+    while (menu.itemCount > 0) {
+      menu.removeItemAt(0);
+    }
+    
+    // try to find saved editor content
+    this.restoreItems = [];
+    var inputField = document.commandDispatcher.focusedElement;
+    if (inputField) {
+      var props = this._getMultilineProperties(inputField);
+      this.restoreItems = this.dbHandler.findLastsavedItems(props);
+    }
+    
+    // add a menuitem for every found restoreItem
+    var menuItem;
+    if (this.restoreItems.length > 0) {
+      var restoreItem, previewText;
+      for (var ii=0; ii<this.restoreItems.length; ii++) {
+        restoreItem = this.restoreItems[ii];
+        
+        previewText = "";
+        if (restoreItem.content.length>13) {
+          previewText = restoreItem.content.substr(0, 13);
+        } else {
+          previewText = restoreItem.content.substr(0, 10) + "...";
+        }
+        
+        menuItem = menu.appendItem(
+                this.dateHandler.toDateString(restoreItem.lastsaved) + 
+                ",  " + previewText);
+        menuItem.addEventListener("click", function(event){FhcContextMenu._handleRestoreEvent(event)}, false);
+        menuItem.setAttribute("restoreitemidx", ii);
+        menuItem.setAttribute("tooltiptext", restoreItem.content.substr(0, 100));
+      }
+    }
+    //TODO localize this
+    menuItem = menu.appendItem("More...");
+    menuItem.addEventListener("click", function(){FhcShowDialog.doShowFormHistoryControl({multilineTab:true})}, false);
+  },
+  
+  /**
+   * Restore multilinefield has been selected from the menu.
+   * Get the selected content and push it into the focused inputfield.
+   * 
+   * @param event {Event} The menuitem event that triggered this action.
+   */
+  _handleRestoreEvent: function(event) {
+    var menuItem = event.originalTarget;
+    //dump("You clicked on restore item (" + menuItem.getAttribute("restoreitemidx") + ")\n");
+    var idx = menuItem.getAttribute("restoreitemidx");
+    var restoreItem = this.restoreItems[idx];
+    
+    // push saved content back into multiline element
+    var inputField = document.commandDispatcher.focusedElement;
+    switch(restoreItem.type) {
+      case "textarea":
+           inputField.value = restoreItem.content;
+           break;
+      case "html":
+           inputField.body.textContent = restoreItem.content;
+           break;
+      case "iframe":
+           inputField.textContent = restoreItem.content;
+           break;
+    }
+  },
+  
+  /**
+   * Collect all relevant properties of the inputField.
+   * 
+   * @param  inputField {Element}
+   * @return {Object} all relevant propeties neede for a database lookup.
+   */
+  _getMultilineProperties: function(inputField) {
+    var result = {
+      id: "",
+      name: "",
+      formid: "",
+      host: "",
+      type: ""
+    };
+    
+    result.id = (inputField.id) ? inputField.id : ((inputField.name) ? inputField.name : "");
+    result.name = (inputField.name) ? inputField.name : ((inputField.id) ? inputField.id : "");
+    
+    var uri = null;
+    var nodename = inputField.nodeName.toLowerCase();
+    if ("textarea" == nodename) {
+      result.type = "textarea";
+      uri = inputField.ownerDocument.documentURIObject;
+    }
+    else if ("html" == nodename) {
+      var p = inputField.parentNode;
+      if (p && "on" == p.designMode) {
+        result.type = "html";
+        uri = p.ownerDocument.documentURIObject;
+      }
+    }
+    else if ("body" == nodename) {
+      var e = inputField.ownerDocument.activeElement;
+      if ("true" == e.contentEditable) {
+        result.type = "iframe";
+        uri = e.ownerDocument.documentURIObject;
+      }
+    }
+    
+    if (uri) {
+      if (uri.schemeIs("file")) {
+        result.host = "localhost";
+      } else {
+        result.host = uri.host;
+      }    
+    }
+    
+    var insideForm = false;
+    var parentElm = inputField;
+    while(parentElm && !insideForm) {
+      parentElm = parentElm.parentNode;
+      insideForm = ("FORM" == parentElm.tagName);
+    }
+    if (insideForm && parentElm) {
+      result.formid = (parentElm.id) ? parentElm.id : ((parentElm.name) ? parentElm.name : "");
+    }
+    
+    return result;
+  },
+  
   /**
    * Save the inputfield in the formhistory database.
    *

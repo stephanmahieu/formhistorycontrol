@@ -1930,6 +1930,58 @@ FhcDbHandler.prototype = {
     return result ? count : 0;
   },
 
+  /**
+   * Find the last 10 saved items matching the given properties.
+   * 
+   * @param  itemprops {Object}
+   *         the multiline properties to query
+   * 
+   * @return {Array}
+   *         array of items found
+   */
+  findLastsavedItems:function(itemprops) {
+    var mDBConn = this._getDbCleanupConnection(false);
+    var statement, result = [];
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT id, name, type, formid," +
+          "       content, host, url," +
+          "       firstsaved, lastsaved" +
+          "  FROM multiline" +
+          " WHERE host   = :host" +
+          "   AND type   = :type" +
+          "   AND id     = :id" +
+          "   AND name   = :name" +
+          "   AND formid = :formid" +
+          " ORDER BY lastsaved DESC" +
+          " LIMIT 10");
+      statement.params.host   = itemprops.host;
+      statement.params.type   = itemprops.type;
+      statement.params.id     = itemprops.id;
+      statement.params.name   = itemprops.name;
+      statement.params.formid = itemprops.formid;
+      while (statement.executeStep()) {
+        result.push({
+          id:         statement.row.id,
+          name:       statement.row.name,
+          type:       statement.row.type,
+          formid:     statement.row.formid,
+          content:    statement.row.content,
+          host:       statement.row.host,
+          url:        statement.row.url,
+          firstsaved: statement.row.firstsaved,
+          lastsaved:  statement.row.lastsaved
+        })
+      }
+    } catch(ex) {
+      dump('_findLastTenItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+      return result;
+    }
+  },
+
   //----------------------------------------------------------------------------
   // Customsave methods
   //----------------------------------------------------------------------------

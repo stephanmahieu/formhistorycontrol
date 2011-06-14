@@ -88,6 +88,13 @@
                   class="menuitem-iconic fh_menuitem_deletethisfield"
                   label="&fhmnuovl.menuitem.deletethis.label;"
                   command="fhc_cmd_DeleteEntriesThisField"/>
+        <menu id="formhistctrl_restore_submenu"
+              class="menu-iconic fh_menuitem_restorethisfield"
+              label="Restore this field">
+          <menupopup>
+            <!-- Items are dynamically added here -->
+          </menupopup>
+        </menu>
         <menuseparator/>
         <menuitem id="formhistctrl_context_menuitem_fillmostrecent"
                   class="menuitem-iconic fh_menuitem_fillmostrecent"
