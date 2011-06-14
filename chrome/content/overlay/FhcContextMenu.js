@@ -168,17 +168,20 @@ const FhcContextMenu = {
       case "contentAreaContextMenu":
         var inputField = document.commandDispatcher.focusedElement;
         var isInputText = FhcUtil.isInputTextElement(inputField);
-        //var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
         var isValueInFormHistory = isInputText && this._isValueInFormHistory(inputField);
         hasFields = this._containsInputFields();
         manualSaveDisabled = !this.preferences.isManualsaveEnabled();
         this._disable("fhc_cmd_DeleteValueThisField", !isValueInFormHistory);
         this._disable("fhc_cmd_DeleteEntriesThisField", !isInputText);
         this._disable("fhc_cmd_ManageThisField", !isInputText);
-        //this._disable("formhistctrl_restore_submenu", !isInputMultiline);
-        //if (isInputMultiline) {
+        
+        //var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
+        var isBackupEnabled = this.preferences.isMultilineBackupEnabled();
+        this._hide("formhistctrl_restore_submenu", !isBackupEnabled);
+        if (isBackupEnabled) {
           this._addRestoreMenuItems("formhistctrl_restore_submenu");
-        //}
+        }
+        
         this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
         this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
         this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
