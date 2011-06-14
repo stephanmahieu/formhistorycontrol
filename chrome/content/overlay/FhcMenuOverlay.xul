@@ -90,7 +90,7 @@
                   command="fhc_cmd_DeleteEntriesThisField"/>
         <menu id="formhistctrl_restore_submenu"
               class="menu-iconic fh_menuitem_restorethisfield"
-              label="Restore this field">
+              label="&fhmnuovl.menuitem.restorethis.label;">
           <menupopup>
             <!-- Items are dynamically added here -->
           </menupopup>

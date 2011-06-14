@@ -380,7 +380,7 @@ const MultilineWindowControl = {
   /**
    * Filtertext changed, apply new filter.
    */
-  filterChanged: function(domObject) {
+  filterChanged: function() {
     this.treeBox.rowCountChanged(0, -this.rowCount);
     this.treeBox.invalidate();
     
@@ -508,16 +508,15 @@ const MultilineWindowControl = {
     
     var host = "";
     if (currentHostOnly) {
+
       if (window.opener) {
         var curWindow = window.opener.opener ? window.opener.opener : window.opener;
         var mainDocument = curWindow.content.document;
-        if (mainDocument.baseURIObject.schemeIs("file")) {
-          host = "localhost";
-        } else {
-          try {
+        if (mainDocument) {
+          if (mainDocument.baseURIObject.schemeIs("file")) {
+            host = "localhost";
+          } else {
             host = mainDocument.baseURIObject.host;
-          } finally {
-            host = ":"; //no page, no host
           }
         }
       }
@@ -737,7 +736,7 @@ const MultilineWindowControl = {
                checkboxElem.checked = FhcUtil.isCaseSensitive;
 
                // apply changes to view
-               thisHwc.filterChanged(null);
+               thisHwc.filterChanged();
                break;
           case "useCustomDateTimeFormat":
           case "customDateTimeFormat":
