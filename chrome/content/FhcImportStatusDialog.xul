@@ -36,7 +36,7 @@
           <label value="Imported" style="text-align: right"/>
           <label value="Identical" style="text-align: right"/>
           <label value="Error" style="text-align: right"/>
-          <label value="!" style="text-align: center"/>
+          <label value="" style="text-align: center;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
