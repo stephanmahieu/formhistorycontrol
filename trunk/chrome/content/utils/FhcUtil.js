@@ -348,12 +348,12 @@ const FhcUtil = {
   },
 
   /**
-   * Determine whether or not a DOM element is a text imput element.
+   * Determine whether or not a DOM element is a text input element.
    * New html5 types like search, tel, url, time, week and email are
    * also considered text types.
    * 
    * @param  element {DOM element}
-   * @return {Boolean} whether or not a DOM element is a text imput element
+   * @return {Boolean} whether or not a DOM element is a text input element
    */
   isInputTextElement: function(element) {
     var result = false;
@@ -372,6 +372,33 @@ const FhcUtil = {
                );
     }
     return result;
+  },
+
+  /**
+   * Determine whether or not a DOM element is a multiline input element.
+   * 
+   * @param  element {DOM element}
+   * @return {Boolean} whether or not a DOM element is a multiline input element
+   */
+  isMultilineInputElement: function(element) {
+    if (!element) return false
+    var name = element.nodeName.toLowerCase();
+    if ("textarea" == name) {
+      return true;
+    }
+    else if ("html" == name) {
+      var p = element.parentNode;
+      if (p && "on" == p.designMode) {
+        return true;
+      }
+    }
+    else if ("body" == name) {
+      var e = element.ownerDocument.activeElement;
+      if ("true" == e.contentEditable) {
+        return true;
+      }
+    }
+    return false;
   },
 
   /**
