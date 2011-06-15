@@ -259,13 +259,13 @@ FhcDateHandler.prototype = {
    */
   fromISOdateString: function(aDateString) {
     var d = new Date(
-      parseInt(aDateString.substr(0, 4)),   // year
-      parseInt(aDateString.substr(5, 2))-1, // month (zero based!)
-      parseInt(aDateString.substr(8, 2)),   // day
-      parseInt(aDateString.substr(11,2)),   // hour
-      parseInt(aDateString.substr(14,2)),   // minute
-      parseInt(aDateString.substr(17,2)),   // seconds
-      parseInt(aDateString.substr(20,3))    // msec
+      parseInt(aDateString.substr(0, 4), 10),   // year
+      parseInt(aDateString.substr(5, 2), 10)-1, // month (zero based!)
+      parseInt(aDateString.substr(8, 2), 10),   // day
+      parseInt(aDateString.substr(11,2), 10),   // hour
+      parseInt(aDateString.substr(14,2), 10),   // minute
+      parseInt(aDateString.substr(17,2), 10),   // seconds
+      parseInt(aDateString.substr(20,3), 10)    // msec
     );
     return d.getTime()*1000; //msec * 1000
   },
