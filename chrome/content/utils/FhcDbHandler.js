@@ -2309,6 +2309,10 @@ FhcDbHandler.prototype = {
           " firstsaved  INTEGER," +
           " lastsaved   INTEGER)"
         );
+        mDBConnection.executeSimpleSQL(
+          "CREATE INDEX IF NOT EXISTS multiline_index_lastsaved " +
+          "ON multiline (lastsaved DESC)"
+        );
       }
       catch(e) {
         dump("Migrate: Adding table multiline failed!\n\n" + e);
