@@ -75,9 +75,6 @@ const FhcPreferences = {
     this.fillInformationPanel();
     this.adjustQuickFillPreview();
     this.toggleCustomDateFormatList();
-    this.initDisplayPanel()
-    this.mlexceptionRadioInit();
-    this.initMultilinePanel();
     this.initCleanupPanel();
     this.fillKeyBindings();
     this.treeskinRadioInit();
@@ -97,9 +94,7 @@ const FhcPreferences = {
     }
 
     // fix size (height) problem on MacOS
-    var curPane = prefWin.currentPane;
-    prefWin.showPane(document.getElementById("regexp")); //largest pane
-    prefWin.showPane(curPane);
+    prefWin.showPane(prefWin.currentPane);
   },
 
   /**
@@ -183,46 +178,6 @@ const FhcPreferences = {
   },
 
   /**
-   * Set the exceptin.
-   *
-   * @param elmRadio {radio}
-   */
-  mlexceptionPrefChecked: function(elmRadio) {
-    switch (elmRadio.id) {
-      case "multilinenoexception":
-        this.prefHandler.setMultilineException("multilinenoexception");
-        break;
-      case "multilinewhitelist":
-        this.prefHandler.setMultilineException("multilinewhitelist");
-        break;
-      case "multilineblacklist":
-        this.prefHandler.setMultilineException("multilineblacklist");
-        break;
-    }
-    this.initMultilinePanel();
-  },
-
-  /**
-   * Initialize the radiobuttons to reflect the current exception setting.
-   */
-  mlexceptionRadioInit: function() {
-    var curProperty = this.prefHandler.getMultilineException();
-
-    // default selection
-    var radioElm = document.getElementById("multilinenoexception");
-
-    switch (curProperty) {
-      case "multilinewhitelist":
-        radioElm = document.getElementById("multilinewhitelist");
-        break;
-      case "multilineblacklist":
-        radioElm = document.getElementById("multilineblacklist");
-        break;
-    }
-    document.getElementById("multilineradioexceptions").selectedItem = radioElm;
-  },
-
-  /**
    * Adjust the preview to reflect changes to notification-preferences.
    */
   adjustQuickFillPreview: function() {
@@ -298,40 +253,11 @@ const FhcPreferences = {
         "criteria::" + this.dbHandler.getNoOfCleanupAndProtectItems();
       document.getElementById("fhc-datacount2").value =
         "regexp::" + this.dbHandler.getNoOfRegexpItems();
-      document.getElementById("fhc-datacount3").value =
-        "multiline::" + this.dbHandler.getNoOfMultilineItems();
-      document.getElementById("fhc-datacount4").value =
-        "customsave::" + this.dbHandler.getNoOfCustomsaveItems();
     }
     catch(ex) {
       // when preferences is shown but the extension itself has never been opened yet,
       // the cleanupFile does not exist yet causing an exception reading the  fileSize .
     }
-  },
-
-  initDisplayPanel: function() {
-    var mainDoc = this._getParentDocument();
-    if (null == mainDoc.getElementById("appmenu-popup")) {
-      // if no app-menu (introduced in FF4), hide the preference option
-      document.getElementById("hideAppMenuItemCheckbox").hidden = true;
-    }
-  },
-  
-  initMultilinePanel: function() {
-    var isEnabled = document.getElementById("multilineenable").checked;
-    
-    document.getElementById("newVersionAfterTime").disabled = !isEnabled;
-    document.getElementById("newVersionAfterLength").disabled = !isEnabled;
-    document.getElementById("deleteAfter").disabled = !isEnabled;
-    document.getElementById("multilineradioexceptions").disabled = !isEnabled;
-    
-    var isExceptionListActive = !document.getElementById("multilinenoexception").selected;
-    document.getElementById("multilineexceptionlist").disabled = !(isEnabled && isExceptionListActive);
-    
-    document.getElementById("multilineprivacysavealways").disabled = !isEnabled;
-    document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
-    
-    
   },
 
   /**
@@ -444,7 +370,7 @@ const FhcPreferences = {
       if (preserveData) {
         var exportFile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
         exportFile.append("cleanup.sqlite.backup.xml");
-        FhcUtil.exportCleanupDatabase(exportFile, this.dbHandler, this.prefHandler, this.dateHandler);
+        FhcUtil.exportCleanupFile(exportFile, this.dbHandler, this.prefHandler, this.dateHandler);
       }
       
       // rename databasefile
@@ -461,7 +387,7 @@ const FhcPreferences = {
 
       // import the xml data backup
       if (okay && preserveData) {
-        var cleanupConfig = FhcUtil.importCleanupDatabase(exportFile, this.dateHandler);
+        var cleanupConfig = FhcUtil.importCleanupFile(exportFile, this.prefHandler, this.dateHandler);
         if (cleanupConfig && cleanupConfig.cleanup) {
           this.dbHandler.bulkAddCleanupCriteria(cleanupConfig.cleanup);
         }
@@ -470,9 +396,6 @@ const FhcPreferences = {
         }
         if (cleanupConfig && cleanupConfig.regexp) {
           this.dbHandler.bulkAddRegexp(cleanupConfig.regexp);
-        }
-        if (cleanupConfig && cleanupConfig.multiline) {
-          this.dbHandler.bulkAddMultilineItems(cleanupConfig.multiline);
         }
       }
     }

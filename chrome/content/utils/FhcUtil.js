@@ -348,12 +348,12 @@ const FhcUtil = {
   },
 
   /**
-   * Determine whether or not a DOM element is a text input element.
+   * Determine whether or not a DOM element is a text imput element.
    * New html5 types like search, tel, url, time, week and email are
    * also considered text types.
    * 
    * @param  element {DOM element}
-   * @return {Boolean} whether or not a DOM element is a text input element
+   * @return {Boolean} whether or not a DOM element is a text imput element
    */
   isInputTextElement: function(element) {
     var result = false;
@@ -372,33 +372,6 @@ const FhcUtil = {
                );
     }
     return result;
-  },
-
-  /**
-   * Determine whether or not a DOM element is a multiline input element.
-   * 
-   * @param  element {DOM element}
-   * @return {Boolean} whether or not a DOM element is a multiline input element
-   */
-  isMultilineInputElement: function(element) {
-    if (!element) return false
-    var name = element.nodeName.toLowerCase();
-    if ("textarea" == name) {
-      return true;
-    }
-    else if ("html" == name) {
-      var p = element.parentNode;
-      if (p && "on" == p.designMode) {
-        return true;
-      }
-    }
-    else if ("body" == name) {
-      var e = element.ownerDocument.activeElement;
-      if ("true" == e.contentEditable) {
-        return true;
-      }
-    }
-    return false;
   },
 
   /**
@@ -758,21 +731,19 @@ const FhcUtil = {
     return geckoVer;
   },
 
-
   //----------------------------------------------------------------------------
   // Import / Export methods
   //----------------------------------------------------------------------------
   
   /**
-   * Export data as XML to a user prompted file/location.
+   * Export as XML the formhistory entries to a user prompted file/location.
    * 
    * @param dialogTitle {String}
-   * @param options {Object} object containing the export options
+   * @param entries {Array} an array of formhistory entries
    * @param preferenceHandler (FhcPreferenceHandler)
-   * @param dbHandler (FhcDbHandler)
    * @param dateHandler {FhcDateHandler}
    */
-  exportXMLdata: function(dialogTitle, options, preferenceHandler, dbHandler, dateHandler) {
+  exportEntries: function(dialogTitle, entries, preferenceHandler, dateHandler) {
     var defaultFile = preferenceHandler.getLastUsedExportFilename();
     var fp = this._getFilePicker(dialogTitle, defaultFile, Components.interfaces.nsIFilePicker.modeSave);
     var result = fp.show();
@@ -782,27 +753,22 @@ const FhcUtil = {
       // remember the filename for subsequent invocations
       preferenceHandler.setLastUsedExportFilename(fp.file.leafName);
       
-      this.exportXMLfile(fp.file, options, preferenceHandler, dbHandler, dateHandler);
-    }
-  },
-  
-  exportXMLfile: function(file, options, preferenceHandler, dbHandler, dateHandler ) {
-    // open file for writing, create if not exist, truncate to 0 if do exist
-    var fileOut = Components.classes["@mozilla.org/network/file-output-stream;1"]
-                    .createInstance(Components.interfaces.nsIFileOutputStream);
-    fileOut.init(file, 0x02/*PR_WRONLY*/ | 0x08/*PR_CREATE_FILE*/ | 0x20/*PR_TRUNCATE*/, -1/*default permission*/, null);
-    
-    try {
-      var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
-      var xml = xmlHandler.dataToXMLString(options, preferenceHandler, dbHandler);
-      delete xmlHandler;
+      // open file for writing, create if not exist, truncate to 0 if do exist
+      var fileOut = Components.classes["@mozilla.org/network/file-output-stream;1"]
+                      .createInstance(Components.interfaces.nsIFileOutputStream);
+      fileOut.init(fp.file, 0x02/*PR_WRONLY*/ | 0x08/*PR_CREATE_FILE*/ | 0x20/*PR_TRUNCATE*/, -1/*default permission*/, null);
+      try {
+        var xmlHandler = new FhcXmlHandler(dateHandler);
+        var xml = xmlHandler.entriesToXMLString(entries);
+        delete xmlHandler;
 
-      fileOut.write(xml, xml.length);
-    } finally {
-      fileOut.close();
+        fileOut.write(xml, xml.length);
+      } finally {
+        fileOut.close();
+      }
     }
   },
-  
+
   /**
    * Retrieve the history entries read from a user prompted XML file/location.
    *
@@ -811,8 +777,8 @@ const FhcUtil = {
    * @param  dateHandler {FhcDateHandler}
    * @return {Array} an array of formhistory entries
    */
-  importXMLdata: function(dialogTitle, preferenceHandler, dateHandler) {
-    var importedData = null;
+  importEntries: function(dialogTitle, preferenceHandler, dateHandler) {
+    var importedEntries = null;
     var defaultFile = preferenceHandler.getLastUsedExportFilename();
     var fp = this._getFilePicker(dialogTitle, defaultFile, Components.interfaces.nsIFilePicker.modeOpen);
     var result = fp.show();
@@ -827,43 +793,56 @@ const FhcUtil = {
                        .createInstance(Components.interfaces.nsIFileInputStream);
       streamIn.init(fp.file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
       try {
-        var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
-        importedData = xmlHandler.parseXMLdata(streamIn);
+        var xmlHandler = new FhcXmlHandler(dateHandler);
+        importedEntries = xmlHandler.parseFormhistory(streamIn);
         delete xmlHandler;
       } finally {
         streamIn.close();
       }
     }
-    return importedData;
+    return importedEntries;
   },
 
   /**
-   * Export the entire cleanup database to a specified file/location.
+   * Export the cleanup configuration plus preferences to a user prompted
+   * file/location.
+   *
+   * @param dialogTitle {String}
+   * @param dbHandler {FhcDbHandler} the database handler
+   * @param preferenceHandler (FhcPreferenceHandler)
+   * @param dateHandler {FhcDateHandler}
+   */
+  exportCleanupCriteria: function(dialogTitle, dbHandler, preferenceHandler, dateHandler) {
+    var defaultFile = preferenceHandler.getLastUsedCleanupExportFilename();
+    var fp = this._getFilePicker(dialogTitle, defaultFile, Components.interfaces.nsIFilePicker.modeSave);
+    var result = fp.show();
+
+    // if okay (export to new file or replace existing)
+    if (result == Components.interfaces.nsIFilePicker.returnOK || result == Components.interfaces.nsIFilePicker.returnReplace) {
+      // remember the filename for subsequent invocations
+      preferenceHandler.setLastUsedCleanupExportFilename(fp.file.leafName);
+
+      this.exportCleanupFile(fp.file, dbHandler, preferenceHandler, dateHandler);
+    }
+  },
+
+  /**
+   * Export the cleanup configuration to a specified file/location.
    *
    * @param file {nsIFile}
    * @param dbHandler {FhcDbHandler} the database handler
    * @param preferenceHandler (FhcPreferenceHandler)
    * @param dateHandler {FhcDateHandler}
    */
-  exportCleanupDatabase: function(file, dbHandler, preferenceHandler, dateHandler) {
-    var exportOptions = {
-        entries:        [],    /* not in cleanup database */
-        multilines:     dbHandler.getAllMultilineItems(),
-        exportMultiCfg: false, /* not in cleanup database */
-        exportClean:    true,
-        exportKeys:     false, /* not in cleanup database */
-        exportRegexp:   true
-    };
-    
+  exportCleanupFile: function(file, dbHandler, preferenceHandler, dateHandler) {
     // open file for writing, create if not exist, truncate to 0 if do exist
     var fileOut = Components.classes["@mozilla.org/network/file-output-stream;1"]
                     .createInstance(Components.interfaces.nsIFileOutputStream);
     fileOut.init(file, 0x02/*PR_WRONLY*/ | 0x08/*PR_CREATE_FILE*/ | 0x20/*PR_TRUNCATE*/, -1/*default permission*/, null);
     try {
-      var xmlHandler = new FhcXmlHandler(dateHandler, true);
-      var xml = xmlHandler.dataToXMLString(exportOptions, preferenceHandler, dbHandler);
+      var xmlHandler = new FhcXmlHandler(dateHandler);
+      var xml = xmlHandler.cleanupToXMLString(dbHandler, preferenceHandler);
       delete xmlHandler;
-      delete exportOptions;
 
       fileOut.write(xml, xml.length);
     } finally {
@@ -872,21 +851,46 @@ const FhcUtil = {
   },
 
   /**
-   * Retrieve the cleanup data from a specified XML file/location.
+   * Retrieve the cleanup configuration from a user prompted XML file/location.
+   *
+   * @param  dialogTitle {String}
+   * @param  preferenceHandler (FhcPreferenceHandler)
+   * @param  dateHandler {FhcDateHandler}
+   * @return {Object} an Object containing 2 arrays of cleanup criteria & regexp
+   */
+  importCleanupConfig: function(dialogTitle, preferenceHandler, dateHandler) {
+    var importedConfig = null;
+    var defaultFile = preferenceHandler.getLastUsedCleanupExportFilename();
+    var fp = this._getFilePicker(dialogTitle, defaultFile, Components.interfaces.nsIFilePicker.modeOpen);
+    var result = fp.show();
+
+    // if okay do the import
+    if (result == Components.interfaces.nsIFilePicker.returnOK) {
+      // remember the filename for subsequent invocations
+      preferenceHandler.setLastUsedCleanupExportFilename(fp.file.leafName);
+
+      importedConfig = this.importCleanupFile(fp.file, preferenceHandler, dateHandler);
+    }
+    return importedConfig;
+  },
+
+  /**
+   * Retrieve the cleanup configuration from a specified XML file/location.
    *
    * @param  file {nsIFile}
+   * @param  preferenceHandler (FhcPreferenceHandler)
    * @param  dateHandler {FhcDateHandler}
    * @return {Object} an Object containing arrays with the cleanup configuration.
    */
-  importCleanupDatabase: function(file, dateHandler) {
+  importCleanupFile: function(file, preferenceHandler, dateHandler) {
     var importedConfig = null;
     // open file for reading
     var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
                      .createInstance(Components.interfaces.nsIFileInputStream);
     streamIn.init(file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
     try {
-      var xmlHandler = new FhcXmlHandler(dateHandler, true);
-        importedConfig = xmlHandler.parseXMLdata(streamIn);
+      var xmlHandler = new FhcXmlHandler(dateHandler);
+      importedConfig = xmlHandler.parseCleanupConfig(streamIn, preferenceHandler);
       delete xmlHandler;
     } finally {
       streamIn.close();

@@ -278,11 +278,11 @@ const FhcManageFormHistoryOverlay = {
     var sbMenu = document.getElementById("formhistctrl-statusbarmenu");
     var tbMenu = document.getElementById("formhistctrl-toolbarbutton");
     if (state) {
-      if (sbMenu) sbMenu.setAttribute("savestate", state);
-      if (tbMenu) tbMenu.setAttribute("savestate", state);
+      sbMenu.setAttribute("savestate", state);
+      tbMenu.setAttribute("savestate", state);
     } else {
-      if (sbMenu) sbMenu.removeAttribute("savestate");
-      if (tbMenu) tbMenu.removeAttribute("savestate");
+      sbMenu.removeAttribute("savestate");
+      tbMenu.removeAttribute("savestate");
     }
   },
 

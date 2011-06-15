@@ -57,7 +57,6 @@ const FhcContextMenu = {
   dateHandler: null,
   cleanupFilter: null,
   keyBindings: null,
-  restoreItems: [],
   
   /**
    * Implementation of the EventListener Interface for listening to
@@ -109,10 +108,6 @@ const FhcContextMenu = {
         this._setVisibilityStatusbarMenu(this.preferences.isTaskbarVisible());
         this._setVisibilityToolsMenu(!this.preferences.isToolsmenuHidden());
         this._setVisibilityContextMenu(!this.preferences.isContextmenuHidden());
-
-        // new firefox4 appmenu
-        this._checkInsertBeforeAfter_bugfix("formhistctrl_app_menu"); // !!!
-        this._setVisibilityAppMenu(!this.preferences.isAppmenuHidden());
 
         // initialize main keybindings
         this._initializeMainKeyset();
@@ -174,14 +169,6 @@ const FhcContextMenu = {
         this._disable("fhc_cmd_DeleteValueThisField", !isValueInFormHistory);
         this._disable("fhc_cmd_DeleteEntriesThisField", !isInputText);
         this._disable("fhc_cmd_ManageThisField", !isInputText);
-        
-        //var isInputMultiline = FhcUtil.isMultilineInputElement(inputField);
-        var isBackupEnabled = this.preferences.isMultilineBackupEnabled();
-        this._hide("formhistctrl_restore_submenu", !isBackupEnabled);
-        if (isBackupEnabled) {
-          this._addRestoreMenuItems("formhistctrl_restore_submenu");
-        }
-        
         this._disable("fhc_cmd_FillFormFieldsRecent", !hasFields);
         this._disable("fhc_cmd_FillFormFieldsUsed", !hasFields);
         this._disable("fhc_cmd_ClearFilledFormFields", !hasFields);
@@ -430,156 +417,6 @@ const FhcContextMenu = {
     FhcUtil.showTrayMessage('fhcSaveMessageFields', msg, 3000);
   },
 
-
-  /**
-   * Get content backups (max. 10) for the current focussed multiline inputfield
-   * and add menuitems to the menu for each.
-   * 
-   * @param menuId {Element} the submenu
-   */
-  _addRestoreMenuItems: function(menuId) {
-    var menu = document.getElementById(menuId);
-    
-    // delete old menuitems
-    while (menu.itemCount > 0) {
-      menu.removeItemAt(0);
-    }
-    
-    // try to find saved editor content for inputfield
-    this.restoreItems = [];
-    var inputField = document.commandDispatcher.focusedElement;
-    if (inputField) {
-      var props = this._getMultilineProperties(inputField);
-      this.restoreItems = this.dbHandler.findLastsavedItems(props);
-    }
-    
-    // add a menuitem for every found restoreItem
-    var menuItem;
-    if (this.restoreItems.length == 0) {
-      menuItem = menu.appendItem(
-        this.bundle.getString("contextmenu.item.restore.nobackupsfound"));
-      menuItem.setAttribute("disabled", true);
-    } else {
-      var restoreItem, previewText;
-      for (var ii=0; ii<this.restoreItems.length; ii++) {
-        restoreItem = this.restoreItems[ii];
-        
-        previewText = "";
-        if (restoreItem.content.length <= 13) {
-          previewText = restoreItem.content.substr(0, 20);
-        } else {
-          previewText = restoreItem.content.substr(0, 17) + "...";
-        }
-        
-        menuItem = menu.appendItem(
-          this.dateHandler.toDateString(restoreItem.lastsaved) + 
-                ",  " + previewText);
-        menuItem.addEventListener("click", function(event){FhcContextMenu._handleRestoreEvent(event)}, false);
-        menuItem.setAttribute("restoreitemidx", ii);
-        menuItem.setAttribute("tooltiptext", restoreItem.content.substr(0, 250));
-      }
-    }
-    
-    menuItem = menu.appendItem(
-      this.bundle.getString("contextmenu.item.restore.more"));
-    menuItem.addEventListener("click", 
-      function(){FhcShowDialog.doShowFormHistoryControl({multilineTab:true})}, false);
-  },
-  
-  /**
-   * Restore multilinefield has been selected from the menu.
-   * Get the selected content and push it into the focused inputfield.
-   * 
-   * @param event {Event} The menuitem event that triggered this action.
-   */
-  _handleRestoreEvent: function(event) {
-    var menuItem = event.originalTarget;
-    //dump("You clicked on restore item (" + menuItem.getAttribute("restoreitemidx") + ")\n");
-    var idx = menuItem.getAttribute("restoreitemidx");
-    var restoreItem = this.restoreItems[idx];
-    
-    // push saved content back into multiline element
-    var inputField = document.commandDispatcher.focusedElement;
-    switch(restoreItem.type) {
-      case "textarea":
-           inputField.value = restoreItem.content;
-           break;
-      case "html":
-           inputField.body.textContent = restoreItem.content;
-           break;
-      case "iframe":
-           inputField.textContent = restoreItem.content;
-           break;
-    }
-  },
-  
-  /**
-   * Collect all relevant properties of the inputField.
-   * 
-   * @param  inputField {Element}
-   * @return {Object} all relevant propeties neede for a database lookup.
-   */
-  _getMultilineProperties: function(inputField) {
-    var result = {
-      id: "",
-      name: "",
-      formid: "",
-      host: "",
-      type: ""
-    };
-    
-    result.id = (inputField.id) ? inputField.id : ((inputField.name) ? inputField.name : "");
-    result.name = (inputField.name) ? inputField.name : ((inputField.id) ? inputField.id : "");
-    
-    var uri = null;
-    var nodename = inputField.nodeName.toLowerCase();
-    if ("textarea" == nodename) {
-      result.type = "textarea";
-      uri = inputField.ownerDocument.documentURIObject;
-    }
-    else if ("html" == nodename) {
-      var p = inputField.parentNode;
-      if (p && "on" == p.designMode) {
-        result.type = "html";
-        uri = p.ownerDocument.documentURIObject;
-      }
-    }
-    else if ("body" == nodename) {
-      var e = inputField.ownerDocument.activeElement;
-      if ("true" == e.contentEditable) {
-        result.type = "iframe";
-        uri = e.ownerDocument.documentURIObject;
-      }
-    }
-    result.host = this._getHost(uri);
-    
-    var insideForm = false;
-    var parentElm = inputField;
-    while(parentElm && !insideForm) {
-      parentElm = parentElm.parentNode;
-      insideForm = ("FORM" == parentElm.tagName);
-    }
-    if (insideForm && parentElm) {
-      result.formid = (parentElm.id) ? parentElm.id : ((parentElm.name) ? parentElm.name : "");
-    }
-    
-    return result;
-  },
-  
-  /**
-   * Return the host of an URI.
-   */
-  _getHost: function(uri) {
-    if (uri) {
-      if (uri.schemeIs("file")) {
-        return "localhost";
-      } else {
-        return uri.host;
-      }    
-    }
-    return "";
-  },
-  
   /**
    * Save the inputfield in the formhistory database.
    *
@@ -1038,8 +875,8 @@ const FhcContextMenu = {
     div.setAttribute('id', id);
     div.setAttribute('title', this._getFormInfo(sourceElem, false));
     div.setAttribute('style', style);
-    div.addEventListener("mouseover", function(){this.style.opacity=1;this.style.zIndex=1002;}, false);
-    div.addEventListener("mouseout", function(){this.style.opacity=0.75;this.style.zIndex=1001;}, false);
+    div.addEventListener("mouseover", function(){this.style.opacity=1; this.style.zIndex=1002;}, false);
+    div.addEventListener("mouseout", function(){this.style.opacity=0.75; this.style.zIndex=1001;}, false);
     div.appendChild(document.createTextNode(fldName));
 
     var innerDiv = document.createElement('div');
@@ -1121,10 +958,6 @@ const FhcContextMenu = {
                doShow = !FhcContextMenu.preferences.isToolsmenuHidden();
                FhcContextMenu._setVisibilityToolsMenu(doShow);
                break;
-          case "hideAppMenuItem":
-               doShow = !FhcContextMenu.preferences.isAppmenuHidden();
-               FhcContextMenu._setVisibilityAppMenu(doShow);
-               break;
           case "hideContextMenuItem":
                doShow = !FhcContextMenu.preferences.isContextmenuHidden();
                FhcContextMenu._setVisibilityContextMenu(doShow);
@@ -1165,28 +998,6 @@ const FhcContextMenu = {
   },
 
   /**
-   * Set or clear the hidden attribute of the FormHistoryControl App menu,
-   * (menu introduced in FF4).
-   *
-   * @param doShow (Boolean)
-   *        show or hide the menu
-   */
-  _setVisibilityAppMenu: function(doShow) {
-    var menuElem = document.getElementById("formhistctrl_app_menu");
-    if (menuElem) {
-      if (!doShow) {
-        menuElem.setAttribute("hidden", true);
-//        // BugFix: hiding the submenu initiated indirectly from the menu
-//        //         causes the menu to not function any more.
-//        var appMenu = document.getElementById("appmenu-popup");
-//        appMenu.parentNode.insertBefore(appMenu, null);
-      } else {
-        menuElem.removeAttribute("hidden");
-      }
-    }
-  },
-
-  /**
    * Set or clear the hidden attribute of the FormHistoryControl context menu.
    *
    * @param doShow (Boolean)
@@ -1223,46 +1034,7 @@ const FhcContextMenu = {
     for (var i=0; i<Ids.length; i++) {
       this.keyBindings.updateMainKeyset(Ids[i], false);
     }
-  },
-
-  /**
-   * Can not get the insertbefore or insertafter attribute working for
-   * menu elements overlayed to the new App-menu introduced in FF4.
-   * This method programatically achieves the expected behaviour.
-   * 
-   * @param fhcId {String}
-   *        the id of the element to check for insertbefore/insertafter
-   */
-  _checkInsertBeforeAfter_bugfix: function(fhcId) {
-    var menuElem = document.getElementById(fhcId);
-    if (menuElem && menuElem.attributes) {
-      var before = menuElem.attributes.getNamedItem("insertbefore");
-      var after = menuElem.attributes.getNamedItem("insertafter");
-      if (before && before.nodeValue) {
-        var beforeItem, beforeIds = before.nodeValue.split(",");
-        for (var i=0; i < beforeIds.length; i++) {
-          beforeItem = document.getElementById(beforeIds[i]);
-          if (beforeItem && beforeItem.previousSibling && fhcId != beforeItem.previousSibling.id) {
-            menuElem.parentNode.removeChild(menuElem);
-            beforeItem.parentNode.insertBefore(menuElem, beforeItem);
-            i = beforeIds.length;
-          }
-        }
-      }
-      else if (after && after.nodeValue) {
-        var afterItem, afterIds = after.nodeValue.split(",");
-        for (var j=0; j < afterIds.length; j++) {
-          afterItem = document.getElementById(afterIds[j]);
-          if (afterItem && (afterItem.nextSibling == null 
-                        || (afterItem.nextSibling && fhcId != afterItem.nextSibling.id))) {
-            menuElem.parentNode.removeChild(menuElem);
-            afterItem.parentNode.insertBefore(menuElem, afterItem.nextSibling);
-            j = afterIds.length;
-          }
-        }
-      }
-    }
-  }  
+  }
 }
 
 // Implement the handleEvent() method for this handler to work

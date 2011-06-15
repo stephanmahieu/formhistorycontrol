@@ -56,9 +56,6 @@
       <preference id="extensions.formhistory.hideToolsMenuItem"
                   name="extensions.formhistory.hideToolsMenuItem"
                   type="bool" />
-      <preference id="extensions.formhistory.hideAppMenuItem"
-                  name="extensions.formhistory.hideAppMenuItem"
-                  type="bool" />
       <preference id="extensions.formhistory.hideContextMenuItem"
                   name="extensions.formhistory.hideContextMenuItem"
                   type="bool" />
@@ -121,9 +118,6 @@
         <caption label="&fhprefs.group.showmenu.caption;"/>
         <checkbox label="&fhprefs.checkbox.hidetoolsmenuitem.label;"
                   preference="extensions.formhistory.hideToolsMenuItem" />
-        <checkbox id="hideAppMenuItemCheckbox"
-                  label="&fhprefs.checkbox.hideappmenuitem.label;"
-                  preference="extensions.formhistory.hideAppMenuItem" />
         <checkbox label="&fhprefs.checkbox.hidecontextmenuitem.label;"
                   preference="extensions.formhistory.hideContextMenuItem" />
       </groupbox>
@@ -155,184 +149,6 @@
       </groupbox>
     </hbox>
     <spacer height="5"/><!-- MacOS -->
-  </prefpane>
-
-  <!-- Editor backup -->
-  <prefpane id="multiline" label="Editor fields"
-            image="chrome://formhistory/skin/text_32.png">
-    <preferences>
-      <preference id="extensions.formhistory.multiline.backupenabled"
-                  name="extensions.formhistory.multiline.backupenabled"
-                  type="bool" />
-      <preference id="extensions.formhistory.multiline.saveolder"
-                  name="extensions.formhistory.multiline.saveolder"
-                  type="string" />
-      <preference id="extensions.formhistory.multiline.savelength"
-                  name="extensions.formhistory.multiline.savelength"
-                  type="string" />
-      <preference id="extensions.formhistory.multiline.deleteolder"
-                  name="extensions.formhistory.multiline.deleteolder"
-                  type="string" />
-      <preference id="multiline-exception"
-                  name="extensions.formhistory.multiline.exception"
-                  type="string" />
-      <preference id="extensions.formhistory.multiline.exceptionlist"
-                  name="extensions.formhistory.multiline.exceptionlist"
-                  type="string" />
-      <preference id="extensions.formhistory.multiline.savealways"
-                  name="extensions.formhistory.multiline.savealways"
-                  type="bool" />
-      <preference id="extensions.formhistory.multiline.saveencrypted"
-                  name="extensions.formhistory.multiline.saveencrypted"
-                  type="bool" />
-    </preferences>
-    <vbox>
-      <hbox>
-        <vbox style="margin-left: 2px">
-          <image class="info_icon" flex="0"
-                 src="chrome://formhistory/skin/information.png"
-                 tooltiptext="&fhprefs.multilineinfo.tooltip;"/>
-          <spacer flex="1"/>
-        </vbox>
-        <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
-                     tooltiptext="&fhprefs.multilineinfo.tooltip;">
-                     &fhprefs.multilineinfo.tooltip;
-        </description>
-      </hbox>
-      <spacer height="5"/>
-      <checkbox label="&fhprefs.checkbox.multilineenable;"
-                id="multilineenable"
-                oncommand="FhcPreferences.initMultilinePanel()"
-                preference="extensions.formhistory.multiline.backupenabled"/>
-      <spacer height="5"/>
-      <tabbox id="multilineconfigbox" selectedIndex="0" persist="selectedIndex" flex="1">
-        <tabs>
-          <tab label="&fhprefs.tab.multiline.configuration;"/>
-          <tab label="&fhprefs.tab.multiline.exclusions;"/>
-          <tab label="&fhprefs.tab.multiline.privacy;"/>
-        </tabs>
-        <tabpanels>
-          <tabpanel style="margin-top: 4px">
-            <!-- Configuration -->
-            <vbox flex="1">
-              <groupbox>
-                <caption label="&fhprefs.group.multilineversion.caption;"/>
-                <hbox align="baseline">
-                  <label value="&fhprefs.label.multilinesaveolder;"/>
-                  <menulist id="newVersionAfterTime" editable="false" sizetopopup="always"
-                            preference="extensions.formhistory.multiline.saveolder">
-                    <menupopup>
-                      <menuitem value="1" label="1 &fhprefs.label.multilinelist.minute;"/>
-                      <menuitem value="2" label="2 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="5" label="5 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="10" label="10 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="15" label="15 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="30" label="30 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="60" label="1 &fhprefs.label.multilinelist.hour;"/>
-                      <menuitem value="120" label="2 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="360" label="6 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="720" label="12 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="1440" label="1 &fhprefs.label.multilinelist.day;"/>
-                    </menupopup>
-                  </menulist>
-                </hbox>
-                <hbox align="baseline">
-                  <label value="&fhprefs.label.multilinesavelength;"/>
-                  <menulist id="newVersionAfterLength" editable="false" sizetopopup="always"
-                            preference="extensions.formhistory.multiline.savelength">
-                    <menupopup>
-                      <menuitem value="10" label="10 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="20" label="20 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="50" label="50 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="75" label="75 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="100" label="100 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="200" label="200 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="500" label="500 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="1000" label="1000 &fhprefs.label.multilinelist.characters;"/>
-                      <menuitem value="5000" label="5000 &fhprefs.label.multilinelist.characters;"/>
-                    </menupopup>
-                  </menulist>
-                </hbox>
-              </groupbox>
-              <groupbox>
-                <caption label="&fhprefs.group.multilinecleanup.caption;"/>
-                <hbox align="baseline">
-                  <label value="&fhprefs.label.multilinecleanup;"/>
-                  <menulist id="deleteAfter" editable="false" sizetopopup="always"
-                            preference="extensions.formhistory.multiline.deleteolder">
-                    <menupopup>
-                      <menuitem value="5" label="5 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="10" label="10 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="15" label="15 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="30" label="30 &fhprefs.label.multilinelist.minutes;"/>
-                      <menuitem value="60" label="1 &fhprefs.label.multilinelist.hour;"/>
-                      <menuitem value="120" label="2 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="360" label="6 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="720" label="12 &fhprefs.label.multilinelist.hours;"/>
-                      <menuitem value="1440" label="1 &fhprefs.label.multilinelist.day;"/>
-                      <menuitem value="2880" label="2 &fhprefs.label.multilinelist.days;"/>
-                      <menuitem value="5760" label="4 &fhprefs.label.multilinelist.days;"/>
-                      <menuitem value="10080" label="1 &fhprefs.label.multilinelist.week;"/>
-                      <menuitem value="20160" label="2 &fhprefs.label.multilinelist.weeks;"/>
-                      <menuitem value="44640" label="1 &fhprefs.label.multilinelist.month;"/>
-                      <menuitem value="89280" label="2 &fhprefs.label.multilinelist.months;"/>
-                      <menuitem value="267840" label="6 &fhprefs.label.multilinelist.months;"/>
-                      <menuitem value="0" label="&fhprefs.label.multilinelist.never;"/>
-                    </menupopup>
-                  </menulist>
-                </hbox>
-              </groupbox>
-              <hbox>
-                <vbox style="margin-left: 2px">
-                  <image class="info_icon" flex="0"
-                         src="chrome://formhistory/skin/warning16.png"
-                         tooltiptext="&fhprefs.multilinesavewarning.tooltip;"/>
-                  <spacer flex="1"/>
-                </vbox>
-                <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
-                             tooltiptext="&fhprefs.multilinesavewarning.tooltip;">
-                             &fhprefs.multilinesavewarning.tooltip;
-                </description>
-              </hbox>
-            </vbox>
-          </tabpanel>
-          <tabpanel style="margin-top: 4px">
-            <!-- Exclusions -->
-            <vbox flex="1">
-              <groupbox>
-                <caption label="&fhprefs.group.multilineexceptions.caption;"/>
-                <radiogroup id="multilineradioexceptions"> <!--  preference="multiline-exception"-->
-                  <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                  <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                  <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                </radiogroup>
-                <hbox align="baseline">
-                  <label value="&fhprefs.label.multilinehostlist;:"/>
-                  <textbox id="multilineexceptionlist" flex="1"
-                           preference="extensions.formhistory.multiline.exceptionlist"
-                           emptytext="&fhprefs.textbox.multilinehostlist;"
-                           tooltiptext="&fhprefs.textbox.multilinehostlist;"/>
-                </hbox>
-              </groupbox>
-            </vbox>
-          </tabpanel>
-          <tabpanel style="margin-top: 4px">
-            <!-- Privacy -->
-            <vbox flex="1">
-              <groupbox>
-                <caption label="&fhprefs.tab.multiline.privacy;"/>
-                <checkbox label="&fhprefs.checkbox.multilinesavealways;"
-                          id="multilineprivacysavealways"
-                          preference="extensions.formhistory.multiline.savealways"/>
-                <checkbox label="&fhprefs.checkbox.multilinesaveencrypted;"
-                          id="multilineprivacysaveencrypted"
-                          preference="extensions.formhistory.multiline.saveencrypted"/>
-              </groupbox>
-            </vbox>
-          </tabpanel>
-        </tabpanels>
-      </tabbox>
-    </vbox>
   </prefpane>
 
   <!-- Miscellaneous -->
@@ -441,7 +257,7 @@
         </tabpanel>
         <tabpanel style="margin-top: 4px">
           <!-- Keyboard shortcuts -->
-          <vbox flex="1" style="overflow: auto; height: 275px">
+          <vbox flex="1" style="overflow: auto; height: 250px">
             <spacer height="6"/>
             <hbox>
               <vbox style="margin-left: 0px">
@@ -650,8 +466,8 @@
       <preference id="extensions.formhistory.exportCSV.escape"
                   name="extensions.formhistory.exportCSV.escape"
                   type="string" />
-      <preference id="extensions.formhistory.exportXML.ISOexportDateFormat"
-                  name="extensions.formhistory.exportXML.ISOexportDateFormat"
+      <preference id="extensions.formhistory.exportConfig.keybindings"
+                  name="extensions.formhistory.exportConfig.keybindings"
                   type="bool" />
     </preferences>
     <groupbox>
@@ -680,10 +496,10 @@
     </groupbox>
     <groupbox>
       <caption label="&fhprefs.group.configexport.caption;"/>
-      <checkbox id="exportISOdateFormat"
-                label="&fhprefs.checkbox.configexportXmlIsoDate.label;"
+      <checkbox id="exportKeybindings"
+                label="&fhprefs.checkbox.configexportkeybindings.label;"
                 style="margin-right:0; padding-right:0"
-                preference="extensions.formhistory.exportXML.ISOexportDateFormat"/>
+                preference="extensions.formhistory.exportConfig.keybindings"/>
     </groupbox>
   </prefpane>
 
@@ -823,7 +639,7 @@
                   tooltiptext="&fhprefs.checkbox.values.tooltip;"/>
       </hbox>
       <tree id="regexpTree" alternatingbackground="true"
-            flex="1" style="width:50em;height:19em;"
+            flex="1" style="width:50em;height:18em;"
             class="cleanuptree" editable="true"
             hidecolumnpicker="false" enableColumnDrag="true"
             onselect="FhcRegexpView.treeSelect(event);"
@@ -910,7 +726,7 @@
         <tab label="&fhprefs.group.information.fhdatabase.caption;"/>
         <tab label="&fhprefs.group.information.cudatabase.caption;"/>
       </tabs>
-      <tabpanels style="height: 294px; margin-bottom: 0">
+      <tabpanels style="height: 269px; margin-bottom: 0">
         <tabpanel>
           <vbox flex="1">
             <spacer height="5"/>
@@ -1008,14 +824,6 @@
                     <row align="baseline">
                       <label value=""/>
                       <textbox id="fhc-datacount2" readonly="true"/>
-                    </row>
-                    <row align="baseline">
-                      <label value=""/>
-                      <textbox id="fhc-datacount3" readonly="true"/>
-                    </row>
-                    <row align="baseline">
-                      <label value=""/>
-                      <textbox id="fhc-datacount4" readonly="true"/>
                     </row>
                     <row>
                       <spacer height="10"/>

@@ -43,7 +43,7 @@
  * Dependencies:
  *   HistoryWindowControl.xul,
  *   HistoryTreeView.js, CleanupWindowControl.js,
- *   CleanupProtectView.js, MultilineWindowControl,
+ *   CleanupProtectView.js
  *   FhcDbHandler.js, FhcUtil.js, FhcBundle.js,
  *   FhcPreferenceHandler.js, FhcDateHandler.js,
  *   FhcBrowsingListener, FhcShowDialog.js,
@@ -102,16 +102,11 @@ const HistoryWindowControl = {
     // set initial advanced checkboxes
     this._toggleMatchExactCheckboxes();
 
-    // initialize objects related to the cleanup part
+    // Initialize objects related to the cleanup part
     CleanupWindowControl.init(
       this.dbHandler, this.dateHandler, this.preferences, this.bundle);
     CleanupProtectView.init(
       this.dbHandler, this.dateHandler, this.bundle, this.preferences);
-
-    // multiline history support
-    MultilineWindowControl.init(
-      this.dbHandler, this.dateHandler, this.preferences, this.bundle);
-    this._hideOrShowMultilineTab();
 
     // initialize count label vars
     this.countLabel = document.getElementById("itemCount");
@@ -151,13 +146,6 @@ const HistoryWindowControl = {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);
       this.searchOnlyFieldChanged(true, "searchbar-history");
-    } else if (hasArguments && window.arguments[0].multilineTab) {
-      // start with multilinetab selected
-      if (!document.getElementById("editorHistoryTab").hidden) {
-        document.getElementById('historyWindowTabs').selectedIndex = 2;
-        document.getElementById("displayhostonly").setAttribute("checked", true);
-        MultilineWindowControl.filterChanged();
-      }
     } else if (this.preferences.isDefaultSearchCurrentPageChecked()) {
       // apply pagefilter
       document.getElementById("searchpageonly").setAttribute("checked", true);
@@ -183,7 +171,6 @@ const HistoryWindowControl = {
   destroy: function() {
     CleanupWindowControl.destroy();
     CleanupProtectView.destroy();
-    MultilineWindowControl.destroy();
     this._unregisterPrefListener();
     this._unregisterBrowserListener();
     delete this.treeView;
@@ -218,14 +205,7 @@ const HistoryWindowControl = {
       // only display entries for the searchbar
       document.getElementById("searchfieldonly").setAttribute("checked", true);
       this.searchOnlyFieldChanged(true, "searchbar-history");
-    } else if (parameters && parameters.multilineTab) {
-      // start with multilinetab selected
-      if (!document.getElementById("editorHistoryTab").hidden) {
-        document.getElementById('historyWindowTabs').selectedIndex = 2;
-        document.getElementById("displayhostonly").setAttribute("checked", true);
-        MultilineWindowControl.filterChanged();
-      }
-    } 
+    }
   },
 
 
@@ -290,7 +270,6 @@ const HistoryWindowControl = {
    */
   reloadView: function() {
     this._repopulateView();
-    MultilineWindowControl.repopulateView();
   },
 
   /**
@@ -542,11 +521,9 @@ const HistoryWindowControl = {
     for(var ii=0; ii<menuItems.length; ii++) {
       id7 = menuItems.item(ii).id.substring(0,7);
       if (id7 == 'mnbarFh') {
-        menuItems.item(ii).hidden = (0 != newIndex);
+        menuItems.item(ii).hidden = (1 == newIndex);
       } else if (id7 == 'mnbarCu') {
-        menuItems.item(ii).hidden = (1 != newIndex);
-      } else if (id7 == 'mnbarMl') {
-        menuItems.item(ii).hidden = (2 != newIndex);
+        menuItems.item(ii).hidden = (0 == newIndex);
       }
     }
   },
@@ -573,24 +550,20 @@ const HistoryWindowControl = {
     document.getElementById("mnbarFhAddCleanup").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnbarFhAddProtect").setAttribute("disabled", 0 == selected.length);
 
-    var tabs = document.getElementById('historyWindowTabs');
-    switch(tabs.selectedIndex) {
+    document.getElementById("mnbarExportSelected").setAttribute("disabled", 0 == selected.length);
+    
+    // only display "export displayed" if filtering is active and data is present
+    var doShow = this.treeView.isDataFiltered() && (this.treeView.rowCount > 0);
+    document.getElementById("mnbarExportDisplayed").setAttribute("disabled", !doShow);
+
+    var tabs = document.getElementById('historyWindowCleanupTabs');
+    switch (tabs.selectedIndex) {
       case 0:
-        // this menubarPopup()
-        break;
+           CleanupWindowControl.menubarPopup(event);
+           break;
       case 1:
-        var cleanupTabs = document.getElementById('historyWindowCleanupTabs');
-        switch (cleanupTabs.selectedIndex) {
-          case 0:
-               CleanupWindowControl.menubarPopup(event);
-               break;
-          case 1:
-               CleanupProtectView.menubarPopup(event);
-               break;
-        }
-      case 2:
-        MultilineWindowControl.menubarPopup(event);
-        break;
+           CleanupProtectView.menubarPopup(event);
+           break;
     }
 
     return true;
@@ -613,9 +586,6 @@ const HistoryWindowControl = {
                CleanupProtectView.editAction(doAction);
                break;
         }
-        break;
-      case 2:
-        MultilineWindowControl.editAction(doAction);
         break;
     }
   },
@@ -741,9 +711,6 @@ const HistoryWindowControl = {
                break;
         }
         break;
-      case 2:
-        MultilineWindowControl.selectAll();
-        break;
     }
   },
 
@@ -770,9 +737,6 @@ const HistoryWindowControl = {
                break;
         }
         break;
-      case 2:
-        MultilineWindowControl.selectNone();
-        break;
     }
   },
 
@@ -791,10 +755,6 @@ const HistoryWindowControl = {
       case 1:
         // not implemented
         // CleanupWindowControl.selectInvert();
-        break;
-      case 2:
-        // not implemented
-        // MultilineWindowControl.selectInvert();
         break;
     }
   },
@@ -954,6 +914,11 @@ const HistoryWindowControl = {
   filterMatchCaseChanged: function(isCaseSensitive) {
     // Adjust preferences
     this.preferences.setSearchCaseSensitive(isCaseSensitive);
+    FhcUtil.isCaseSensitive = isCaseSensitive;
+    
+    // re-apply searchfilter
+    this.treeView.applyFilter();
+    this._updateCountLabel();
   },
 
   // Search only fieldnames matching the current text input field
@@ -1087,232 +1052,71 @@ const HistoryWindowControl = {
   // Export all data to a user specified file
   exportActionAll: function() {
     //dump('exportAction!\n');
-    var selectedHist = 0 < this.treeView.getSelectCount();
-    var filteredHist = this.treeView.isDataFiltered() && (0 < this.treeView.rowCount);
-    
-    var selectedMulti = 0 < MultilineWindowControl.getSelectCount();
-    var filteredMulti = MultilineWindowControl.isDataFiltered();
-    
-    var params = {
-          inn: {haveSelectedHist: selectedHist,
-                haveFilteredHist: filteredHist,
-                haveSelectedMulti: selectedMulti,
-                haveFilteredMulti: filteredMulti
-               },
-          out: null
-        };
-    FhcShowDialog.doShowFhcExport(params);
-    
-    if (params.out) {
-      var hist  = [];
-      var mult  = [];
-      var exportMutCfg = params.out.exportMultiCfg;
-      var exportClean  = params.out.exportCleanupCfg;
-      var exportKeys   = params.out.exportKeyBindings;
-      var exportRegexp = params.out.exportRegexp;
-      if (params.out.exportHistory) {
-        switch (params.out.exportHistoryWhat) {
-            case "all":hist = this.treeView.getAll();break;
-            case "selected":hist = this.treeView.getSelected();break;
-            case "search":hist = this.treeView.getAllDisplayed();break;
-        }
-      }
-      if (params.out.exportMultiline) {
-        switch (params.out.exportMultilineWhat) {
-            case "all":mult = MultilineWindowControl.getAll();break;
-            case "selected":mult = MultilineWindowControl.getSelected();break;
-            case "search":mult = MultilineWindowControl.getAllDisplayed();break;
-        }
-      }
-      
-      var exportOptions = {
-        entries:        hist,
-        multilines:     mult,
-        exportMultiCfg: exportMutCfg,
-        exportClean:    exportClean,
-        exportKeys:     exportKeys,
-        exportRegexp:   exportRegexp
-      };
-      
-      FhcUtil.exportXMLdata(
-        this.bundle.getString("historywindow.prompt.exportdialog.title"),
-        exportOptions,
-        this.preferences,
-        this.dbHandler,
-        this.dateHandler);
-    }
+    FhcUtil.exportEntries(
+      this.bundle.getString("historywindow.prompt.exportdialog.title"),
+      this.treeView.getAll(),
+      this.preferences,
+      this.dateHandler);
+  },
+
+  // Export all visible (filtered) data to a user specified file
+  exportActionDisplayed: function() {
+    //dump('exportAction!\n');
+    FhcUtil.exportEntries(
+      this.bundle.getString("historywindow.prompt.exportdialog.title"),
+      this.treeView.getAllDisplayed(),
+      this.preferences,
+      this.dateHandler);
+  },
+
+  // Export all selected data to a user specified file
+  exportActionSelected: function() {
+    //dump('exportAction!\n');
+    FhcUtil.exportEntries(
+      this.bundle.getString("historywindow.prompt.exportdialog.title"),
+      this.treeView.getSelected(),
+      this.preferences,
+      this.dateHandler);
   },
 
   // Import History-data from file, only add new entries
   importAction: function() {
     //dump('importAction!\n');
-    var data = FhcUtil.importXMLdata(
+    var importedEntries = FhcUtil.importEntries(
           this.bundle.getString("historywindow.prompt.importdialog.title"),
           this.preferences,
           this.dateHandler);
-          
-    if (data == null) {
-      return;
-    }
-    
-    var multilineCfgItems = 0;
-    if (data.multilineCfg != null) {
-      for(var property in data.multilineCfg) {
-        multilineCfgItems++;
-      }
-    }
-    
-    var params = {
-          inn: {history:   data.entries.length,
-                multiline: data.multiline.length,
-                multicfg:  multilineCfgItems,
-                cleanup:   data.protect.length + data.cleanup.length,
-                keys:      data.keys.length,
-                regexp:    data.regexp.length
-               },
-          out: null
-        };
-    FhcShowDialog.doShowFhcImport(params);
-    
-    if (params.out) {
-      
+    if (importedEntries != null) {
+      var noAdded = 0, noSkipped = 0, noErrors = 0;
+
       window.setCursor("wait"); // could be slow
       try {
-        var hiResult = null;
-        var mlResult = null;
-        var mcResult = null;
-        var clResult = null;
-        var reResult = null;
-        var keResult = null;
-        
-        if (params.out.importHistory) {
-          hiResult = this._importAction(data.entries);
-        }
+        // filter out what is really new
+        var newEntries = this.treeView.extractUniqueEntries(importedEntries);
 
-        if (params.out.importMultiline) {
-          mlResult = MultilineWindowControl.importAction(data.multiline);
-        }
+        // add new entries to the database and repopulate the treeview
+        if (0 < newEntries.length) {
+          // add all new entries to the database in bulk
+          if (this.dbHandler.bulkAddEntries(newEntries)) {
+            noAdded   = newEntries.length;
+            noSkipped = importedEntries.length - noAdded;
 
-        if (params.out.importMulticfg) {
-          var mlPrefs = data.multilineCfg;
-          var count = 0;
-          if (mlPrefs.backupEnabled != null)   {count++; this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
-          if (mlPrefs.saveNewIfOlder != null)  {count++; this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
-          if (mlPrefs.saveNewIfLength != null) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
-          if (mlPrefs.deleteIfOlder != null)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
-          if (mlPrefs.exception != null)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
-          if (mlPrefs.exceptionList != null)   {count++; this.preferences.setMultilineExceptionList(  mlPrefs.exceptionList);}
-          if (mlPrefs.saveAlways != null)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
-          if (mlPrefs.saveEncrypted != null)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
-          mcResult = {
-            noTotal:   count,
-            noAdded:   count,
-            noSkipped: "",
-            noErrors:  0
-          };
+            // rebuild/show all
+            this._repopulateView();
+          }
+        } else {
+          noSkipped = importedEntries.length;
         }
-
-        if (params.out.importCleanup) {
-          var prResult = CleanupProtectView.importAction(data.protect);
-          var cuResult = CleanupWindowControl.importAction(data.cleanup);
-          clResult = {
-            noTotal: prResult.noTotal + cuResult.noTotal,
-            noAdded: cuResult.noAdded + prResult.noAdded,
-            noSkipped: cuResult.noSkipped + prResult.noSkipped,
-            noErrors: cuResult.noErrors + prResult.noErrors
-          };
-          
-          var clPrefs = data.cleanupCfg;
-          if (clPrefs.cleanupDaysChecked != null)  this.preferences.setCleanupDaysChecked( "true" == clPrefs.cleanupDaysChecked);
-          if (clPrefs.cleanupDays != null)         this.preferences.setCleanupDays(        clPrefs.cleanupDays);
-          if (clPrefs.cleanupTimesChecked != null) this.preferences.setCleanupTimesChecked("true" == clPrefs.cleanupTimesChecked);
-          if (clPrefs.cleanupTimes != null)        this.preferences.setCleanupTimes(       clPrefs.cleanupTimes);
-          if (clPrefs.cleanupOnShutdown != null)   this.preferences.setCleanupOnShutdown(  "true" == clPrefs.cleanupOnShutdown);
-          if (clPrefs.cleanupOnTabClose != null)   this.preferences.setCleanupOnTabClose(  "true" == clPrefs.cleanupOnTabClose);
-        }
-
-        if (params.out.importRegexp) {
-          reResult = this._importRegexp(data.regexp);
-        }
-
-        if (params.out.importKeys) {
-          keResult = this._importKeys(data.keys);
-        }
-
-        // report import status
-        var statusParams = {
-          history: hiResult,
-          multiline: mlResult,
-          multicfg: mcResult,
-          cleanup: clResult,
-          regexp: reResult,
-          keys: keResult
-        }
-        FhcShowDialog.doShowFhcImportStatus(statusParams);
-          
+        noErrors = importedEntries.length - (noAdded + noSkipped);
       } finally {
-        data = null;
-
-        // re-apply searchfilters to reflect changes to cleanup criteria
-        this.treeView.applyFilter();
-        this._updateCountLabel();
-
         window.setCursor("auto");
       }
-    }
-  },
-
-  _importKeys: function(importedEntries) {
-    var bindingValueComplex, bindingValue;
-    
-    var added = 0;
-    for(var kk=0; kk<importedEntries.length; kk++) {
-
-      bindingValueComplex = this.preferences.getKeybindingValue(importedEntries[kk].id);
-      bindingValue = bindingValueComplex ? bindingValueComplex.data : "";
-
-      if (bindingValue != importedEntries[kk].value) {
-        added++;
-        this.preferences.setKeybindingValue(importedEntries[kk].id, importedEntries[kk].value);
-      }
-    }
-    return {
-      noTotal: importedEntries.length,
-      noAdded: added,
-      noSkipped: importedEntries.length - added,
-      noErrors: 0
-    };
-  },
-
-  _importAction: function(importedEntries) {
-    var noAdded = 0, noSkipped = 0, noErrors = 0;
       
-    if (0 < importedEntries.length) {
-      // filter out what is really new
-      var newEntries = this.treeView.extractUniqueEntries(importedEntries);
-
-      // add new entries to the database and repopulate the treeview
-      if (0 < newEntries.length) {
-        // add all new entries to the database in bulk
-        if (this.dbHandler.bulkAddEntries(newEntries)) {
-          noAdded   = newEntries.length;
-          noSkipped = importedEntries.length - noAdded;
-          
-          // rebuild/show all
-          this._repopulateView();
-        }
-      } else {
-        noSkipped = importedEntries.length;
-      }
-      noErrors = importedEntries.length - (noAdded + noSkipped);
-    }
-
-    // return the status
-    return {
-      noTotal:   importedEntries.length,
-      noAdded:   noAdded,
-      noSkipped: noSkipped,
-      noErrors:  noErrors
+      FhcUtil.alertDialog(
+        this.bundle.getString("historywindow.prompt.importdialog.result.title"),
+        this.bundle.getString("historywindow.prompt.importdialog.result.status",
+        [importedEntries.length, noAdded, noSkipped, noErrors])
+      );
     }
   },
 
@@ -1460,7 +1264,7 @@ const HistoryWindowControl = {
   },
 
   /**
-   * Cleanup Select no items from the edit menu.
+   * Cleanup Select all items from the edit menu.
    */
   selectCleanupNone: function() {
     var tabs = document.getElementById('historyWindowCleanupTabs');
@@ -1475,6 +1279,42 @@ const HistoryWindowControl = {
   },
 
   /**
+   * Called from the menu.
+   */
+  importCleanupAction: function() {
+    var importedConfig = FhcUtil.importCleanupConfig(
+          this.bundle.getString("cleanupwindow.prompt.importdialog.title"),
+          this.preferences,
+          this.dateHandler);
+
+    var cuResult = CleanupWindowControl.importAction(importedConfig.cleanup);
+    var prResult = CleanupProtectView.importAction(importedConfig.protect);
+
+    var noTotal = importedConfig.cleanup.length + importedConfig.protect.length;
+    var noAdded   = cuResult.noAdded   + prResult.noAdded;
+    var noSkipped = cuResult.noSkipped + prResult.noSkipped;
+    var noErrors  = cuResult.noErrors  + prResult.noErrors;
+
+    // re-apply searchfilters to reflect changes to cleanup criteria
+    this.treeView.applyFilter();
+    this._updateCountLabel();
+
+    // import regular expressions
+    var reResult = this._importRegexp(importedConfig.regexp);
+
+    // report import status
+    var msg1 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status",
+                 [noTotal, noAdded, noSkipped, noErrors]).replace("\n\n", "\n");
+    var msg2 = this.bundle.getString("cleanupwindow.prompt.importdialog.result.status2",
+                 [importedConfig.regexp.length, reResult.noAdded,
+                  reResult.noSkipped, reResult.noErrors]).replace("\n\n", "\n");
+    FhcUtil.alertDialog(
+      this.bundle.getString("cleanupwindow.prompt.importdialog.result.title"),
+      msg1 + "\n\n" + msg2);
+    importedConfig = null;
+  },
+
+  /**
    * Import regexp, only add new entries.
    *
    * @param importedRegexps {Array}
@@ -1486,37 +1326,41 @@ const HistoryWindowControl = {
     var noAdded = 0, noSkipped = 0, noErrors = 0, noTotal = 0;
 
     if (importedRegexps != null) {
-      var exist, newRegexp = [];
-      var curRegexp = this.dbHandler.getAllRegexp();
-      for(var ii=0; ii<importedRegexps.length; ii++) {
-        ++noTotal;
-        exist = false;
-        for(var cc=0; cc<curRegexp.length; cc++) {
-          exist = (importedRegexps[ii].regexp == curRegexp[cc].regexp) &&
-                  (importedRegexps[ii].caseSens == curRegexp[cc].caseSens);
-          if (exist) break;
+      window.setCursor("wait"); // could be slow
+      try {
+        var exist, newRegexp = [];
+        var curRegexp = this.dbHandler.getAllRegexp();
+        for(var ii=0; ii<importedRegexps.length; ii++) {
+          ++noTotal;
+          exist = false;
+          for(var cc=0; cc<curRegexp.length; cc++) {
+            exist = (importedRegexps[ii].regexp == curRegexp[cc].regexp) &&
+                    (importedRegexps[ii].caseSens == curRegexp[cc].caseSens);
+            if (exist) break;
+          }
+          if (!exist) {
+            newRegexp.push(importedRegexps[ii]);
+          }
         }
-        if (!exist) {
-          newRegexp.push(importedRegexps[ii]);
-        }
-      }
 
-      // add new criteria to the database and repopulate the treeview
-      if (0 < newRegexp.length) {
-        // add all new criteria to the database in bulk
-        if (this.dbHandler.bulkAddRegexp(newRegexp)) {
-          noAdded   = newRegexp.length;
-          noSkipped = noTotal - noAdded;
+        // add new criteria to the database and repopulate the treeview
+        if (0 < newRegexp.length) {
+          // add all new criteria to the database in bulk
+          if (this.dbHandler.bulkAddRegexp(newRegexp)) {
+            noAdded   = newRegexp.length;
+            noSkipped = noTotal - noAdded;
+          }
+        } else {
+          noSkipped = noTotal;
         }
-      } else {
-        noSkipped = noTotal;
+        noErrors = noTotal - (noAdded + noSkipped);
+      } finally {
+        window.setCursor("auto");
       }
-      noErrors = noTotal - (noAdded + noSkipped);
     }
 
     // return the status
     return {
-      noTotal: importedRegexps.length,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors
@@ -2188,22 +2032,6 @@ const HistoryWindowControl = {
   _updateSearchElements: function() {
     var checkboxElem = document.getElementById("filterMatchCase");
     checkboxElem.checked = FhcUtil.isCaseSensitive;
-    checkboxElem = document.getElementById("filterMlMatchCase");
-    checkboxElem.checked = FhcUtil.isCaseSensitive;
-  },
-
-  // Hide the multiline tab if editor history is disabled
-  _hideOrShowMultilineTab: function() {
-    var doShow = this.preferences.isMultilineBackupEnabled()
-    document.getElementById("editorHistoryTabPanel").hidden = !doShow;
-    document.getElementById("editorHistoryTab").hidden = !doShow;
-    if (!doShow) {
-     // if tab is to be hidden but is selected, select another tab
-     var tabs = document.getElementById('historyWindowTabs');
-     if (2 == tabs.selectedIndex) {
-       tabs.selectedIndex = 0;
-     }
-    }
   },
 
   // Register a preference listener to act upon relevant changes
@@ -2258,9 +2086,6 @@ const HistoryWindowControl = {
           case "cleanupTimesChecked":
           case "cleanupTimes":
                CleanupWindowControl.readAndShowPreferences();
-               break;
-          case "multiline.backupenabled":
-               thisHwc._hideOrShowMultilineTab();
                break;
         }
       });
