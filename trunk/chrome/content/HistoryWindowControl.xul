@@ -171,6 +171,10 @@
   </menupopup>
 
   <menupopup id="multilinePopup">
+    <menuitem id="mnCopyMultilineToClipboard" class="menuitem-iconic fh_menuitem_copyclip"
+              label="&fhcmultilinedlg.button.copytoclipboard;"
+              oncommand="MultilineWindowControl.copyToClipboardAction()"/>
+    <menuseparator/>
     <menuitem label="&fhwin.menuitem.delete.label;"
               id="mnDeleteMultiline" disabled="true"
               class="menuitem-iconic fh_menuitem_delete"
