@@ -64,6 +64,8 @@ toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='neversave'] {
 .fh_menuitem_deletename      {list-style-image: url('deleteallwith.png')}
 .fh_menuitem_deletevalue     {list-style-image: url('deleteallwith.png')}
 
+.fh_menuitem_copyclip        {list-style-image: url('copy.png')}
+
 .fh_menuitem_selectall       {list-style-image: url('selectall.png')}
 .fh_menuitem_selectnone      {list-style-image: url('selectnone.png')}
 .fh_menuitem_selectinvert    {list-style-image: url('selectinvert.png')}

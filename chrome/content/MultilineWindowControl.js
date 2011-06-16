@@ -133,6 +133,7 @@ const MultilineWindowControl = {
   menuPopup: function(event) {
     var selected = this.getSelected();
     document.getElementById("mnDeleteMultiline").setAttribute("disabled", 0 == selected.length);
+    document.getElementById("mnCopyMultilineToClipboard").setAttribute("disabled", 1 != selected.length);
     return true;
   },
 
@@ -166,6 +167,21 @@ const MultilineWindowControl = {
           FhcShowDialog.doShowFhcMultilineItem(selected[0]);
           break;
       }
+    }
+  },
+
+  /**
+   * Copy multiline text of the selected item to the clipboard.
+   *
+   * @return {Boolean}
+   *         true when copy succeeded
+   */
+  copyToClipboardAction: function() {
+    var selected = this.getSelected();
+    if (selected.length == 1) {
+      Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+                .getService(Components.interfaces.nsIClipboardHelper)
+                .copyString(selected[0].content);
     }
   },
 

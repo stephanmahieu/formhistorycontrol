@@ -157,6 +157,19 @@ var FhcShowDialog = {
   },
 
   /**
+   * Open the multiline exceptionlist dialog.
+   *
+   * @param params {Array}
+   *        array of input/output parameters
+   */
+  doShowMultilineExceptionList: function(params) {
+    openDialog(
+      "chrome://formhistory/content/FhcMultilineListDialog.xul", "",
+      "centerscreen, chrome, dialog, modal, resizable=yes", params)
+    .focus();
+  },
+  
+  /**
    * Open the date/time dialog.
    *
    * @param params {Array}

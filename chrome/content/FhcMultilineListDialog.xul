@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE dialog SYSTEM "chrome://formhistory/locale/formhistory.dtd">
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/menu.css" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
+<?xml-stylesheet href="chrome://formhistory/skin/treerows.css" type="text/css"?>
+
+<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        id="multilineListDialog"
+        title="Manage Exception List"
+        style="width:48em; height:40em"
+        buttons="cancel,accept"
+        onload="FhcMultilineListDialog.init()"
+        onunload="FhcMultilineListDialog.destroy()"
+        persist="width height screenX screenY">
+
+  <script type="application/x-javascript" src="chrome://formhistory/content/FhcMultilineListDialog.js"/>
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcUtil.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDbHandler.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcPreferenceHandler.js" />
+  
+  <keyset>
+    <key id="delete-key"
+         keycode="VK_DELETE" modifiers=""
+         oncommand="FhcMultilineListDialog.deleteItem()"/>
+  </keyset>
+
+  <tree id="hostTree" alternatingbackground="true"
+        flex="1" seltype="single"
+        editable="true" hidecolumnpicker="true"
+        onselect="FhcMultilineListDialog.treeSelect(event)">
+    <treecols>
+      <treecol id="hostCol" flex="3"
+               label="Hosts"
+               onclick="FhcMultilineListDialog.sort(this);"
+               persist="sortDirection"/>
+      <treecol id="indexCol" hidden="true" class="numericColumn"
+               ignoreincolumnpicker="true"
+               label="hiddenIndex"
+               onclick="FhcMultilineListDialog.sort(this);"
+               persist="sortDirection"/>
+    </treecols>
+    <treechildren/>
+  </tree>
+
+  <groupbox>
+    <caption label="Host"/>
+    <hbox>
+      <label value="Host"/>
+      <textbox id="host" flex="1" oninput="FhcMultilineListDialog.initEditButtons()"/>
+    </hbox>
+    <hbox>
+      <button id="addHost"
+              oncommand="FhcMultilineListDialog.addItem()"
+              label="Add"/>
+      <button id="updateHost"
+              oncommand="FhcMultilineListDialog.updateItem()"
+              label="Update"/>
+      <button id="deleteHost"
+              oncommand="FhcMultilineListDialog.deleteItem()"
+              label="Delete"/>
+    </hbox>
+  </groupbox>  
+  
+</dialog>
