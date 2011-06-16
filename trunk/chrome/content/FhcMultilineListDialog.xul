@@ -47,7 +47,7 @@
 
   <groupbox>
     <caption label="Host"/>
-    <hbox>
+    <hbox align="baseline">
       <label value="Host"/>
       <textbox id="host" flex="1" oninput="FhcMultilineListDialog.initEditButtons()"/>
     </hbox>
@@ -61,6 +61,9 @@
       <button id="deleteHost"
               oncommand="FhcMultilineListDialog.deleteItem()"
               label="Delete"/>
+      <button id="addCurrent"
+              oncommand="FhcMultilineListDialog.addCurrent()"
+              label="Add current page"/>
     </hbox>
   </groupbox>  
   
