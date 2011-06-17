@@ -7,11 +7,18 @@
 <?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/treerows.css" type="text/css"?>
 
-<dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+<!--dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="multilineListDialog"
         title="Manage Exception List"
         style="width:48em; height:40em"
         buttons="cancel,accept"
+        onload="FhcMultilineListDialog.init()"
+        onunload="FhcMultilineListDialog.destroy()"
+        persist="width height screenX screenY" -->
+<window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        id="multilineListDialog"
+        title="Manage Exception List"
+        style="width:48em; height:40em; padding: 14px 6px 4px 6px"
         onload="FhcMultilineListDialog.init()"
         onunload="FhcMultilineListDialog.destroy()"
         persist="width height screenX screenY">
@@ -27,6 +34,8 @@
          oncommand="FhcMultilineListDialog.deleteItem()"/>
   </keyset>
 
+  <label id="blacklist" hidden="true" value="Do not backup editor fields for hosts listed below:"/>
+  <label id="whitelist" hidden="true" value="Only backup editor fields for hosts listed below:"/>
   <tree id="hostTree" alternatingbackground="true"
         flex="1" seltype="single"
         editable="true" hidecolumnpicker="true"
@@ -67,4 +76,12 @@
     </hbox>
   </groupbox>  
   
-</dialog>
+  <hbox>
+    <spacer flex="1"/>
+    <button id="close" icon="close"
+            label="&fhwin.button.close.label;"
+            accesskey="&fhwin.button.close.accesskey;"
+            oncommand="window.close();return;"/>
+  </hbox>
+<!-- /dialog -->
+</window>

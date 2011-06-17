@@ -58,6 +58,9 @@ const FhcMultilineListDialog = {
     
     FhcUtil.isCaseSensitive = this.prefHandler.isSearchCaseSensitive();
     
+    document.getElementById("whitelist").hidden = ("multilineblacklist" == this.prefHandler.getMultilineException());
+    document.getElementById("blacklist").hidden = ("multilinewhitelist" == this.prefHandler.getMultilineException());
+    
     // initialize tree
     var hostTree = document.getElementById("hostTree");
     hostTree.view = this;
