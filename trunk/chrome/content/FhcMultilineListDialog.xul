@@ -7,14 +7,6 @@
 <?xml-stylesheet href="chrome://formhistory/skin/editDialog.css" type="text/css"?>
 <?xml-stylesheet href="chrome://formhistory/skin/treerows.css" type="text/css"?>
 
-<!--dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-        id="multilineListDialog"
-        title="Manage Exception List"
-        style="width:48em; height:40em"
-        buttons="cancel,accept"
-        onload="FhcMultilineListDialog.init()"
-        onunload="FhcMultilineListDialog.destroy()"
-        persist="width height screenX screenY" -->
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="multilineListDialog"
         title="Manage Exception List"
@@ -32,13 +24,38 @@
     <key id="delete-key"
          keycode="VK_DELETE" modifiers=""
          oncommand="FhcMultilineListDialog.deleteItem()"/>
+    <key id="selectall-key"
+         key="&fhwin.menuitem.selectall.accelkey;"
+         modifiers="accel"
+         oncommand="FhcMultilineListDialog.selectAll()"/>
+    <key id="selectnone-key"
+         key="-" modifiers="accel"
+         oncommand="FhcMultilineListDialog.selectNone()"/>
   </keyset>
+  
+  <menupopup id="hostPopup">
+    <menuitem label="&fhwin.menuitem.delete.label;"
+              id="mnDelete" disabled="true"
+              class="menuitem-iconic fh_menuitem_delete"
+              oncommand="FhcMultilineListDialog.deleteItem()"/>
+    <menuseparator/>
+    <menuitem label="&fhwin.menuitem.selectall.label;"
+              id="mnSelectAll"
+              class="menuitem-iconic fh_menuitem_selectall"
+              oncommand="FhcMultilineListDialog.selectAll()"/>
+    <menuitem label="&fhwin.menuitem.selectnone.label;"
+              id="mnSelectNone"
+              class="menuitem-iconic fh_menuitem_selectnone"
+              oncommand="FhcMultilineListDialog.selectNone()"/>
+  </menupopup>
 
   <label id="blacklist" hidden="true" value="Do not backup editor fields for hosts listed below:"/>
   <label id="whitelist" hidden="true" value="Only backup editor fields for hosts listed below:"/>
   <tree id="hostTree" alternatingbackground="true"
-        flex="1" seltype="single"
+        flex="1" 
         editable="true" hidecolumnpicker="true"
+        context="hostPopup"
+        oncontextmenu="FhcMultilineListDialog.menuPopup(event)"
         onselect="FhcMultilineListDialog.treeSelect(event)">
     <treecols>
       <treecol id="hostCol" flex="3"
@@ -61,15 +78,18 @@
       <textbox id="host" flex="1" oninput="FhcMultilineListDialog.initEditButtons()"/>
     </hbox>
     <hbox>
-      <button id="addHost"
-              oncommand="FhcMultilineListDialog.addItem()"
-              label="Add"/>
-      <button id="updateHost"
-              oncommand="FhcMultilineListDialog.updateItem()"
-              label="Update"/>
       <button id="deleteHost"
               oncommand="FhcMultilineListDialog.deleteItem()"
-              label="Delete"/>
+              label="&fhwin.button.remove.label;"
+              accesskey="&fhwin.button.remove.accesskey;"/>
+      <button id="updateHost"
+              oncommand="FhcMultilineListDialog.updateItem()"
+              label="&fhwin.button.edit.label;"
+              accesskey="&fhwin.button.edit.accesskey;"/>
+      <button id="addHost"
+              oncommand="FhcMultilineListDialog.addItem()"
+              label="&fhwin.button.add.label;"
+              accesskey="&fhwin.button.add.accesskey;"/>
       <button id="addCurrent"
               oncommand="FhcMultilineListDialog.addCurrent()"
               label="Add current page"/>
@@ -83,5 +103,4 @@
             accesskey="&fhwin.button.close.accesskey;"
             oncommand="window.close();return;"/>
   </hbox>
-<!-- /dialog -->
 </window>

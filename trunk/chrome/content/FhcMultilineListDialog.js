@@ -114,13 +114,30 @@ const FhcMultilineListDialog = {
     // is not in the list and one item is selected
     btnUpdate.setAttribute("disabled", (1 != selectCount) || (txtHost.value.length == 0) || isExisting);
     
-    // enable delete-button only when 1 item is selected
-    btnRemove.setAttribute("disabled", 1 != selectCount);
+    // enable delete-button only when 1 or more items are selected
+    btnRemove.setAttribute("disabled", 0 == selectCount);
     
     // enable add-current-button only when current host not in list
     btnAddCurrent.setAttribute("disabled", curHost.length==0 || isCurHostInList);
   },
 
+  menuPopup: function() {
+    var selectCount = this._getSelectCount();
+    var mnDelete = document.getElementById("mnDelete");
+    
+    // enable delete only when 1 or more items are selected
+    mnDelete.setAttribute("disabled", 0 == selectCount);
+  },
+
+  selectAll: function() {
+    this._getSelection().selectAll();
+    this.initEditButtons();
+  },
+  
+  selectNone: function() {
+    this._getSelection().clearSelection();
+    this.initEditButtons();
+  },
 
   addCurrent: function() {
     // determine current host
@@ -158,7 +175,6 @@ const FhcMultilineListDialog = {
     var idx = this._getDataIndex(item);
     this.treeBox.ensureRowIsVisible(idx);
 
-
     this.initEditButtons();
   },
   
@@ -183,25 +199,12 @@ const FhcMultilineListDialog = {
   },
   
   deleteItem: function() {
-    // check if 1 item is selected which may not be the case for delete-key
-    var count = this._getSelectCount();
-    if (count == 0) return;
-    
     var curSelectedIndex = this._getSelectedIndex();
+    var selected = this._getSelected();
     
-    var txtHost = document.getElementById("host");
-    var id = txtHost.getAttribute("hostId");
+    if (selected.length == 0) return;
     
-    for (var i=0; i<this.data.length; i++) {
-      if (id == this.data[i].id) {
-        this.data.splice(i, 1);
-        this.rowCount = this.data.length;
-        this.treeBox.rowCountChanged(i, -1);
-         
-        // stop iterating
-        i = this.data.length;
-      }
-    }
+    this._deleteItems(selected);
     
     // select next (or last) item
     if (this.data.length > 0) {
@@ -214,6 +217,60 @@ const FhcMultilineListDialog = {
     
     this.initEditButtons();
   },
+
+  _deleteItems: function(items) {
+//    if (!this._confirmDelete()) {
+//      return;
+//    }
+    window.setCursor("wait");
+    try {
+      //if (this.dbHandler.deleteHost(items)) {
+        try {
+          var index;
+          for (var it=0; it < items.length; it++) {
+            index = this._getDataIndex(items[it]);
+            if (-1 < index) this.data.splice(index, 1);
+          }
+        } finally {
+          // rebuild display
+          this.treeBox.rowCountChanged(0, -this.rowCount);
+          this.rowCount = this.data.length;
+          this.treeBox.rowCountChanged(0, this.rowCount);
+          this.treeBox.invalidate();
+        }
+      //}
+    } finally {
+      window.setCursor("auto");
+    }    
+  },
+
+  /**
+   * Update a single item already changed in data[];
+   *
+   * @param item {Object}
+   *        a single object
+   */
+  _updateHost: function(item) {
+    // update the database
+    //this.dbHandler.updateHost(item);
+
+    // update treeview
+    this.treeBox.rowCountChanged(0, -this.rowCount);
+    this.treeBox.invalidate();
+    this.treeBox.rowCountChanged(1, this.data.length);
+    
+    this._sortColumn();
+
+    // select and scroll edited item (back) into view
+    var index = this._getDataIndex(item);
+    if (-1 < index) {
+      this._getSelection().select(index);
+      this.treeBox.ensureRowIsVisible(index);
+    }
+    
+    this.initEditButtons();
+  },
+
 
   _getCurrentHost: function() {
     var host = "";
@@ -297,7 +354,7 @@ const FhcMultilineListDialog = {
   /**
    * Sort the column.
    *
-   * @param treeColumn {DOM element}
+   * @param treeColumn {DOM element} [Optional]
    *        the column the user has clicked
    *
    * @param toggle {Boolean} [Optional]
@@ -336,8 +393,8 @@ const FhcMultilineListDialog = {
   /**
    * Get the number of selected items.
    *
-   * @returns {number}
-   *          the number of selected items
+   * @return {number}
+   *         the number of selected items
    */
   _getSelectCount: function() {
     var selected = 0;
@@ -357,8 +414,8 @@ const FhcMultilineListDialog = {
   /**
    * Return the selected items.
    *
-   * @returns {Array}
-   *          Array of selected items
+   * @return {Array}
+   *         Array of selected items
    */
   _getSelected: function() {
     var selected = [];
@@ -461,8 +518,8 @@ const FhcMultilineListDialog = {
   /**
    * Return the current sorted column (defaults to first column if none found).
    *
-   * @returns {DOM element}
-   *          the currently sorted column, or the first column if none found
+   * @return {DOM element}
+   *         the currently sorted column, or the first column if none found
    */
   _getCurrentSortedColumn: function() {
     var sortableCols = ["hostCol"];
@@ -508,11 +565,11 @@ const FhcMultilineListDialog = {
   /**
    * Get the compare function to sort by a specific column in a treelist.
    *
-   * @param   columnId {String}
-   *          the Id of the column to sort
+   * @param  columnId {String}
+   *         the Id of the column to sort
    *
-   * @returns {Function}
-   *          the compare function for sorting an array of regexp items
+   * @return {Function}
+   *         the compare function for sorting an array of regexp items
    */
   _getSortCompareFunction: function(columnId) {
     var compareFunc;
