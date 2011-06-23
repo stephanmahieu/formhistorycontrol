@@ -388,7 +388,7 @@ const FhcFormSaveOverlay = {
     var parentElm = element;
     while(parentElm && !insideForm) {
       parentElm = parentElm.parentNode;
-      insideForm = ("FORM" == parentElm.tagName);
+      insideForm = (parentElm && "FORM" == parentElm.tagName);
     }
     return (insideForm && parentElm) ? this._getId(parentElm) : "";
   },
