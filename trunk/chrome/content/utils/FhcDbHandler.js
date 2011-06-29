@@ -1939,7 +1939,7 @@ FhcDbHandler.prototype = {
    * @return {Array}
    *         array of items found
    */
-  findLastsavedItems:function(itemprops) {
+  findLastsavedItems: function(itemprops) {
     var mDBConn = this._getDbCleanupConnection(false);
     var statement, result = [];
     try {
@@ -1981,7 +1981,180 @@ FhcDbHandler.prototype = {
       return result;
     }
   },
+
+
   
+  //----------------------------------------------------------------------------
+  // MultilineException methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Query all multiline items from the cleanup database.
+   *
+   * @return {Array}
+   *         an array of all multiline items from the database table
+   */
+  getAllMultilineExceptions: function() {
+    var mDBConn = this._getDbCleanupConnection();
+    if (null == mDBConn) {
+      // Major problem with cleanupDb
+      return null;
+    }
+    var result = [];
+    var resultOk = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT id, host" +
+          "  FROM mlexceptions");
+        
+      while (statement.executeStep()) {
+        result.push({
+          id:   statement.row.id,
+          host: statement.row.host
+        });
+      }
+      resultOk = true;
+    } catch(ex) {
+      dump('getAllMultilineExceptions:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, resultOk);
+    }
+    return result;
+  },
+  
+  /**
+   * Add a new multiline exception to the database,
+   * set the id of the inserted object to the new database Id on succes.
+   * 
+   * See also http://www.sqlite.org/lang_createtable.html#rowid
+   *
+   * @param  newException {Object}
+   *         a new exception object to be added to the database
+   *
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  addMultilineException: function(newException) {
+    var mDBConn = this._getDbCleanupConnection(true);
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "INSERT" +
+          "  INTO mlexceptions (host) " +
+          "VALUES (:host)");
+      statement.params.host = newException.host;
+      result = this._executeStatement(statement);
+      
+      if (result) {
+        statement = mDBConn.createStatement(
+          "SELECT last_insert_rowid()" +
+          "  FROM mlexceptions");
+        statement.executeStep();
+        var newId = statement.getInt64(0);
+        
+        newException.id = newId;
+      }
+      
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Update a MultilineException in the database, return true on succes.
+   *
+   * @param  updatedException {Object}
+   *         the MultilineException object to be updated
+   *
+   * @return {Boolean}
+   *         whether or not updating succeeded
+   */
+  updateMultilineException: function(updatedException) {
+    var mDBConn = this._getDbCleanupConnection(true);
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "UPDATE mlexceptions" +
+        "   SET host = :host" +
+        " WHERE id   = :id");
+      statement.params.id   = updatedException.id;
+      statement.params.host = updatedException.host;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('updateMultilineException:Exception: ' + ex);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Delete 1 or more MultilineExceptions from the database,
+   * return true on succes.
+   *
+   * @param  delExceptions {Array}
+   *         array of MultilineException objects to delete
+   *
+   * @return {Boolean}
+   *         whether or not deleting succeeded
+   */
+  deleteMultilineExceptions: function(delExceptions) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM mlexceptions" +
+          " WHERE id = :id");
+      for (var it=0; it < delExceptions.length; it++) {
+        statement.params.id = delExceptions[it].id;
+        result = this._executeReusableStatement(statement);
+        if (!result) break;
+      }
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Try to find a MultilineException for host.
+   *
+   * @param  host {String}
+   *         the host to find
+   *         
+   * @return {Boolean}
+   *         true if MultilineException exist for host
+   */
+  hasMultilineException: function(host) {
+    var mDBConn = this._getDbCleanupConnection();
+
+    var count = 0, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT count(*)" +
+          "  FROM mlexceptions" +
+          " WHERE host = :host");
+      statement.params.host = host;
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getNoOfCustomsaveItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    return count > 0;
+  },
+  
+
+
   //----------------------------------------------------------------------------
   // Customsave methods
   //----------------------------------------------------------------------------
@@ -2293,7 +2466,7 @@ FhcDbHandler.prototype = {
         return false;
       }
     }
-    // check multiline table (new since 1.2.10)
+    // check multiline table (new since 1.3.0)
     colCount = this._getNoOfColumns(mDBConnection, "multiline");
     if (0 == colCount) {
       try {
@@ -2319,7 +2492,26 @@ FhcDbHandler.prototype = {
         return false;
       }
     }
-    // check customsave table (new since 1.2.10)
+    // check multiline exceptions table (new since 1.3.0)
+    colCount = this._getNoOfColumns(mDBConnection, "mlexceptions");
+    if (0 == colCount) {
+      try {
+        mDBConnection.executeSimpleSQL(
+          "CREATE TABLE IF NOT EXISTS mlexceptions " +
+          "(id   INTEGER PRIMARY KEY ASC," +
+          " host TEXT    UNIQUE NOT NULL)"
+        );
+        mDBConnection.executeSimpleSQL(
+          "CREATE INDEX IF NOT EXISTS mlexceptions_index_host " +
+          "ON mlexceptions (host ASC)"
+        );
+      }
+      catch(e) {
+        dump("Migrate: Adding table mlexceptions failed!\n\n" + e);
+        return false;
+      }
+    }
+    // check customsave table (new since 1.3.0)
     colCount = this._getNoOfColumns(mDBConnection, "customsave");
     if (0 == colCount) {
       try {

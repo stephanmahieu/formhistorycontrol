@@ -64,6 +64,9 @@ const FhcFormSaveOverlay = {
   
   //private browsing
   isPrivateBrowsing: false,
+  
+  //local cache
+  hostCache: {host:"", hostEnabled:false},
 
   init: function() {
     this.dbHandler = new FhcDbHandler();
@@ -195,13 +198,15 @@ const FhcFormSaveOverlay = {
         break;
     }
 
-    // add to queue (if not already queued)
-    this._dispatchContentEvent(name, type, id, formid, uri, node);
+    if (this._isHostEnabled(uri)) {
+      // add to queue (if not already queued)
+      this._dispatchContentEvent(name, type, id, formid, uri, node);
+    }
   },
   
   /**
-   * return false when backup is disabled OR in private browsing mode and
-   * saving not overridden.
+   * return false when: backup is disabled
+   * OR in private browsing mode and saving not overridden.
    */
   _isSaveAllowed: function() {
     if (!this.backupEnabled) return false;
@@ -209,6 +214,41 @@ const FhcFormSaveOverlay = {
     return true;
   },
 
+  /**
+   * return false when host is blacklisted or not on whitelist.
+   * @param uri {URI}
+   */
+  _isHostEnabled: function(uri) {
+    var host = this._getHost(uri);
+    
+    //TODO: invalidate cache when MultilineException db has changed!
+    //try to use cache first
+    if (this.hostCache.host == host) {
+      return this.hostCache.hostEnabled;
+    }
+    
+    //not cached, check preferences/exceptionlist
+    this.hostCache.host = host;
+    
+    var hasListedException;
+    switch(this.exceptionType) {
+      case "multilinenoexception":
+           this.hostCache.hostEnabled = true;
+           break;
+      case "multilinewhitelist":
+           hasListedException = this.dbHandler.hasMultilineException(host);
+           this.hostCache.hostEnabled = hasListedException;
+           break;
+      case "multilineblacklist":
+           hasListedException = this.dbHandler.hasMultilineException(host);
+           this.hostCache.hostEnabled = !hasListedException;
+           break;
+      default:
+           this.hostCache.hostEnabled = true;
+    }
+
+    return this.hostCache.hostEnabled;
+  },
 
   //----------------------------------------------------------------------------
   // Event dispatching methods
@@ -429,7 +469,6 @@ const FhcFormSaveOverlay = {
     this.saveNewIfLength = this.prefHandler.getMultilineSaveNewIfLength();
     this.deleteIfOlder   = this.prefHandler.getMultilineDeleteIfOlder();
     this.exceptionType   = this.prefHandler.getMultilineException();
-    this.exceptionList   = this.prefHandler.getMultilineExceptionList();
     this.saveAlways      = this.prefHandler.isMultilineSaveAlways();
     this.saveEncrypted   = this.prefHandler.isMultilineSaveEncrypted();
   },
@@ -457,9 +496,9 @@ const FhcFormSaveOverlay = {
                  thisHwc.deleteIfOlder = thisHwc.prefHandler.getMultilineDeleteIfOlder();
                  break;
             case "exception":
-            case "exceptionlist":
                  thisHwc.exceptionType = thisHwc.prefHandler.getMultilineException();
-                 thisHwc.exceptionList = thisHwc.prefHandler.getMultilineExceptionList();
+                 // invalidate cache
+                 this.hostCache.host = "";
                  break;
             case "savealways":
                  thisHwc.saveAlways = thisHwc.prefHandler.isMultilineSaveAlways();

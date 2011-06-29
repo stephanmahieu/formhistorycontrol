@@ -260,7 +260,7 @@
 <!ENTITY fhprefs.multilineinfo.tooltip "Form History Control can securely save editor fields as you type, allowing for safe recovery if anything goes wrong">
 <!ENTITY fhprefs.checkbox.multilineenable "Enable automatic backup of editor fields and multiline text fields">
 <!ENTITY fhprefs.tab.multiline.configuration "Configuration">
-<!ENTITY fhprefs.tab.multiline.exclusions "Exclusions">
+<!ENTITY fhprefs.tab.multiline.exceptions "Exceptions">
 <!ENTITY fhprefs.tab.multiline.privacy "Privacy">
 <!ENTITY fhprefs.group.multilineversion.caption "Version control">
 <!ENTITY fhprefs.group.multilinecleanup.caption "Cleanup">
@@ -282,11 +282,10 @@
 <!ENTITY fhprefs.label.multilinelist.months "months">
 <!ENTITY fhprefs.label.multilinelist.characters "characters">
 <!ENTITY fhprefs.radio.multilinenoexception "No exceptions">
-<!ENTITY fhprefs.radio.multilinewhitelist "Enabled only for hosts listed below">
-<!ENTITY fhprefs.radio.multilineblacklist "Disabled for hosts listed below">
-<!ENTITY fhprefs.label.multilinehostlist "Hosts">
-<!ENTITY fhprefs.textbox.multilinehostlist "Comma separated lists of hosts">
-<!ENTITY fhprefs.checkbox.multilinesavealways "Save a backup of editor fields while typing even when in Private Browsing mode">
+<!ENTITY fhprefs.radio.multilinewhitelist "Enabled only for listed hosts">
+<!ENTITY fhprefs.radio.multilineblacklist "Always enabled, except for listed hosts">
+<!ENTITY fhprefs.button.managelist "Manage exception list">
+<!ENTITY fhprefs.checkbox.multilinesavealways "Save a backup of editor fields while typing, even when in Private Browsing mode">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Encrypt the contents of editor fields in the database">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Miscellaneous">

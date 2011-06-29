@@ -304,13 +304,6 @@ FhcPreferenceHandler.prototype = {
      this.prefService.setCharPref("multiline.exception", newCharPref);
   },
   
-  getMultilineExceptionList: function() {
-    return this.prefService.getCharPref("multiline.exceptionlist");
-  },
-  setMultilineExceptionList: function(newCharPref) {
-     this.prefService.setCharPref("multiline.exceptionlist", newCharPref);
-  },
-    
   isMultilineSaveAlways: function() {
     return this.prefService.getBoolPref("multiline.savealways");
   },
