@@ -279,19 +279,19 @@
                     </menupopup>
                   </menulist>
                 </hbox>
+                <hbox>
+                  <vbox style="margin-left: 2px">
+                    <image class="info_icon" flex="0"
+                           src="chrome://formhistory/skin/warning16.png"
+                           tooltiptext="&fhprefs.multilinesavewarning.tooltip;"/>
+                    <spacer flex="1"/>
+                  </vbox>
+                  <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
+                               tooltiptext="&fhprefs.multilinesavewarning.tooltip;">
+                               &fhprefs.multilinesavewarning.tooltip;
+                  </description>
+                </hbox>
               </groupbox>
-              <hbox>
-                <vbox style="margin-left: 2px">
-                  <image class="info_icon" flex="0"
-                         src="chrome://formhistory/skin/warning16.png"
-                         tooltiptext="&fhprefs.multilinesavewarning.tooltip;"/>
-                  <spacer flex="1"/>
-                </vbox>
-                <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
-                             tooltiptext="&fhprefs.multilinesavewarning.tooltip;">
-                             &fhprefs.multilinesavewarning.tooltip;
-                </description>
-              </hbox>
             </vbox>
           </tabpanel>
           <tabpanel style="margin-top: 4px">
@@ -301,9 +301,15 @@
                 <caption label="&fhprefs.group.multilineexceptions.caption;"/>
                 <hbox align="end">
                   <radiogroup id="multilineradioexceptions">
-                    <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                    <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                    <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                    <radio id="multilinenoexception"
+                           label="&fhprefs.radio.multilinenoexception;"
+                           oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                    <radio id="multilinewhitelist"
+                           label="&fhprefs.radio.multilinewhitelist;"
+                           oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                    <radio id="multilineblacklist"
+                           label="&fhprefs.radio.multilineblacklist;"
+                           oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
                   </radiogroup>
                   <spacer flex="1"/>
                   <button id="multilineexceptionlist"
@@ -318,11 +324,11 @@
             <vbox flex="1">
               <groupbox>
                 <caption label="&fhprefs.tab.multiline.privacy;"/>
-                <checkbox label="&fhprefs.checkbox.multilinesavealways;"
-                          id="multilineprivacysavealways"
+                <checkbox id="multilineprivacysavealways"
+                          label="&fhprefs.checkbox.multilinesavealways;"
                           preference="extensions.formhistory.multiline.savealways"/>
-                <checkbox label="&fhprefs.checkbox.multilinesaveencrypted;"
-                          id="multilineprivacysaveencrypted"
+                <checkbox id="multilineprivacysaveencrypted"
+                          label="&fhprefs.checkbox.multilinesaveencrypted;"
                           preference="extensions.formhistory.multiline.saveencrypted"/>
               </groupbox>
             </vbox>
