@@ -260,7 +260,7 @@
 <!ENTITY fhprefs.multilineinfo.tooltip "Form History Control kan editor velden opslaan terwijl U tikt, zodat de tekst hersteld kan worden voor het geval er iets fout gaat">
 <!ENTITY fhprefs.checkbox.multilineenable "Activeer de automatische backup van editor velden en meerregelige tekst velden">
 <!ENTITY fhprefs.tab.multiline.configuration "Configuratie">
-<!ENTITY fhprefs.tab.multiline.exclusions "Uitzonderingen">
+<!ENTITY fhprefs.tab.multiline.exceptions "Uitzonderingen">
 <!ENTITY fhprefs.tab.multiline.privacy "Privacy">
 <!ENTITY fhprefs.group.multilineversion.caption "Versie controle">
 <!ENTITY fhprefs.group.multilinecleanup.caption "Opschonen">
@@ -282,11 +282,10 @@
 <!ENTITY fhprefs.label.multilinelist.months "maanden">
 <!ENTITY fhprefs.label.multilinelist.characters "karakters">
 <!ENTITY fhprefs.radio.multilinenoexception "Geen uitzonderingen">
-<!ENTITY fhprefs.radio.multilinewhitelist "Actief uitsluitend voor de hosts in de lijst hieronder">
-<!ENTITY fhprefs.radio.multilineblacklist "Uitgeschakeld voor de hosts in de lijst hieronder">
-<!ENTITY fhprefs.label.multilinehostlist "Hosts">
-<!ENTITY fhprefs.textbox.multilinehostlist "Lijst van hosts gescheiden door komma's">
-<!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden zelfs wanneer in privé navigatie modus">
+<!ENTITY fhprefs.radio.multilinewhitelist "Alleen actief voor hosts in de lijst">
+<!ENTITY fhprefs.radio.multilineblacklist "Altijd actief, behalve voor hosts in de lijst">
+<!ENTITY fhprefs.button.managelist "Beheer exceptie lijst">
+<!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden, zelfs wanneer in privé navigatie modus">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Versleutel de inhoud van editor velden in de database">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Diversen">

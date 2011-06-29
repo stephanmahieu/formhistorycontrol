@@ -72,10 +72,7 @@ const FhcMultilineListDialog = {
     this.initEditButtons();
 
     // get initial data
-    this.data.push({host: "host.test.net", id: 0});
-    this.data.push({host: "www.apple.com", id: 1});
-    this.data.push({host: "me.nowhere.com", id: 2});
-    this.data.push({host: "www.mozilla.blog.com", id: 3});
+    this.data = this.dbHandler.getAllMultilineExceptions();
     
     this.rowCount = this.data.length;
     this.treeBox.rowCountChanged(0, this.data.length);
@@ -159,23 +156,26 @@ const FhcMultilineListDialog = {
   },
   
   _addItem: function(item) {
-    this.data.push(item);
+    if (this.dbHandler.addMultilineException(item)) {
     
-    this.rowCount = this.data.length;
-    this.treeBox.rowCountChanged(this.data.length-1, 1);
-    
-    // select new item
-    var selection = this._getSelection()
-    selection.select(this.data.length-1);
-    
-    // re-apply sort
-    this._sortColumn();
+      this.data.push(item);
 
-    // make sure new item is visible
-    var idx = this._getDataIndex(item);
-    this.treeBox.ensureRowIsVisible(idx);
+      this.rowCount = this.data.length;
+      this.treeBox.rowCountChanged(this.data.length-1, 1);
 
-    this.initEditButtons();
+      // select new item
+      var selection = this._getSelection()
+      selection.select(this.data.length-1);
+
+      // re-apply sort
+      this._sortColumn();
+
+      // make sure new item is visible
+      var idx = this._getDataIndex(item);
+      this.treeBox.ensureRowIsVisible(idx);
+
+      this.initEditButtons();
+    }
   },
   
   updateItem: function() {
@@ -184,8 +184,13 @@ const FhcMultilineListDialog = {
     
     for (var i=0; i<this.data.length; i++) {
       if (id == this.data[i].id) {
+
+        // update on screen
         this.data[i].host = txtHost.value;
         this.treeBox.invalidate();
+        
+        // update database
+        this.dbHandler.updateMultilineException(this.data[i]);
         
         // stop iterating
         i = this.data.length;
@@ -204,8 +209,9 @@ const FhcMultilineListDialog = {
     
     if (selected.length == 0) return;
     
-    this._deleteItems(selected);
     
+    this._deleteItems(selected);
+
     // select next (or last) item
     if (this.data.length > 0) {
       if (curSelectedIndex > this.data.length-1) {
@@ -214,7 +220,7 @@ const FhcMultilineListDialog = {
       var selection = this._getSelection();
       selection.select(curSelectedIndex);
     }
-    
+
     this.initEditButtons();
   },
 
@@ -224,7 +230,7 @@ const FhcMultilineListDialog = {
 //    }
     window.setCursor("wait");
     try {
-      //if (this.dbHandler.deleteHost(items)) {
+      if (this.dbHandler.deleteMultilineExceptions(items)) {
         try {
           var index;
           for (var it=0; it < items.length; it++) {
@@ -238,7 +244,7 @@ const FhcMultilineListDialog = {
           this.treeBox.rowCountChanged(0, this.rowCount);
           this.treeBox.invalidate();
         }
-      //}
+      }
     } finally {
       window.setCursor("auto");
     }    
@@ -252,7 +258,7 @@ const FhcMultilineListDialog = {
    */
   _updateHost: function(item) {
     // update the database
-    //this.dbHandler.updateHost(item);
+    this.dbHandler.updateMultilineException(item);
 
     // update treeview
     this.treeBox.rowCountChanged(0, -this.rowCount);

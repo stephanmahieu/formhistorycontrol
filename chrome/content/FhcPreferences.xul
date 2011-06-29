@@ -177,9 +177,6 @@
       <preference id="multiline-exception"
                   name="extensions.formhistory.multiline.exception"
                   type="string" />
-      <preference id="extensions.formhistory.multiline.exceptionlist"
-                  name="extensions.formhistory.multiline.exceptionlist"
-                  type="string" />
       <preference id="extensions.formhistory.multiline.savealways"
                   name="extensions.formhistory.multiline.savealways"
                   type="bool" />
@@ -209,7 +206,7 @@
       <tabbox id="multilineconfigbox" selectedIndex="0" persist="selectedIndex" flex="1">
         <tabs>
           <tab label="&fhprefs.tab.multiline.configuration;"/>
-          <tab label="&fhprefs.tab.multiline.exclusions;"/>
+          <tab label="&fhprefs.tab.multiline.exceptions;"/>
           <tab label="&fhprefs.tab.multiline.privacy;"/>
         </tabs>
         <tabpanels>
@@ -302,22 +299,16 @@
             <vbox flex="1">
               <groupbox>
                 <caption label="&fhprefs.group.multilineexceptions.caption;"/>
-                <radiogroup id="multilineradioexceptions"> <!--  preference="multiline-exception"-->
-                  <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                  <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                  <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
-                </radiogroup>
-                <hbox align="baseline">
-                  <!-- label value="&fhprefs.label.multilinehostlist;:"/ -->
+                <hbox align="end">
+                  <radiogroup id="multilineradioexceptions">
+                    <radio id="multilinenoexception" label="&fhprefs.radio.multilinenoexception;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                    <radio id="multilinewhitelist" label="&fhprefs.radio.multilinewhitelist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                    <radio id="multilineblacklist" label="&fhprefs.radio.multilineblacklist;" oncommand="FhcPreferences.mlexceptionPrefChecked(this)"/>
+                  </radiogroup>
+                  <spacer flex="1"/>
                   <button id="multilineexceptionlist"
-                          label="Manage list"
+                          label="&fhprefs.button.managelist;"
                           oncommand="FhcShowDialog.doShowMultilineExceptionList()"/>
-                  <!--
-                  <textbox id="multilineexceptionlist" flex="1"
-                           preference="extensions.formhistory.multiline.exceptionlist"
-                           emptytext="&fhprefs.textbox.multilinehostlist;"
-                           tooltiptext="&fhprefs.textbox.multilinehostlist;"/>
-                  -->
                 </hbox>
               </groupbox>
             </vbox>
