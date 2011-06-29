@@ -531,7 +531,7 @@ const MultilineWindowControl = {
         if (mainDocument) {
           if (mainDocument.baseURIObject.schemeIs("file")) {
             host = "localhost";
-          } else {
+          } else if ("about" != mainDocument.baseURIObject.scheme) {
             host = mainDocument.baseURIObject.host;
           }
         }
