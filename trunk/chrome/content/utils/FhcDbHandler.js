@@ -178,42 +178,41 @@ FhcDbHandler.prototype = {
    * @param  newEntry {Object}
    *         a new formhistory object to be added to the database
    *
-   * @param  newId {Integer}
-   *         the first available database id (primary key), if null the
-   *         next available Id will be queried from the database
-   *
    * @return {Integer}
    *         the next database id (primary key) of the newly added entry
    */
-  addEntry: function(newEntry, newId) {
+  addEntry: function(newEntry) {
     var mDBConn = this._getHistDbConnection(true);
 
-    // determine new database index (lastIndex + 1)
-    if (undefined == newId) {
-      newId = this._getLastId(mDBConn);
-      if (0 > newId) {
-        this._endHistDbConnection(mDBConn, result);
-        return null;
-      }
-      newId++;
-    }
-    
-    var result = false, statement;
+    var result = false, newId = null, statement;
     try {
       statement = mDBConn.createStatement(
           "INSERT" +
-          "  INTO moz_formhistory (id, fieldname, value, timesUsed, firstUsed, lastUsed) " +
-          "VALUES (:id, :name, :value, :used, :first, :last)");
-      statement.params.id    = newId;
+          "  INTO moz_formhistory (fieldname, value, timesUsed, firstUsed, lastUsed) " +
+          "VALUES (:name, :value, :used, :first, :last)");
       statement.params.name  = newEntry.name;
       statement.params.value = newEntry.value;
       statement.params.used  = newEntry.used;
       statement.params.first = newEntry.first;
       statement.params.last  = newEntry.last;
       result = this._executeStatement(statement);
+      
+      if (result) {
+        try {
+          statement = mDBConn.createStatement(
+            "SELECT last_insert_rowid()" +
+            "  FROM moz_formhistory");
+          statement.executeStep();
+          newId = statement.getInt64(0);
+        } catch(e) {
+          result = false;
+        }
+      }
+      
     } finally {
       this._endHistDbConnection(mDBConn, result);
     }
+
     return result ? newId : null;
   },
   
@@ -225,28 +224,19 @@ FhcDbHandler.prototype = {
    *         an array of new formhistory entry objects to be added to the
    *         database
    *
-   * @return {Integer}
-   *         the database id (primary key) of the last entry added
+   * @return {Boolean}
+   *         whether or not updating succeeded
    */
   bulkAddEntries: function(newEntries) {
     var mDBConn = this._getHistDbConnection(true);
 
-    // determine new database index (lastIndex + 1)
-    var newId = this._getLastId(mDBConn);
-    if (0 > newId) {
-      this._endHistDbConnection(mDBConn, result);
-      return null;
-    }
-    
     var result = true, statement;
     try {
       statement = mDBConn.createStatement(
           "INSERT " +
-          "  INTO moz_formhistory (id, fieldname, value, timesUsed, firstUsed, lastUsed) " +
-          "VALUES (:id, :name, :value, :used, :first, :last)");
+          "  INTO moz_formhistory (fieldname, value, timesUsed, firstUsed, lastUsed) " +
+          "VALUES (:name, :value, :used, :first, :last)");
       for(var ii=0; result && ii < newEntries.length; ii++) {
-        newId++;
-        statement.params.id    = newId;
         statement.params.name  = newEntries[ii].name;
         statement.params.value = newEntries[ii].value;
         statement.params.used  = newEntries[ii].used;
@@ -2220,30 +2210,6 @@ FhcDbHandler.prototype = {
   //----------------------------------------------------------------------------
 
   /**
-   * Query the last used formhistory database id (primary key).
-   *
-   * @param  mDBConnection {mozIStorageConnection}
-   *         the database connection
-   *
-   * @return {Integer}
-   *         the last used formhistory database id or -1 if db is empty
-   */
-  _getLastId: function(mDBConnection) {
-    var lastId = -1;
-    var statement;
-    try {
-      statement = mDBConnection.createStatement("SELECT max(id) FROM moz_formhistory");
-      statement.executeStep();
-      lastId = statement.getInt64(0);
-    } catch(ex) {
-      dump('_getLastId:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-    }
-    return lastId;
-  },
-
-  /**
    * Query the last used cleanupcriteria database id (primary key).
    *
    * @param  mDBConnection {mozIStorageConnection}
@@ -2423,16 +2389,16 @@ FhcDbHandler.prototype = {
     try {
       mDBConnection.executeSimpleSQL(
         "CREATE TABLE IF NOT EXISTS criteria " +
-        "(id INTEGER," +
-        " fieldname TEXT," +
-        " value TEXT," +
-        " nameExact INTEGER," +
-        " nameCase INTEGER," +
-        " valueExact INTEGER," +
-        " valueCase INTEGER," +
-        " nameRegex INTEGER DEFAULT 0," +
-        " valueRegex INTEGER DEFAULT 0," +
-        " critType TEXT DEFAULT 'C'," +
+        "(id          INTEGER," +
+        " fieldname   TEXT," +
+        " value       TEXT," +
+        " nameExact   INTEGER," +
+        " nameCase    INTEGER," +
+        " valueExact  INTEGER," +
+        " valueCase   INTEGER," +
+        " nameRegex   INTEGER DEFAULT 0," +
+        " valueRegex  INTEGER DEFAULT 0," +
+        " critType    TEXT DEFAULT 'C'," +
         " description TEXT)"
       );
     }
