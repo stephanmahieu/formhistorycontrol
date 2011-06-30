@@ -97,35 +97,20 @@ const MultilineWindowControl = {
     this._registerPrefListener();
 
     // observe changes to the database
-    this.dbObserver = {
-      observe: function(subject, topic, state) {
-        MultilineWindowControl.repopulateView();
-      },
-      register: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .addObserver(this, "multiline-store-changed", false);
-      },
-      unregister: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .removeObserver(this, "multiline-store-changed");
-      }
-    };
-    this.dbObserver.register();
+    this._registerDbObserver();
   },
 
   /**
    * Extension close.
    */
   destroy: function() {
-    this.dbObserver.unregister();
-    delete this.dbObserver;
+    this._unregisterDbObserver();
     this._unregisterPrefListener();
     return true;
   },
 
   /**
+   *  onpopupshowing event handler.
    *  Show tooltip when hovering over a treecell, use HTML formatted text
    *  if content contains html tags.
    */
@@ -134,7 +119,6 @@ const MultilineWindowControl = {
     while(tooltipNode.firstChild) {
       tooltipNode.removeChild(tooltipNode.firstChild);
     }
-    tooltipNode.label = null;
     
     var row = {}, column = {}, part = {};
     this.treeBox.getCellAt(event.clientX, event.clientY, row, column, part);
@@ -146,12 +130,24 @@ const MultilineWindowControl = {
       
       // set formatted tooltip content
       tooltipNode.label = "";
-      tooltipNode.appendChild(dom); 
+      tooltipNode.appendChild(dom);
     }
     else {
       // plain text content
       tooltipNode.label = content;
+      //event.preventDefault();
     }
+  },
+
+  /**
+   *  onpopuphiding event handler.
+   */
+  hideTooltip: function(event, tooltipNode) {
+    // clear tooltip
+    while(tooltipNode.firstChild) {
+      tooltipNode.removeChild(tooltipNode.firstChild);
+    }
+    tooltipNode.label = "";
   },
 
   /**
@@ -766,7 +762,9 @@ const MultilineWindowControl = {
   },
 
 
-  // Register a preference listener to act upon relevant changes
+  /**
+   * Register a preference listener to act upon relevant changes
+   */
   _registerPrefListener: function() {
     var thisHwc = this;
     this.preferenceListener = new FhcUtil.PrefListener("extensions.formhistory.",
@@ -799,7 +797,9 @@ const MultilineWindowControl = {
     this.preferenceListener.register();
   },
  
-  // Unregister the preference listener
+  /**
+   * Unregister the preference listener
+   */
   _unregisterPrefListener: function() {
     if (this.preferenceListener) {
       this.preferenceListener.unregister();
@@ -807,6 +807,35 @@ const MultilineWindowControl = {
     }
   },
 
+  /**
+   * Register the database observer.
+   */
+  _registerDbObserver: function() {
+    this.dbObserver = {
+      observe: function(subject, topic, state) {
+        MultilineWindowControl.repopulateView();
+      },
+      register: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .addObserver(this, "multiline-store-changed", false);
+      },
+      unregister: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .removeObserver(this, "multiline-store-changed");
+      }
+    };
+    this.dbObserver.register();
+   },
+
+  /**
+   * Unregister the database observer.
+   */
+   _unregisterDbObserver: function() {
+     this.dbObserver.unregister();
+     delete this.dbObserver;
+   },
 
   //----------------------------------------------------------------------------
   // Implementation of the nsITreeView interface

@@ -393,7 +393,9 @@
     <label id="preview-close-tip-label" value="&fhwin.treeview.closecleanuppreview.tooltip;"/>
   </tooltip>
 
-  <tooltip id="multilinetree-tooltip" onpopupshowing="MultilineWindowControl.showTooltip(event, this)"/>
+  <tooltip id="multilinetree-tooltip"
+           onpopupshowing="MultilineWindowControl.showTooltip(event, this)"
+           onpopuphiding="MultilineWindowControl.hideTooltip(event, this)"/>
 
   <tooltip id="notification-tip" orient="vertical"
            onclick="HistoryWindowControl.hideNotificationHelp()">
