@@ -474,6 +474,9 @@ const FhcPreferences = {
         if (cleanupConfig && cleanupConfig.multiline) {
           this.dbHandler.bulkAddMultilineItems(cleanupConfig.multiline);
         }
+        if (cleanupConfig && cleanupConfig.multilineCfg && cleanupConfig.multilineCfg.exceptionlist) {
+          this.dbHandler.bulkAddMultilineExceptions(cleanupConfig.multilineCfg.exceptionlist);
+        }
       }
     }
     finally {
