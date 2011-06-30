@@ -47,6 +47,7 @@ const FhcMultilineListDialog = {
   dbHandler: null,
   prefHandler: null,
   multilineItem: null,
+  observerService: null,
   data: [],
   
   /**
@@ -55,6 +56,9 @@ const FhcMultilineListDialog = {
   init: function() {
     this.prefHandler = new FhcPreferenceHandler();
     this.dbHandler = new FhcDbHandler();
+    
+    this.observerService = Components.classes["@mozilla.org/observer-service;1"]
+                          .getService(Components.interfaces.nsIObserverService);
     
     FhcUtil.isCaseSensitive = this.prefHandler.isSearchCaseSensitive();
     
@@ -142,7 +146,7 @@ const FhcMultilineListDialog = {
     
     if (!this._isHostInList(host)) {
       this._addItem({
-        id: 888,
+        id: null,
         host: host
       });
     }
@@ -150,14 +154,14 @@ const FhcMultilineListDialog = {
   
   addItem: function() {
     this._addItem({
-      id: 999,
+      id: null,
       host: document.getElementById("host").value
     });
   },
   
   _addItem: function(item) {
     if (this.dbHandler.addMultilineException(item)) {
-    
+      
       this.data.push(item);
 
       this.rowCount = this.data.length;
@@ -175,6 +179,9 @@ const FhcMultilineListDialog = {
       this.treeBox.ensureRowIsVisible(idx);
 
       this.initEditButtons();
+    
+      // notify observers
+      this.observerService.notifyObservers(null, "multiline-exceptionlist-changed", "");
     }
   },
   
@@ -201,6 +208,9 @@ const FhcMultilineListDialog = {
     this._sortColumn();
     
     this.initEditButtons();
+    
+    // notify observers
+    this.observerService.notifyObservers(null, "multiline-exceptionlist-changed", "");
   },
   
   deleteItem: function() {
@@ -208,7 +218,6 @@ const FhcMultilineListDialog = {
     var selected = this._getSelected();
     
     if (selected.length == 0) return;
-    
     
     this._deleteItems(selected);
 
@@ -231,6 +240,10 @@ const FhcMultilineListDialog = {
     window.setCursor("wait");
     try {
       if (this.dbHandler.deleteMultilineExceptions(items)) {
+    
+        // notify observers
+        this.observerService.notifyObservers(null, "multiline-exceptionlist-changed", "");
+        
         try {
           var index;
           for (var it=0; it < items.length; it++) {
@@ -275,6 +288,9 @@ const FhcMultilineListDialog = {
     }
     
     this.initEditButtons();
+    
+    // notify observers
+    this.observerService.notifyObservers(null, "multiline-exceptionlist-changed", "");
   },
 
 

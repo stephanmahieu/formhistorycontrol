@@ -51,6 +51,7 @@ const FhcFormSaveOverlay = {
   observerService:         null,
   preferenceListener:      null,
   privateBrowsingListener: null,
+  exceptionlistListener:   null,
   
   //preferences
   backupEnabled: true,
@@ -77,6 +78,7 @@ const FhcFormSaveOverlay = {
     
     this._initPrivateBrowsing();
     this._registerPrivateBrowsingListener();
+    this._registerExceptionlistListener();
     
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
                           .getService(Components.interfaces.nsIObserverService);
@@ -92,6 +94,7 @@ const FhcFormSaveOverlay = {
   destroy: function() {
     this._unregisterPreferenceListener();
     this._unregisterPrivateBrowsingListener();
+    this._unregisterExceptionlistListener();
     this.eventQueue = [];
     if (this.maintenanceTimer != null) this.maintenanceTimer.cancel();
     if (this.timer != null) this.timer.cancel();
@@ -221,7 +224,6 @@ const FhcFormSaveOverlay = {
   _isHostEnabled: function(uri) {
     var host = this._getHost(uri);
     
-    //TODO: invalidate cache when MultilineException db has changed!
     //try to use cache first
     if (this.hostCache.host == host) {
       return this.hostCache.hostEnabled;
@@ -249,6 +251,7 @@ const FhcFormSaveOverlay = {
 
     return this.hostCache.hostEnabled;
   },
+
 
   //----------------------------------------------------------------------------
   // Event dispatching methods
@@ -498,7 +501,7 @@ const FhcFormSaveOverlay = {
             case "exception":
                  thisHwc.exceptionType = thisHwc.prefHandler.getMultilineException();
                  // invalidate cache
-                 this.hostCache.host = "";
+                 thisHwc.hostCache.host = "";
                  break;
             case "savealways":
                  thisHwc.saveAlways = thisHwc.prefHandler.isMultilineSaveAlways();
@@ -532,6 +535,36 @@ const FhcFormSaveOverlay = {
       this.preferenceListener.unregister();
       this.preferenceListener = null;
     }
+  },
+
+  /**
+   * Register a listener to act upon multiline exceptionlist changes.
+   */
+  _registerExceptionlistListener: function() {
+    this.exceptionlistListener = {
+      observe: function(subject, topic, state) {
+        // invalidate cache
+        FhcFormSaveOverlay.hostCache.host = "";
+      },
+      register: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .addObserver(this, "multiline-exceptionlist-changed", false);
+      },
+      unregister: function() {
+        Components.classes["@mozilla.org/observer-service;1"]
+                  .getService(Components.interfaces.nsIObserverService)
+                  .removeObserver(this, "multiline-exceptionlist-changed");
+      }
+    };
+    this.exceptionlistListener.register();
+  },
+  
+  /**
+   * Unregister the Exceptionlist listener.
+   */
+  _unregisterExceptionlistListener: function() {
+    this.exceptionlistListener.unregister();
   },
 
 
