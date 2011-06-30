@@ -758,6 +758,34 @@ const FhcUtil = {
     return geckoVer;
   },
 
+  /**
+   * Safely parse a string containing HTML into a DOM.
+   * This is an alternative to: document.body.innerHTML = content;
+   *  
+   * There are potential dangers involved in injecting remote content in a
+   * privileged context.
+   * 
+   * The function below will safely parse simple HTML and return a DOM object.
+   * This will remove tags like <script>, <style>, <head>, <body>, <title>, and <iframe>.
+   * It also removes all JavaScript, including element attributes containing JavaScript.
+   * 
+   * @param aHTMLString {String}
+   *        string containing HTML elements
+   *        
+   * @return {DOM}
+   *         parsed HTML without potentially dangerous content
+   * 
+   */
+  htmlStringToDOM: function(aHTMLString){
+    var body = document.createElementNS("http://www.w3.org/1999/xhtml", "body");
+
+    body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
+      .getService(Components.interfaces.nsIScriptableUnescapeHTML)
+      .parseFragment(aHTMLString, false, null, body));
+
+    return body;
+  },
+
 
   //----------------------------------------------------------------------------
   // Import / Export methods
