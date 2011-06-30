@@ -134,7 +134,7 @@ const MultilineWindowControl = {
     while(tooltipNode.firstChild) {
       tooltipNode.removeChild(tooltipNode.firstChild);
     }
-    tooltipNode.label = "";
+    tooltipNode.label = null;
     
     var row = {}, column = {}, part = {};
     this.treeBox.getCellAt(event.clientX, event.clientY, row, column, part);
@@ -142,17 +142,11 @@ const MultilineWindowControl = {
     
     if ("contentCol" == column.value.id && content && content.match(/<\w+/)) {
       // prepare html preview (convert html-text to DOM)
-      var html = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null);
-      var body = document.createElementNS("http://www.w3.org/1999/xhtml", "body");
-      html.documentElement.appendChild(body);
-
-      body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
-        .getService(Components.interfaces.nsIScriptableUnescapeHTML)
-        .parseFragment(content, false, null, body));
+      var dom = FhcUtil.htmlStringToDOM(content); 
       
       // set formatted tooltip content
       tooltipNode.label = "";
-      tooltipNode.appendChild(body); 
+      tooltipNode.appendChild(dom); 
     }
     else {
       // plain text content

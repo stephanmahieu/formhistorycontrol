@@ -54,7 +54,7 @@ const FhcMultilineDialog = {
       
       if (content.match(/<\w+/)){
         // content contains html
-        var dom = this._stringToDOM(content);
+        var dom = FhcUtil.htmlStringToDOM(content);
         document.getElementById("iframeContent").contentWindow.document.body.appendChild(dom);
 
       } else {
@@ -170,35 +170,5 @@ const FhcMultilineDialog = {
         gClipboardHelper.copyString(url);
         break;
     }
-  },
-  
-  /**
-   * Safely parse a string containing HTML into a DOM.
-   * This is an alternative to: document.body.innerHTML = content;
-   *  
-   * There are potential dangers involved in injecting remote content in a
-   * privileged context.
-   * 
-   * The function below will safely parse simple HTML and return a DOM object.
-   * This will remove tags like <script>, <style>, <head>, <body>, <title>, and <iframe>.
-   * It also removes all JavaScript, including element attributes containing JavaScript.
-   * 
-   * @param aHTMLString {String}
-   *        string containing HTML elements
-   *        
-   * @return {DOM}
-   *         parsed HTML without potentially dangerous content
-   * 
-   */
-  _stringToDOM: function(aHTMLString){
-    var html = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null);
-    var body = document.createElementNS("http://www.w3.org/1999/xhtml", "body");
-    html.documentElement.appendChild(body);
-
-    body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
-      .getService(Components.interfaces.nsIScriptableUnescapeHTML)
-      .parseFragment(aHTMLString, false, null, body));
-
-    return body;
   }
 }
