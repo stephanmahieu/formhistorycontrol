@@ -126,6 +126,41 @@ const MultilineWindowControl = {
   },
 
   /**
+   *  Show tooltip when hovering over a treecell, use HTML formatted text
+   *  if content contains html tags.
+   */
+  showTooltip: function(event, tooltipNode) {
+    // clear old tooltip
+    while(tooltipNode.firstChild) {
+      tooltipNode.removeChild(tooltipNode.firstChild);
+    }
+    tooltipNode.label = "";
+    
+    var row = {}, column = {}, part = {};
+    this.treeBox.getCellAt(event.clientX, event.clientY, row, column, part);
+    var content = this.getCellText(row.value, column.value);
+    
+    if ("contentCol" == column.value.id && content && content.match(/<\w+/)) {
+      // prepare html preview (convert html-text to DOM)
+      var html = document.implementation.createDocument("http://www.w3.org/1999/xhtml", "html", null);
+      var body = document.createElementNS("http://www.w3.org/1999/xhtml", "body");
+      html.documentElement.appendChild(body);
+
+      body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
+        .getService(Components.interfaces.nsIScriptableUnescapeHTML)
+        .parseFragment(content, false, null, body));
+      
+      // set formatted tooltip content
+      tooltipNode.label = "";
+      tooltipNode.appendChild(body); 
+    }
+    else {
+      // plain text content
+      tooltipNode.label = content;
+    }
+  },
+
+  /**
    * Right-click popup contextmenu activation from MultilineWindowControl Dialog.
    *
    * @param event {Event}
