@@ -393,6 +393,8 @@
     <label id="preview-close-tip-label" value="&fhwin.treeview.closecleanuppreview.tooltip;"/>
   </tooltip>
 
+  <tooltip id="multilinetree-tooltip" onpopupshowing="MultilineWindowControl.showTooltip(event, this)"/>
+
   <tooltip id="notification-tip" orient="vertical"
            onclick="HistoryWindowControl.hideNotificationHelp()">
     <label id="notification-helptitle" value=""/>
@@ -1213,7 +1215,7 @@
                        onclick="MultilineWindowControl.sort(this);"
                        persist="width ordinal hidden sortDirection"/>
             </treecols>
-            <treechildren/>
+            <treechildren tooltip="multilinetree-tooltip"/>
           </tree>
           
           <hbox>
