@@ -64,6 +64,14 @@
           <image id="status-multilinecfg"/>
         </row>
         <row align="baseline">
+          <label value="Editor history exceptionlist"/>
+          <label id="total-multilineexc" value="-" style="text-align: right"/>
+          <label id="import-multilineexc" value="-" style="text-align: right"/>
+          <label id="skipped-multilineexc" value="-" style="text-align: right"/>
+          <label id="error-multilineexc" value="-" style="text-align: right"/>
+          <image id="status-multilineexc"/>
+        </row>
+        <row align="baseline">
           <label value="Regular expressions"/>
           <label id="total-regexp" value="-" style="text-align: right"/>
           <label id="import-regexp" value="-" style="text-align: right"/>

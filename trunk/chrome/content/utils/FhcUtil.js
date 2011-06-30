@@ -849,7 +849,7 @@ const FhcUtil = {
     var exportOptions = {
         entries:        [],    /* not in cleanup database */
         multilines:     dbHandler.getAllMultilineItems(),
-        exportMultiCfg: false, /* not in cleanup database */
+        exportMultiCfg: true,  /* for exceptionlist */
         exportClean:    true,
         exportKeys:     false, /* not in cleanup database */
         exportRegexp:   true

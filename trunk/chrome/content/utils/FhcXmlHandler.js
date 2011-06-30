@@ -107,7 +107,7 @@ FhcXmlHandler.prototype = {
       var multilinecfgElem = doc.createElement("editorFields-configuration");
       rootElem.appendChild(multilinecfgElem);
       
-      this._appendMultilineConfig(doc, multilinecfgElem, prefHandler);
+      this._appendMultilineConfig(doc, multilinecfgElem, prefHandler, dbHandler);
     }
     
     // add regular expressions
@@ -224,10 +224,26 @@ FhcXmlHandler.prototype = {
             saveNewIfLength: this._getTextContentOrNull(doc, "saveNewIfLength"),
             deleteIfOlder:   this._getTextContentOrNull(doc, "deleteIfOlder"),
             exception:       this._getTextContentOrNull(doc, "exceptionEnable"),
-            exceptionList:   this._getTextContentOrNull(doc, "exceptionList"),
             saveAlways:      this._getTextContentOrNull(doc, "saveAlways"),
-            saveEncrypted:   this._getTextContentOrNull(doc, "saveEncrypted")
+            saveEncrypted:   this._getTextContentOrNull(doc, "saveEncrypted"),
+            exceptionlist:   []
           };
+        }
+        
+        // multiline exception list
+        var exceptionElem = doc.getElementsByTagName("exception");
+        var hostElem, exception;
+        for(var ee=0; ee<exceptionElem.length; ee++) {
+          if (exceptionElem[ee].hasChildNodes()) {
+            hostElem = exceptionElem[ee].getElementsByTagName("host");
+            if (1 == hostElem.length) {
+              exception = {
+                id:   null,
+                host: hostElem[0].textContent
+              };
+              parsedEditorfieldPrefs.exceptionlist.push(exception);
+            }
+          }
         }
         
         // cleanup preferences
@@ -459,16 +475,30 @@ FhcXmlHandler.prototype = {
    *
    * @param  prefHandler {FhcPreferenceHandler}
    *         the preferenceHandler providing cleanup preferences.
+   *        
+   * @param  dbHandler {FhcDbHandler}
+   *         the database handler
    */
-  _appendMultilineConfig: function(doc, parentElem, prefHandler) {
+  _appendMultilineConfig: function(doc, parentElem, prefHandler, dbHandler) {
     this._appendElement(parentElem, doc.createElement("backupEnabled"), prefHandler.isMultilineBackupEnabled());
     this._appendElement(parentElem, doc.createElement("saveNewIfOlder"), prefHandler.getMultilineSaveNewIfOlder());
     this._appendElement(parentElem, doc.createElement("saveNewIfLength"), prefHandler.getMultilineSaveNewIfLength());
     this._appendElement(parentElem, doc.createElement("deleteIfOlder"), prefHandler.getMultilineDeleteIfOlder());
-    this._appendElement(parentElem, doc.createElement("exceptionEnable"), prefHandler.getMultilineException());
-    this._appendElement(parentElem, doc.createElement("exceptionList"), this._encode(prefHandler.getMultilineExceptionList()));
     this._appendElement(parentElem, doc.createElement("saveAlways"), prefHandler.isMultilineSaveAlways());
     this._appendElement(parentElem, doc.createElement("saveEncrypted"), prefHandler.isMultilineSaveEncrypted());
+    this._appendElement(parentElem, doc.createElement("exceptionEnable"), prefHandler.getMultilineException());
+    
+    // add exception list
+    var exceptionsElem = doc.createElement("exceptions");
+    parentElem.appendChild(exceptionsElem);
+    
+    var exceptions = dbHandler.getAllMultilineExceptions();
+    var exceptionElem;
+    for(var jj=0; jj<exceptions.length; jj++) {
+      exceptionElem = this._createMultilineExceptionElement(doc, exceptions[jj]);
+      exceptionsElem.appendChild(exceptionElem);
+    }
+    exceptions = null;
   },
 
   /**
@@ -724,6 +754,25 @@ FhcXmlHandler.prototype = {
       this._appendElement(namevalElem, child, this._encode(cleanupCriteria.value));
     }
     return namevalElem;
+  },
+
+  /**
+   * Create an Exception element for a multiline exception list.
+   * 
+   * @param doc {DOM-document}
+   *        the document containing DOM-elements
+   *
+   * @param exception {Object}
+   *        the multiline exception object
+   *
+   * @return {DOM element}
+   *         the exception element
+   */
+  _createMultilineExceptionElement: function(doc, exception) {
+    var exceptionElem;
+    exceptionElem = doc.createElement("exception");
+    this._appendElement(exceptionElem, doc.createElement("host"), exception.host);
+    return exceptionElem;
   },
 
   /**

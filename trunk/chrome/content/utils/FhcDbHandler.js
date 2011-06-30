@@ -1848,7 +1848,6 @@ FhcDbHandler.prototype = {
     return result;
   },
 
-
   /**
    * Add new multiline items to the database.
    *
@@ -2056,6 +2055,35 @@ FhcDbHandler.prototype = {
         newException.id = newId;
       }
       
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Add new multiline exception items to the database.
+   *
+   * @param  newExceptions {Array}
+   *         an array of new multiline exception objects to be added to the database
+   *
+   * @return {Boolean}
+   *         whether or not bulk adding succeeded
+   */
+  bulkAddMultilineExceptions: function(newExceptions) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = true, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "INSERT INTO mlexceptions " +
+                "(host) " +
+        "VALUES (:host)");
+      for(var ii=0; result && ii < newExceptions.length; ii++) {
+        statement.params.host = newExceptions[ii].host;
+        result = this._executeReusableStatement(statement);
+      }
     } finally {
       this._closeStatement(statement);
       this._closeDbConnection(mDBConn, result);

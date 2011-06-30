@@ -1160,6 +1160,9 @@ const HistoryWindowControl = {
       for(var property in data.multilineCfg) {
         multilineCfgItems++;
       }
+      // exceptionlist is container with sub-properties
+      multilineCfgItems--;
+      multilineCfgItems += data.multilineCfg.exceptionlist.length;
     }
     
     var params = {
@@ -1181,6 +1184,7 @@ const HistoryWindowControl = {
         var hiResult = null;
         var mlResult = null;
         var mcResult = null;
+        var exResult = null;
         var clResult = null;
         var reResult = null;
         var keResult = null;
@@ -1201,9 +1205,11 @@ const HistoryWindowControl = {
           if (mlPrefs.saveNewIfLength != null) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
           if (mlPrefs.deleteIfOlder != null)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
           if (mlPrefs.exception != null)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
-          if (mlPrefs.exceptionList != null)   {count++; this.preferences.setMultilineExceptionList(  mlPrefs.exceptionList);}
           if (mlPrefs.saveAlways != null)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
           if (mlPrefs.saveEncrypted != null)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
+          if (mlPrefs.exceptionlist != null) {
+            exResult = this._importExceptions(mlPrefs.exceptionlist);
+          }
           mcResult = {
             noTotal:   count,
             noAdded:   count,
@@ -1244,6 +1250,7 @@ const HistoryWindowControl = {
           history: hiResult,
           multiline: mlResult,
           multicfg: mcResult,
+          multiexc: exResult,
           cleanup: clResult,
           regexp: reResult,
           keys: keResult
@@ -1471,6 +1478,54 @@ const HistoryWindowControl = {
       case 1:
            CleanupProtectView.selectNone();
            break;
+    }
+  },
+
+  /**
+   * Import multiline exceptions, only add new entries.
+   *
+   * @param importedExceptions {Array}
+   *        array of exceptions
+   *
+   * @return {Object} status
+   */
+  _importExceptions: function(importedExceptions) {
+    var noAdded = 0, noSkipped = 0, noErrors = 0, noTotal = 0;
+    
+    if (importedExceptions != null) {
+      var exist, newExceptions = [];
+      var curExceptions = this.dbHandler.getAllMultilineExceptions();
+      for(var ii=0; ii<importedExceptions.length; ii++) {
+        ++noTotal;
+        exist = false;
+        for(var cc=0; cc<curExceptions.length; cc++) {
+          exist = (importedExceptions[ii].host == curExceptions[cc].host);
+          if (exist) break;
+        }
+        if (!exist) {
+          newExceptions.push(importedExceptions[ii]);
+        }
+      }
+
+      // add new exceptions to the database and repopulate the treeview
+      if (0 < newExceptions.length) {
+        // add all new exceptions to the database in bulk
+        if (this.dbHandler.bulkAddMultilineExceptions(newExceptions)) {
+          noAdded   = newExceptions.length;
+          noSkipped = noTotal - noAdded;
+        }
+      } else {
+        noSkipped = noTotal;
+      }
+      noErrors = noTotal - (noAdded + noSkipped);
+    }
+
+    // return the status
+    return {
+      noTotal: importedExceptions.length,
+      noAdded: noAdded,
+      noSkipped: noSkipped,
+      noErrors: noErrors
     }
   },
 
