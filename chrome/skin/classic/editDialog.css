@@ -108,3 +108,14 @@ input {
   min-width: 30px;
   margin-right: 0px;
 }
+
+/* -------- tabbox -------- */
+tabbox {
+  background-color: transparent;
+}
+
+tabpanels {
+  -moz-appearance: none;
+  background-image: none !important;
+  background-color: transparent;
+}

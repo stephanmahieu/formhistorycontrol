@@ -311,6 +311,13 @@ FhcPreferenceHandler.prototype = {
     return this.prefService.setBoolPref("multiline.savealways", newBoolPref);
   },
   
+  isMultilineHTMLSanitized: function() {
+    return this.prefService.getBoolPref("multiline.sanitizehtmlpreview");
+  },
+  setMultilineHTMLSanitized: function (newBoolPref) {
+    return this.prefService.setBoolPref("multiline.sanitizehtmlpreview", newBoolPref);
+  },
+  
   isMultilineSaveEncrypted: function() {
     return this.prefService.getBoolPref("multiline.saveencrypted");
   },

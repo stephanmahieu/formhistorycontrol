@@ -772,16 +772,38 @@ const FhcUtil = {
    * @param aHTMLString {String}
    *        string containing HTML elements
    *        
+   * @param aSanitize {Boolean}
+   *        wether or not to sanitize HTML (not loading images, force openening
+   *        links in new window)
+   * 
    * @return {DOM}
    *         parsed HTML without potentially dangerous content
    * 
    */
-  htmlStringToDOM: function(aHTMLString){
+  htmlStringToDOM: function(aHTMLString, aSanitize){
     var body = document.createElementNS("http://www.w3.org/1999/xhtml", "body");
 
     body.appendChild(Components.classes["@mozilla.org/feed-unescapehtml;1"]
       .getService(Components.interfaces.nsIScriptableUnescapeHTML)
       .parseFragment(aHTMLString, false, null, body));
+
+      if (aSanitize) {
+        // sanitize images
+        var imgs = body.getElementsByTagName("img"), src;
+        for (var ii=0; ii<imgs.length; ii++) {
+          src = imgs[ii].getAttribute("src");
+          imgs[ii].setAttribute("fhc-sanitized-src", src);
+          imgs[ii].removeAttribute("src");
+          imgs[ii].setAttribute("src", "chrome://formhistory/skin/img_sanitized.png");
+        }
+        
+        // force links to open in new window
+        var links = body.getElementsByTagName("a");
+        for (var jj=0; jj<links.length; jj++) {
+           links[jj].removeAttribute("target");
+           links[jj].setAttribute("target", "_blank");
+        }
+      }
 
     return body;
   },

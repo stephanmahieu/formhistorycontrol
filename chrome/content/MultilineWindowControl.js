@@ -126,7 +126,9 @@ const MultilineWindowControl = {
     
     if ("contentCol" == column.value.id && content && content.match(/<\w+/)) {
       // prepare html preview (convert html-text to DOM)
-      var dom = FhcUtil.htmlStringToDOM(content); 
+      var dom = FhcUtil.htmlStringToDOM(
+        content, this.prefHandler.isMultilineHTMLSanitized()
+      ); 
       
       // set formatted tooltip content
       tooltipNode.label = "";

@@ -20,6 +20,7 @@
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcUtil.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDateHandler.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcPreferenceHandler.js" />
   
   <menupopup id="open-url-menu">
     <!-- Re-use labels also used in HistoryWindowControl -->
@@ -130,9 +131,18 @@
     </tabs>
     <tabpanels flex="1">
       <tabpanel flex="1">
-        <iframe id="iframeContent" flex="1"
-                type="content"
-                src="about:blank"/>
+        <vbox flex="1">
+          <iframe id="iframeContent" flex="1"
+                  type="content"
+                  src="about:blank"/>
+          <hbox>
+            <checkbox id ="showimages"
+                      hidden="true"
+                      label="&fhcmultilinedlg.checkbox.showimages;"
+                      oncommand="FhcMultilineDialog.showPreviewImages()"/>
+            <spacer flex="1"/>
+          </hbox>
+        </vbox>
       </tabpanel>
       <tabpanel>
         <textbox id="textContent" flex="1"
@@ -140,5 +150,5 @@
                  multiline="true"/>
       </tabpanel>
     </tabpanels>
-  </tabbox>  
+  </tabbox>
 </dialog>
