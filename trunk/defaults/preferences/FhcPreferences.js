@@ -51,4 +51,4 @@ pref("extensions.formhistory.multiline.deleteolder", "10080");
 pref("extensions.formhistory.multiline.exception", "multilinenoexception");
 pref("extensions.formhistory.multiline.savealways", false);
 pref("extensions.formhistory.multiline.saveencrypted", false);
-
+pref("extensions.formhistory.multiline.sanitizehtmlpreview", false);

@@ -37,7 +37,8 @@
 /**
  * Methods for the form history multiline dialog.
  *
- * Dependencies: FhcMultilineDialog.js, FhcUtil.js, FhcDateHandler.js, FhcBundle.js
+ * Dependencies: FhcMultilineDialog.js, FhcUtil.js, FhcDateHandler.js,
+ *               FhcBundle.js, FhcPreferenceHandler.js
  */
 const FhcMultilineDialog = {
   multilineItem: null,
@@ -53,10 +54,19 @@ const FhcMultilineDialog = {
       document.getElementById("textContent").value = content;
       
       if (content.match(/<\w+/)){
+        
         // content contains html
-        var dom = FhcUtil.htmlStringToDOM(content);
+        var prefHandler = new FhcPreferenceHandler(bundle);
+        var doSanitize = prefHandler.isMultilineHTMLSanitized();
+        delete prefHandler;
+        
+        var dom = FhcUtil.htmlStringToDOM(content, doSanitize);
         document.getElementById("iframeContent").contentWindow.document.body.appendChild(dom);
-
+        
+        if (doSanitize && 0 < dom.getElementsByTagName("img").length) {
+          document.getElementById("showimages").removeAttribute("hidden");
+        }
+        
       } else {
         // plain text only, hide all tabs and show the plain tabbox
         document.getElementById("tabs").hidden = true;
@@ -77,6 +87,19 @@ const FhcMultilineDialog = {
       delete dateHandler;
       delete bundle;
     }
+  },
+
+  showPreviewImages: function() {
+    var dom = document.getElementById("iframeContent").contentWindow.document.body;
+    var imgs = dom.getElementsByTagName("img");
+    
+    var src;
+    for (var ii=0; ii<imgs.length; ii++) {
+      src = imgs[ii].getAttribute("fhc-sanitized-src");
+      imgs[ii].removeAttribute("src");
+      imgs[ii].setAttribute("src", src);
+    }
+    document.getElementById("showimages").setAttribute("hidden", "true");
   },
 
   /**

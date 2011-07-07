@@ -253,6 +253,7 @@
 <!ENTITY fhcmultilinedlg.viewtab.textview "Platte Tekst">
 <!ENTITY fhcmultilinedlg.button.showdetails "Details">
 <!ENTITY fhcmultilinedlg.button.hidedetails "Verberg details">
+<!ENTITY fhcmultilinedlg.checkbox.showimages "Toon figuren">
 
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 
@@ -286,6 +287,7 @@
 <!ENTITY fhprefs.radio.multilineblacklist "Altijd actief, behalve voor hosts in de lijst">
 <!ENTITY fhprefs.button.managelist "Beheer exceptie lijst">
 <!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden, zelfs wanneer in privé navigatie modus">
+<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Download figuren niet toestaan voor HTML voorbeeld">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Versleutel de inhoud van editor velden in de database">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Diversen">

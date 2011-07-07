@@ -183,6 +183,9 @@
       <preference id="extensions.formhistory.multiline.saveencrypted"
                   name="extensions.formhistory.multiline.saveencrypted"
                   type="bool" />
+      <preference id="extensions.formhistory.multiline.sanitizehtmlpreview"
+                  name="extensions.formhistory.multiline.sanitizehtmlpreview"
+                  type="bool" />
     </preferences>
     <vbox>
       <hbox>
@@ -327,6 +330,9 @@
                 <checkbox id="multilineprivacysavealways"
                           label="&fhprefs.checkbox.multilinesavealways;"
                           preference="extensions.formhistory.multiline.savealways"/>
+                <checkbox id="multilineprivacysanitizehtml"
+                          label="&fhprefs.checkbox.multilinesanitizehtmlpreview;"
+                          preference="extensions.formhistory.multiline.sanitizehtmlpreview"/>
                 <checkbox id="multilineprivacysaveencrypted"
                           label="&fhprefs.checkbox.multilinesaveencrypted;"
                           preference="extensions.formhistory.multiline.saveencrypted"/>
