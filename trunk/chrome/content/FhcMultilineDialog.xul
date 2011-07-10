@@ -136,9 +136,9 @@
                   type="content"
                   src="about:blank"/>
           <hbox>
-            <checkbox id ="showimages"
-                      hidden="true"
-                      label="&fhcmultilinedlg.checkbox.showimages;"
+            <checkbox id ="hideimages"
+                      hidden="true" style="margin-bottom: 0; padding-bottom: 0"
+                      label="&fhcmultilinedlg.checkbox.hideimages;"
                       oncommand="FhcMultilineDialog.showPreviewImages()"/>
             <spacer flex="1"/>
           </hbox>
