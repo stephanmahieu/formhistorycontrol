@@ -253,7 +253,7 @@
 <!ENTITY fhcmultilinedlg.viewtab.textview "Plain text">
 <!ENTITY fhcmultilinedlg.button.showdetails "Details">
 <!ENTITY fhcmultilinedlg.button.hidedetails "Hide details">
-<!ENTITY fhcmultilinedlg.checkbox.showimages "Show images">
+<!ENTITY fhcmultilinedlg.checkbox.hideimages "Hide images">
 
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 
@@ -287,7 +287,7 @@
 <!ENTITY fhprefs.radio.multilineblacklist "Always enabled, except for listed hosts">
 <!ENTITY fhprefs.button.managelist "Manage exception list">
 <!ENTITY fhprefs.checkbox.multilinesavealways "Save a backup of editor fields while typing, even when in Private Browsing mode">
-<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Deny download of images in HTML preview">
+<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Do not automatically download images for HTML preview">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Encrypt the contents of editor fields in the database">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Miscellaneous">

@@ -63,8 +63,9 @@ const FhcMultilineDialog = {
         var dom = FhcUtil.htmlStringToDOM(content, doSanitize);
         document.getElementById("iframeContent").contentWindow.document.body.appendChild(dom);
         
-        if (doSanitize && 0 < dom.getElementsByTagName("img").length) {
-          document.getElementById("showimages").removeAttribute("hidden");
+        if (0 < dom.getElementsByTagName("img").length) {
+          document.getElementById("hideimages").removeAttribute("hidden");
+          document.getElementById("hideimages").setAttribute("checked", doSanitize)
         }
         
       } else {
@@ -84,22 +85,31 @@ const FhcMultilineDialog = {
       document.getElementById("type").value = this.multilineItem.type;
       //document.getElementById("host").value = this.multilineItem.host;
       document.getElementById("url").value = this.multilineItem.url;
+      
       delete dateHandler;
       delete bundle;
     }
   },
 
   showPreviewImages: function() {
+    var doShowImages = !("true" == document.getElementById("hideimages").getAttribute("checked"));
+    
     var dom = document.getElementById("iframeContent").contentWindow.document.body;
     var imgs = dom.getElementsByTagName("img");
     
     var src;
     for (var ii=0; ii<imgs.length; ii++) {
-      src = imgs[ii].getAttribute("fhc-sanitized-src");
-      imgs[ii].removeAttribute("src");
-      imgs[ii].setAttribute("src", src);
+      if (doShowImages) {
+        src = imgs[ii].getAttribute("fhc-sanitized-src");
+        imgs[ii].removeAttribute("src");
+        imgs[ii].setAttribute("src", src);
+      } else {
+        src = imgs[ii].getAttribute("src");
+        imgs[ii].removeAttribute("fhc-sanitized-src");
+        imgs[ii].setAttribute("fhc-sanitized-src", src);
+        imgs[ii].removeAttribute("src");
+      }
     }
-    document.getElementById("showimages").setAttribute("hidden", "true");
   },
 
   /**
