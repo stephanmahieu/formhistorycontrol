@@ -329,9 +329,8 @@ const FhcPreferences = {
     document.getElementById("multilineexceptionlist").disabled = !(isEnabled && isExceptionListActive);
     
     document.getElementById("multilineprivacysavealways").disabled = !isEnabled;
+    document.getElementById("multilineprivacysanitizehtml").disabled = !isEnabled;
     document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
-    
-    
   },
 
   /**
