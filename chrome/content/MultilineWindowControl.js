@@ -119,37 +119,40 @@ const MultilineWindowControl = {
     while(tooltipNode.firstChild) {
       tooltipNode.removeChild(tooltipNode.firstChild);
     }
+    tooltipNode.label = null;
     
     var row = {}, column = {}, part = {};
     this.treeBox.getCellAt(event.clientX, event.clientY, row, column, part);
-    var content = this.getCellText(row.value, column.value);
     
-    if ("contentCol" == column.value.id && content && content.match(/<\w+/)) {
-      // prepare html preview (convert html-text to DOM)
-      var dom = FhcUtil.htmlStringToDOM(
-        content, this.prefHandler.isMultilineHTMLSanitized()
-      ); 
-      
-      // set formatted tooltip content
-      tooltipNode.label = "";
-      tooltipNode.appendChild(dom);
-    }
-    else {
-      // plain text content
-      tooltipNode.label = content;
-      //event.preventDefault();
+    if (column.value != null && row.value != null) {
+      var content = this.getCellText(row.value, column.value);
+
+      if ("contentCol" == column.value.id && content && content.match(/<\w+/)) {
+        // prepare html preview (convert html-text to DOM)
+        var dom = FhcUtil.htmlStringToDOM(
+          content, this.prefHandler.isMultilineHTMLSanitized()
+        ); 
+
+        // set formatted tooltip content
+        tooltipNode.appendChild(dom);
+      }
+      else {
+        // plain text content
+        tooltipNode.label = content;
+        //event.preventDefault();
+      }
     }
   },
 
   /**
-   *  onpopuphiding event handler.
+   *  onpopuphidden event handler.
    */
   hideTooltip: function(event, tooltipNode) {
     // clear tooltip
     while(tooltipNode.firstChild) {
       tooltipNode.removeChild(tooltipNode.firstChild);
     }
-    tooltipNode.label = "";
+    tooltipNode.label = null;
   },
 
   /**
