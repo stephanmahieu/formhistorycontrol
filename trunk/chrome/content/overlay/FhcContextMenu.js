@@ -557,9 +557,9 @@ const FhcContextMenu = {
     var parentElm = inputField;
     while(parentElm && !insideForm) {
       parentElm = parentElm.parentNode;
-      insideForm = ("FORM" == parentElm.tagName);
+      insideForm = (parentElm && "FORM" == parentElm.tagName);
     }
-    if (insideForm && parentElm) {
+    if (insideForm) {
       result.formid = (parentElm.id) ? parentElm.id : ((parentElm.name) ? parentElm.name : "");
     }
     
