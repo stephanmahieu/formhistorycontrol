@@ -1,1 +1,0 @@
-Copy of 1.1.1 but with maxversion of ff from 3.6a1pre to 3.7a1pre
