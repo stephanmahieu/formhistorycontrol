@@ -90,13 +90,6 @@ FhcPreferenceHandler.prototype = {
     this.prefService.setCharPref("lastUsedExportFilename", newFilename);
   },
 
-  isISOdateFormat: function() {
-    return this.prefService.getBoolPref("exportXML.ISOexportDateFormat");
-  },
-  setISOdateFormat: function(newBoolPref) {
-    return this.prefService.setBoolPref("exportXML.ISOexportDateFormat", newBoolPref);
-  },
-
   getLastUsedCSVExportFilename: function() {
     return this.prefService.getCharPref("lastUsedCSVExportFilename");
   },
@@ -168,11 +161,15 @@ FhcPreferenceHandler.prototype = {
   isToolsmenuHidden: function() {
     return this.prefService.getBoolPref("hideToolsMenuItem");
   },
-  isAppmenuHidden: function() {
-    return this.prefService.getBoolPref("hideAppMenuItem");
+  setToolsmenuHidden: function (newBoolPref) {
+    return this.prefService.setBoolPref("hideToolsMenuItem", newBoolPref);
   },
+
   isContextmenuHidden: function() {
     return this.prefService.getBoolPref("hideContextMenuItem");
+  },
+  setContextmenuHidden: function (newBoolPref) {
+    return this.prefService.setBoolPref("hideContextMenuItem", newBoolPref);
   },
 
   getCSVSeparator: function() {
@@ -183,6 +180,9 @@ FhcPreferenceHandler.prototype = {
   },
   getCSVEscapePrefix: function() {
     return this.prefService.getCharPref("exportCSV.escape");
+  },
+  isExportConfigKeyBindings: function() {
+    return this.prefService.getBoolPref("exportConfig.keybindings");
   },
 
   isQuickFillChangeBgColor: function() {
@@ -267,64 +267,6 @@ FhcPreferenceHandler.prototype = {
         break;
     }
   },
-
-  /* Multiline configuration */
-  isMultilineBackupEnabled: function() {
-    return this.prefService.getBoolPref("multiline.backupenabled");
-  },
-  setMultilineBackupEnabled: function (newBoolPref) {
-    return this.prefService.setBoolPref("multiline.backupenabled", newBoolPref);
-  },
-  
-  getMultilineSaveNewIfOlder: function() {
-    return this.prefService.getCharPref("multiline.saveolder");
-  },
-  setMultilineSaveNewIfOlder: function(newCharPref) {
-     this.prefService.setCharPref("multiline.saveolder", newCharPref);
-  },
-  
-  getMultilineSaveNewIfLength: function() {
-    return this.prefService.getCharPref("multiline.savelength");
-  },
-  setMultilineSaveNewIfLength: function(newCharPref) {
-     this.prefService.setCharPref("multiline.savelength", newCharPref);
-  },
-  
-  getMultilineDeleteIfOlder: function() {
-    return this.prefService.getCharPref("multiline.deleteolder");
-  },
-  setMultilineDeleteIfOlder: function(newCharPref) {
-     this.prefService.setCharPref("multiline.deleteolder", newCharPref);
-  },
-  
-  getMultilineException: function() {
-    return this.prefService.getCharPref("multiline.exception");
-  },
-  setMultilineException: function(newCharPref) {
-     this.prefService.setCharPref("multiline.exception", newCharPref);
-  },
-  
-  isMultilineSaveAlways: function() {
-    return this.prefService.getBoolPref("multiline.savealways");
-  },
-  setMultilineSaveAlways: function (newBoolPref) {
-    return this.prefService.setBoolPref("multiline.savealways", newBoolPref);
-  },
-  
-  isMultilineHTMLSanitized: function() {
-    return this.prefService.getBoolPref("multiline.sanitizehtmlpreview");
-  },
-  setMultilineHTMLSanitized: function (newBoolPref) {
-    return this.prefService.setBoolPref("multiline.sanitizehtmlpreview", newBoolPref);
-  },
-  
-  isMultilineSaveEncrypted: function() {
-    return this.prefService.getBoolPref("multiline.saveencrypted");
-  },
-  setMultilineSaveEncrypted: function (newBoolPref) {
-    return this.prefService.setBoolPref("multiline.saveencrypted", newBoolPref);
-  },
-  
 
   //----------------------------------------------------------------------------
   // Global preferences (FireFox's options)

@@ -2,11 +2,10 @@
 
 <!ENTITY historywindow.notification.moreinfo "(meer)">
 
-<!ENTITY fhwin.historytab.formhistory "Toon Historie">
+<!ENTITY fhwin.historytab.formhistory "Toon History">
 <!ENTITY fhwin.historytab.formhistory.accesskey "o">
 <!ENTITY fhwin.historytab.cleanup "Opschonen">
 <!ENTITY fhwin.historytab.cleanup.accesskey "c">
-<!ENTITY fhwin.historytab.multiline "Editor Historie">
 
 <!ENTITY fhwin.filter.label "Zoek">
 <!ENTITY fhwin.filter.tooltip "Zoek naar webformulier waarden waarbij de veldnaam of waarde voldoet aan de opgegeven zoektekst">
@@ -73,7 +72,6 @@
 <!ENTITY fhwin.button.add.accesskey "t">
 <!ENTITY fhwin.button.edit.label "Wijzigen">
 <!ENTITY fhwin.button.edit.accesskey "i">
-<!ENTITY fhwin.button.view.label "Inzien">
 <!ENTITY fhwin.button.closepreview.label "Sluit Voorbeeldweergave">
 <!ENTITY fhwin.button.close.label "Sluiten">
 <!ENTITY fhwin.button.close.accesskey "s">
@@ -102,8 +100,10 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Inverteer Selectie">
 <!ENTITY fhwin.menuitem.addcleanup.label "Voeg toe als opschoon criterium">
 <!ENTITY fhwin.menuitem.addprotect.label "Voeg toe als nooit-opschonen criterium">
-<!ENTITY fhwin.menuitem.exportmanager.label "Export">
-<!ENTITY fhwin.menuitem.importmanager.label "Import">
+<!ENTITY fhwin.menuitem.exportall.label "Exporteer Alle Historie Waarden">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Exporteer Alleen de Zoekresultaten">
+<!ENTITY fhwin.menuitem.exportselected.label "Exporteer Alleen Geselecteerde Waarden">
+<!ENTITY fhwin.menuitem.import.label "Importeer Historie">
 
 <!ENTITY fhwin.menuitem.exportcsv.label "Exporteer Complete History als CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Vernieuwen">
@@ -120,8 +120,6 @@
 
 <!ENTITY fhwin.cleanup.label "Criteria voor het opschonen van ongewenste webformulier waarden">
 
-<!ENTITY fhwin.cleanup.showoptions "Toon opties">
-<!ENTITY fhwin.cleanup.hideoptions "Verberg opties">
 <!ENTITY fhwin.cleanup.timeusage.group.caption "Tijd/gebruik criteria">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "Verwijder alle waarden die niet gebruikt zijn in de afgelopen">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "dagen">
@@ -152,27 +150,10 @@
 <!ENTITY fhwin.cleanup.button.preview.label "Preview waarden">
 <!ENTITY fhwin.cleanup.button.preview.accesskey "">
 
-
-<!ENTITY fhwin.multiline.label "Reservekopie van automatisch opgeslagen teksteditor velden">
-
-<!ENTITY fhwin.multiline.treeview.column.firstsaved.label "Eerst opgeslagen">
-<!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Oud eerst opgeslagen">
-<!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Laatst opgeslagen">
-<!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Oud laatst opgeslagen">
-<!ENTITY fhwin.multiline.treeview.column.fieldid.label "Veld Id">
-<!ENTITY fhwin.multiline.treeview.column.fieldformid.label "Form Id">
-<!ENTITY fhwin.multiline.treeview.column.fieldname.label "Veldnaam">
-<!ENTITY fhwin.multiline.treeview.column.content.label "Inhoud">
-<!ENTITY fhwin.multiline.treeview.column.type.label "Type">
-<!ENTITY fhwin.multiline.treeview.column.host.label "Bron">
-<!ENTITY fhwin.multiline.treeview.column.url.label "URL">
-<!ENTITY fhwin.multiline.checkbox.searchhostonly.label "Toon uitsluitend voor huidige bron">
-
 <!ENTITY fhmnuovl.menu.main.manager.label "Formulier Historie">
 <!ENTITY fhmnuovl.menuitem.manager.label "Historie Beheer">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Verwijder huidige waarde dit veld">
 <!ENTITY fhmnuovl.menuitem.deletethis.label "Verwijder complete historie dit veld">
-<!ENTITY fhmnuovl.menuitem.restorethis.label "Herstel editor veld">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Beheer waarden voor dit veld">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Vul velden met meest recente waarden">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Vul velden met meest gebruikte waarden">
@@ -247,48 +228,7 @@
 <!ENTITY fhbrowsehistorydlg.newer.label "Nieuwer">
 <!ENTITY fhbrowsehistorydlg.newer.tooltip "Ophalen additionele nieuwere geschiedenis">
 
-<!ENTITY fhcmultilinedlg.windowtitle "Opgeslagen editor tekst">
-<!ENTITY fhcmultilinedlg.button.copytoclipboard "Kopieer naar klembord">
-<!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML">
-<!ENTITY fhcmultilinedlg.viewtab.textview "Platte Tekst">
-<!ENTITY fhcmultilinedlg.button.showdetails "Details">
-<!ENTITY fhcmultilinedlg.button.hidedetails "Verberg details">
-<!ENTITY fhcmultilinedlg.checkbox.hideimages "Verberg figuren">
-
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
-
-<!ENTITY fhprefs.prefpane.multiline.label "Editor velden">
-<!ENTITY fhprefs.multilineinfo.tooltip "Form History Control kan editor velden opslaan terwijl U tikt, zodat de tekst hersteld kan worden voor het geval er iets fout gaat">
-<!ENTITY fhprefs.checkbox.multilineenable "Activeer de automatische backup van editor velden en meerregelige tekst velden">
-<!ENTITY fhprefs.tab.multiline.configuration "Configuratie">
-<!ENTITY fhprefs.tab.multiline.exceptions "Uitzonderingen">
-<!ENTITY fhprefs.tab.multiline.privacy "Privacy">
-<!ENTITY fhprefs.group.multilineversion.caption "Versie controle">
-<!ENTITY fhprefs.group.multilinecleanup.caption "Opschonen">
-<!ENTITY fhprefs.group.multilineexceptions.caption "Excepties">
-<!ENTITY fhprefs.label.multilinesaveolder "Bewaar een nieuwe versie als de oude versie ouder is dan">
-<!ENTITY fhprefs.label.multilinesavelength "Bewaar een nieuwe versie als de lengte verandert met meer dan">
-<!ENTITY fhprefs.label.multilinecleanup "Verwijder versies automatisch indien ouder dan">
-<!ENTITY fhprefs.label.multilinelist.never "nooit">
-<!ENTITY fhprefs.multilinesavewarning.tooltip "Waarschuwing: het opslaan van veel versies zonder regelmatig op te schonen, kan leiden tot een grote groei in database omvang!">
-<!ENTITY fhprefs.label.multilinelist.minute "minuut">
-<!ENTITY fhprefs.label.multilinelist.minutes "minuten">
-<!ENTITY fhprefs.label.multilinelist.hour "uur">
-<!ENTITY fhprefs.label.multilinelist.hours "uur">
-<!ENTITY fhprefs.label.multilinelist.day "dag">
-<!ENTITY fhprefs.label.multilinelist.days "dagen">
-<!ENTITY fhprefs.label.multilinelist.week "week">
-<!ENTITY fhprefs.label.multilinelist.weeks "weken">
-<!ENTITY fhprefs.label.multilinelist.month "maand">
-<!ENTITY fhprefs.label.multilinelist.months "maanden">
-<!ENTITY fhprefs.label.multilinelist.characters "karakters">
-<!ENTITY fhprefs.radio.multilinenoexception "Geen uitzonderingen">
-<!ENTITY fhprefs.radio.multilinewhitelist "Alleen actief voor hosts in de lijst">
-<!ENTITY fhprefs.radio.multilineblacklist "Altijd actief, behalve voor hosts in de lijst">
-<!ENTITY fhprefs.button.managelist "Beheer exceptie lijst">
-<!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden, zelfs wanneer in privé navigatie modus">
-<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Automatisch downloaden figuren niet toestaan voor HTML voorbeeld">
-<!ENTITY fhprefs.checkbox.multilinesaveencrypted "Versleutel de inhoud van editor velden in de database">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Diversen">
 <!ENTITY fhprefs.group.preferences.caption "Voorkeuren">
@@ -323,7 +263,6 @@
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Doe een rechts-klik op de gereedschapbalk van de browser en selecteer Aanpassen. Vervolgens kun je het FormHistory icoon verslepen naar de gereedschapbalk.">
 <!ENTITY fhprefs.group.showmenu.caption "Menu">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Verberg het Extra menu item">
-<!ENTITY fhprefs.checkbox.hideappmenuitem.label "Verberg het Applicatie menu item">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Verberg het Context menu item ">
 <!ENTITY fhprefs.group.treeskin.caption "AchtergrondKleur lijsten">
 <!ENTITY fhprefs.label.treeskin.label "Vergroot de leesbaarheid van lijsten">
@@ -348,7 +287,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Zet waarden tussen">
 <!ENTITY fhprefs.textbox.csvexportescape.label "escape met voorloop">
 <!ENTITY fhprefs.group.configexport.caption "Configuratie Importeren/Exporteren">
-<!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "Exporteer datums in ISO formaat">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importeren en Exporteren sneltoetsen">
 
 <!ENTITY fhprefs.prefpane.cleanup.label "Opschonen">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Opschonen bij afsluiten browser">
@@ -407,13 +346,3 @@
 <!ENTITY fhabout.label.homepage "Homepage bezoeken">
 <!ENTITY fhabout.label.contributors "Bijdragen">
 <!ENTITY fhabout.label.translators "Vertalers">
-
-<!ENTITY browsehistorywindow.report.gocurrent "Huidige">
-<!ENTITY browsehistorywindow.report.showurl "Toon URL">
-<!ENTITY browsehistorywindow.report.showtitle "Toon Titel">
-<!ENTITY browsehistorywindow.report.showhost "Toon Host">
-<!ENTITY browsehistorywindow.report.fieldnamelabel "Veldnaam">
-<!ENTITY browsehistorywindow.report.valuelabel "Waarde">
-<!ENTITY browsehistorywindow.report.titlelabel "Titel">
-<!ENTITY browsehistorywindow.report.hostlabel "Host">
-<!ENTITY browsehistorywindow.report.urllabel "URL">
