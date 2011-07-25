@@ -484,11 +484,8 @@
                              value="&fhwin.treeview.column.name.label;"/>
                       <hbox flex="2">
                         <textbox id="adv_fieldname"
-                                 type="autocomplete" flex="1"
-                                 autocompletesearch="simple-autocomplete"
-                                 autocompletesearchparam='[]'
-                                 showcommentcolumn="false"
-                                 oninput="HistoryWindowControl.advancedFilterChanged()"/>
+                                 type="search" flex="1"
+                                 oncommand="HistoryWindowControl.advancedFilterChanged()"/>
                         <label   id="adv_fieldname-regex-state" value="*" class="invalidregexp"/>
                         <vbox>
                           <spacer flex="1"/>

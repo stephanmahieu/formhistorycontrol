@@ -164,9 +164,6 @@ const HistoryWindowControl = {
       this.searchOnlyPageChanged(true);
     }
 
-    // populate the autocomplete list of the search textbox
-    this._populateSearchAutocompleteList();
-    
     // listen to preference updates
     this._registerPrefListener();
 
@@ -1009,9 +1006,6 @@ const HistoryWindowControl = {
     this.treeView.setFieldnameFilter(textInputNames);
     this._updateCountLabel();
 
-    // populate the autocomplete list of the search textbox
-    this._populateSearchAutocompleteList();
-
     // if field contains a value, and nothing has been selected already
     // then try to select the entry/entries with the fieldvalue
     if (searchOnlyInField && fieldValue && fieldValue.length > 0) {
@@ -1060,9 +1054,6 @@ const HistoryWindowControl = {
     this.treeView.setFieldnameFilter(textInputNames);
     this._updateCountLabel();
 
-    // populate the autocomplete list of the search textbox
-    this._populateSearchAutocompleteList();
-
     window.setCursor("auto");
   },
 
@@ -1077,9 +1068,6 @@ const HistoryWindowControl = {
       this.treeView.setCustomFilter(null);
     }
     this._updateCountLabel();
-
-    // populate the autocomplete list of the search textbox
-    this._populateSearchAutocompleteList();
 
     window.setCursor("auto");
   },
@@ -1831,13 +1819,6 @@ const HistoryWindowControl = {
     return matches;
   },
 
-  // Populate the autocomplete list of the search textbox
-  _populateSearchAutocompleteList: function() {
-    var entries = this.treeView.getAllDisplayed();
-    var jsonList = FhcUtil.getUniqueSortedJsonList(entries);
-    document.getElementById("adv_fieldname").setAttribute("autocompletesearchparam", jsonList);
-  },
-
   /**
    * Re-apply date formatting to date fields.
    */
@@ -1891,9 +1872,6 @@ const HistoryWindowControl = {
     // re-apply filters
     this.treeView.applyFilter();
     this._updateCountLabel();
-
-    // populate the autocomplete list of the search textbox
-    this._populateSearchAutocompleteList();
   },
 
   // Read data from the database into the treeview
