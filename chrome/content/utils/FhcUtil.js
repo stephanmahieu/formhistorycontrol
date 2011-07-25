@@ -526,42 +526,6 @@ const FhcUtil = {
   },
 
   /**
-   * Return a alphabetically ordered list in json format containing fieldnames
-   * extracted from an array of formhistory objects.
-   * @param  entries {Array} an array of objects with a fieldname attribute
-   * @return {List} json format list containing fieldnames
-   */
-  getUniqueSortedJsonList: function(entries) {
-    // create a 'hashmap' of unique fieldnames
-    var autoCompleteHash = new Array();
-    for(var ii=0; ii<entries.length; ii++) {
-      if (undefined == autoCompleteHash[entries[ii].name]) {
-        autoCompleteHash[entries[ii].name] = entries[ii].name;
-      }
-    }
-    
-    // convert back to array and sort alphabetically
-    var autoCompleteArray = [];
-    for(var key in autoCompleteHash) {
-      autoCompleteArray.push(key);
-    }
-    delete autoCompleteHash;
-    autoCompleteArray.sort();
-    
-    // create a list with names as value objects
-    var objList = [];
-    for(var jj=0; jj<autoCompleteArray.length; jj++) {
-      objList.push( {"value": autoCompleteArray[jj]} );
-    }
-    delete autoCompleteArray;
-    
-    // convert objectlist to json
-    var nativeJSON = Components.classes["@mozilla.org/dom/json;1"]
-                       .createInstance(Components.interfaces.nsIJSON);
-    return nativeJSON.encode(objList);
-  },
-
-  /**
    * Get the main document.
    * @param   curWindow {Window} the current window.
    * @return (Document) the main document.
