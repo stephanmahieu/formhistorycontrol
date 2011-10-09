@@ -37,3 +37,4 @@ locale formhistory en-US chrome/locale/en-US/
 locale formhistory nl    chrome/locale/nl/
 #locale formhistory pt-BR chrome/locale/pt-BR/
 #locale formhistory sv-SE chrome/locale/sv-SE/
+#locale formhistory tr    chrome/locale/tr/
