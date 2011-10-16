@@ -404,19 +404,19 @@ const FhcFormSaveOverlay = {
    *         the editor/multiline text being edited by a user
    */
   _getContent: function(event) {
-    var content = "";
+    var theContent = "";
     switch(event.type) {
       case "textarea":
-           content = event.node.value;
+           theContent = event.node.value;
            break;
       case "html":
-           content = event.node.body.innerHTML;
+           theContent = event.node.body.innerHTML;
            break;
       case "iframe":
-           content = event.node.innerHTML;
+           theContent = event.node.innerHTML;
            break;
     }
-    return content;
+    return theContent;
   },
   
   /**
