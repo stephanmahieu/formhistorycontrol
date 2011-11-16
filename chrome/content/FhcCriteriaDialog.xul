@@ -56,7 +56,7 @@
         <column flex="1"/>
         <column/>
         <column/>
-        <column/>
+        <column flex="3"/>
       </columns>
       <rows>
 				<description id="descriptionAdd" style="display:none" class="description">
@@ -90,11 +90,11 @@
             <spacer flex="1"/>
           </vbox>
           <hbox>
-            <checkbox id="nameExact" checked="true" disabled="true" tabindex="3"
+            <checkbox id="nameExact" checked="true" disabled="true" tabindex="3" flex="1"
                       label="&fhcriteriadlg.matchexact.label;"/>
-            <checkbox id="nameCase" checked="true" disabled="true" tabindex="4"
+            <checkbox id="nameCase" checked="true" disabled="true" tabindex="4" flex="1"
                       label="&fhcriteriadlg.matchcase.label;"/>
-            <checkbox id="nameRegex" checked="true" disabled="true" tabindex="5"
+            <checkbox id="nameRegex" checked="true" disabled="true" tabindex="5" flex="1"
                       label="RegExp" oncommand="FhcCriteriaDialog.toggleRegexpCheckbox(this)"/>
           </hbox>
         </row>
@@ -113,11 +113,11 @@
             <spacer flex="1"/>
           </vbox>
           <hbox>
-            <checkbox id="valueExact" checked="true" disabled="true" tabindex="7"
+            <checkbox id="valueExact" checked="true" disabled="true" tabindex="7" flex="1"
                       label="&fhcriteriadlg.matchexact.label;"/>
-            <checkbox id="valueCase" checked="true" disabled="true" tabindex="8"
+            <checkbox id="valueCase" checked="true" disabled="true" tabindex="8" flex="1"
                       label="&fhcriteriadlg.matchcase.label;"/>
-            <checkbox id="valueRegex" checked="true" disabled="true" tabindex="9"
+            <checkbox id="valueRegex" checked="true" disabled="true" tabindex="9" flex="1"
                       label="RegExp" oncommand="FhcCriteriaDialog.toggleRegexpCheckbox(this)"/>
           </hbox>
         </row>
