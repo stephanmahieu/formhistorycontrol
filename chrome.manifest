@@ -26,7 +26,6 @@ overlay chrome://navigator/content/navigator.xul chrome://formhistory/content/ov
 #locale formhistory it-IT chrome/locale/it-IT/
 #locale formhistory ru    chrome/locale/ru/
 #locale formhistory sk-SK chrome/locale/sk-SK/
-#locale formhistory zh-CN chrome/locale/zh-CN/
 #Complete locales
 #locale formhistory cs    chrome/locale/cs/
 #locale formhistory da    chrome/locale/da/
@@ -38,3 +37,4 @@ locale formhistory nl    chrome/locale/nl/
 #locale formhistory pt-BR chrome/locale/pt-BR/
 #locale formhistory sv-SE chrome/locale/sv-SE/
 #locale formhistory tr    chrome/locale/tr/
+#locale formhistory zh-CN chrome/locale/zh-CN/

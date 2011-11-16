@@ -19,8 +19,7 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\hu ^
           chrome\locale\it-IT ^
           chrome\locale\ru ^
-          chrome\locale\sk-SK ^
-          chrome\locale\zh-CN
+          chrome\locale\sk-SK
 if errorlevel 1 goto error
 
 rem --(delete all amo.properties)-------------------------------
