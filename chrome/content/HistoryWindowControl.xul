@@ -18,7 +18,6 @@
   <script type="application/x-javascript" src="chrome://formhistory/content/HistoryTreeView.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupProtectView.js" />
-  <script type="application/x-javascript" src="chrome://formhistory/content/MultilineWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcCleanupFilter.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDbHandler.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
@@ -170,26 +169,6 @@
               oncommand="CleanupProtectView.selectNone();"/>
   </menupopup>
 
-  <menupopup id="multilinePopup">
-    <menuitem id="mnCopyMultilineToClipboard" class="menuitem-iconic fh_menuitem_copyclip"
-              label="&fhcmultilinedlg.button.copytoclipboard;"
-              oncommand="MultilineWindowControl.copyToClipboardAction()"/>
-    <menuseparator/>
-    <menuitem label="&fhwin.menuitem.delete.label;"
-              id="mnDeleteMultiline" disabled="true"
-              class="menuitem-iconic fh_menuitem_delete"
-              oncommand="MultilineWindowControl.editAction('Delete');"/>
-    <menuseparator/>
-    <menuitem label="&fhwin.menuitem.selectall.label;"
-              id="mnSelectAll"
-              class="menuitem-iconic fh_menuitem_selectall"
-              oncommand="MultilineWindowControl.selectAll();"/>
-    <menuitem label="&fhwin.menuitem.selectnone.label;"
-              id="mnSelectNone"
-              class="menuitem-iconic fh_menuitem_selectnone"
-              oncommand="MultilineWindowControl.selectNone();"/>
-  </menupopup>
-
   <menupopup id="regexp-namelist-menu">
     <menuitem id="regexp-title-item" class="menuitem-iconic fh_menuitem_regexp_title"
               tooltiptext="&fhwin.menuitem.regexpsearch.tooltip;"
@@ -233,14 +212,31 @@
           label="&fhwin.menu.file.label;"
           accesskey="&fhwin.menu.file.accesskey;">
       <menupopup id="file-popup">
-        <menuitem label="&fhwin.menuitem.importmanager.label;"
-                  id="mnbarImport"
-                  class="menuitem-iconic fh_menuitem_import"
-                  oncommand="HistoryWindowControl.importAction();"/>
-        <menuitem label="&fhwin.menuitem.exportmanager.label;"
+        <menuitem label="&fhwin.menuitem.exportall.label;"
                   id="mnbarExportAll"
                   class="menuitem-iconic fh_menuitem_export"
                   oncommand="HistoryWindowControl.exportActionAll();"/>
+        <menuitem label="&fhwin.menuitem.exportdisplayed.label;"
+                  id="mnbarExportDisplayed"
+                  class="menuitem-iconic fh_menuitem_export"
+                  oncommand="HistoryWindowControl.exportActionDisplayed();"/>
+        <menuitem label="&fhwin.menuitem.exportselected.label;"
+                  id="mnbarExportSelected"
+                  class="menuitem-iconic fh_menuitem_export"
+                  oncommand="HistoryWindowControl.exportActionSelected();"/>
+        <menuitem label="&fhwin.menuitem.import.label;"
+                  id="mnbarImport"
+                  class="menuitem-iconic fh_menuitem_import"
+                  oncommand="HistoryWindowControl.importAction();"/>
+        <menuseparator/>
+        <menuitem label="&fhwin.cleanup.menuitem.exportcfg.label;"
+                  id="mnbarExportCriteria"
+                  class="menuitem-iconic fh_menuitem_export"
+                  oncommand="CleanupWindowControl.exportAction();"/>
+        <menuitem label="&fhwin.cleanup.menuitem.importcfg.label;"
+                  id="mnbarImportCriteria"
+                  class="menuitem-iconic fh_menuitem_import"
+                  oncommand="HistoryWindowControl.importCleanupAction();"/>
         <menuseparator/>
         <menuitem label="&fhwin.menuitem.exportcsv.label;"
                   id="mnbarExportCSV"
@@ -327,23 +323,6 @@
                   class="menuitem-iconic fh_menuitem_selectnone"
                   oncommand="HistoryWindowControl.selectCleanupNone();"
                   hidden='true'/>
-        <!-- Multiline menu-items, initially hidden -->
-        <menuitem label="&fhwin.menuitem.delete.label;"
-                  id="mnbarMlDelete" disabled="true" key="delete-key"
-                  class="menuitem-iconic fh_menuitem_delete"
-                  oncommand="MultilineWindowControl.editAction('Delete');"
-                  hidden='true'/>
-        <menuseparator id="mnbarMlSep" hidden='true'/>
-        <menuitem label="&fhwin.menuitem.selectall.label;"
-                  id="mnbarMlSelectAll" key="selectall-key"
-                  class="menuitem-iconic fh_menuitem_selectall"
-                  oncommand="MultilineWindowControl.selectAll();"
-                  hidden='true'/>
-        <menuitem label="&fhwin.menuitem.selectnone.label;"
-                  id="mnbarMlSelectNone" key="selectnone-key"
-                  class="menuitem-iconic fh_menuitem_selectnone"
-                  oncommand="MultilineWindowControl.selectNone();"
-                  hidden='true'/>
       </menupopup>
     </menu>
     <menu id="view-menu"
@@ -393,10 +372,6 @@
     <label id="preview-close-tip-label" value="&fhwin.treeview.closecleanuppreview.tooltip;"/>
   </tooltip>
 
-  <tooltip id="multilinetree-tooltip"
-           onpopupshowing="MultilineWindowControl.showTooltip(event, this)"
-           onpopuphidden="MultilineWindowControl.hideTooltip(event, this)"/>
-
   <tooltip id="notification-tip" orient="vertical"
            onclick="HistoryWindowControl.hideNotificationHelp()">
     <label id="notification-helptitle" value=""/>
@@ -434,7 +409,6 @@
            accesskey="&fhwin.historytab.formhistory.accesskey;"/>
       <tab label="&fhwin.historytab.cleanup;"
            accesskey="&fhwin.historytab.cleanup.accesskey;"/>
-      <tab label="&fhwin.historytab.multiline;" id="editorHistoryTab"/>
     </tabs>
     <tabpanels id="mainTabPanels" flex="1">
       
@@ -836,81 +810,52 @@
       <tabpanel>
         <vbox id="blacklist" flex="1" style="padding: 9px 10px 7px 10px">
 
-          <!-- Options expanded -->
-          <vbox id="cleanupoptions-visible" hidden="false" persist="hidden">
-            <hbox align="center">
-              <label value="&fhwin.cleanup.label;:" class="description"/>
-              <spacer flex="1"/>
-              <label control="hidecleanupoptions" value="&fhwin.cleanup.hideoptions;"/>
-              <vbox>
-                <spacer/>
-                <button id="hidecleanupoptions" class="expander-up searchtype-button"
-                        oncommand="CleanupWindowControl.toggleOptions()"
-                        tooltiptext="&fhwin.cleanup.hideoptions;"/>
-                <spacer/>
-              </vbox>
-            </hbox>
+          <label value="&fhwin.cleanup.label;:" class="description"/>
+          <separator class="thin"/>
 
-            <hbox>
-              <groupbox flex="1">
-                <caption label="&fhwin.cleanup.timeusage.group.caption;:"/>
-                <hbox>
-                  <checkbox id="lastUsedCheck"
-                            label="&fhwin.cleanup.checkbox.daysused.label;"
-                            accesskey="&fhwin.cleanup.checkbox.daysused.accesskey;"
-                            oncommand="CleanupWindowControl.prefsChanged(this);"
-                            checked="false"
-                            style="margin-right:0; padding-right:0"/>
-                  <textbox  id="lastUsedDaysLimit"
-                            disabled="true"
-                            width="30"
-                            onchange="CleanupWindowControl.prefsChanged(this);"/>
-                  <label    value="&fhwin.cleanup.checkbox.daysused.label2;"
-                            style="padding-bottom:0; padding-top:4px; margin:0" />
-                </hbox>
-                <hbox>
-                  <checkbox id="timesUsedCheck"
-                            label="&fhwin.cleanup.checkbox.timesused.label;"
-                            accesskey="&fhwin.cleanup.checkbox.timesused.accesskey;"
-                            oncommand="CleanupWindowControl.prefsChanged(this);"
-                            checked="false"
-                            style="margin-right:0; padding-right:0"/>
-                  <textbox  id="timesUsedLimit"
-                            disabled="true"
-                            width="30"
-                            onchange="CleanupWindowControl.prefsChanged(this);"/>
-                  <label    value="&fhwin.cleanup.checkbox.timesused.label2;"
-                            style="padding-bottom:0; padding-top:4px; margin:0" />
-                </hbox>
-              </groupbox>
-              <groupbox flex="1">
-                 <caption label="&fhwin.cleanup.automaticcleanup.group.caption;:"/>
-                 <checkbox id="cleanupOnShutdown"
-                           label="&fhprefs.checkbox.cleanupshutdown.label;"
-                           oncommand="CleanupWindowControl.prefsChanged(this);"/>
-                 <checkbox id="cleanupOnTabclose"
-                           label="&fhprefs.checkbox.cleanuptabclose.label;"
-                           oncommand="CleanupWindowControl.prefsChanged(this);"/>
-              </groupbox>
-            </hbox>
-          </vbox>
+          <hbox>
+            <groupbox flex="1">
+              <caption label="&fhwin.cleanup.timeusage.group.caption;:"/>
+              <hbox>
+                <checkbox id="lastUsedCheck"
+                          label="&fhwin.cleanup.checkbox.daysused.label;"
+                          accesskey="&fhwin.cleanup.checkbox.daysused.accesskey;"
+                          oncommand="CleanupWindowControl.prefsChanged(this);"
+                          checked="false"
+                          style="margin-right:0; padding-right:0"/>
+                <textbox  id="lastUsedDaysLimit"
+                          disabled="true"
+                          width="30"
+                          onchange="CleanupWindowControl.prefsChanged(this);"/>
+                <label    value="&fhwin.cleanup.checkbox.daysused.label2;"
+                          style="padding-bottom:0; padding-top:4px; margin:0" />
+              </hbox>
+              <hbox>
+                <checkbox id="timesUsedCheck"
+                          label="&fhwin.cleanup.checkbox.timesused.label;"
+                          accesskey="&fhwin.cleanup.checkbox.timesused.accesskey;"
+                          oncommand="CleanupWindowControl.prefsChanged(this);"
+                          checked="false"
+                          style="margin-right:0; padding-right:0"/>
+                <textbox  id="timesUsedLimit"
+                          disabled="true"
+                          width="30"
+                          onchange="CleanupWindowControl.prefsChanged(this);"/>
+                <label    value="&fhwin.cleanup.checkbox.timesused.label2;"
+                          style="padding-bottom:0; padding-top:4px; margin:0" />
+              </hbox>
+            </groupbox>
+            <groupbox flex="1">
+               <caption label="&fhwin.cleanup.automaticcleanup.group.caption;:"/>
+               <checkbox id="cleanupOnShutdown"
+                         label="&fhprefs.checkbox.cleanupshutdown.label;"
+                         oncommand="CleanupWindowControl.prefsChanged(this);"/>
+               <checkbox id="cleanupOnTabclose"
+                         label="&fhprefs.checkbox.cleanuptabclose.label;"
+                         oncommand="CleanupWindowControl.prefsChanged(this);"/>
+            </groupbox>
+          </hbox>
 
-          <!-- Options collapsed -->
-          <vbox id="cleanupoptions-hidden" hidden="true" persist="hidden">
-            <hbox align="center">
-              <label value="&fhwin.cleanup.label;:" class="description"/>
-              <spacer flex="1"/>
-              <label control="showcleanupoptions" value="&fhwin.cleanup.showoptions;"/>
-              <vbox>
-                <spacer/>
-                <button id="showcleanupoptions" class="expander-down searchtype-button"
-                        oncommand="CleanupWindowControl.toggleOptions()"
-                        tooltiptext="&fhwin.cleanup.showoptions;"/>
-                <spacer/>
-              </vbox>
-            </hbox>  
-          </vbox>
-          
           <separator class="thin"/>
           <groupbox flex="1">
             <caption label="&fhwin.cleanup.namevalue.group.caption;:"/>
@@ -1128,126 +1073,7 @@
                     oncommand="window.close();return;"/>
           </hbox>
         </vbox>
-      </tabpanel>
-                
-      <tabpanel id="editorHistoryTabPanel">
-        <vbox id="editorHistory" flex="1" style="padding: 9px 10px 7px 10px">
-          
-          <hbox align="center" id="simple-mlsearch" persist="hidden">
-            <label    control="filterMLText"
-                      value="&fhwin.filter.label;"
-                      accesskey="&fhwin.filter.accesskey;"/>
-            <textbox  id="filterMLText" flex="1"
-                      type="search" timeout="500"
-                      oncommand="MultilineWindowControl.filterChanged();"/>
-            <checkbox id="filterMlMatchCase" label="&fhwin.checkbox.matchcase.label;"
-                      accesskey="&fhwin.checkbox.matchcase.accesskey;"
-                      oncommand="MultilineWindowControl.prefsChanged(this);"/>
-          </hbox>
-          
-          <separator class="thin"/>
-          <label id="multilineTreeLabel" value="&fhwin.multiline.label;:"/>
 
-          <separator class="thin"/>
-          <tree id="multilineHistoryTree" alternatingbackground="true"
-                flex="1" style="width:55em;height:24em;"
-                editable="false"
-                hidecolumnpicker="false" enableColumnDrag="true"
-                onselect="MultilineWindowControl.treeSelect(event);"
-                context="multilinePopup"
-                oncontextmenu="MultilineWindowControl.menuPopup(event);"
-                onclick="MultilineWindowControl.treeClick(event);"
-                ondblclick="MultilineWindowControl.treeDblclick(event);">
-            <treecols>
-              <treecol id="firstsavedCol" hidden="true" flex="1"
-                       label="&fhwin.multiline.treeview.column.firstsaved.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="agefirstsavedCol" hidden="true" flex="1"
-                       label="&fhwin.multiline.treeview.column.agefirstsaved.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="lastsavedCol" flex="1"
-                       label="&fhwin.multiline.treeview.column.lastsaved.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="agelastsavedCol" flex="1"
-                       label="&fhwin.multiline.treeview.column.agelastsaved.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="contentCol" flex="6"
-                       label="&fhwin.multiline.treeview.column.content.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="mlidCol" flex="1" hidden="true"
-                       label="&fhwin.multiline.treeview.column.fieldid.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="mlformidCol" flex="1" hidden="true"
-                       label="&fhwin.multiline.treeview.column.fieldformid.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="mlnameCol" flex="1"
-                       label="&fhwin.multiline.treeview.column.fieldname.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="typeCol" hidden="true" flex="1"
-                       label="&fhwin.multiline.treeview.column.type.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="mlhostCol" flex="1"
-                       label="&fhwin.multiline.treeview.column.host.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-              <splitter class="tree-splitter"/>
-              <treecol id="mlurlCol" hidden="true" flex="5"
-                       label="&fhwin.multiline.treeview.column.url.label;"
-                       onclick="MultilineWindowControl.sort(this);"
-                       persist="width ordinal hidden sortDirection"/>
-            </treecols>
-            <treechildren tooltip="multilinetree-tooltip"/>
-          </tree>
-          
-          <hbox>
-            <hbox flex="1">
-              <checkbox id="displayhostonly" flex="2" disabled="false" crop="end"
-                        label="&fhwin.multiline.checkbox.searchhostonly.label;"
-                        tooltiptext=""
-                        oncommand="MultilineWindowControl.filterChanged();"
-                        accesskey=""/>
-            </hbox>
-            <spacer flex="10"/>
-            <label id="multilineSelectCount" value="" style="margin-top:4px;"/>
-            <spacer flex="1"/>
-            <label id="multilineItemCount" value="0" style="margin-top:4px;"/>
-          </hbox>
-
-          <separator class="thin"/>
-          <hbox>
-            <button id="removeMultiline" disabled="true"
-                    label="&fhwin.button.remove.label;"
-                    accesskey="&fhwin.button.remove.accesskey;"
-                    oncommand="MultilineWindowControl.editAction('Delete')"/>
-            <button id="viewMultiline" disabled="true"
-                    label="&fhwin.button.view.label;"
-                    accesskey=""
-                    oncommand="MultilineWindowControl.editAction('View')"/>
-            <spacer flex="1"/>
-            <button id="close3" icon="close"
-                    label="&fhwin.button.close.label;"
-                    accesskey="&fhwin.button.close.accesskey;"
-                    oncommand="window.close();return;"/>
-          </hbox>
-        </vbox>
       </tabpanel>
     </tabpanels>
   </tabbox>
