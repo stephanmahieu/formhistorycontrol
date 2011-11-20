@@ -255,6 +255,11 @@
 <!ENTITY fhcmultilinedlg.button.hidedetails "Hide details">
 <!ENTITY fhcmultilinedlg.checkbox.hideimages "Hide images">
 
+<!ENTITY fhcmultilinelistdlg.windowtitle "Manage Exception List">
+<!ENTITY fhcmultilinelistdlg.label.blacklist "Do not remember editor field history for hosts listed below">
+<!ENTITY fhcmultilinelistdlg.label.whitelist "Only remember editor field history for hosts listed below">
+<!ENTITY fhcmultilinelistdlg.button.addcurrentpage "Add current page">
+
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 
 <!ENTITY fhprefs.prefpane.multiline.label "Editor fields">
@@ -417,3 +422,34 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Title">
 <!ENTITY browsehistorywindow.report.hostlabel "Host">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+
+<!ENTITY fhexportdlg.title "Export manager">
+<!ENTITY fhexportdlg.description "Select the type of data to export">
+<!ENTITY fhexportdlg.button.export "Export">
+<!ENTITY fhexportdlg.label.exporterrornone "Nothing selected, nothing to export.">
+
+<!ENTITY fhimportdlg.title "Import manager">
+<!ENTITY fhimportdlg.description "Select the type of data to import">
+<!ENTITY fhimportdlg.button.import "Import">
+<!ENTITY fhimportdlg.label.importerrornone "Nothing selected, nothing to import.">
+
+<!ENTITY fhimportexportdlg.checkbox.entries "Form history entries">
+<!ENTITY fhimportexportdlg.label.items "items">
+<!ENTITY fhimportexportdlg.radio.entries.all "All">
+<!ENTITY fhimportexportdlg.radio.entries.selected "Selected">
+<!ENTITY fhimportexportdlg.radio.entries.search "Search result">
+<!ENTITY fhimportexportdlg.checkbox.editorhistory "Editor history">
+<!ENTITY fhimportexportdlg.radio.multi.all "All">
+<!ENTITY fhimportexportdlg.radio.multi.selected "Selected">
+<!ENTITY fhimportexportdlg.radio.multi.search "Search result">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "Editor history preferences">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor history exceptionlist">
+<!ENTITY fhimportexportdlg.checkbox.regularexpressions "Regular expressions">
+<!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "Keyboard shortcuts">
+<!ENTITY fhimportexportdlg.checkbox.cleanupconfig "Cleanup configuration">
+
+<!ENTITY fhimportstatusdlg.title "Import status">
+<!ENTITY fhimportstatusdlg.label.total "Total">
+<!ENTITY fhimportstatusdlg.label.imported "Imported">
+<!ENTITY fhimportstatusdlg.label.identical "Identical">
+<!ENTITY fhimportstatusdlg.label.error "Error">

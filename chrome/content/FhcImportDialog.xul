@@ -8,10 +8,10 @@
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="importDialog"
-        title="Import manager"
+        title="&fhimportdlg.title;"
         style="width: 40em"
         buttons="cancel,accept"
-        buttonlabelaccept="Import"
+        buttonlabelaccept="&fhimportdlg.button.import;"
         ondialogaccept="return FhcImportDialog.onOkay();"
         onload="FhcImportDialog.init();"
         persist="width height screenX screenY">
@@ -20,12 +20,12 @@
 
   <hbox>
     <label id="errorMessageNoSelection" hidden="true" class="errormessage"
-           value="Nothing selected, nothing to import."/>
+           value="&fhimportdlg.label.importerrornone;"/>
     <label value=""/>
   </hbox>
   
   <vbox class="box-padded">
-    <description id="descriptionExport" class="description">Select the type of data to import:</description>
+    <description id="descriptionExport" class="description">&fhimportdlg.description;:</description>
 
     <grid>
       <columns>
@@ -36,38 +36,38 @@
       <rows>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="history" label="Form history entries" persist="checked"/>
+          <checkbox id="history" label="&fhimportexportdlg.checkbox.entries;" persist="checked"/>
           <label id="historyItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="multiline" label="Editor history" persist="checked"/>
+          <checkbox id="multiline" label="&fhimportexportdlg.checkbox.editorhistory;" persist="checked"/>
           <label id="multilineItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <row align="baseline">
-          <checkbox id="multilineprefs" label="Editor history preferences" persist="checked"/>
+          <checkbox id="multilineprefs" label="&fhimportexportdlg.checkbox.editorhistoryprefs;" persist="checked"/>
           <label id="multilineprefsItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="regexp" label="Regular expressions" persist="checked"/>
+          <checkbox id="regexp" label="&fhimportexportdlg.checkbox.regularexpressions;" persist="checked"/>
           <label id="regexpItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="keys" label="Keyboard shortcuts" persist="checked"/>
+          <checkbox id="keys" label="&fhimportexportdlg.checkbox.keybordshortcuts;" persist="checked"/>
           <label id="keysItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <checkbox id="cleanup" label="Cleanup configuration" persist="checked"/>
+          <checkbox id="cleanup" label="&fhimportexportdlg.checkbox.cleanupconfig;" persist="checked"/>
           <label id="cleanupItems" value="" style="text-align: right"/>
-          <label value="items"/>
+          <label value="&fhimportexportdlg.label.items;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
       </rows>

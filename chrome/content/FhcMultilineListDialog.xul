@@ -9,7 +9,7 @@
 
 <window xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="multilineListDialog"
-        title="Manage Exception List"
+        title="&fhcmultilinelistdlg.windowtitle;"
         style="width:48em; height:40em; padding: 14px 6px 4px 6px"
         onload="FhcMultilineListDialog.init()"
         onunload="FhcMultilineListDialog.destroy()"
@@ -49,8 +49,8 @@
               oncommand="FhcMultilineListDialog.selectNone()"/>
   </menupopup>
 
-  <label id="blacklist" hidden="true" value="Do not backup editor fields for hosts listed below:"/>
-  <label id="whitelist" hidden="true" value="Only backup editor fields for hosts listed below:"/>
+  <label id="blacklist" hidden="true" value="&fhcmultilinelistdlg.label.blacklist;:"/>
+  <label id="whitelist" hidden="true" value="&fhcmultilinelistdlg.label.whitelist;:"/>
   <tree id="hostTree" alternatingbackground="true"
         flex="1" 
         editable="true" hidecolumnpicker="true"
@@ -59,7 +59,7 @@
         onselect="FhcMultilineListDialog.treeSelect(event)">
     <treecols>
       <treecol id="hostCol" flex="3"
-               label="Hosts"
+               label="&fhwin.multiline.treeview.column.host.label;"
                onclick="FhcMultilineListDialog.sort(this);"
                persist="sortDirection"/>
       <treecol id="indexCol" hidden="true" class="numericColumn"
@@ -72,9 +72,9 @@
   </tree>
 
   <groupbox>
-    <caption label="Host"/>
+    <caption label="&fhwin.multiline.treeview.column.host.label;"/>
     <hbox align="baseline">
-      <label value="Host"/>
+      <label value="&fhwin.multiline.treeview.column.host.label;"/>
       <textbox id="host" flex="1" oninput="FhcMultilineListDialog.initEditButtons()"/>
     </hbox>
     <hbox>
@@ -92,7 +92,7 @@
               accesskey="&fhwin.button.add.accesskey;"/>
       <button id="addCurrent"
               oncommand="FhcMultilineListDialog.addCurrent()"
-              label="Add current page"/>
+              label="&fhcmultilinelistdlg.button.addcurrentpage;"/>
     </hbox>
   </groupbox>  
   
