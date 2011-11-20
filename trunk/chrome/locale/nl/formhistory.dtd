@@ -255,6 +255,11 @@
 <!ENTITY fhcmultilinedlg.button.hidedetails "Verberg details">
 <!ENTITY fhcmultilinedlg.checkbox.hideimages "Verberg figuren">
 
+<!ENTITY fhcmultilinelistdlg.windowtitle "Beheer Exceptie Lijst">
+<!ENTITY fhcmultilinelistdlg.label.blacklist "Geen editor veld historie onthouden voor onderstaande bronnen">
+<!ENTITY fhcmultilinelistdlg.label.whitelist "Uisluitend editor veld historie onthouden voor onderstaande bronnen">
+<!ENTITY fhcmultilinelistdlg.button.addcurrentpage "Toevoegen huidige pagina">
+
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 
 <!ENTITY fhprefs.prefpane.multiline.label "Editor velden">
@@ -283,8 +288,8 @@
 <!ENTITY fhprefs.label.multilinelist.months "maanden">
 <!ENTITY fhprefs.label.multilinelist.characters "karakters">
 <!ENTITY fhprefs.radio.multilinenoexception "Geen uitzonderingen">
-<!ENTITY fhprefs.radio.multilinewhitelist "Alleen actief voor hosts in de lijst">
-<!ENTITY fhprefs.radio.multilineblacklist "Altijd actief, behalve voor hosts in de lijst">
+<!ENTITY fhprefs.radio.multilinewhitelist "Alleen actief voor bronnen in de lijst">
+<!ENTITY fhprefs.radio.multilineblacklist "Altijd actief, behalve voor bronnen in de lijst">
 <!ENTITY fhprefs.button.managelist "Beheer exceptie lijst">
 <!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden, zelfs wanneer in privé navigatie modus">
 <!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Automatisch downloaden figuren niet toestaan voor HTML voorbeeld">
@@ -411,9 +416,37 @@
 <!ENTITY browsehistorywindow.report.gocurrent "Huidige">
 <!ENTITY browsehistorywindow.report.showurl "Toon URL">
 <!ENTITY browsehistorywindow.report.showtitle "Toon Titel">
-<!ENTITY browsehistorywindow.report.showhost "Toon Host">
+<!ENTITY browsehistorywindow.report.showhost "Toon Bron">
 <!ENTITY browsehistorywindow.report.fieldnamelabel "Veldnaam">
 <!ENTITY browsehistorywindow.report.valuelabel "Waarde">
 <!ENTITY browsehistorywindow.report.titlelabel "Titel">
-<!ENTITY browsehistorywindow.report.hostlabel "Host">
+<!ENTITY browsehistorywindow.report.hostlabel "Bron">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+
+<!ENTITY fhexportdlg.title "Export beheer">
+<!ENTITY fhexportdlg.description "Selecteer de te exporteren data types">
+<!ENTITY fhexportdlg.button.export "Exporteer">
+<!ENTITY fhexportdlg.label.exporterrornone "Niets geselecteerd, niets te exporteren.">
+
+<!ENTITY fhimportdlg.title "Import beheer">
+<!ENTITY fhimportdlg.description "Selecteer de te importeren data types">
+<!ENTITY fhimportdlg.button.import "Importeer">
+<!ENTITY fhimportdlg.label.importerrornone "Niets geselecteerd, niets te importeren.">
+
+<!ENTITY fhimportexportdlg.checkbox.entries "Formulier historie waarden">
+<!ENTITY fhimportexportdlg.label.items "waarden">
+<!ENTITY fhimportexportdlg.radio.entries.all "Alle">
+<!ENTITY fhimportexportdlg.radio.entries.selected "Geselecteerd">
+<!ENTITY fhimportexportdlg.radio.entries.search "Zoekresultaat">
+<!ENTITY fhimportexportdlg.checkbox.editorhistory "Editor historie">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "Editor historie voorkeuren">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor history exceptionlist">
+<!ENTITY fhimportexportdlg.checkbox.regularexpressions "Reguliere expressies">
+<!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "Sneltoetsen">
+<!ENTITY fhimportexportdlg.checkbox.cleanupconfig "Opschoon configuratie">
+
+<!ENTITY fhimportstatusdlg.title "Import status">
+<!ENTITY fhimportstatusdlg.label.total "Totaal">
+<!ENTITY fhimportstatusdlg.label.imported "Geïmporteerd">
+<!ENTITY fhimportstatusdlg.label.identical "Identiek">
+<!ENTITY fhimportstatusdlg.label.error "Fout">

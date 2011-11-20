@@ -4,7 +4,6 @@ ToDo ongoing:
 - Change help-section blog
 
 ToDo:
-- Translate Import/Export/ImportStatus dialogs
 - Perform cleanup each time a form is submitted (FhcFormSaveOverlay)
   + cleanup on submit for whitelisted/blacklisted domains only
 - Make a backup first of deleted history items (in a user-defined location)

@@ -8,7 +8,7 @@
 
 <dialog xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
         id="importStatusDialog"
-        title="Import status"
+        title="&fhimportstatusdlg.title;"
         style=""
         buttons="accept"
         ondialogaccept="return FhcImportStatusDialog.onOkay();"
@@ -31,16 +31,16 @@
       <rows>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <description id="descriptionExport" class="description">Import status</description>
-          <label value="Total" style="text-align: right"/>
-          <label value="Imported" style="text-align: right"/>
-          <label value="Identical" style="text-align: right"/>
-          <label value="Error" style="text-align: right"/>
+          <description id="descriptionExport" class="description">&fhimportstatusdlg.title;:</description>
+          <label value="&fhimportstatusdlg.label.total;" style="text-align: right"/>
+          <label value="&fhimportstatusdlg.label.imported;" style="text-align: right"/>
+          <label value="&fhimportstatusdlg.label.identical;" style="text-align: right"/>
+          <label value="&fhimportstatusdlg.label.error;" style="text-align: right"/>
           <label value="" style="text-align: center;"/>
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
-          <label value="Form history entries" />
+          <label value="&fhimportexportdlg.checkbox.entries;" />
           <label id="total-history" value="-" style="text-align: right"/>
           <label id="import-history" value="-" style="text-align: right"/>
           <label id="skipped-history" value="-" style="text-align: right"/>
@@ -48,7 +48,7 @@
           <image id="status-history"/>
         </row>
         <row align="baseline">
-          <label value="Editor history"/>
+          <label value="&fhimportexportdlg.checkbox.editorhistory;"/>
           <label id="total-multiline" value="-" style="text-align: right"/>
           <label id="import-multiline" value="-" style="text-align: right"/>
           <label id="skipped-multiline" value="-" style="text-align: right"/>
@@ -56,7 +56,7 @@
           <image id="status-multiline"/>
         </row>
         <row align="baseline">
-          <label value="Editor history preferences"/>
+          <label value="&fhimportexportdlg.checkbox.editorhistoryprefs;"/>
           <label id="total-multilinecfg" value="-" style="text-align: right"/>
           <label id="import-multilinecfg" value="-" style="text-align: right"/>
           <label id="skipped-multilinecfg" value="-" style="text-align: right"/>
@@ -64,7 +64,7 @@
           <image id="status-multilinecfg"/>
         </row>
         <row align="baseline">
-          <label value="Editor history exceptionlist"/>
+          <label value="&fhimportexportdlg.checkbox.editorhistoryexceptions;"/>
           <label id="total-multilineexc" value="-" style="text-align: right"/>
           <label id="import-multilineexc" value="-" style="text-align: right"/>
           <label id="skipped-multilineexc" value="-" style="text-align: right"/>
@@ -72,7 +72,7 @@
           <image id="status-multilineexc"/>
         </row>
         <row align="baseline">
-          <label value="Regular expressions"/>
+          <label value="&fhimportexportdlg.checkbox.regularexpressions;"/>
           <label id="total-regexp" value="-" style="text-align: right"/>
           <label id="import-regexp" value="-" style="text-align: right"/>
           <label id="skipped-regexp" value="-" style="text-align: right"/>
@@ -80,7 +80,7 @@
           <image id="status-regexp"/>
         </row>
         <row align="baseline">
-          <label value="Keyboard shortcuts"/>
+          <label value="&fhimportexportdlg.checkbox.keybordshortcuts;"/>
           <label id="total-keys" value="-" style="text-align: right"/>
           <label id="import-keys" value="-" style="text-align: right"/>
           <label id="skipped-keys" value="-" style="text-align: right"/>
@@ -88,7 +88,7 @@
           <image id="status-keys"/>
         </row>
         <row align="baseline">
-          <label value="Cleanup configuration"/>
+          <label value="&fhimportexportdlg.checkbox.cleanupconfig;"/>
           <label id="total-cleanup" value="-" style="text-align: right"/>
           <label id="import-cleanup" value="-" style="text-align: right"/>
           <label id="skipped-cleanup" value="-" style="text-align: right"/>
