@@ -10,6 +10,9 @@ User:
 
 Technical:
 - MaxVersion FF to ...
+- Getting rid of all threads (processNextEvent)
+- Places lookup query is processed in the background (using a timer-thread ) if it takes more than 250ms
+- Places lookup optimization, only query for dates present in the history table (> earliestVisit date)
 - Minor bugfix: formhistorycontrols toolbarmenu or statusbarmenu can be null (fixes: "Error: tbMenu is null")
 - Converted BrowseHistory from HTML-XUL mix (iframe+places.html) into pure XUL
 
