@@ -117,11 +117,11 @@ FhcDbHandler.prototype = {
         fhcDB.addEntry(dummy, dummy);
 
         // wait till db has been created or more than 500ms elapsed
-        var main = Components.classes["@mozilla.org/thread-manager;1"]
-                   .getService().mainThread;
+        //var main = Components.classes["@mozilla.org/thread-manager;1"]
+        //           .getService().mainThread;
         var start = new Date();
         while(!this.formHistoryFile.exists() && ((new Date())-start) < 500) {
-          main.processNextEvent(true);
+          // XXX main.process Next Event(true);
         }
         // cleanup
         fhcDB.removeEntry(dummy, dummy);
@@ -623,6 +623,24 @@ FhcDbHandler.prototype = {
   // Places methods
   //----------------------------------------------------------------------------
 
+  getEarliestVisitDate: function() {
+    var result = 0;
+    var mPlacesDbConn = this._getPlacesDbConnection();
+    try {
+      var statement = mPlacesDbConn.createStatement(
+        "SELECT min(h.visit_date) " +
+        "  FROM moz_historyvisits h ");
+      if (statement.executeStep()) {
+        result = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getEarliestVisitDate:Exception: ' + ex);
+    } finally {
+      statement.finalize();
+    }
+    return result;
+  },
+
   /**
    * Query the (probable) location where the formfield was submitted from.
    *
@@ -679,23 +697,22 @@ FhcDbHandler.prototype = {
 
   /**
    * Add place info to each FormHistory item. Optimized for maximum speed.
+   * If it takes more than 250ms to complete, execution is aborted and this
+   * method needs to be called again to complete.
    * 
    * @param entries {Array of FormHistoryItems}
-   * @param updateGUI {Boolean} if true periodically update GUI
+   * @param startIndex {integer} start adding places at this index
+   * @return {integer} index of last entry where place has been added
    */
-  addVisitedPlaceToEntries: function(entries, updateGUI) {
-    if (updateGUI) {
-      // update gui every n ms (to prevent unresponsive script)
-      const GUI_UPDATE = 15000;
-      var mainThread = Components.classes["@mozilla.org/thread-manager;1"]
-                        .getService(Components.interfaces.nsIThreadManager)
-                        .currentThread;
-      var now = (new Date()).getTime();
-      var nextUpdateGui = now + GUI_UPDATE;
-    }
+  addVisitedPlaceToEntries: function(entries, startIndex) {
+    var timeStart = new Date();
+    var lastHandledEntry = -1;
 
     // visited place max 7 days before
     const TRESHOLD = 1000000*60*60*24*7;
+
+    // get the earliest recorded visit date
+    var earliestVisitDate = this.getEarliestVisitDate();
 
     var mPlacesDbConn = this._getPlacesDbConnection();
     try {
@@ -707,8 +724,8 @@ FhcDbHandler.prototype = {
         " ORDER BY h.visit_date DESC " +
         " LIMIT 1 ");
       var place;
-      for(var ii=0; ii<entries.length; ii++) {
-        if (entries[ii].name != "searchbar-history") {
+      for(var ii=startIndex; ii<entries.length; ii++) {
+        if (entries[ii].name != "searchbar-history" && entries[ii].last > earliestVisitDate) {
           place = [];
           try {
             statement.params["lastUsed"] = entries[ii].last;
@@ -722,14 +739,11 @@ FhcDbHandler.prototype = {
                 );
               }
               entries[ii].place = place;
-
-              //XXX: remove updateGUI when task can run in background thread
-              if (updateGUI) {
-                now = (new Date()).getTime();
-                if (now > nextUpdateGui) {
-                  mainThread.processNextEvent(true);
-                  nextUpdateGui = now + GUI_UPDATE;
-                }
+              
+              if (((new Date())-timeStart) > 250) {
+                // takes too long, abort with current index
+                lastHandledEntry = ii;
+                ii = entries.length;
               }
             }
           } finally {
@@ -739,6 +753,7 @@ FhcDbHandler.prototype = {
       }
     } finally {
       statement.finalize();
+      return lastHandledEntry;
     }
   },
 

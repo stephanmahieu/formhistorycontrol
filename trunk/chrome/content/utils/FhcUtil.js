@@ -1033,7 +1033,7 @@ const FhcUtil = {
   },
 
   _setTimer: function(event, delay) {
-    var timer =  Components.classes["@mozilla.org/timer;1"]
+    var timer = Components.classes["@mozilla.org/timer;1"]
                     .createInstance(Components.interfaces.nsITimer);
     timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   },

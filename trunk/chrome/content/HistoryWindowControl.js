@@ -1188,13 +1188,13 @@ const HistoryWindowControl = {
         if (params.out.importMulticfg) {
           var mlPrefs = data.multilineCfg;
           var count = 0;
-          if (mlPrefs.backupEnabled != null)   {count++; this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
-          if (mlPrefs.saveNewIfOlder != null)  {count++; this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
-          if (mlPrefs.saveNewIfLength != null) {count++; this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
-          if (mlPrefs.deleteIfOlder != null)   {count++; this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
-          if (mlPrefs.exception != null)       {count++; this.preferences.setMultilineException(      mlPrefs.exception);}
-          if (mlPrefs.saveAlways != null)      {count++; this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
-          if (mlPrefs.saveEncrypted != null)   {count++; this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
+          if (mlPrefs.backupEnabled != null)   {count++;this.preferences.setMultilineBackupEnabled(  "true" == mlPrefs.backupEnabled);}
+          if (mlPrefs.saveNewIfOlder != null)  {count++;this.preferences.setMultilineSaveNewIfOlder( mlPrefs.saveNewIfOlder);}
+          if (mlPrefs.saveNewIfLength != null) {count++;this.preferences.setMultilineSaveNewIfLength(mlPrefs.saveNewIfLength);}
+          if (mlPrefs.deleteIfOlder != null)   {count++;this.preferences.setMultilineDeleteIfOlder(  mlPrefs.deleteIfOlder);}
+          if (mlPrefs.exception != null)       {count++;this.preferences.setMultilineException(      mlPrefs.exception);}
+          if (mlPrefs.saveAlways != null)      {count++;this.preferences.setMultilineSaveAlways(     "true" == mlPrefs.saveAlways);}
+          if (mlPrefs.saveEncrypted != null)   {count++;this.preferences.setMultilineSaveEncrypted(  "true" == mlPrefs.saveEncrypted);}
           if (mlPrefs.exceptionlist != null) {
             exResult = this._importExceptions(mlPrefs.exceptionlist);
           }
@@ -1915,14 +1915,14 @@ const HistoryWindowControl = {
     }
     entries = null;
   
+    // add place info
+    this._fillPlaces();
+    
     // apply the initial sortorder
     this.treeView.sortColumn();
 
     // set the new rowcount    
     this._updateCountLabel();
-
-    // add place info
-    this._fillPlaces();
   },
 
   /**
@@ -1932,9 +1932,36 @@ const HistoryWindowControl = {
     var entries = this.treeView.getAll();
     //XXX: remove timing dumps
     //var start = new Date();
-    this.dbHandler.addVisitedPlaceToEntries(entries, true);
+    
+    var handled = this.dbHandler.addVisitedPlaceToEntries(entries, 0);
+    
+    // if it takes too long, handle remainder asynchronously
+    if (handled > 0) {
+      this._fillPlacesAsync(entries, handled);
+    }
+    
     //var end = new Date();
     //dump("Get related placed (sync) took " + (end.getTime() - start.getTime()) + " ms\n\n");
+  },
+
+  _fillPlacesAsync: function(entries, lastHandled) {
+    var event = {
+      notify: function(timer) {
+        var handled = HistoryWindowControl.dbHandler.addVisitedPlaceToEntries(entries, lastHandled+1);
+        if (handled > 0) {
+          HistoryWindowControl._fillPlacesAsync(entries, handled);
+        } else {
+          HistoryWindowControl.treeView.sortColumn();
+        }
+      }
+    }
+    this._setAsyncTimer(event, 5);
+  },
+
+  _setAsyncTimer: function(event, delay) {
+    var timer =  Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+    timer.initWithCallback(event, delay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   },
 
   // If no of items in db and treeview are out of sync, repopulate view

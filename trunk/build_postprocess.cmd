@@ -1,6 +1,6 @@
 @echo off
 
-set XPI_FILE=formhistory_130b1.xpi
+set XPI_FILE=formhistory_130b2.xpi
 
 
 rem --(check if xpi exist)-------------------------------------
