@@ -72,7 +72,7 @@
   </tree>
 
   <groupbox>
-    <caption label="&fhwin.multiline.treeview.column.host.label;"/>
+    <caption label="&fhwin.button.edit.label;"/>
     <hbox align="baseline">
       <label value="&fhwin.multiline.treeview.column.host.label;"/>
       <textbox id="host" flex="1" oninput="FhcMultilineListDialog.initEditButtons()"/>
