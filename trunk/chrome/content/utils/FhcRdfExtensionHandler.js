@@ -42,7 +42,16 @@
  * Dependencies: -
  */
 function FhcRdfExtensionHandler() {
-  this.xmlInstall = this._getXMLFile();
+  if (Components.classes["@mozilla.org/extensions/manager;1"]) {
+    var xmlFile = Components.classes["@mozilla.org/extensions/manager;1"]
+			   .getService(Components.interfaces.nsIExtensionManager)
+			   .getInstallLocation("formhistory@yahoo.com")
+			   .getItemFile("formhistory@yahoo.com", "install.rdf");
+    this.xmlInstall = this._parseXMLFileToDOM(xmlFile);
+  }
+  else {
+    this.xmlInstall = this._getXMLFile();
+  }
 }
 
 
