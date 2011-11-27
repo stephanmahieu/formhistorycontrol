@@ -93,11 +93,11 @@ const FhcSeaMonkeyPreferencesOverlay = {
 
     if (document.getElementById("formfillEnable") == null) {
       // wait till history panel has been loaded
-      //var main = Components.classes["@mozilla.org/thread-manager;1"]
-      //           .getService().mainThread;
+      var main = Components.classes["@mozilla.org/thread-manager;1"]
+                 .getService().mainThread;
       var start = new Date();
       while(document.getElementById("formfillEnable") == null && ((new Date())-start) < 500) {
-        // XXX main.process Next Event(true);
+        main.processNextEvent(true);
       }
     }
 

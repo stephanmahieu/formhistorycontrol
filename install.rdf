@@ -4,9 +4,8 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.0.b2</em:version>
+		<em:version>1.2.10.1</em:version>
 		<em:type>2</em:type>
-		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
 		
 		<!-- Target Application this extension can install into. -->
@@ -106,6 +105,13 @@
 				<em:description>Form Geçmişi Düzenleme (göster, düzenle, sil, temizle, içe/dışa aktar)</em:description>
 			</Description>
 		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>zh-CN</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
+			</Description>
+		</em:localized>
 
 		<!-- UNFINISHED LOCALES WITH DESCRIPTION -->
 		<em:localized>
@@ -134,13 +140,6 @@
 				<em:locale>sk-SK</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Spravovanie údajov histórie formulárov (zobraziť, upraviť, vymazať, exportovať/importovať)</em:description>
-			</Description>
-		</em:localized>
-		<em:localized>
-			<Description>
-				<em:locale>zh-CN</em:locale>
-				<em:name>显示历史</em:name>
-				<em:description>管理历史条目（显示，编辑，删除，导入/导出）</em:description>
 			</Description>
 		</em:localized>
 		

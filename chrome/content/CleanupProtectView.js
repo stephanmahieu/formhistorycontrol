@@ -252,42 +252,46 @@ const CleanupProtectView = {
     var noAdded = 0, noSkipped = 0, noErrors = 0, noTotal = 0;
 
     if (importedEntries != null) {
-      var exist, newCriteria = [];
-      for(var ii=0; ii<importedEntries.length; ii++) {
-        if ("P" == importedEntries[ii].critType) {
-          ++noTotal;
-          exist = false;
-          for(var cc=0; cc<this.data.length; cc++) {
-            exist = this._isCriteriaEqual(importedEntries[ii], this.data[cc]);
-            if (exist) break;
-          }
-          if (!exist) {
-            newCriteria.push(importedEntries[ii]);
-          }
-        }
-      }
-
-      // add new criteria to the database and repopulate the treeview
-      if (0 < newCriteria.length) {
-        // add all new criteria to the database in bulk
-        if (this.dbHandler.bulkAddProtectCriteria(newCriteria)) {
-          noAdded   = newCriteria.length;
-          noSkipped = noTotal - noAdded;
-
-          // rebuild/show all
-          if (noAdded > 0) {
-            this.repopulateView();
+      window.setCursor("wait"); // could be slow
+      try {
+        var exist, newCriteria = [];
+        for(var ii=0; ii<importedEntries.length; ii++) {
+          if ("P" == importedEntries[ii].critType) {
+            ++noTotal;
+            exist = false;
+            for(var cc=0; cc<this.data.length; cc++) {
+              exist = this._isCriteriaEqual(importedEntries[ii], this.data[cc]);
+              if (exist) break;
+            }
+            if (!exist) {
+              newCriteria.push(importedEntries[ii]);
+            }
           }
         }
-      } else {
-        noSkipped = noTotal;
+
+        // add new criteria to the database and repopulate the treeview
+        if (0 < newCriteria.length) {
+          // add all new criteria to the database in bulk
+          if (this.dbHandler.bulkAddProtectCriteria(newCriteria)) {
+            noAdded   = newCriteria.length;
+            noSkipped = noTotal - noAdded;
+
+            // rebuild/show all
+            if (noAdded > 0) {
+              this.repopulateView();
+            }
+          }
+        } else {
+          noSkipped = noTotal;
+        }
+        noErrors = noTotal - (noAdded + noSkipped);
+      } finally {
+        window.setCursor("auto");
       }
-      noErrors = noTotal - (noAdded + noSkipped);
     }
 
     // return the status
     return {
-      noTotal: noTotal,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors
