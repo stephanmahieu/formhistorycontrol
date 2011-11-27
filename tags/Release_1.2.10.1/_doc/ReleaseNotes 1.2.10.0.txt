@@ -1,0 +1,11 @@
+User:
+- Added locales tr zh-CN
+- Fix minimum length inputfield for longer translations in Edit Cleanup/Protect criteria
+
+Technical:
+- MaxVersion FF to 11.0a1
+- Suppress false mozilla validation warning
+
+ToDo:
+- Store multiline fields (remove dump statements); FhcFormSaveOverlay.js
+- Prevent formhistory for specific fields (not related to a domain)
