@@ -139,8 +139,8 @@
 		<em:localized>
 			<Description>
 				<em:locale>zh-CN</em:locale>
-				<em:name>显示历史</em:name>
-				<em:description>管理历史条目（显示，编辑，删除，导入/导出）</em:description>
+				<em:name>Form History Control</em:name>
+				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
 			</Description>
 		</em:localized>
 		
