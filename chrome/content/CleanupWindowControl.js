@@ -184,25 +184,6 @@ const CleanupWindowControl = {
     document.getElementById("mnbarCuDeleteCriteria").setAttribute("disabled", 0 == selectCount);
     return true;
   },
-  
-  /**
-   * Show or hide the cleanup options (activated from dropdown button).
-   */
-  toggleOptions: function() {
-    var visibleBox = document.getElementById('cleanupoptions-visible');
-    var hiddenBox = document.getElementById('cleanupoptions-hidden');
-
-    visibleBox.hidden = !visibleBox.hidden;
-    hiddenBox.hidden = !hiddenBox.hidden;
-    
-    if (!visibleBox.hidden) {
-      // for persistence to work (absence of attr can not be persisted)
-      visibleBox.setAttribute("hidden", "false");      
-    } else {
-      // for persistence to work (absence of attr can not be persisted)
-      hiddenBox.setAttribute("hidden", "false");
-    }
-  },
 
   /**
    * Popup menu-item selected, perform the action indicated by doAction.
@@ -319,6 +300,17 @@ const CleanupWindowControl = {
   },
 
   /**
+   * Export cleanup configuration including criteria to a user specified file.
+   */
+  exportAction: function() {
+    FhcUtil.exportCleanupCriteria(
+      this.bundle.getString("cleanupwindow.prompt.exportdialog.title"),
+      this.dbHandler,
+      this.prefHandler,
+      this.dateHandler);
+  },
+
+  /**
    * Import cleanup configuration from file, only add new entries.
    *
    * @param importedEntries {Array}
@@ -331,37 +323,42 @@ const CleanupWindowControl = {
 
     if (importedEntries != null) {
 
-      var exist, newCriteria = [];
-      for(var ii=0; ii<importedEntries.length; ii++) {
-        if ("C" == importedEntries[ii].critType) {
-          ++noTotal;
-          exist = false;
-          for(var cc=0; cc<this.data.length; cc++) {
-            exist = this._isCriteriaEqual(importedEntries[ii], this.data[cc]);
-            if (exist) break;
-          }
-          if (!exist) {
-            newCriteria.push(importedEntries[ii]);
-          }
-        }
-      }
-
-      // add new criteria to the database and repopulate the treeview
-      if (0 < newCriteria.length) {
-        // add all new criteria to the database in bulk
-        if (this.dbHandler.bulkAddCleanupCriteria(newCriteria)) {
-          noAdded   = newCriteria.length;
-          noSkipped = noTotal - noAdded;
-
-          // rebuild/show all
-          if (noAdded > 0) {
-            this.repopulateView();
+      window.setCursor("wait"); // could be slow
+      try {
+        var exist, newCriteria = [];
+        for(var ii=0; ii<importedEntries.length; ii++) {
+          if ("C" == importedEntries[ii].critType) {
+            ++noTotal;
+            exist = false;
+            for(var cc=0; cc<this.data.length; cc++) {
+              exist = this._isCriteriaEqual(importedEntries[ii], this.data[cc]);
+              if (exist) break;
+            }
+            if (!exist) {
+              newCriteria.push(importedEntries[ii]);
+            }
           }
         }
-      } else {
-        noSkipped = noTotal;
+
+        // add new criteria to the database and repopulate the treeview
+        if (0 < newCriteria.length) {
+          // add all new criteria to the database in bulk
+          if (this.dbHandler.bulkAddCleanupCriteria(newCriteria)) {
+            noAdded   = newCriteria.length;
+            noSkipped = noTotal - noAdded;
+
+            // rebuild/show all
+            if (noAdded > 0) {
+              this.repopulateView();
+            }
+          }
+        } else {
+          noSkipped = noTotal;
+        }
+        noErrors = noTotal - (noAdded + noSkipped);
+      } finally {
+        window.setCursor("auto");
       }
-      noErrors = noTotal - (noAdded + noSkipped);
     }
     
     // preference might change even if no entries were imported
@@ -369,7 +366,6 @@ const CleanupWindowControl = {
 
     // return the status
     return {
-      noTotal: noTotal,
       noAdded: noAdded,
       noSkipped: noSkipped,
       noErrors: noErrors

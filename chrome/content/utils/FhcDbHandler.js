@@ -117,11 +117,11 @@ FhcDbHandler.prototype = {
         fhcDB.addEntry(dummy, dummy);
 
         // wait till db has been created or more than 500ms elapsed
-        //var main = Components.classes["@mozilla.org/thread-manager;1"]
-        //           .getService().mainThread;
+        var main = Components.classes["@mozilla.org/thread-manager;1"]
+                   .getService().mainThread;
         var start = new Date();
         while(!this.formHistoryFile.exists() && ((new Date())-start) < 500) {
-          // XXX main.process Next Event(true);
+          main.processNextEvent(true);
         }
         // cleanup
         fhcDB.removeEntry(dummy, dummy);
@@ -178,41 +178,42 @@ FhcDbHandler.prototype = {
    * @param  newEntry {Object}
    *         a new formhistory object to be added to the database
    *
+   * @param  newId {Integer}
+   *         the first available database id (primary key), if null the
+   *         next available Id will be queried from the database
+   *
    * @return {Integer}
    *         the next database id (primary key) of the newly added entry
    */
-  addEntry: function(newEntry) {
+  addEntry: function(newEntry, newId) {
     var mDBConn = this._getHistDbConnection(true);
 
-    var result = false, newId = null, statement;
+    // determine new database index (lastIndex + 1)
+    if (undefined == newId) {
+      newId = this._getLastId(mDBConn);
+      if (0 > newId) {
+        this._endHistDbConnection(mDBConn, result);
+        return null;
+      }
+      newId++;
+    }
+    
+    var result = false, statement;
     try {
       statement = mDBConn.createStatement(
           "INSERT" +
-          "  INTO moz_formhistory (fieldname, value, timesUsed, firstUsed, lastUsed) " +
-          "VALUES (:name, :value, :used, :first, :last)");
+          "  INTO moz_formhistory (id, fieldname, value, timesUsed, firstUsed, lastUsed) " +
+          "VALUES (:id, :name, :value, :used, :first, :last)");
+      statement.params.id    = newId;
       statement.params.name  = newEntry.name;
       statement.params.value = newEntry.value;
       statement.params.used  = newEntry.used;
       statement.params.first = newEntry.first;
       statement.params.last  = newEntry.last;
       result = this._executeStatement(statement);
-      
-      if (result) {
-        try {
-          statement = mDBConn.createStatement(
-            "SELECT last_insert_rowid()" +
-            "  FROM moz_formhistory");
-          statement.executeStep();
-          newId = statement.getInt64(0);
-        } catch(e) {
-          result = false;
-        }
-      }
-      
     } finally {
       this._endHistDbConnection(mDBConn, result);
     }
-
     return result ? newId : null;
   },
   
@@ -224,19 +225,28 @@ FhcDbHandler.prototype = {
    *         an array of new formhistory entry objects to be added to the
    *         database
    *
-   * @return {Boolean}
-   *         whether or not updating succeeded
+   * @return {Integer}
+   *         the database id (primary key) of the last entry added
    */
   bulkAddEntries: function(newEntries) {
     var mDBConn = this._getHistDbConnection(true);
 
+    // determine new database index (lastIndex + 1)
+    var newId = this._getLastId(mDBConn);
+    if (0 > newId) {
+      this._endHistDbConnection(mDBConn, result);
+      return null;
+    }
+    
     var result = true, statement;
     try {
       statement = mDBConn.createStatement(
           "INSERT " +
-          "  INTO moz_formhistory (fieldname, value, timesUsed, firstUsed, lastUsed) " +
-          "VALUES (:name, :value, :used, :first, :last)");
+          "  INTO moz_formhistory (id, fieldname, value, timesUsed, firstUsed, lastUsed) " +
+          "VALUES (:id, :name, :value, :used, :first, :last)");
       for(var ii=0; result && ii < newEntries.length; ii++) {
+        newId++;
+        statement.params.id    = newId;
         statement.params.name  = newEntries[ii].name;
         statement.params.value = newEntries[ii].value;
         statement.params.used  = newEntries[ii].used;
@@ -623,24 +633,6 @@ FhcDbHandler.prototype = {
   // Places methods
   //----------------------------------------------------------------------------
 
-  getEarliestVisitDate: function() {
-    var result = 0;
-    var mPlacesDbConn = this._getPlacesDbConnection();
-    try {
-      var statement = mPlacesDbConn.createStatement(
-        "SELECT min(h.visit_date) " +
-        "  FROM moz_historyvisits h ");
-      if (statement.executeStep()) {
-        result = statement.getInt64(0);
-      }
-    } catch(ex) {
-      dump('getEarliestVisitDate:Exception: ' + ex);
-    } finally {
-      statement.finalize();
-    }
-    return result;
-  },
-
   /**
    * Query the (probable) location where the formfield was submitted from.
    *
@@ -697,22 +689,23 @@ FhcDbHandler.prototype = {
 
   /**
    * Add place info to each FormHistory item. Optimized for maximum speed.
-   * If it takes more than 250ms to complete, execution is aborted and this
-   * method needs to be called again to complete.
    * 
    * @param entries {Array of FormHistoryItems}
-   * @param startIndex {integer} start adding places at this index
-   * @return {integer} index of last entry where place has been added
+   * @param updateGUI {Boolean} if true periodically update GUI
    */
-  addVisitedPlaceToEntries: function(entries, startIndex) {
-    var timeStart = new Date();
-    var lastHandledEntry = -1;
+  addVisitedPlaceToEntries: function(entries, updateGUI) {
+    if (updateGUI) {
+      // update gui every n ms (to prevent unresponsive script)
+      const GUI_UPDATE = 15000;
+      var mainThread = Components.classes["@mozilla.org/thread-manager;1"]
+                        .getService(Components.interfaces.nsIThreadManager)
+                        .currentThread;
+      var now = (new Date()).getTime();
+      var nextUpdateGui = now + GUI_UPDATE;
+    }
 
     // visited place max 7 days before
     const TRESHOLD = 1000000*60*60*24*7;
-
-    // get the earliest recorded visit date
-    var earliestVisitDate = this.getEarliestVisitDate();
 
     var mPlacesDbConn = this._getPlacesDbConnection();
     try {
@@ -724,8 +717,8 @@ FhcDbHandler.prototype = {
         " ORDER BY h.visit_date DESC " +
         " LIMIT 1 ");
       var place;
-      for(var ii=startIndex; ii<entries.length; ii++) {
-        if (entries[ii].name != "searchbar-history" && entries[ii].last > earliestVisitDate) {
+      for(var ii=0; ii<entries.length; ii++) {
+        if (entries[ii].name != "searchbar-history") {
           place = [];
           try {
             statement.params["lastUsed"] = entries[ii].last;
@@ -739,11 +732,14 @@ FhcDbHandler.prototype = {
                 );
               }
               entries[ii].place = place;
-              
-              if (((new Date())-timeStart) > 250) {
-                // takes too long, abort with current index
-                lastHandledEntry = ii;
-                ii = entries.length;
+
+              //XXX: remove updateGUI when task can run in background thread
+              if (updateGUI) {
+                now = (new Date()).getTime();
+                if (now > nextUpdateGui) {
+                  mainThread.processNextEvent(true);
+                  nextUpdateGui = now + GUI_UPDATE;
+                }
               }
             }
           } finally {
@@ -753,7 +749,6 @@ FhcDbHandler.prototype = {
       }
     } finally {
       statement.finalize();
-      return lastHandledEntry;
     }
   },
 
@@ -1312,7 +1307,7 @@ FhcDbHandler.prototype = {
   },
 
   /**
-   * Update a regular expression in the database, return true on succes.
+   * Update a protect-criteria in the database, return true on succes.
    *
    * @param  regExp {Object}
    *         the regExp object to be updated
@@ -1516,713 +1511,32 @@ FhcDbHandler.prototype = {
 
 
   //----------------------------------------------------------------------------
-  // Multiline methods
-  //----------------------------------------------------------------------------
-
-  /**
-   * Save or update a multiline item.
-   * 
-   * @param  item {Object}
-   *         the multiline objects save or update
-   * 
-   * @param  saveNewIfOlder {Integer}
-   *         maximum time in minutes after which a new version is created
-   *         instead of updating a previous saved version
-   * 
-   * @param  saveNewIfLength {Integer}
-   *         maximum number of change in content-length after which a new
-   *         version is created instead of updating a previous saved version
-   */
-  saveOrUpdateMultilineItem: function(item, saveNewIfOlder, saveNewIfLength) {
-    var mDBConn = this._getDbCleanupConnection();
-    
-    try {
-      // check if item exist
-      var existingItem = this._findMatchingItem(mDBConn, item);
-      var doUpdate = false;
-      if (existingItem != null) {
-        // IF only a small change in content-length AND lastupdate was recent
-        // THEN update the existing version
-        // ELSE create a new version
-        if ((Math.abs(item.content.length - existingItem.content.length) < saveNewIfLength) 
-             && ((item.lastsaved - existingItem.lastsaved) < (saveNewIfOlder * 60 * 1000 * 1000))) {
-          doUpdate = true;
-        }
-      }
-      
-      if (doUpdate) {
-        this._updateMultilineItem(mDBConn, existingItem, item.content, item.lastsaved);
-      } else {
-        this._addMultilineItem(mDBConn, item);
-      }
-    } finally {
-      this._closeDbConnection(mDBConn, true);
-    }
-  },
-
-
-//  /**
-//   * Count the number of specific multiline items.
-//   * 
-//   * @param  mDBConnection {mozIStorageConnection}
-//   *         the database connection
-//   *
-//   * @param  item {Object}
-//   *         the multiline objects find
-//   * 
-//   * @return {Boolean}
-//   *         whether or not adding succeeded
-//   */
-//  _countMultilineItem: function(mDBConnection, item) {
-//    var count = 0, statement;
-//    try {
-//      statement = mDBConnection.createStatement(
-//          "SELECT count(*)" +
-//          "  FROM multiline" +
-//          " WHERE url    = :url" +
-//          "   AND type   = :type" +
-//          "   AND id     = :id" +
-//          "   AND name   = :name" +
-//          "   AND formid = :formid");
-//      statement.params.url    = item.url;
-//      statement.params.type   = item.type;
-//      statement.params.id     = item.id;
-//      statement.params.name   = item.name;
-//      statement.params.formid = item.formid;
-//      if (statement.executeStep()) {
-//        count = statement.getInt64(0);
-//      }
-//    } catch(ex) {
-//      dump('_countMultilineItem:Exception: ' + ex);
-//    } finally {
-//      this._closeStatement(statement);
-//      return count;
-//    }
-//  },
-
-  /**
-   * Find the last saved item matching the items field properties.
-   * 
-   * @param  mDBConnection {mozIStorageConnection}
-   *         the database connection
-   *
-   * @param  item {Object}
-   *         the multiline objects find
-   * 
-   * @return {Object}
-   *         item if found, null otherwise
-   */
-  _findMatchingItem:function(mDBConnection, item) {
-    var statement, itemFound = null;
-    try {
-      statement = mDBConnection.createStatement(
-          "SELECT id, name, type, formid," +
-          "       content, host, url," +
-          "       firstsaved, lastsaved" +
-          "  FROM multiline" +
-          " WHERE url    = :url" +
-          "   AND type   = :type" +
-          "   AND id     = :id" +
-          "   AND name   = :name" +
-          "   AND formid = :formid" +
-          " ORDER BY lastsaved DESC" +
-          " LIMIT 1");
-      statement.params.url    = item.url;
-      statement.params.type   = item.type;
-      statement.params.id     = item.id;
-      statement.params.name   = item.name;
-      statement.params.formid = item.formid;
-      if (statement.executeStep()) {
-        itemFound = {
-          id:         statement.row.id,
-          name:       statement.row.name,
-          type:       statement.row.type,
-          formid:     statement.row.formid,
-          content:    statement.row.content,
-          host:       statement.row.host,
-          url:        statement.row.url,
-          firstsaved: statement.row.firstsaved,
-          lastsaved:  statement.row.lastsaved
-        }
-      }
-    } catch(ex) {
-      dump('_findMatchingItem:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      return itemFound;
-    }
-  },
-
-  /**
-   * Add a multiline item.
-   * 
-   * @param  mDBConnection {mozIStorageConnection}
-   *         the database connection
-   *
-   * @param  item {Object}
-   *         the multiline object to add
-   * 
-   * @return {Boolean}
-   *         whether or not adding succeeded
-   */
-  _addMultilineItem: function(mDBConnection, item) {
-    var result = false, statement;
-    try {
-      statement = mDBConnection.createStatement(
-        "INSERT INTO multiline (" +
-                "id, name, type, formid, content, " +
-                "host, url, firstsaved, lastsaved) " +
-        "VALUES (:id, :name, :type, :formid, :content, " +
-                ":host, :url, :firstsaved, :lastsaved)");
-      statement.params.id         = item.id;
-      statement.params.name       = item.name;
-      statement.params.type       = item.type;
-      statement.params.formid     = item.formid;
-      statement.params.content    = item.content;
-      statement.params.host       = item.host;
-      statement.params.url        = item.url;
-      statement.params.firstsaved = item.lastsaved; // !!
-      statement.params.lastsaved  = item.lastsaved;
-      result = this._executeStatement(statement);
-    } catch(ex) {
-      dump('_addMultilineItem:Exception: ' + ex);
-    } finally {
-      return result;
-    }
-  },
-
-  /**
-   * Update a multiline item.
-   * 
-   * @param  mDBConnection {mozIStorageConnection}
-   *         the database connection
-   *
-   * @param  item {Object}
-   *         the multiline object to update
-   * 
-   * @param  newContent {String}
-   *         the updated text content
-   * 
-   * @param  newLastSaved {uSeconds}
-   *         the updated lastsaved date in microseconds
-   * 
-   * @return {Boolean}
-   *         whether or not adding succeeded
-   */
-  _updateMultilineItem: function(mDBConnection, item, newContent, newLastSaved) {
-    var result = false, statement;
-    try {
-      statement = mDBConnection.createStatement(
-        "UPDATE multiline" +
-        "   SET content    = :newcontent," +
-        "       lastsaved  = :newlastsaved" +
-        " WHERE url        = :url" +
-        "   AND type       = :type" +
-        "   AND id         = :id" +
-        "   AND name       = :name" +
-        "   AND formid     = :formid" +
-        "   AND firstsaved = :firstsaved" +
-        "   AND lastsaved  = :lastsaved");
-      statement.params.newcontent   = newContent;
-      statement.params.newlastsaved = newLastSaved;
-      statement.params.url          = item.url;
-      statement.params.type         = item.type;
-      statement.params.id           = item.id;
-      statement.params.name         = item.name;
-      statement.params.formid       = item.formid;
-      statement.params.firstsaved   = item.firstsaved;
-      statement.params.lastsaved    = item.lastsaved;
-      result = this._executeStatement(statement);
-    } catch(ex) {
-      dump('_updateMultilineItem:Exception: ' + ex);
-    } finally {
-      return result;
-    }
-  },
-
-  /**
-   * Delete multiline items from the database, return true on succes.
-   *
-   * @param  items {Array}
-   *         an array of existing multiline item objects to be deleted from
-   *         the database
-   *
-   * @return {Boolean}
-   *         whether or not deleting succeeded
-   */
-  deleteMultiline: function(items) {
-    var mDBConn = this._getDbCleanupConnection(true);
-
-    var result = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-        "DELETE" +
-        "  FROM multiline" +
-        " WHERE url        = :url" +
-        "   AND type       = :type" +
-        "   AND id         = :id" +
-        "   AND name       = :name" +
-        "   AND formid     = :formid" +
-        "   AND firstsaved = :firstsaved" +
-        "   AND lastsaved  = :lastsaved");
-      for (var it=0; it < items.length; it++) {
-        statement.params.url        = items[it].url;
-        statement.params.type       = items[it].type;
-        statement.params.id         = items[it].id;
-        statement.params.name       = items[it].name;
-        statement.params.formid     = items[it].formid;
-        statement.params.firstsaved = items[it].firstsaved;
-        statement.params.lastsaved  = items[it].lastsaved;
-        result = this._executeReusableStatement(statement);
-        if (!result) break;
-      }
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-
-  /**
-   * Return the total number of multiline entries in the database.
-   *
-   * @return {Integer}
-   *         the total number of multiline entries in the database
-   */
-  getNoOfMultilineItems: function() {
-    var mDBConn = this._getDbCleanupConnection();
-    
-    var count = 0, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT count(*)" +
-          "  FROM multiline");
-      if (statement.executeStep()) {
-        count = statement.getInt64(0);
-      }
-    } catch(ex) {
-      dump('getNoOfMultilineItems:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-    }
-    return count;
-  },
-  
-  /**
-   * Query all multiline items from the cleanup database.
-   *
-   * @return {Array}
-   *         an array of all multiline items from the database table
-   */
-  getAllMultilineItems: function() {
-    var mDBConn = this._getDbCleanupConnection();
-    if (null == mDBConn) {
-      // Major problem with cleanupDb
-      return null;
-    }
-    var result = [];
-    var resultOk = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT id, name, type, formid," +
-          "       content, host, url," +
-          "       firstsaved, lastsaved" +
-          "  FROM multiline");
-        
-      while (statement.executeStep()) {
-        result.push({
-          id:         statement.row.id,
-          name:       statement.row.name,
-          type:       statement.row.type,
-          formid:     statement.row.formid,
-          content:    statement.row.content,
-          host:       statement.row.host,
-          url:        statement.row.url,
-          firstsaved: statement.row.firstsaved,
-          lastsaved:  statement.row.lastsaved
-        });
-      }
-      resultOk = true;
-    } catch(ex) {
-      dump('getAllMultilineItems:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, resultOk);
-    }
-    return result;
-  },
-
-  /**
-   * Add new multiline items to the database.
-   *
-   * @param  newMultiline {Array}
-   *         an array of new multiline objects to be added to the database
-   *
-   * @return {Boolean}
-   *         whether or not bulk adding succeeded
-   */
-  bulkAddMultilineItems: function(newMultiline) {
-    var mDBConn = this._getDbCleanupConnection(true);
-
-    var result = true, statement;
-    try {
-      statement = mDBConn.createStatement(
-        "INSERT INTO multiline (" +
-                "id, name, type, formid, content, " +
-                "host, url, firstsaved, lastsaved) " +
-        "VALUES (:id, :name, :type, :formid, :content, " +
-                ":host, :url, :firstsaved, :lastsaved)");
-      for(var ii=0; result && ii < newMultiline.length; ii++) {
-        statement.params.id         = newMultiline[ii].id;
-        statement.params.name       = newMultiline[ii].name;
-        statement.params.type       = newMultiline[ii].type;
-        statement.params.formid     = newMultiline[ii].formid;
-        statement.params.content    = newMultiline[ii].content;
-        statement.params.host       = newMultiline[ii].host;
-        statement.params.url        = newMultiline[ii].url;
-        statement.params.firstsaved = newMultiline[ii].firstsaved;
-        statement.params.lastsaved  = newMultiline[ii].lastsaved;
-        result = this._executeReusableStatement(statement);
-      }
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-  
-  /**
-   * Delete all multiline items with lastsaved older than the number
-   * of provided minutes.
-   * 
-   * @param deleteIfOlder {Integer}
-   *        the lastsaved treshold in uSeconds, anything older will be deleted
-   *
-   * @return {Integer}
-   *         total number of deleted items
-   */
-  deleteMultilineItemsOlder: function(deleteIfOlder) {
-    var mDBConn = this._getDbCleanupConnection(false);
-
-    var result = false, count = 0, statement;
-    try {
-      statement = mDBConn.createStatement(
-        "SELECT count(*)" +
-        "  FROM multiline" +
-        " WHERE lastsaved < :lastsaved");
-      statement.params.lastsaved = deleteIfOlder;
-      if (statement.executeStep()) {
-        count = statement.getInt64(0);
-      }
-    } finally {
-      this._closeStatement(statement);
-    }
-    
-    if (count > 0) {
-      try {
-        statement = mDBConn.createStatement(
-          "DELETE" +
-          "  FROM multiline" +
-          " WHERE lastsaved < :lastsaved");
-        statement.params.lastsaved = deleteIfOlder;
-        result = this._executeStatement(statement);
-      } finally {
-        this._closeDbConnection(mDBConn, result);
-      }
-    }
-    return result ? count : 0;
-  },
-
-  /**
-   * Find the last 10 saved items matching the given properties.
-   * 
-   * @param  itemprops {Object}
-   *         the multiline properties to query
-   * 
-   * @return {Array}
-   *         array of items found
-   */
-  findLastsavedItems: function(itemprops) {
-    var mDBConn = this._getDbCleanupConnection(false);
-    var statement, result = [];
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT id, name, type, formid," +
-          "       content, host, url," +
-          "       firstsaved, lastsaved" +
-          "  FROM multiline" +
-          " WHERE host   = :host" +
-          "   AND type   = :type" +
-          "   AND id     = :id" +
-          "   AND name   = :name" +
-          "   AND formid = :formid" +
-          " ORDER BY lastsaved DESC" +
-          " LIMIT 10");
-      statement.params.host   = itemprops.host;
-      statement.params.type   = itemprops.type;
-      statement.params.id     = itemprops.id;
-      statement.params.name   = itemprops.name;
-      statement.params.formid = itemprops.formid;
-      while (statement.executeStep()) {
-        result.push({
-          id:         statement.row.id,
-          name:       statement.row.name,
-          type:       statement.row.type,
-          formid:     statement.row.formid,
-          content:    statement.row.content,
-          host:       statement.row.host,
-          url:        statement.row.url,
-          firstsaved: statement.row.firstsaved,
-          lastsaved:  statement.row.lastsaved
-        })
-      }
-    } catch(ex) {
-      dump('findLastsavedItems:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-      return result;
-    }
-  },
-
-
-  
-  //----------------------------------------------------------------------------
-  // MultilineException methods
-  //----------------------------------------------------------------------------
-
-  /**
-   * Query all multiline items from the cleanup database.
-   *
-   * @return {Array}
-   *         an array of all multiline items from the database table
-   */
-  getAllMultilineExceptions: function() {
-    var mDBConn = this._getDbCleanupConnection();
-    if (null == mDBConn) {
-      // Major problem with cleanupDb
-      return null;
-    }
-    var result = [];
-    var resultOk = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT id, host" +
-          "  FROM mlexceptions");
-        
-      while (statement.executeStep()) {
-        result.push({
-          id:   statement.row.id,
-          host: statement.row.host
-        });
-      }
-      resultOk = true;
-    } catch(ex) {
-      dump('getAllMultilineExceptions:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, resultOk);
-    }
-    return result;
-  },
-  
-  /**
-   * Add a new multiline exception to the database,
-   * set the id of the inserted object to the new database Id on succes.
-   * 
-   * See also http://www.sqlite.org/lang_createtable.html#rowid
-   *
-   * @param  newException {Object}
-   *         a new exception object to be added to the database
-   *
-   * @return {Boolean}
-   *         whether or not adding succeeded
-   */
-  addMultilineException: function(newException) {
-    var mDBConn = this._getDbCleanupConnection(true);
-    var result = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "INSERT" +
-          "  INTO mlexceptions (host) " +
-          "VALUES (:host)");
-      statement.params.host = newException.host;
-      result = this._executeStatement(statement);
-      
-      if (result) {
-        statement = mDBConn.createStatement(
-          "SELECT last_insert_rowid()" +
-          "  FROM mlexceptions");
-        statement.executeStep();
-        var newId = statement.getInt64(0);
-        
-        newException.id = newId;
-      }
-      
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-  
-  /**
-   * Add new multiline exception items to the database.
-   *
-   * @param  newExceptions {Array}
-   *         an array of new multiline exception objects to be added to the database
-   *
-   * @return {Boolean}
-   *         whether or not bulk adding succeeded
-   */
-  bulkAddMultilineExceptions: function(newExceptions) {
-    var mDBConn = this._getDbCleanupConnection(true);
-
-    var result = true, statement;
-    try {
-      statement = mDBConn.createStatement(
-        "INSERT INTO mlexceptions " +
-                "(host) " +
-        "VALUES (:host)");
-      for(var ii=0; result && ii < newExceptions.length; ii++) {
-        statement.params.host = newExceptions[ii].host;
-        result = this._executeReusableStatement(statement);
-      }
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-  
-  /**
-   * Update a MultilineException in the database, return true on succes.
-   *
-   * @param  updatedException {Object}
-   *         the MultilineException object to be updated
-   *
-   * @return {Boolean}
-   *         whether or not updating succeeded
-   */
-  updateMultilineException: function(updatedException) {
-    var mDBConn = this._getDbCleanupConnection(true);
-    var result = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-        "UPDATE mlexceptions" +
-        "   SET host = :host" +
-        " WHERE id   = :id");
-      statement.params.id   = updatedException.id;
-      statement.params.host = updatedException.host;
-      result = this._executeStatement(statement);
-    } catch(ex) {
-      dump('updateMultilineException:Exception: ' + ex);
-    } finally {
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-  
-  /**
-   * Delete 1 or more MultilineExceptions from the database,
-   * return true on succes.
-   *
-   * @param  delExceptions {Array}
-   *         array of MultilineException objects to delete
-   *
-   * @return {Boolean}
-   *         whether or not deleting succeeded
-   */
-  deleteMultilineExceptions: function(delExceptions) {
-    var mDBConn = this._getDbCleanupConnection(true);
-
-    var result = false, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "DELETE" +
-          "  FROM mlexceptions" +
-          " WHERE id = :id");
-      for (var it=0; it < delExceptions.length; it++) {
-        statement.params.id = delExceptions[it].id;
-        result = this._executeReusableStatement(statement);
-        if (!result) break;
-      }
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, result);
-    }
-    return result;
-  },
-  
-  /**
-   * Try to find a MultilineException for host.
-   *
-   * @param  host {String}
-   *         the host to find
-   *         
-   * @return {Boolean}
-   *         true if MultilineException exist for host
-   */
-  hasMultilineException: function(host) {
-    var mDBConn = this._getDbCleanupConnection();
-
-    var count = 0, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT count(*)" +
-          "  FROM mlexceptions" +
-          " WHERE host = :host");
-      statement.params.host = host;
-      if (statement.executeStep()) {
-        count = statement.getInt64(0);
-      }
-    } catch(ex) {
-      dump('getNoOfCustomsaveItems:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-    }
-    return count > 0;
-  },
-  
-
-
-  //----------------------------------------------------------------------------
-  // Customsave methods
-  //----------------------------------------------------------------------------
-
-  /**
-   * Return the total number of customsave entries in the database.
-   *
-   * @return {Integer}
-   *         the total number of customsave entries in the database
-   */
-  getNoOfCustomsaveItems: function() {
-    var mDBConn = this._getDbCleanupConnection();
-
-    var count = 0, statement;
-    try {
-      statement = mDBConn.createStatement(
-          "SELECT count(*)" +
-          "  FROM customsave");
-      if (statement.executeStep()) {
-        count = statement.getInt64(0);
-      }
-    } catch(ex) {
-      dump('getNoOfCustomsaveItems:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-    }
-    return count;
-  },
-
-
-
-  //----------------------------------------------------------------------------
   // ID Helper methods
   //----------------------------------------------------------------------------
+
+  /**
+   * Query the last used formhistory database id (primary key).
+   *
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @return {Integer}
+   *         the last used formhistory database id or -1 if db is empty
+   */
+  _getLastId: function(mDBConnection) {
+    var lastId = -1;
+    var statement;
+    try {
+      statement = mDBConnection.createStatement("SELECT max(id) FROM moz_formhistory");
+      statement.executeStep();
+      lastId = statement.getInt64(0);
+    } catch(ex) {
+      dump('_getLastId:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+    }
+    return lastId;
+  },
 
   /**
    * Query the last used cleanupcriteria database id (primary key).
@@ -2404,16 +1718,16 @@ FhcDbHandler.prototype = {
     try {
       mDBConnection.executeSimpleSQL(
         "CREATE TABLE IF NOT EXISTS criteria " +
-        "(id          INTEGER," +
-        " fieldname   TEXT," +
-        " value       TEXT," +
-        " nameExact   INTEGER," +
-        " nameCase    INTEGER," +
-        " valueExact  INTEGER," +
-        " valueCase   INTEGER," +
-        " nameRegex   INTEGER DEFAULT 0," +
-        " valueRegex  INTEGER DEFAULT 0," +
-        " critType    TEXT DEFAULT 'C'," +
+        "(id INTEGER," +
+        " fieldname TEXT," +
+        " value TEXT," +
+        " nameExact INTEGER," +
+        " nameCase INTEGER," +
+        " valueExact INTEGER," +
+        " valueCase INTEGER," +
+        " nameRegex INTEGER DEFAULT 0," +
+        " valueRegex INTEGER DEFAULT 0," +
+        " critType TEXT DEFAULT 'C'," +
         " description TEXT)"
       );
     }
@@ -2472,74 +1786,6 @@ FhcDbHandler.prototype = {
       }
       catch(e) {
         dump("Migrate: Adding table regexp failed!\n\n" + e);
-        return false;
-      }
-    }
-    // check multiline table (new since 1.3.0)
-    colCount = this._getNoOfColumns(mDBConnection, "multiline");
-    if (0 == colCount) {
-      try {
-        mDBConnection.executeSimpleSQL(
-          "CREATE TABLE IF NOT EXISTS multiline " +
-          "(id          TEXT," +
-          " type        TEXT," +
-          " formid      TEXT," +
-          " name        TEXT," +
-          " content     TEXT," +
-          " host        TEXT," +
-          " url         TEXT," +
-          " firstsaved  INTEGER," +
-          " lastsaved   INTEGER)"
-        );
-        mDBConnection.executeSimpleSQL(
-          "CREATE INDEX IF NOT EXISTS multiline_index_lastsaved " +
-          "ON multiline (lastsaved DESC)"
-        );
-      }
-      catch(e) {
-        dump("Migrate: Adding table multiline failed!\n\n" + e);
-        return false;
-      }
-    }
-    // check multiline exceptions table (new since 1.3.0)
-    colCount = this._getNoOfColumns(mDBConnection, "mlexceptions");
-    if (0 == colCount) {
-      try {
-        mDBConnection.executeSimpleSQL(
-          "CREATE TABLE IF NOT EXISTS mlexceptions " +
-          "(id   INTEGER PRIMARY KEY ASC," +
-          " host TEXT    UNIQUE NOT NULL)"
-        );
-        mDBConnection.executeSimpleSQL(
-          "CREATE INDEX IF NOT EXISTS mlexceptions_index_host " +
-          "ON mlexceptions (host ASC)"
-        );
-      }
-      catch(e) {
-        dump("Migrate: Adding table mlexceptions failed!\n\n" + e);
-        return false;
-      }
-    }
-    // check customsave table (new since 1.3.0)
-    colCount = this._getNoOfColumns(mDBConnection, "customsave");
-    if (0 == colCount) {
-      try {
-        mDBConnection.executeSimpleSQL(
-          "CREATE TABLE IF NOT EXISTS customsave " +
-          "(url         TEXT," +
-          " fieldname   TEXT," +
-          " value       TEXT," +
-          " urlRegex    INTEGER DEFAULT 0," +
-          " nameExact   INTEGER DEFAULT 0," +
-          " nameCase    INTEGER DEFAULT 0," +
-          " nameRegex   INTEGER DEFAULT 0," +
-          " valueExact  INTEGER DEFAULT 0," +
-          " valueCase   INTEGER DEFAULT 0," +
-          " valueRegex  INTEGER DEFAULT 0)"
-        );
-      }
-      catch(e) {
-        dump("Migrate: Adding table customsave failed!\n\n" + e);
         return false;
       }
     }
@@ -2711,7 +1957,7 @@ FhcDbHandler.prototype = {
   },
   
   /**
-   * Reset and finalize a statement.
+   * Reset and finalize a statment.
    *
    * @param statement {String}
    *        the SQL reusable statement

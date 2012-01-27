@@ -26,12 +26,12 @@
                   oncommand="FhcShowDialog.doShowFormHistoryControl();" />
         </hbox>
         <hbox>
-          <checkbox class="indent" flex="1" style="padding-top:0"
+          <checkbox class="indent" flex="1" style="padding-top:0" hidden="true"
                     id="preferencesFormHistoryControlCheckboxManage"
                     preference="extensions.formhistory.manageFormhistoryByFHC"
                     label="&fhprefovl.privacy.checkbox.managebyfhc.label;"
                     tooltiptext="&fhprefovl.privacy.checkbox.managebyfhc.tooltip;"/>
-          <button id="preferencesFormHistoryControlSettingsButton"
+          <button id="preferencesFormHistoryControlSettingsButton" hidden="true"
                   label="&fhprefovl.privacy.button.rememberoptions.label;..."
                   oncommand="alert('not implemented')" />
         </hbox>

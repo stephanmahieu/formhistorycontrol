@@ -46,7 +46,6 @@ toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='neversave'] {
 .fh_menuitem_deletethisvalue {list-style-image: url('delete.png')}
 .fh_menuitem_deletethisfield {list-style-image: url('delete.png')}
 .fh_menuitem_managethisfield {list-style-image: url('edit.png')}
-.fh_menuitem_restorethisfield{list-style-image: url('restore.png')}
 
 .fh_menuitem_fillmostrecent  {list-style-image: url('filltextfield.png')}
 .fh_menuitem_fillmostused    {list-style-image: url('filltextfield.png')}
@@ -63,8 +62,6 @@ toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='neversave'] {
 .fh_menuitem_delete          {list-style-image: url('delete.png')}
 .fh_menuitem_deletename      {list-style-image: url('deleteallwith.png')}
 .fh_menuitem_deletevalue     {list-style-image: url('deleteallwith.png')}
-
-.fh_menuitem_copyclip        {list-style-image: url('copy.png')}
 
 .fh_menuitem_selectall       {list-style-image: url('selectall.png')}
 .fh_menuitem_selectnone      {list-style-image: url('selectnone.png')}
