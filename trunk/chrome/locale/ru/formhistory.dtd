@@ -27,7 +27,7 @@
 <!ENTITY fhwin.treeview.column.description.label "Описание">
 <!ENTITY fhwin.treeview.column.name.label "Название поля">
 <!ENTITY fhwin.treeview.column.value.label "Значение поля">
-<!ENTITY fhwin.treeview.column.used.label "Обращений">
+<!ENTITY fhwin.treeview.column.used.label "К-во обращений">
 <!ENTITY fhwin.treeview.column.first.label "Создание">
 <!ENTITY fhwin.treeview.column.last.label "Последнее обращение">
 <!ENTITY fhwin.treeview.column.agefirst.label "Возраст">
@@ -57,9 +57,9 @@
 <!ENTITY fhwin.button.cleanup.label "Очистить">
 <!ENTITY fhwin.button.cleanup.accesskey "о">
 <!ENTITY fhwin.button.add.label "Добавить">
-<!ENTITY fhwin.button.add.accesskey "в">
+<!ENTITY fhwin.button.add.accesskey "д">
 <!ENTITY fhwin.button.edit.label "Редактировать">
-<!ENTITY fhwin.button.edit.accesskey "р">
+<!ENTITY fhwin.button.edit.accesskey "Р">
 <!ENTITY fhwin.button.closepreview.label "Закрыть просмотр">
 <!ENTITY fhwin.button.close.label "Закрыть">
 <!ENTITY fhwin.button.close.accesskey "з">
@@ -141,12 +141,13 @@
 <!ENTITY fhmnuovl.menuitem.options.label "Настройки">
 <!ENTITY fhentrydlg.windowtitle "Редактирование записи истории поиска и данных форм">
 <!ENTITY fhentrydlg.edit.description "Редактирование существующей записи истории поиска и данных форм">
+<!ENTITY fhentrydlg.editmultiple.description "Редактирование нескольких записей истории поиска и данных форм">
 <!ENTITY fhentrydlg.add.description "Добавить новую запись истории поиска и данных форм">
 <!ENTITY fhentrydlg.fieldname.label "Название поля">
 <!ENTITY fhentrydlg.value.label "Значение поля">
-<!ENTITY fhentrydlg.timesused.label "Обращений">
-<!ENTITY fhentrydlg.firstused.label "Первое обращение">
-<!ENTITY fhentrydlg.firstusedhistory.img.tooltip "Показать браузерную историю просмотра примерно для того же времени, когда это поле формы было впервые использовано (введено)">
+<!ENTITY fhentrydlg.timesused.label "К-во обращений">
+<!ENTITY fhentrydlg.firstused.label "Создание">
+<!ENTITY fhentrydlg.firstusedhistory.img.tooltip "Показать браузерную историю просмотра примерно для того же времени, когда это поле формы было создано (впервые введено)">
 <!ENTITY fhentrydlg.lastused.label "Последнее обращение">
 <!ENTITY fhentrydlg.lastusedhistory.img.tooltip "Показать браузерную историю просмотра примерно для того же времени, когда это поле формы было в последний раз использовано (введено)">
 <!ENTITY fhentrydlg.place.group.caption "Последняя посещенная страница">
@@ -155,6 +156,7 @@
 <!ENTITY fhentrydlg.url.label "URL">
 <!ENTITY fhentrydlg.blankfielderror.label "Не оставляйте никакие поля пустыми">
 <!ENTITY fhentrydlg.existerror.label "Запись истории поиска / данных форм с таким названием и значением уже существует">
+<!ENTITY fhentrydlg.timesusederror.label "Только числовые значения допустимы для указания количества обращений">
 <!ENTITY fhcriteriadlg.windowtitle "Редактирование критерия очистки">
 <!ENTITY fhcriteriadlg.edit.description "Редактирование существующего критерия очистки">
 <!ENTITY fhcriteriadlg.add.description "Добавить новый критерий очистки">
@@ -186,11 +188,11 @@
 <!ENTITY fhdatetimedlg.date.label "Дата">
 <!ENTITY fhdatetimedlg.time.label "Время">
 <!ENTITY fhdatetimedlg.setzerotime.tooltip "Установить время в 0:00:00">
-<!ENTITY fhbrowsehistorydlg.windowtitle "Обзор истории для поля формы">
-<!ENTITY fhbrowsehistorydlg.older.label "Более старая">
-<!ENTITY fhbrowsehistorydlg.older.tooltip "Получить дополнительную более старую историю">
-<!ENTITY fhbrowsehistorydlg.newer.label "Более новая">
-<!ENTITY fhbrowsehistorydlg.newer.tooltip "Получить дополнительную более новую историю">
+<!ENTITY fhbrowsehistorydlg.windowtitle "Обзор истории поля формы">
+<!ENTITY fhbrowsehistorydlg.older.label "Более старые записи">
+<!ENTITY fhbrowsehistorydlg.older.tooltip "Дополнительно показать более старые записи истории">
+<!ENTITY fhbrowsehistorydlg.newer.label "Более новые записи">
+<!ENTITY fhbrowsehistorydlg.newer.tooltip "Дополнительно показать более новые записи истории">
 <!ENTITY fhprefs.window.title "Управление настройками Form History">
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Разное">
 <!ENTITY fhprefs.group.preferences.caption "Настройки">
@@ -223,6 +225,13 @@
 <!ENTITY fhprefs.group.showmenu.caption "Меню">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Скрыть пункт в меню «Инструменты»">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Скрыть пункт в контекстном меню">
+<!ENTITY fhprefs.group.treeskin.caption "Цвет фона">
+<!ENTITY fhprefs.label.treeskin.label "Улучшение читаемости списков">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Выберите один из вариантов, чтобы улучшить читаемость (обычно полезно при использовании темных тем ОС)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Автоматический">
+<!ENTITY fhprefs.radio.treeskin.light.label "Светлый">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Темный">
+<!ENTITY fhprefs.radio.treeskin.none.label "Нет">
 <!ENTITY fhprefs.prefpane.quickfill.label "Быстрое заполнение">
 <!ENTITY fhprefs.quickfillinfo.label "Выделяет на странице все поля ввода, которые были заполнены самыми последними или наиболее часто используемыми значениями.">
 <!ENTITY fhprefs.group.quickfill.caption "Индикация быстрого заполнения полей форм">
@@ -282,6 +291,9 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Миллисекунды">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Показать историю">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "п">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Let Form History Control manage form history">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Whether or not to save form history is controlled by the Form History Control add-on">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Настройки">
 <!ENTITY fhabout.label.description "Описание">
 <!ENTITY fhabout.label.creator "Разработчик">
 <!ENTITY fhabout.label.homepage "Посетить домашнюю страницу">
