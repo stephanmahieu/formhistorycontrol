@@ -177,8 +177,9 @@ FhcRdfExtensionHandler.prototype = {
 
       // parse xml
       try {
+        var xmlString = this._readTextFromStream(streamIn);
         var parser = new DOMParser();
-        xml = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+        xml = parser.parseFromString(xmlString, "text/xml");
       }
       catch(parseEx) {
         dump('Exception parsing xml:' + parseEx + '\n');
@@ -188,6 +189,26 @@ FhcRdfExtensionHandler.prototype = {
       dump('Exception reading xml stream:' + streamEx + '\n');
     }
     return xml;
+  },
+
+  /**
+   * Read text data from inputstream into a String.
+   *
+   * @param  streamIn {nsIInputStream}
+   *         the inputstream (source)
+   *
+   * @return {String}
+   *         text data
+   */
+  _readTextFromStream: function(streamIn) {
+      var line = {};
+      var lines = "";
+      var hasMore;
+      do {
+        hasMore = streamIn.readLine(line);
+        lines += line.value + "\n";
+      } while(hasMore);
+      return lines;
   },
 
   /**

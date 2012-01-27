@@ -170,7 +170,9 @@ FhcXmlHandler.prototype = {
 
     var parser = new DOMParser();
     try {
-      var doc = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+      var xmlString = this._readTextFromStream(streamIn);
+      var doc = parser.parseFromString(xmlString, "text/xml");
+      
       if ("formhistory" == doc.documentElement.nodeName ||
           "formhistory-cleanup" == doc.documentElement.nodeName) {
         
@@ -345,6 +347,26 @@ FhcXmlHandler.prototype = {
       regexp:       parsedRegexp
     }
     return result;
+  },
+
+  /**
+   * Read text data from inputstream into a String.
+   *
+   * @param  streamIn {nsIInputStream}
+   *         the inputstream (source)
+   *
+   * @return {String}
+   *         text data
+   */
+  _readTextFromStream: function(streamIn) {
+      var line = {};
+      var lines = "";
+      var hasMore;
+      do {
+        hasMore = streamIn.readLine(line);
+        lines += line.value + "\n";
+      } while(hasMore);
+      return lines;
   },
 
   /**
