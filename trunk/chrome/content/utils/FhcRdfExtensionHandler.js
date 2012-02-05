@@ -171,18 +171,24 @@ FhcRdfExtensionHandler.prototype = {
     var xml = null;
     try {
       // open xml file for reading
-      var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
+      var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
-      streamIn.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+      var cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
+                       .createInstance(Components.interfaces.nsIConverterInputStream);
+      fstream.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+      cstream.init(fstream, "UTF-8", 0, 0); 
 
       // parse xml
       try {
-        var xmlString = this._readTextFromStream(streamIn);
+        var xmlString = this._readTextFromStream(cstream);
         var parser = new DOMParser();
         xml = parser.parseFromString(xmlString, "text/xml");
       }
       catch(parseEx) {
         dump('Exception parsing xml:' + parseEx + '\n');
+      }
+      finally {
+        cstream.close();
       }
     }
     catch(streamEx) {
@@ -201,13 +207,11 @@ FhcRdfExtensionHandler.prototype = {
    *         text data
    */
   _readTextFromStream: function(streamIn) {
-      var line = {};
       var lines = "";
-      var hasMore;
-      do {
-        hasMore = streamIn.readLine(line);
-        lines += line.value + "\n";
-      } while(hasMore);
+      var str = {};
+      while (streamIn.readString(4096, str) != 0) {
+        lines += str.value;
+      }  
       return lines;
   },
 
