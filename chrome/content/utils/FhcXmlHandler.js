@@ -151,7 +151,7 @@ FhcXmlHandler.prototype = {
    * Deserialize a XML inputstream containing formhistory data.
    *
    * @param  streamIn {nsIInputStream}
-   *         the inputstream (source ) of the XML
+   *         the inputstream (source) of the XML
    *
    * @return {Array}
    *         an array of formhistory entries
@@ -359,13 +359,11 @@ FhcXmlHandler.prototype = {
    *         text data
    */
   _readTextFromStream: function(streamIn) {
-      var line = {};
       var lines = "";
-      var hasMore;
-      do {
-        hasMore = streamIn.readLine(line);
-        lines += line.value + "\n";
-      } while(hasMore);
+      var str = {};
+      while (streamIn.readString(4096, str) != 0) {
+        lines += str.value;
+      }  
       return lines;
   },
 

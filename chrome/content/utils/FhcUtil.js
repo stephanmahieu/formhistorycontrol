@@ -837,15 +837,18 @@ const FhcUtil = {
       preferenceHandler.setLastUsedExportFilename(fp.file.leafName);
 
       // open file for reading
-      var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
+      var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
-      streamIn.init(fp.file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+      var cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
+                       .createInstance(Components.interfaces.nsIConverterInputStream);
+      fstream.init(fp.file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+      cstream.init(fstream, "UTF-8", 0, 0); 
       try {
         var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
-        importedData = xmlHandler.parseXMLdata(streamIn);
+        importedData = xmlHandler.parseXMLdata(cstream);
         delete xmlHandler;
       } finally {
-        streamIn.close();
+        cstream.close();
       }
     }
     return importedData;
@@ -895,15 +898,18 @@ const FhcUtil = {
   importCleanupDatabase: function(file, dateHandler) {
     var importedConfig = null;
     // open file for reading
-    var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
+    var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"]
                      .createInstance(Components.interfaces.nsIFileInputStream);
-    streamIn.init(file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+    var cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
+                     .createInstance(Components.interfaces.nsIConverterInputStream);
+    fstream.init(file, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
+    cstream.init(fstream, "UTF-8", 0, 0); 
     try {
       var xmlHandler = new FhcXmlHandler(dateHandler, true);
-        importedConfig = xmlHandler.parseXMLdata(streamIn);
+        importedConfig = xmlHandler.parseXMLdata(cstream);
       delete xmlHandler;
     } finally {
-      streamIn.close();
+      cstream.close();
     }
     return importedConfig;
   },
