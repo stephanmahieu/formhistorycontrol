@@ -411,7 +411,7 @@
                           label="&fhprefs.checkbox.multilinesanitizehtmlpreview;"
                           preference="extensions.formhistory.multiline.sanitizehtmlpreview"/>
                 <checkbox id="multilineprivacysaveencrypted"
-                          label="&fhprefs.checkbox.multilinesaveencrypted;"
+                          label="&fhprefs.checkbox.multilinesaveencrypted; (&fhcnotimplemented.label;)"
                           preference="extensions.formhistory.multiline.saveencrypted"/>
               </groupbox>
             </vbox>

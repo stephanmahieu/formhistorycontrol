@@ -22,7 +22,7 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\es-ES ^
           chrome\locale\fr ^
           chrome\locale\hu ^
-          chrome\locale\it-IT ^
+          chrome\locale\it ^
           chrome\locale\pt-BR ^
           chrome\locale\ru ^
           chrome\locale\sk-SK ^
