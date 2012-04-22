@@ -466,3 +466,5 @@
 <!ENTITY fhimportstatusdlg.label.imported "Geïmporteerd">
 <!ENTITY fhimportstatusdlg.label.identical "Identiek">
 <!ENTITY fhimportstatusdlg.label.error "Fout">
+
+<!ENTITY fhcnotimplemented.label "nog niet geïmplementeerd!">

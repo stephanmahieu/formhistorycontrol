@@ -466,3 +466,5 @@
 <!ENTITY fhimportstatusdlg.label.imported "Imported">
 <!ENTITY fhimportstatusdlg.label.identical "Identical">
 <!ENTITY fhimportstatusdlg.label.error "Error">
+
+<!ENTITY fhcnotimplemented.label "not implemented yet!">
