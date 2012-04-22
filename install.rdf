@@ -4,7 +4,7 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.0.b2</em:version>
+		<em:version>1.3.0.0pre1</em:version>
 		<em:type>2</em:type>
 		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
@@ -34,6 +34,10 @@
 				<em:maxVersion>2.*.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
+
+		<!-- if no locale match, revert to these defaults (en-US) -->
+		<em:name>Form History Control</em:name>
+		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
 		
 		<!-- Localized MetaData -->
 		<em:localized>
@@ -147,10 +151,6 @@
 	<!-- UNFINISHED DESCRIPTION LOCALES
 	-->
 
-		<!-- if no locale match, revert to these defaults (en-US) -->
-		<em:name>Form History Control</em:name>
-		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
-
 		<!-- Creator -->
 		<em:creator>Stephan Mahieu</em:creator>
 		<em:homepageURL>http://www.formhistory.blogspot.com</em:homepageURL>
@@ -165,7 +165,7 @@
 		<em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
 		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
-		<em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru)</em:translator>
+		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
 		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
 		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
 		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
@@ -174,7 +174,6 @@
 		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
 		<em:translator>Gusztin Rudolf [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12288] (hu)</em:translator>
 		<em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it)</em:translator>
-		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
 		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
 -->
 

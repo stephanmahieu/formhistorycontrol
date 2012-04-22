@@ -2,7 +2,10 @@ User:
 - Available locales (en nl ...)
 - Option to show/hide Formhistory Control in FF app menu (introduced in FF4), default is show
 - Backup multiline fields while typing (editor fields) -> manage from main UI
-- Added button to show/hide cleanup options (cleanup tab)- Fix: skip duplicate entries from imported xml-file
+- Restore multiline fields
+- Custom save option: only save form history for listed sites
+- Added button to show/hide cleanup options (cleanup tab)
+- Fix: skip duplicate entries from imported xml-file
 - Changed: improved regular expression for Creditcards
 - Added Export/Import manager (choose what to export/import)
 - Added option to export/import dates in ISO format (default)
@@ -13,9 +16,12 @@ Technical:
 - Getting rid of all threads (processNextEvent)
 - Places lookup query is processed in the background (using a timer-thread ) if it takes more than 250ms
 - Places lookup optimization, only query for dates present in the history table (> earliestVisit date)
+- Refactored DOMParser.parseFromStream (deprecated) to parseFromString
+- Get rid of the new AddonManager (async methods are unusable, threads forbidden), always use the install.rdf file to obtain add-on information.
 - Minor bugfix: formhistorycontrols toolbarmenu or statusbarmenu can be null (fixes: "Error: tbMenu is null")
 - Converted BrowseHistory from HTML-XUL mix (iframe+places.html) into pure XUL
 
 ToDo:
+- About dialog: now always shows the english name/description from install.rdf (because it comes first)
 - Prevent formhistory for specific fields (not related to a domain)
 - When importing from xml, import preferences only after okay (and maybe add a checkbox in the import/export dialog)
