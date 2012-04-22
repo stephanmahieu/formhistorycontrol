@@ -158,6 +158,83 @@
     <spacer height="5"/><!-- MacOS -->
   </prefpane>
 
+  
+  
+  <!-- Custom manage form history -->
+  <prefpane id="managehistory" label="&fhprefs.prefpane.manageformhistory.label;"
+            image="chrome://formhistory/skin/folder_32.png">
+    <preferences>
+      <preference id="extensions.formhistory.manageFormhistoryByFHC"
+                  name="extensions.formhistory.manageFormhistoryByFHC"
+                  type="bool" />
+    </preferences>
+    <vbox>
+              
+      <hbox>
+        <vbox style="margin-left: 2px">
+          <image class="info_icon" flex="0"
+                 src="chrome://formhistory/skin/information.png"
+                 tooltiptext="&fhprefs.manageformhistory.tooltip;"/>
+          <spacer flex="1"/>
+        </vbox>
+        <description style="width: 500px; margin-top: 5px; margin-left: 2px;"
+                     tooltiptext="&fhprefs.manageformhistory.tooltip;">
+                     &fhprefs.manageformhistory.tooltip;
+        </description>
+      </hbox>
+      <spacer height="5"/>
+      
+      
+      <groupbox>
+        <caption label="&fhprefs.group.preferences.caption;"/>
+        
+          <checkbox id="ismanagedbyfhc"
+                    preference="extensions.formhistory.manageFormhistoryByFHC"
+                    label="&fhprefovl.privacy.checkbox.managebyfhc.label;"
+                    tooltiptext="&fhprefovl.privacy.checkbox.managebyfhc.tooltip;"
+                    oncommand="FhcPreferences.mngByFhcChecked(this)"/>
+          <hbox>
+            <vbox style="margin-left: 2px">
+              <image class="info_icon" flex="0"
+                    src="chrome://formhistory/skin/warning16.png"
+                    tooltiptext="&fhprefs.manageformhistory.global.tooltip;"/>
+              <spacer flex="1"/>
+            </vbox>
+            <description style="width: 450px; margin-top: 5px; margin-left: 2px;"
+                        tooltiptext="&fhprefs.manageformhistory.global.tooltip;">
+                        &fhprefs.manageformhistory.global.tooltip;
+            </description>
+          </hbox>
+        
+      </groupbox>
+      
+      <groupbox>
+        <caption label="&fhprefs.group.managefhc.caption;"/>
+        <hbox align="end">
+          <radiogroup id="managefhcradioexceptions">
+            <radio id="managefhcnoexception"
+                   label="&fhprefs.radio.managefhcnoexception;"
+                   oncommand="FhcPreferences.mngexceptionPrefChecked(this)"/>
+            <radio id="managefhcwhitelist"
+                   label="&fhprefs.radio.managefhcwhitelist;"
+                   oncommand="FhcPreferences.mngexceptionPrefChecked(this)"/>
+            <radio id="managefhcblacklist"
+                   label="&fhprefs.radio.managefhcblacklist;"
+                   oncommand="FhcPreferences.mngexceptionPrefChecked(this)"/>
+          </radiogroup>
+          <spacer flex="1"/>
+          <button id="managefhcexceptionlist"
+                  label="&fhprefs.button.managelist;"
+                  oncommand="FhcShowDialog.doShowManageFhcExceptionList()"/>
+        </hbox>
+      </groupbox>
+      
+      
+    </vbox>   
+  </prefpane>
+
+
+
   <!-- Editor backup -->
   <prefpane id="multiline" label="Editor fields"
             image="chrome://formhistory/skin/text_32.png">
@@ -364,6 +441,19 @@
       <preference id="extensions.formhistory.exclusions"
                   name="extensions.formhistory.exclusions"
                   type="string" />
+      <!-- Import/Export -->
+      <preference id="extensions.formhistory.exportCSV.separator"
+                  name="extensions.formhistory.exportCSV.separator"
+                  type="string" />
+      <preference id="extensions.formhistory.exportCSV.quote"
+                  name="extensions.formhistory.exportCSV.quote"
+                  type="string" />
+      <preference id="extensions.formhistory.exportCSV.escape"
+                  name="extensions.formhistory.exportCSV.escape"
+                  type="string" />
+      <preference id="extensions.formhistory.exportXML.ISOexportDateFormat"
+                  name="extensions.formhistory.exportXML.ISOexportDateFormat"
+                  type="bool" />
       <!-- Manual Save -->
       <preference id="extensions.formhistory.manualsave"
                   name="extensions.formhistory.manualsave"
@@ -391,6 +481,7 @@
     <tabbox id="myTabList" selectedIndex="0" persist="selectedIndex">
       <tabs>
         <tab label="&fhprefs.prefpane.miscellaneous.label;"/>
+        <tab label="&fhprefs.prefpane.importexport.label;"/>
         <tab label="&fhprefs.prefpane.manualsave.label;"/>
         <tab label="&fhprefs.prefpane.keybindings.label;"/>
         <tab label="&fhprefs.prefpane.quickfill.label;"/>
@@ -423,6 +514,42 @@
                          emptytext="&fhprefs.textbox.exclusions.tooltip;"
                          tooltiptext="&fhprefs.textbox.exclusions.tooltip;"/>
                </hbox>
+            </groupbox>
+          </vbox>
+        </tabpanel>
+        <tabpanel style="margin-top: 4px">
+          <!-- Import/Export -->
+          <vbox flex="1">
+            <groupbox>
+              <caption label="&fhprefs.group.csvexport.caption;"/>
+              <grid>
+                <columns>
+                  <column/>
+                  <column/>
+                  <column/>
+                  <column/>
+                </columns>
+                <rows>
+                  <row align="baseline">
+                    <label control="separator" value="&fhprefs.textbox.csvexportseparator.label;"/>
+                    <textbox id="separator" size="4" preference="extensions.formhistory.exportCSV.separator"/>
+                  </row>
+                  <row align="baseline">
+                    <label control="quotes" value="&fhprefs.textbox.csvexportquote.label;"/>
+                    <textbox id="quotes" size="4" preference="extensions.formhistory.exportCSV.quote"/>
+
+                    <label control="escape" value="&fhprefs.textbox.csvexportescape.label;"/>
+                    <textbox id="escape" size="4" preference="extensions.formhistory.exportCSV.escape"/>
+                  </row>
+                </rows>
+              </grid>
+            </groupbox>
+            <groupbox>
+              <caption label="&fhprefs.group.configexport.caption;"/>
+              <checkbox id="exportISOdateFormat"
+                        label="&fhprefs.checkbox.configexportXmlIsoDate.label;"
+                        style="margin-right:0; padding-right:0"
+                        preference="extensions.formhistory.exportXML.ISOexportDateFormat"/>
             </groupbox>
           </vbox>
         </tabpanel>
@@ -644,56 +771,6 @@
         </tabpanel>
       </tabpanels>
     </tabbox>
-  </prefpane>
-
-  <!-- Import/Export -->
-  <prefpane id="export" label="&fhprefs.prefpane.importexport.label;"
-            image="chrome://formhistory/skin/importexport_32.png">
-    <preferences>
-      <preference id="extensions.formhistory.exportCSV.separator"
-                  name="extensions.formhistory.exportCSV.separator"
-                  type="string" />
-      <preference id="extensions.formhistory.exportCSV.quote"
-                  name="extensions.formhistory.exportCSV.quote"
-                  type="string" />
-      <preference id="extensions.formhistory.exportCSV.escape"
-                  name="extensions.formhistory.exportCSV.escape"
-                  type="string" />
-      <preference id="extensions.formhistory.exportXML.ISOexportDateFormat"
-                  name="extensions.formhistory.exportXML.ISOexportDateFormat"
-                  type="bool" />
-    </preferences>
-    <groupbox>
-      <caption label="&fhprefs.group.csvexport.caption;"/>
-      <grid>
-        <columns>
-          <column/>
-          <column/>
-          <column/>
-          <column/>
-        </columns>
-        <rows>
-          <row align="baseline">
-            <label control="separator" value="&fhprefs.textbox.csvexportseparator.label;"/>
-            <textbox id="separator" size="4" preference="extensions.formhistory.exportCSV.separator"/>
-          </row>
-          <row align="baseline">
-            <label control="quotes" value="&fhprefs.textbox.csvexportquote.label;"/>
-            <textbox id="quotes" size="4" preference="extensions.formhistory.exportCSV.quote"/>
-
-            <label control="escape" value="&fhprefs.textbox.csvexportescape.label;"/>
-            <textbox id="escape" size="4" preference="extensions.formhistory.exportCSV.escape"/>
-          </row>
-        </rows>
-      </grid>
-    </groupbox>
-    <groupbox>
-      <caption label="&fhprefs.group.configexport.caption;"/>
-      <checkbox id="exportISOdateFormat"
-                label="&fhprefs.checkbox.configexportXmlIsoDate.label;"
-                style="margin-right:0; padding-right:0"
-                preference="extensions.formhistory.exportXML.ISOexportDateFormat"/>
-    </groupbox>
   </prefpane>
 
   <!-- Clean Up -->

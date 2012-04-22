@@ -52,6 +52,8 @@ const FhcImportStatusDialog = {
       this._initItem("multiline", status.multiline);
       this._initItem("multilinecfg", status.multicfg);
       this._initItem("multilineexc", status.multiexc);
+      this._initItem("customsaveexc", status.custsexc);
+      this._initItem("customsavecfg", status.custscfg);
       this._initItem("cleanup", status.cleanup);
       this._initItem("keys", status.keys);
       this._initItem("regexp", status.regexp);

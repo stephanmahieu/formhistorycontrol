@@ -518,8 +518,7 @@ const MultilineWindowControl = {
    * Read general preferences and synchronize with settings displayed by UI.
    */
   readAndShowPreferences: function() {
-    //TODO multiline readAndShowPreferences
-    //document.getElementById("cleanupOnShutdown").checked = this.prefHandler.isCleanupOnShutdown();
+    // No preferences (yet) to synchronize
   },
 
   /**

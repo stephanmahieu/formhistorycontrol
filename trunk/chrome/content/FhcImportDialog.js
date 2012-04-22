@@ -51,6 +51,7 @@ const FhcImportDialog = {
       this._initItem("history", inn.history);
       this._initItem("multiline", inn.multiline);
       this._initItem("multilineprefs", inn.multicfg);
+      this._initItem("custsaveprefs", inn.custsavcfg);
       this._initItem("cleanup", inn.cleanup);
       this._initItem("keys", inn.keys);
       this._initItem("regexp", inn.regexp);
@@ -73,6 +74,7 @@ const FhcImportDialog = {
       importHistory  : this._isChecked("history"),
       importMultiline: this._isChecked("multiline"),
       importMulticfg : this._isChecked("multilineprefs"),
+      importCustscfg : this._isChecked("custsaveprefs"),
       importCleanup  : this._isChecked("cleanup"),
       importKeys     : this._isChecked("keys"),
       importRegexp   : this._isChecked("regexp")
@@ -91,11 +93,12 @@ const FhcImportDialog = {
     var hist   = this._isChecked("history");
     var multi  = this._isChecked("multiline");
     var mulcfg = this._isChecked("multilineprefs");
+    var cuscfg = this._isChecked("custsaveprefs");
     var clean  = this._isChecked("cleanup");
     var keys   = this._isChecked("keys");
     var regex  = this._isChecked("regexp");
     
-    return hist || multi || mulcfg || clean || keys || regex;
+    return hist || multi || mulcfg || cuscfg || clean || keys || regex;
   },
   
   _initItem: function(elementId, count) {

@@ -55,6 +55,10 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row>
+          <checkbox id="cfgcustsave" label="&fhimportexportdlg.checkbox.customsaveprefs;" persist="checked"/>
+        </row>
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
+        <row>
           <checkbox id="regexp" label="&fhimportexportdlg.checkbox.regularexpressions;" oncommand="FhcExportDialog.setChoices()" persist="checked"/>
           <!-- radiogroup id="regexpRadiogroup" orient="horizontal" disabled="true">
             <radio id="allregexp" label="All" selected="true"/>

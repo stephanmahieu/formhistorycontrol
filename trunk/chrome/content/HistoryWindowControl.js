@@ -1095,6 +1095,7 @@ const HistoryWindowControl = {
       var hist  = [];
       var mult  = [];
       var exportMutCfg = params.out.exportMultiCfg;
+      var exportCusCfg = params.out.exportCustSaveCfg;
       var exportClean  = params.out.exportCleanupCfg;
       var exportKeys   = params.out.exportKeyBindings;
       var exportRegexp = params.out.exportRegexp;
@@ -1114,12 +1115,13 @@ const HistoryWindowControl = {
       }
       
       var exportOptions = {
-        entries:        hist,
-        multilines:     mult,
-        exportMultiCfg: exportMutCfg,
-        exportClean:    exportClean,
-        exportKeys:     exportKeys,
-        exportRegexp:   exportRegexp
+        entries:           hist,
+        multilines:        mult,
+        exportMultiCfg:    exportMutCfg,
+        exportCustSaveCfg: exportCusCfg,
+        exportClean:       exportClean,
+        exportKeys:        exportKeys,
+        exportRegexp:      exportRegexp
       };
       
       FhcUtil.exportXMLdata(
@@ -1145,7 +1147,7 @@ const HistoryWindowControl = {
     
     var multilineCfgItems = 0;
     if (data.multilineCfg != null) {
-      for(var property in data.multilineCfg) {
+      for(var property1 in data.multilineCfg) {
         multilineCfgItems++;
       }
       // exceptionlist is container with sub-properties
@@ -1153,10 +1155,21 @@ const HistoryWindowControl = {
       multilineCfgItems += data.multilineCfg.exceptionlist.length;
     }
     
+    var custsaveCfgItems = 0;
+    if (data.custSaveCfg != null) {
+      for(var property2 in data.custSaveCfg) {
+        custsaveCfgItems++;
+      }
+      // exceptionlist is container with sub-properties
+      custsaveCfgItems--;
+      custsaveCfgItems += data.custSaveCfg.exceptionlist.length;
+    }    
+    
     var params = {
           inn: {history:   data.entries.length,
                 multiline: data.multiline.length,
                 multicfg:  multilineCfgItems,
+                custsavcfg:custsaveCfgItems,
                 cleanup:   data.protect.length + data.cleanup.length,
                 keys:      data.keys.length,
                 regexp:    data.regexp.length
@@ -1173,6 +1186,8 @@ const HistoryWindowControl = {
         var mlResult = null;
         var mcResult = null;
         var exResult = null;
+        var cxResult = null;
+        var csResult = null;
         var clResult = null;
         var reResult = null;
         var keResult = null;
@@ -1206,6 +1221,25 @@ const HistoryWindowControl = {
           };
         }
 
+        if (params.out.importCustscfg) {
+          var csPrefs = data.custSaveCfg;
+          var csCount = 0;
+          if (csPrefs.saveEnabled != null) {csCount++;this.preferences.setManageFhcException(csPrefs.saveEnabled);}
+          if (csPrefs.exceptionlist != null) {
+            cxResult = this._importCustSaveExceptions(csPrefs.exceptionlist);
+          }          
+          csResult = {
+            noTotal:   csCount,
+            noAdded:   csCount,
+            noSkipped: "",
+            noErrors:  0
+          };
+          // notify observers
+          Components.classes["@mozilla.org/observer-service;1"]
+                    .getService(Components.interfaces.nsIObserverService)
+                    .notifyObservers(null, "managefhc-exceptionlist-changed", "");
+        }
+        
         if (params.out.importCleanup) {
           var prResult = CleanupProtectView.importAction(data.protect);
           var cuResult = CleanupWindowControl.importAction(data.cleanup);
@@ -1239,6 +1273,8 @@ const HistoryWindowControl = {
           multiline: mlResult,
           multicfg: mcResult,
           multiexc: exResult,
+          custsexc: cxResult,
+          custscfg: csResult,
           cleanup: clResult,
           regexp: reResult,
           keys: keResult
@@ -1517,6 +1553,55 @@ const HistoryWindowControl = {
     }
   },
 
+
+  /**
+   * Import custom save exceptions, only add new entries.
+   *
+   * @param importedExceptions {Array}
+   *        array of exceptions
+   *
+   * @return {Object} status
+   */
+  _importCustSaveExceptions: function(importedExceptions) {
+    var noAdded = 0, noSkipped = 0, noErrors = 0, noTotal = 0;
+    
+    if (importedExceptions != null) {
+      var exist, newExceptions = [];
+      var curExceptions = this.dbHandler.getAllCustomsaveExceptions();
+      for(var ii=0; ii<importedExceptions.length; ii++) {
+        ++noTotal;
+        exist = false;
+        for(var cc=0; cc<curExceptions.length; cc++) {
+          exist = (importedExceptions[ii].url == curExceptions[cc].url);
+          if (exist) break;
+        }
+        if (!exist) {
+          newExceptions.push(importedExceptions[ii]);
+        }
+      }
+
+      // add new exceptions to the database and repopulate the treeview
+      if (0 < newExceptions.length) {
+        // add all new exceptions to the database in bulk
+        if (this.dbHandler.bulkAddCustomsaveExceptions(newExceptions)) {
+          noAdded   = newExceptions.length;
+          noSkipped = noTotal - noAdded;
+        }
+      } else {
+        noSkipped = noTotal;
+      }
+      noErrors = noTotal - (noAdded + noSkipped);
+    }
+
+    // return the status
+    return {
+      noTotal: importedExceptions.length,
+      noAdded: noAdded,
+      noSkipped: noSkipped,
+      noErrors: noErrors
+    }
+  },
+  
   /**
    * Import regexp, only add new entries.
    *

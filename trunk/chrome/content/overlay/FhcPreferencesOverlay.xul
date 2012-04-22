@@ -33,7 +33,7 @@
                     tooltiptext="&fhprefovl.privacy.checkbox.managebyfhc.tooltip;"/>
           <button id="preferencesFormHistoryControlSettingsButton"
                   label="&fhprefovl.privacy.button.rememberoptions.label;..."
-                  oncommand="alert('not implemented')" />
+                  oncommand="FhcShowDialog.doShowFhcOptions('managehistory')" />
         </hbox>
       </vbox>
     </groupbox>

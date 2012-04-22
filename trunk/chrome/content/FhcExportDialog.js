@@ -113,6 +113,7 @@ const FhcExportDialog = {
       exportMultiline    : document.getElementById("multiline").checked,
       exportMultilineWhat: multWhat,
       exportMultiCfg     : document.getElementById("cfgmulti").checked,
+      exportCustSaveCfg  : document.getElementById("cfgcustsave").checked,
       exportCleanupCfg   : document.getElementById("cleanup").checked,
       exportKeyBindings  : document.getElementById("keys").checked,
       exportRegexp       : document.getElementById("regexp").checked
@@ -131,10 +132,11 @@ const FhcExportDialog = {
     var hist  = document.getElementById("history").checked;
     var multi = document.getElementById("multiline").checked;
     var mucfg = document.getElementById("cfgmulti").checked;
+    var cscfg = document.getElementById("cfgcustsave").checked;
     var clean = document.getElementById("cleanup").checked;
     var keys  = document.getElementById("keys").checked;
     var regex = document.getElementById("regexp").checked;
     
-    return hist || multi || mucfg || clean || keys || regex;
+    return hist || multi || mucfg || cscfg || clean || keys || regex;
   }
 }

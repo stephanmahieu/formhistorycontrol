@@ -864,12 +864,13 @@ const FhcUtil = {
    */
   exportCleanupDatabase: function(file, dbHandler, preferenceHandler, dateHandler) {
     var exportOptions = {
-        entries:        [],    /* not in cleanup database */
-        multilines:     dbHandler.getAllMultilineItems(),
-        exportMultiCfg: true,  /* for exceptionlist */
-        exportClean:    true,
-        exportKeys:     false, /* not in cleanup database */
-        exportRegexp:   true
+        entries:           [],    /* not in cleanup database */
+        multilines:        dbHandler.getAllMultilineItems(),
+        exportMultiCfg:    true,  /* for editor exceptionlist */
+        exportCustSaveCfg: true,  /* for custom save exceptionlist */
+        exportClean:       true,
+        exportKeys:        false, /* not in cleanup database */
+        exportRegexp:      true
     };
     
     // open file for writing, create if not exist, truncate to 0 if do exist
