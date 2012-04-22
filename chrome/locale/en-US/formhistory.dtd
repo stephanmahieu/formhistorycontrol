@@ -258,7 +258,13 @@
 <!ENTITY fhcmultilinelistdlg.windowtitle "Manage Exception List">
 <!ENTITY fhcmultilinelistdlg.label.blacklist "Do not remember editor field history for hosts listed below">
 <!ENTITY fhcmultilinelistdlg.label.whitelist "Only remember editor field history for hosts listed below">
-<!ENTITY fhcmultilinelistdlg.button.addcurrentpage "Add current page">
+<!ENTITY fhcmultilinelistdlg.button.addcurrenthost "Add current host">
+
+<!ENTITY fhcmanagefhclistdlg.windowtitle "Manage Remember Form History">
+<!ENTITY fhcmanagefhclistdlg.label.blacklist "Do not remember form history for pages matching listed criteria">
+<!ENTITY fhcmanagefhclistdlg.label.whitelist "Only remember form history for pages matching listed criteria">
+<!ENTITY fhcmanagefhclistdlg.treeview.column.page.label "Page filter">
+<!ENTITY fhcmanagefhclistdlg.button.addcurrentpage "Add current page">
 
 <!ENTITY fhprefs.window.title "Form History Control Preferences">
 
@@ -294,6 +300,14 @@
 <!ENTITY fhprefs.checkbox.multilinesavealways "Save a backup of editor fields while typing, even when in Private Browsing mode">
 <!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Do not automatically download images for HTML preview">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Encrypt the contents of editor fields in the database">
+
+<!ENTITY fhprefs.prefpane.manageformhistory.label "Manage History">
+<!ENTITY fhprefs.group.managefhc.caption "When to save form history">
+<!ENTITY fhprefs.manageformhistory.tooltip "Form History Control offers the possibility to customize 'Remember Form History' for specified sites, turning it on or off automatically upon visiting that site.">
+<!ENTITY fhprefs.manageformhistory.global.tooltip "Available only when global privacy option 'Remember Form History' is enabled.">
+<!ENTITY fhprefs.radio.managefhcnoexception "Use global preferences (save always)">
+<!ENTITY fhprefs.radio.managefhcwhitelist "Only save history for pages on the exception list">
+<!ENTITY fhprefs.radio.managefhcblacklist "Always save history, except for pages on the exception list">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Miscellaneous">
 <!ENTITY fhprefs.group.preferences.caption "Preferences">
@@ -439,11 +453,10 @@
 <!ENTITY fhimportexportdlg.radio.entries.selected "Selected">
 <!ENTITY fhimportexportdlg.radio.entries.search "Search result">
 <!ENTITY fhimportexportdlg.checkbox.editorhistory "Editor history">
-<!ENTITY fhimportexportdlg.radio.multi.all "All">
-<!ENTITY fhimportexportdlg.radio.multi.selected "Selected">
-<!ENTITY fhimportexportdlg.radio.multi.search "Search result">
 <!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "Editor history preferences">
-<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor history exceptionlist">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor history exception list">
+<!ENTITY fhimportexportdlg.checkbox.customsaveprefs "Save history preferences">
+<!ENTITY fhimportexportdlg.checkbox.customsaveexceptions "Save history exception list">
 <!ENTITY fhimportexportdlg.checkbox.regularexpressions "Regular expressions">
 <!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "Keyboard shortcuts">
 <!ENTITY fhimportexportdlg.checkbox.cleanupconfig "Cleanup configuration">

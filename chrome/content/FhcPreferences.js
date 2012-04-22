@@ -78,6 +78,8 @@ const FhcPreferences = {
     this.initDisplayPanel()
     this.mlexceptionRadioInit();
     this.initMultilinePanel();
+    this.mngexceptionRadioInit();
+    this.initManageFhcPanel();
     this.initCleanupPanel();
     this.fillKeyBindings();
     this.treeskinRadioInit();
@@ -87,12 +89,16 @@ const FhcPreferences = {
 
     var prefWin = document.getElementById("formhistoryPrefs");
     if ("arguments" in window && window.arguments.length > 0) {
-      if (window.arguments[0]) {
-        // parameters only used for regexp pane, always select this pane if arguments
-        var prefPane = document.getElementById("regexp");
-        
+      if (window.arguments[0] && window.arguments[0].pane) {
+        var prefPane;
+        var selectPane = window.arguments[0].pane;
+        if (selectPane == "names" || selectPane == "values") {
+          prefPane = document.getElementById("regexp");
+          FhcRegexpView.setFilter(selectPane);
+        } else {
+          prefPane = document.getElementById(selectPane);
+        }
         prefWin.showPane(prefPane);
-        FhcRegexpView.setFilter(window.arguments[0]);
       }
     }
 
@@ -222,6 +228,50 @@ const FhcPreferences = {
     document.getElementById("multilineradioexceptions").selectedItem = radioElm;
   },
 
+  mngByFhcChecked: function(elmCheckbox) {
+    this.initManageFhcPanel();
+  },
+
+  /**
+   * Set the exceptin.
+   *
+   * @param elmRadio {radio}
+   */
+  mngexceptionPrefChecked: function(elmRadio) {
+    switch (elmRadio.id) {
+      case "managefhcnoexception":
+        this.prefHandler.setManageFhcException("managefhcnoexception");
+        break;
+      case "managefhcwhitelist":
+        this.prefHandler.setManageFhcException("managefhcwhitelist");
+        break;
+      case "managefhcblacklist":
+        this.prefHandler.setManageFhcException("managefhcblacklist");
+        break;
+    }
+    this.initManageFhcPanel();
+  },
+
+  /**
+   * Initialize the radiobuttons to reflect the current exception setting.
+   */
+  mngexceptionRadioInit: function() {
+    var curProperty = this.prefHandler.getManageFhcException();
+
+    // default selection
+    var radioElm = document.getElementById("managefhcnoexception");
+
+    switch (curProperty) {
+      case "managefhcwhitelist":
+        radioElm = document.getElementById("managefhcwhitelist");
+        break;
+      case "managefhcblacklist":
+        radioElm = document.getElementById("managefhcblacklist");
+        break;
+    }
+    document.getElementById("managefhcradioexceptions").selectedItem = radioElm;
+  },
+
   /**
    * Adjust the preview to reflect changes to notification-preferences.
    */
@@ -333,6 +383,23 @@ const FhcPreferences = {
     document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
   },
 
+  initManageFhcPanel: function() {
+    //var isGlobalRemember = this.prefHandler.isGlobalRememberFormEntriesActive();
+    //document.getElementById("ismanagedbyfhc").disabled = !isGlobalRemember;
+    var isManagedByFHC = document.getElementById("ismanagedbyfhc").checked;
+
+    document.getElementById("managefhcwhitelist").disabled = !isManagedByFHC;
+    document.getElementById("managefhcblacklist").disabled = !isManagedByFHC;
+    if (!isManagedByFHC /*|| !isGlobalRemember*/) {
+      document.getElementById("managefhcwhitelist").removeAttribute("selected");
+      document.getElementById("managefhcblacklist").removeAttribute("selected");
+      document.getElementById("managefhcnoexception").setAttribute("selected", true);
+    }
+    
+    var isExceptionListActive = isManagedByFHC && !document.getElementById("managefhcnoexception").selected;
+    document.getElementById("managefhcexceptionlist").disabled = !isExceptionListActive;
+  },
+  
   /**
    * Enable/disable textbox according to checkbox status.
    */
@@ -475,6 +542,9 @@ const FhcPreferences = {
         }
         if (cleanupConfig && cleanupConfig.multilineCfg && cleanupConfig.multilineCfg.exceptionlist) {
           this.dbHandler.bulkAddMultilineExceptions(cleanupConfig.multilineCfg.exceptionlist);
+        }
+        if (cleanupConfig && cleanupConfig.custSaveCfg && cleanupConfig.custSaveCfg.exceptionlist) {
+          this.dbHandler.bulkAddCustomsaveExceptions(cleanupConfig.custSaveCfg.exceptionlist);
         }
       }
     }

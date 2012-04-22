@@ -2178,7 +2178,7 @@ FhcDbHandler.prototype = {
         count = statement.getInt64(0);
       }
     } catch(ex) {
-      dump('getNoOfCustomsaveItems:Exception: ' + ex);
+      dump('hasMultilineException:Exception: ' + ex);
     } finally {
       this._closeStatement(statement);
       this._closeDbConnection(mDBConn, true);
@@ -2192,6 +2192,170 @@ FhcDbHandler.prototype = {
   // Customsave methods
   //----------------------------------------------------------------------------
 
+  /**
+   * Query all customsave items from the cleanup database.
+   *
+   * @return {Array}
+   *         an array of all multiline items from the database table
+   */
+  getAllCustomsaveExceptions: function() {
+    var mDBConn = this._getDbCleanupConnection();
+    if (null == mDBConn) {
+      // Major problem with cleanupDb
+      return null;
+    }
+    var result = [];
+    var resultOk = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT rowid, url" +
+          "  FROM customsave");
+        
+      while (statement.executeStep()) {
+        result.push({
+          id:  statement.row.rowid,
+          url: statement.row.url
+        });
+      }
+      resultOk = true;
+    } catch(ex) {
+      dump('getAllCustomsaveExceptions:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, resultOk);
+    }
+    return result;
+  },
+  
+  /**
+   * Add a new customsave exception to the database,
+   * set the id of the inserted object to the new database Id on succes.
+   * 
+   * See also http://www.sqlite.org/lang_createtable.html#rowid
+   *
+   * @param  newException {Object}
+   *         a new exception object to be added to the database
+   *
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  addCustomsaveException: function(newException) {
+    var mDBConn = this._getDbCleanupConnection(true);
+    var result = false, statement;
+    
+    try {
+      statement = mDBConn.createStatement(
+          "INSERT" +
+          "  INTO customsave (url) " +
+          "VALUES (:url)");
+      statement.params.url = newException.url;
+      result = this._executeStatement(statement);
+
+      if (result) {
+        statement = mDBConn.createStatement(
+          "SELECT last_insert_rowid()" +
+          "  FROM customsave");
+        statement.executeStep();
+        var newId = statement.getInt64(0);
+        
+        newException.id = newId;
+      }
+      
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Add new customsave exception items to the database.
+   *
+   * @param  newExceptions {Array}
+   *         an array of new customsave exception objects to be added to the database
+   *
+   * @return {Boolean}
+   *         whether or not bulk adding succeeded
+   */
+  bulkAddCustomsaveExceptions: function(newExceptions) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = true, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "INSERT INTO customsave " +
+                "(url) " +
+        "VALUES (:url)");
+      for(var ii=0; result && ii < newExceptions.length; ii++) {
+        statement.params.url = newExceptions[ii].url;
+        result = this._executeReusableStatement(statement);
+      }
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Update a customsave exception in the database, return true on succes.
+   *
+   * @param  updatedException {Object}
+   *         the CistomSave Exception object to be updated
+   *
+   * @return {Boolean}
+   *         whether or not updating succeeded
+   */
+  updateCustomsaveException: function(updatedException) {
+    var mDBConn = this._getDbCleanupConnection(true);
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "UPDATE customsave" +
+        "   SET url   = :url" +
+        " WHERE rowid = :id");
+      statement.params.id  = updatedException.id;
+      statement.params.url = updatedException.url;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('updateCustomsaveException:Exception: ' + ex);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
+  /**
+   * Delete 1 or more CustomSave Exceptions from the database,
+   * return true on succes.
+   *
+   * @param  delExceptions {Array}
+   *         array of CustomSave Exception objects to delete
+   *
+   * @return {Boolean}
+   *         whether or not deleting succeeded
+   */
+  deleteCustomsaveExceptions: function(delExceptions) {
+    var mDBConn = this._getDbCleanupConnection(true);
+
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM customsave" +
+          " WHERE rowid = :id");
+      for (var it=0; it < delExceptions.length; it++) {
+        statement.params.id = delExceptions[it].id;
+        result = this._executeReusableStatement(statement);
+        if (!result) break;
+      }
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+  
   /**
    * Return the total number of customsave entries in the database.
    *

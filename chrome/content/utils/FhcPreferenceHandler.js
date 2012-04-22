@@ -325,6 +325,14 @@ FhcPreferenceHandler.prototype = {
     return this.prefService.setBoolPref("multiline.saveencrypted", newBoolPref);
   },
   
+  /* Manage FHC configuration */
+  getManageFhcException: function() {
+    return this.prefService.getCharPref("managefhc.exception");
+  },
+  setManageFhcException: function(newCharPref) {
+     this.prefService.setCharPref("managefhc.exception", newCharPref);
+  },
+  
 
   //----------------------------------------------------------------------------
   // Global preferences (FireFox's options)

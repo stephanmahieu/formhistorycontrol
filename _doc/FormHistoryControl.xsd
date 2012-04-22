@@ -103,6 +103,37 @@
 		</xs:complexType>
 	</xs:element>
 	
+	<xs:element name="saveFormHistory-configuration">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="customSaveEnabled">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="managefhcnoexception"/>
+							<xs:enumeration value="managefhcblacklist"/>
+							<xs:enumeration value="managefhcwhitelist"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element ref="exceptions" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exceptions">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="exception" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="exception">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="host" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
 	<xs:element name="regularExpressions">
 		<xs:complexType>
 			<xs:sequence>

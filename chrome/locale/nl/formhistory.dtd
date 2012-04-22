@@ -255,10 +255,16 @@
 <!ENTITY fhcmultilinedlg.button.hidedetails "Verberg details">
 <!ENTITY fhcmultilinedlg.checkbox.hideimages "Verberg figuren">
 
-<!ENTITY fhcmultilinelistdlg.windowtitle "Beheer Exceptie Lijst">
+<!ENTITY fhcmultilinelistdlg.windowtitle "Beheer Uitzonderingen Lijst">
 <!ENTITY fhcmultilinelistdlg.label.blacklist "Geen editor veld historie onthouden voor onderstaande bronnen">
-<!ENTITY fhcmultilinelistdlg.label.whitelist "Uisluitend editor veld historie onthouden voor onderstaande bronnen">
-<!ENTITY fhcmultilinelistdlg.button.addcurrentpage "Toevoegen huidige pagina">
+<!ENTITY fhcmultilinelistdlg.label.whitelist "Uitsluitend editor veld historie onthouden voor onderstaande bronnen">
+<!ENTITY fhcmultilinelistdlg.button.addcurrenthost "Toevoegen huidige bron">
+
+<!ENTITY fhcmanagefhclistdlg.windowtitle "Beheer Opslaan Formulier Historie">
+<!ENTITY fhcmanagefhclistdlg.label.blacklist "Geen formulier historie onthouden voor pagina's die voldoen aan onderstaande criteria">
+<!ENTITY fhcmanagefhclistdlg.label.whitelist "Uitsluitend formulier historie onthouden voor pagina's die voldoen aan onderstaande criteria">
+<!ENTITY fhcmanagefhclistdlg.treeview.column.page.label "Pagina filter">
+<!ENTITY fhcmanagefhclistdlg.button.addcurrentpage "Toevoegen huidige pagina">
 
 <!ENTITY fhprefs.window.title "Formulier Historie Beheer Voorkeuren">
 
@@ -294,6 +300,14 @@
 <!ENTITY fhprefs.checkbox.multilinesavealways "Bewaar een backup van editor velden, zelfs wanneer in privé navigatie modus">
 <!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Automatisch downloaden figuren niet toestaan voor HTML voorbeeld">
 <!ENTITY fhprefs.checkbox.multilinesaveencrypted "Versleutel de inhoud van editor velden in de database">
+
+<!ENTITY fhprefs.prefpane.manageformhistory.label "Historie Beheer">
+<!ENTITY fhprefs.group.managefhc.caption "Wanneer form historie opslaan">
+<!ENTITY fhprefs.manageformhistory.tooltip "Form History Control biedt de mogelijkheid om het opslaan van formulier historie per pagina automatisch aan of uit te zetten.">
+<!ENTITY fhprefs.manageformhistory.global.tooltip "Aleen beschikbaar indien globale privacy optie 'opslaan formulier historie' actief is.">
+<!ENTITY fhprefs.radio.managefhcnoexception "Hanteer globale optie (altijd opslaan)">
+<!ENTITY fhprefs.radio.managefhcwhitelist "Alleen historie opslaan voor pagina's op de exceptie lijst">
+<!ENTITY fhprefs.radio.managefhcblacklist "Altijd historie opslaan, behalve voor pagina's in de exceptie lijst">
 
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Diversen">
 <!ENTITY fhprefs.group.preferences.caption "Voorkeuren">
@@ -440,7 +454,9 @@
 <!ENTITY fhimportexportdlg.radio.entries.search "Zoekresultaat">
 <!ENTITY fhimportexportdlg.checkbox.editorhistory "Editor historie">
 <!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "Editor historie voorkeuren">
-<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor history exceptionlist">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editor historie exceptie-lijst">
+<!ENTITY fhimportexportdlg.checkbox.customsaveprefs "Opslaan historie voorkeuren">
+<!ENTITY fhimportexportdlg.checkbox.customsaveexceptions "Opslaan historie exceptie-lijst">
 <!ENTITY fhimportexportdlg.checkbox.regularexpressions "Reguliere expressies">
 <!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "Sneltoetsen">
 <!ENTITY fhimportexportdlg.checkbox.cleanupconfig "Opschoon configuratie">

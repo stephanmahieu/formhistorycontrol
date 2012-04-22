@@ -109,7 +109,16 @@ FhcXmlHandler.prototype = {
       
       this._appendMultilineConfig(doc, multilinecfgElem, prefHandler, dbHandler);
     }
-    
+
+    // add custome save configuration
+    if (options.exportCustSaveCfg) {
+      // custom save configuration
+      var custsavecfgElem = doc.createElement("saveFormHistory-configuration");
+      rootElem.appendChild(custsavecfgElem);
+      
+      this._appendCustomSaveCfg(doc, custsavecfgElem, prefHandler, dbHandler);
+    }
+
     // add regular expressions
     if (options.exportRegexp) {
       var regexpsElem = doc.createElement("regularExpressions");
@@ -160,6 +169,7 @@ FhcXmlHandler.prototype = {
     var parsedEntries = [];
     var parsedEditorfield = [];
     var parsedEditorfieldPrefs = null;
+    var parsedCustomSavePrefs = null;
     var parsedCleanupCriteria = [];
     var parsedProtectCriteria = [];
     var parsedCleanupPrefs = null;
@@ -247,6 +257,31 @@ FhcXmlHandler.prototype = {
             }
           }
         }
+        
+        // custom save preferences
+        var customSavePrefs = doc.getElementsByTagName("saveFormHistory-configuration");
+        if (customSavePrefs.length > 0) {
+          parsedCustomSavePrefs = {
+            saveEnabled:   this._getTextContentOrNull(doc, "customSaveEnabled"),
+            exceptionlist: []
+          }
+        }
+        
+        // custom save exception list
+        var csExceptionElem = doc.getElementsByTagName("exception");
+        var pageElem, csException;
+        for(var cs=0; cs<csExceptionElem.length; cs++) {
+          if (csExceptionElem[cs].hasChildNodes()) {
+            pageElem = csExceptionElem[cs].getElementsByTagName("pageFilter");
+            if (1 == pageElem.length) {
+              csException = {
+                id:   null,
+                url: pageElem[0].textContent
+              };
+              parsedCustomSavePrefs.exceptionlist.push(csException);
+            }
+          }
+        }        
         
         // cleanup preferences
         parsedCleanupPrefs = {
@@ -340,6 +375,7 @@ FhcXmlHandler.prototype = {
       entries:      parsedEntries,
       multiline:    parsedEditorfield,
       multilineCfg: parsedEditorfieldPrefs,
+      custSaveCfg:  parsedCustomSavePrefs,
       cleanup:      parsedCleanupCriteria,
       protect:      parsedProtectCriteria,
       cleanupCfg:   parsedCleanupPrefs,
@@ -519,6 +555,37 @@ FhcXmlHandler.prototype = {
       exceptionsElem.appendChild(exceptionElem);
     }
     exceptions = null;
+  },
+
+  /**
+   * Convert the custom save configuration into a DOM representation.
+   *
+   * @param doc {DOM Document}
+   *        the document object
+   *
+   * @param parentElem {DOM Element}
+   *        the DOM element in which to add the new child elements
+   *
+   * @param  prefHandler {FhcPreferenceHandler}
+   *         the preferenceHandler providing cleanup preferences.
+   *        
+   * @param  dbHandler {FhcDbHandler}
+   *         the database handler
+   */
+  _appendCustomSaveCfg: function(doc, parentElem, prefHandler, dbHandler) {
+    this._appendElement(parentElem, doc.createElement("customSaveEnabled"), prefHandler.getManageFhcException());
+    
+    // add exception list
+    var exceptionsElem = doc.createElement("exceptions");
+    parentElem.appendChild(exceptionsElem);
+    
+    var exceptions = dbHandler.getAllCustomsaveExceptions();
+    var exceptionElem;
+    for(var jj=0; jj<exceptions.length; jj++) {
+      exceptionElem = this._createCustomSaveExceptionElement(doc, exceptions[jj]);
+      exceptionsElem.appendChild(exceptionElem);
+    }
+    exceptions = null;    
   },
 
   /**
@@ -792,6 +859,25 @@ FhcXmlHandler.prototype = {
     var exceptionElem;
     exceptionElem = doc.createElement("exception");
     this._appendElement(exceptionElem, doc.createElement("host"), exception.host);
+    return exceptionElem;
+  },
+
+  /**
+   * Create an Exception element for a custom save exception list.
+   * 
+   * @param doc {DOM-document}
+   *        the document containing DOM-elements
+   *
+   * @param exception {Object}
+   *        the custom save exception object
+   *
+   * @return {DOM element}
+   *         the exception element
+   */
+  _createCustomSaveExceptionElement: function(doc, exception) {
+    var exceptionElem;
+    exceptionElem = doc.createElement("exception");
+    this._appendElement(exceptionElem, doc.createElement("pageFilter"), exception.url);
     return exceptionElem;
   },
 

@@ -72,6 +72,22 @@
           <image id="status-multilineexc"/>
         </row>
         <row align="baseline">
+          <label value="&fhimportexportdlg.checkbox.customsaveprefs;"/>
+          <label id="total-customsavecfg" value="-" style="text-align: right"/>
+          <label id="import-customsavecfg" value="-" style="text-align: right"/>
+          <label id="skipped-customsavecfg" value="-" style="text-align: right"/>
+          <label id="error-customsavecfg" value="-" style="text-align: right"/>
+          <image id="status-customsavecfg"/>
+        </row>
+        <row align="baseline">
+          <label value="&fhimportexportdlg.checkbox.customsaveexceptions;"/>
+          <label id="total-customsaveexc" value="-" style="text-align: right"/>
+          <label id="import-customsaveexc" value="-" style="text-align: right"/>
+          <label id="skipped-customsaveexc" value="-" style="text-align: right"/>
+          <label id="error-customsaveexc" value="-" style="text-align: right"/>
+          <image id="status-customsaveexc"/>
+        </row>
+        <row align="baseline">
           <label value="&fhimportexportdlg.checkbox.regularexpressions;"/>
           <label id="total-regexp" value="-" style="text-align: right"/>
           <label id="import-regexp" value="-" style="text-align: right"/>

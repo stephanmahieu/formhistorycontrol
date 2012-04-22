@@ -53,6 +53,12 @@
         </row>
         <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
         <row align="baseline">
+          <checkbox id="custsaveprefs" label="&fhimportexportdlg.checkbox.customsaveprefs;" persist="checked"/>
+          <label id="custsaveprefsItems" value="" style="text-align: right"/>
+          <label value="&fhimportexportdlg.label.items;"/>
+        </row>        
+        <separator class="groove" orient="horizontal" flex="1" height="2" style="margin:0;padding:0"/>
+        <row align="baseline">
           <checkbox id="regexp" label="&fhimportexportdlg.checkbox.regularexpressions;" persist="checked"/>
           <label id="regexpItems" value="" style="text-align: right"/>
           <label value="&fhimportexportdlg.label.items;"/>
