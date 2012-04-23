@@ -73,34 +73,35 @@
 
   <groupbox>
     <caption label="&fhwin.button.edit.label;"/>
-    <hbox align="baseline">
+    <hbox align="baseline" flex="1">
       <label value="&fhcmanagefhclistdlg.treeview.column.page.label;"/>
       <textbox id="host" flex="1" oninput="FhcManageFhcListDialog.initEditButtons()"/>
     </hbox>
-    <hbox>
-      <button id="deleteHost"
+    <hbox flex="1">
+      <button id="deleteHost" crop="right"
               oncommand="FhcManageFhcListDialog.deleteItem()"
               label="&fhwin.button.remove.label;"
               accesskey="&fhwin.button.remove.accesskey;"/>
-      <button id="updateHost"
+      <button id="updateHost" crop="right"
               oncommand="FhcManageFhcListDialog.updateItem()"
               label="&fhwin.button.edit.label;"
               accesskey="&fhwin.button.edit.accesskey;"/>
-      <button id="addHost"
+      <button id="addHost" crop="right"
               oncommand="FhcManageFhcListDialog.addItem()"
               label="&fhwin.button.add.label;"
               accesskey="&fhwin.button.add.accesskey;"/>
-      <button id="addCurrentHost"
-              oncommand="FhcManageFhcListDialog.addCurrentHost()"
-              label="&fhcmultilinelistdlg.button.addcurrenthost;"/>
-      <button id="addCurrentPage"
-              oncommand="FhcManageFhcListDialog.addCurrentPage()"
-              label="&fhcmanagefhclistdlg.button.addcurrentpage;"/>
+	  <spacer flex="1"/>
     </hbox>
   </groupbox>  
   
   <hbox>
     <spacer flex="1"/>
+      <button id="addCurrentHost" crop="right"
+              oncommand="FhcManageFhcListDialog.addCurrentHost()"
+              label="&fhcmultilinelistdlg.button.addcurrenthost;"/>
+      <button id="addCurrentPage" crop="right"
+              oncommand="FhcManageFhcListDialog.addCurrentPage()"
+              label="&fhcmanagefhclistdlg.button.addcurrentpage;"/>
     <button id="close" icon="close"
             label="&fhwin.button.close.label;"
             accesskey="&fhwin.button.close.accesskey;"
