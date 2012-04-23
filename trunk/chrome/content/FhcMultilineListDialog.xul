@@ -90,14 +90,14 @@
               oncommand="FhcMultilineListDialog.addItem()"
               label="&fhwin.button.add.label;"
               accesskey="&fhwin.button.add.accesskey;"/>
-      <button id="addCurrent"
-              oncommand="FhcMultilineListDialog.addCurrent()"
-              label="&fhcmultilinelistdlg.button.addcurrenthost;"/>
     </hbox>
   </groupbox>  
   
   <hbox>
     <spacer flex="1"/>
+    <button id="addCurrent"
+            oncommand="FhcMultilineListDialog.addCurrent()"
+            label="&fhcmultilinelistdlg.button.addcurrenthost;"/>
     <button id="close" icon="close"
             label="&fhwin.button.close.label;"
             accesskey="&fhwin.button.close.accesskey;"
