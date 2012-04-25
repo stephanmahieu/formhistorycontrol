@@ -410,7 +410,7 @@
                 <checkbox id="multilineprivacysanitizehtml"
                           label="&fhprefs.checkbox.multilinesanitizehtmlpreview;"
                           preference="extensions.formhistory.multiline.sanitizehtmlpreview"/>
-                <checkbox id="multilineprivacysaveencrypted"
+                <checkbox id="multilineprivacysaveencrypted" disabled="true"
                           label="&fhprefs.checkbox.multilinesaveencrypted; (&fhcnotimplemented.label;)"
                           preference="extensions.formhistory.multiline.saveencrypted"/>
               </groupbox>
