@@ -380,7 +380,7 @@ const FhcPreferences = {
     
     document.getElementById("multilineprivacysavealways").disabled = !isEnabled;
     document.getElementById("multilineprivacysanitizehtml").disabled = !isEnabled;
-    document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
+    //document.getElementById("multilineprivacysaveencrypted").disabled = !isEnabled;
   },
 
   initManageFhcPanel: function() {
