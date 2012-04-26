@@ -236,7 +236,7 @@
 
 
   <!-- Editor backup -->
-  <prefpane id="multiline" label="Editor fields"
+  <prefpane id="multiline" label="&fhprefs.prefpane.multiline.label;"
             image="chrome://formhistory/skin/text_32.png">
     <preferences>
       <preference id="extensions.formhistory.multiline.backupenabled"
