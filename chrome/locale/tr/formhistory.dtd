@@ -86,10 +86,6 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Seçimi Tersine Çevir">
 <!ENTITY fhwin.menuitem.addcleanup.label "Temizlik kriteri olarak ekle">
 <!ENTITY fhwin.menuitem.addprotect.label "Koruma kriteri olarak ekle">
-<!ENTITY fhwin.menuitem.exportall.label "Tüm Geçmiş Girdilerini Dışa Aktar">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Arama Sonuçlarıyle Eşleşen Girdileri Dışa Aktar">
-<!ENTITY fhwin.menuitem.exportselected.label "Yalnızca Seçili Girdileri Dışa Aktar">
-<!ENTITY fhwin.menuitem.import.label "Geçmişi İçe Aktar">
 <!ENTITY fhwin.menuitem.exportcsv.label "Tüm Geçmişi CSV biçiminde Dışa Aktar">
 <!ENTITY fhwin.menuitem.reloadview.label "Yeniden Yükle">
 <!ENTITY fhwin.menuitem.close.label "Kapat">
@@ -246,7 +242,6 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Değerleri bununla çevrele">
 <!ENTITY fhprefs.textbox.csvexportescape.label "bu önek ile değerleri kaçır">
 <!ENTITY fhprefs.group.configexport.caption "Düzenlemeti İçe/Dışa Aktar">
-<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Klavye kısayollarını İçe ve Dışa Aktar">
 <!ENTITY fhprefs.prefpane.cleanup.label "Temizlik">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Ağ gezgini kapandığında Temizlik Uygula">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Ağ gezgini sekmesi kapandığında Temizlik Uygula">

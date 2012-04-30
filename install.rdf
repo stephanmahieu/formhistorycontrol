@@ -4,7 +4,7 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.0.0pre1</em:version>
+		<em:version>1.3.0.1pre1</em:version>
 		<em:type>2</em:type>
 		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>

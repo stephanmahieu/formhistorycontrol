@@ -47,9 +47,6 @@
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Összes azonos értékű törlése">
 <!ENTITY fhwin.menuitem.selectall.label "Összes kijelölése">
 <!ENTITY fhwin.menuitem.selectall.accelkey "ö">
-<!ENTITY fhwin.menuitem.exportall.label "Összes előzmény exportálása">
-<!ENTITY fhwin.menuitem.exportselected.label "Csak a kijelölt elemek exportálása">
-<!ENTITY fhwin.menuitem.import.label "Előzmények importálása">
 <!ENTITY fhwin.menuitem.reloadview.label "Újratöltés">
 <!ENTITY fhwin.menuitem.close.label "Bezárás">
 <!ENTITY fhwin.menuitem.options.label "Beállítások">

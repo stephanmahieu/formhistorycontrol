@@ -86,10 +86,6 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Инвертировать выделение">
 <!ENTITY fhwin.menuitem.addcleanup.label "Добавить критерий очистки">
 <!ENTITY fhwin.menuitem.addprotect.label "Добавить критерий зашиты">
-<!ENTITY fhwin.menuitem.exportall.label "Экспорт всех записей истории">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Экспорт записей, соответствующих результатам поиска">
-<!ENTITY fhwin.menuitem.exportselected.label "Экспорт только выделенных записей">
-<!ENTITY fhwin.menuitem.import.label "Импорт истории">
 <!ENTITY fhwin.menuitem.exportcsv.label "Экспорт всей истории как CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Обновить">
 <!ENTITY fhwin.menuitem.close.label "Закрыть">
@@ -246,7 +242,6 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Обрамлять значения символом">
 <!ENTITY fhprefs.textbox.csvexportescape.label "префиксом начала строки является символ">
 <!ENTITY fhprefs.group.configexport.caption "Конфигурация Импорта/Экспорта">
-<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Горячие клавиши для Импорта и Экспорта">
 <!ENTITY fhprefs.prefpane.cleanup.label "Очистка">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Выполнять очистку при закрытии браузера">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Выполнять очистку при закрытии вкладки окна браузера">

@@ -67,10 +67,6 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Obrátiť výber">
 <!ENTITY fhwin.menuitem.addcleanup.label "Pridať ako kritériá vyčistenia">
 <!ENTITY fhwin.menuitem.addprotect.label "Pridať ako ochranné kritériá">
-<!ENTITY fhwin.menuitem.exportall.label "Exportovať všetky údaje histórie">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Exportovať údaje vyhovujúce podmienkam hľadania">
-<!ENTITY fhwin.menuitem.exportselected.label "Exportovať iba vybrané údaje">
-<!ENTITY fhwin.menuitem.import.label "Importovať históriu">
 <!ENTITY fhwin.menuitem.exportcsv.label "Exportovať kompletnú históriu ako CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Obnoviť">
 <!ENTITY fhwin.menuitem.close.label "Zavrieť">
