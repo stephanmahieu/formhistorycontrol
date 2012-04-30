@@ -71,7 +71,7 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getDescription: function() {
-    return this._getByTagname("em:description");
+    return this._getByTagnameLocalized("em:description");
   },
 
   /**
@@ -124,7 +124,8 @@ FhcRdfExtensionHandler.prototype = {
   /**
    * Get a single value from the install.rdf directly from the xml.
    * If we would use getValue() we would only get locale dependend info,
-   * thus the information should have to be present in all locale sections.
+   * thus the information (tagname) must be present in all locale sections.
+   * For example: tag <em:creator> is not present in all locale sections.
    *
    * @param tagname {String}
    *        the name of the tag of the install.rdf
@@ -135,6 +136,69 @@ FhcRdfExtensionHandler.prototype = {
   _getByTagname: function(tagname) {
     var elem = this.xmlInstall.getElementsByTagName(tagname);
     return elem[0].textContent;
+  },
+
+  /**
+   * Get a single value from the install.rdf directly from the xml.
+   * Try within <em:localized> tags first, it must contain an <em:locale> tag
+   * with the current locale. If nothing found, try to find the tagname from root.
+   *
+   * @param tagname {String}
+   *        the name of the tag of the install.rdf
+   * 
+   * @return {String}
+   *         the textcontent of the tag
+   */
+  _getByTagnameLocalized: function(tagname) {
+    var locale = Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefBranch)
+           .getCharPref("general.useragent.locale");
+           
+    var tagValue = this._getByTagnameLocale(tagname, locale);
+    
+    if (tagValue == "" && locale.length > 2) {
+      // try 2 letter locale
+      tagValue = this._getByTagnameLocale(tagname, locale.substr(0,2));
+    }
+    
+    if (tagValue == "") {
+      // no localized tag, try from root, return first match
+      tagValue = this._getByTagname(tagname);
+    }
+    
+    return tagValue;
+  },
+
+
+  /**
+   * Get a single value from the install.rdf directly from the xml.
+   * Try within <em:localized> tags, it must contain an <em:locale> tag
+   * with the given locale. If nothing found, return an empty String.
+   *
+   * @param tagname {String}
+   *        the name of the tag of the install.rdf
+   * 
+   * @param locale {String}
+   *        the locale defined for the tagname
+   * 
+   * @return {String}
+   *         the textcontent of the tag
+   */
+  _getByTagnameLocale: function(tagname, locale) {
+    var elemLocalized = this.xmlInstall.getElementsByTagName("em:localized");
+    for (var ii=0; ii<elemLocalized.length; ii++) {
+      var elmLocale = elemLocalized[ii].getElementsByTagName("em:locale");
+      if (elmLocale.length > 0) {
+        if (elmLocale[0].textContent == locale) {
+          // found a locale match
+          var elem = elemLocalized[ii].getElementsByTagName(tagname);
+          if (elem.length > 0) {
+            return elem[0].textContent;
+          }
+        }
+      }
+    }
+    return "";
   },
 
   /**

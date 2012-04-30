@@ -338,20 +338,23 @@ FhcPreferenceHandler.prototype = {
   // Global preferences (FireFox's options)
   //----------------------------------------------------------------------------
   isGlobalRememberFormEntriesActive: function() {
-    var prefServiceFF = Components.classes["@mozilla.org/preferences-service;1"]
-           .getService(Components.interfaces.nsIPrefService)
-           .getBranch("browser.formfill.");
-    return prefServiceFF.getBoolPref("enable");
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefBranch)
+           .getBoolPref("browser.formfill.enable");
   },
   setGlobalRememberFormEntriesActive: function(newBoolPref) {
-    var prefServiceFF = Components.classes["@mozilla.org/preferences-service;1"]
-           .getService(Components.interfaces.nsIPrefService)
-           .getBranch("browser.formfill.");
-    return prefServiceFF.setBoolPref("enable", newBoolPref);
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefBranch)
+           .setBoolPref("browser.formfill.enable", newBoolPref);
   },
 
+  getCurrentLocale: function() {
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefBranch)
+           .getCharPref("general.useragent.locale");
+  },
 
-  // Create an Unicode String
+  // Create a Unicode String
   _toUnicodeString: function(stringData) {
     var str = Components.classes['@mozilla.org/supports-string;1']
                 .createInstance(Components.interfaces.nsISupportsString);
