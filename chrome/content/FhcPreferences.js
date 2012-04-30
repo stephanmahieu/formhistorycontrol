@@ -336,6 +336,8 @@ const FhcPreferences = {
     }
     document.getElementById("geckoversion").value = geckoVersion;
 
+    document.getElementById("currentlocale").value = this.prefHandler.getCurrentLocale();
+
     // database info
     document.getElementById("moz-location").value = this.dbHandler.formHistoryFile.path;
     document.getElementById("moz-size").value = this.dbHandler.formHistoryFile.fileSize + " bytes";
