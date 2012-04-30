@@ -1,6 +1,6 @@
 @echo off
 
-set XPI_FILE=formhistory_1300pre1.xpi
+set XPI_FILE=formhistory_1301pre1.xpi
 
 
 rem --(check if xpi exist)-------------------------------------
@@ -16,11 +16,7 @@ goto error
 rem --(delete incomplete locales)-------------------------------
 7z.exe d %XPI_FILE% ^
           chrome\locale\bg-BG ^
-          chrome\locale\cs ^
-          chrome\locale\da ^
           chrome\locale\de ^
-          chrome\locale\es-ES ^
-          chrome\locale\fr ^
           chrome\locale\hu ^
           chrome\locale\it ^
           chrome\locale\pt-BR ^

@@ -79,10 +79,6 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Обърни избора">
 <!ENTITY fhwin.menuitem.addcleanup.label "Добави като критерий за почистване">
 <!ENTITY fhwin.menuitem.addprotect.label "Добавяне като защитен критерий">
-<!ENTITY fhwin.menuitem.exportall.label "Експорт на всички записи в историята">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Експорт на записите, съвпадащи с резултатите от търсенето">
-<!ENTITY fhwin.menuitem.exportselected.label "Експорт само на маркираните записи">
-<!ENTITY fhwin.menuitem.import.label "Внасяне на Историята">
 <!ENTITY fhwin.menuitem.exportcsv.label "Експорт на цялата История като CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Презареди">
 <!ENTITY fhwin.menuitem.close.label "Затвори">

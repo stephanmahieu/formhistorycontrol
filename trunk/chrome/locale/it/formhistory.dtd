@@ -71,10 +71,6 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Inverti seleziona">
 <!ENTITY fhwin.menuitem.addcleanup.label "Aggiungi criterio di cancellazione">
 <!ENTITY fhwin.menuitem.addprotect.label "Aggiungi come criterio di protezione">
-<!ENTITY fhwin.menuitem.exportall.label "Esporta tutti gli elementi della cronologia moduli">
-<!ENTITY fhwin.menuitem.exportdisplayed.label "Esporta gli elementi che corrispondono ai risultati della ricerca">
-<!ENTITY fhwin.menuitem.exportselected.label "Esporta solo elementi selezionati">
-<!ENTITY fhwin.menuitem.import.label "Importa cronologia">
 <!ENTITY fhwin.menuitem.exportcsv.label "Esporta cronologia completa come file CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Ricarica">
 <!ENTITY fhwin.menuitem.close.label "Chiudi">
