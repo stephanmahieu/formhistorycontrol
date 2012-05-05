@@ -42,32 +42,24 @@
  *
  * Dependencies: FhcDateHandler.js, FhcRdfExtensionHandler.js
  */
-function FhcXmlHandler(fhcDatehandler, useISOdates) {
+function FhcXmlHandler(fhcDatehandler) {
   this.serializer = Components.classes["@mozilla.org/xmlextras/xmlserializer;1"]
                               .createInstance(Components.interfaces.nsIDOMSerializer);
   this.dateHandler = fhcDatehandler;
-  
-  this.useISOdateFormat = useISOdates;
 }
 
 FhcXmlHandler.prototype = {
 
   /**
-   * Serialize data (formhistory, config, etc) into a XML string representation.
+   * Serialize formhistory entries into a XML string representation.
    *
-   * @param  options {Object}
-   *         object containing data plus export options
+   * @param  entries {Array}
+   *         an array of formhistory entries
    *
-   * @param  prefHandler {FhcPreferenceHandler}
-   *         the preferenceHandler providing cleanup preferences.
-   *
-   * @param  dbHandler {FhcDbHandler}
-   *         the database handler
-   *         
    * @return {String}
    *         a pretty printed XML string representation of the entries
    */
-  dataToXMLString: function(options, prefHandler, dbHandler) {
+  entriesToXMLString: function(entries) {
     // create a DOM tree
     var doc = document.implementation.createDocument("", "", null);
     var rootElem = doc.createElement("formhistory");
@@ -76,77 +68,20 @@ FhcXmlHandler.prototype = {
     // create a header    
     this._appendHeaderElement(doc, rootElem);
     
-    // add formhistory fields
-    if (options.entries && 0 < options.entries.length) {
-      var entries = options.entries;
-      var fieldsElem = doc.createElement("fields");
-      rootElem.appendChild(fieldsElem);
-
-      var fieldElem;
-      for(var ii=0; ii<entries.length; ii++) {
-        fieldElem = this._createFormhistoryElement(doc, entries[ii]);
-        fieldsElem.appendChild(fieldElem);
-      }
-    }
+    // create the fields
+    var fieldsElem = doc.createElement("fields");
+    rootElem.appendChild(fieldsElem);
     
-    // add multiline editorfields
-    if (options.multilines && 0 < options.multilines.length) {
-      var multilines = options.multilines;
-      var editorfieldsElem = doc.createElement("editorFields");
-      rootElem.appendChild(editorfieldsElem);
-
-      var editorfieldElem;
-      for(var nn=0; nn<multilines.length; nn++) {
-        editorfieldElem = this._createEditorfieldElement(doc, multilines[nn]);
-        editorfieldsElem.appendChild(editorfieldElem);
-      }
-    }
-    
-    if (options.exportMultiCfg) {
-      // multiline configuration
-      var multilinecfgElem = doc.createElement("editorFields-configuration");
-      rootElem.appendChild(multilinecfgElem);
-      
-      this._appendMultilineConfig(doc, multilinecfgElem, prefHandler, dbHandler);
-    }
-
-    // add custome save configuration
-    if (options.exportCustSaveCfg) {
-      // custom save configuration
-      var custsavecfgElem = doc.createElement("saveFormHistory-configuration");
-      rootElem.appendChild(custsavecfgElem);
-      
-      this._appendCustomSaveCfg(doc, custsavecfgElem, prefHandler, dbHandler);
-    }
-
-    // add regular expressions
-    if (options.exportRegexp) {
-      var regexpsElem = doc.createElement("regularExpressions");
-      rootElem.appendChild(regexpsElem);
-
-      var regexpElem;
-      var regexpData = dbHandler.getAllRegexp();
-      for(var kk=0; kk<regexpData.length; kk++) {
-        regexpElem = this._createRegexpElement(doc, regexpData[kk]);
-        regexpsElem.appendChild(regexpElem);
-      }
-      regexpData = null;
-    }
-    
-    // add cleanup configuration
-    if (options.exportClean) {
-      var cleanupElem = doc.createElement("formhistory-cleanup");
-      rootElem.appendChild(cleanupElem);
-      
-      this._appendCleanupConfig(doc, cleanupElem, prefHandler, dbHandler);
-    }
-    
-    // add keybindings
-    if (options.exportKeys) {
-      var keyBindingsElem = doc.createElement("keyBindings");
-      rootElem.appendChild(keyBindingsElem);
-      
-      this._appendKeybindings(doc, keyBindingsElem, prefHandler);
+    var fieldElem;
+    for(var ii=0; ii<entries.length; ii++) {
+      fieldElem = doc.createElement("field");
+      this._appendElement(fieldElem,          doc.createElement("name"), entries[ii].name);
+      // cdata for value would be nice but is removed by XML.toXMLString()
+      this._appendElement(fieldElem,          doc.createElement("value"), this._encode(entries[ii].value));
+      this._appendElement(fieldElem,          doc.createElement("timesUsed"), entries[ii].used);
+      this._appendDateElement(doc, fieldElem, doc.createElement("firstUsed"), entries[ii].first);
+      this._appendDateElement(doc, fieldElem, doc.createElement("lastUsed"),  entries[ii].last);
+      fieldsElem.appendChild(fieldElem);
     }
     
     // serialize to string (pretty printed)
@@ -155,38 +90,24 @@ FhcXmlHandler.prototype = {
     //return this.serializer.serializeToString(doc);
   },
 
-
   /**
-   * Deserialize a XML inputstream containing formhistory data.
+   * Deserialize a XML inputstream containing formhistory data into an array of
+   * formhistory entries.
    *
    * @param  streamIn {nsIInputStream}
-   *         the inputstream (source) of the XML
+   *         the inputstream (source ) of the XML
    *
    * @return {Array}
    *         an array of formhistory entries
    */
-  parseXMLdata: function(streamIn) {
+  parseFormhistory: function(streamIn) {
     var parsedEntries = [];
-    var parsedEditorfield = [];
-    var parsedEditorfieldPrefs = null;
-    var parsedCustomSavePrefs = null;
-    var parsedCleanupCriteria = [];
-    var parsedProtectCriteria = [];
-    var parsedCleanupPrefs = null;
-    var parsedKeybindings = [];
-    var parsedRegexp = [];
-    
     var now = this.dateHandler.getCurrentDate();
 
     var parser = new DOMParser();
     try {
-      var xmlString = this._readTextFromStream(streamIn);
-      var doc = parser.parseFromString(xmlString, "text/xml");
-      
-      if ("formhistory" == doc.documentElement.nodeName ||
-          "formhistory-cleanup" == doc.documentElement.nodeName) {
-        
-        // formhistory fields
+      var doc = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+      if ("formhistory" == doc.documentElement.nodeName) {
         var fldElem = doc.getElementsByTagName("field");
         var nameElem, valElem;
         for(var ii=0; ii<fldElem.length; ii++) {
@@ -206,272 +127,38 @@ FhcXmlHandler.prototype = {
             }
           }
         }
-        
-        // multiline editor fields
-        var editorfieldElem = doc.getElementsByTagName("editorField");
-        var edFldElem;
-        for(var nn=0; nn<editorfieldElem.length; nn++) {
-          if (editorfieldElem[nn].hasChildNodes()) {
-            edFldElem = editorfieldElem[nn];
-            parsedEditorfield.push({
-              id:         this._decode(this._getElementValue(edFldElem, "id", "")),
-              name:       this._decode(this._getElementValue(edFldElem, "name", "")),
-              type:       this._decode(this._getElementValue(edFldElem, "type", "")),
-              formid:     this._decode(this._getElementValue(edFldElem, "formid", "")),
-              content:    this._decode(this._getElementValue(edFldElem, "content", "")),
-              host:       this._decode(this._getElementValue(edFldElem, "host", "")),
-              url:        this._decode(this._getElementValue(edFldElem, "url", "")),
-              firstsaved: this._getElemenDate(edFldElem, "firstsaved",  0),
-              lastsaved:  this._getElemenDate(edFldElem, "lastsaved",  0)
-            });
-          }
-        }
-        
-        // multiline preferences
-        var mlEditorfieldPrefs = doc.getElementsByTagName("editorFields-configuration");
-        if (mlEditorfieldPrefs.length > 0) {
-          parsedEditorfieldPrefs = {
-            backupEnabled:   this._getTextContentOrNull(doc, "backupEnabled"),
-            saveNewIfOlder:  this._getTextContentOrNull(doc, "saveNewIfOlder"),
-            saveNewIfLength: this._getTextContentOrNull(doc, "saveNewIfLength"),
-            deleteIfOlder:   this._getTextContentOrNull(doc, "deleteIfOlder"),
-            exception:       this._getTextContentOrNull(doc, "exceptionEnable"),
-            saveAlways:      this._getTextContentOrNull(doc, "saveAlways"),
-            saveEncrypted:   this._getTextContentOrNull(doc, "saveEncrypted"),
-            exceptionlist:   []
-          };
-        }
-        
-        // multiline exception list
-        var exceptionElem = doc.getElementsByTagName("exception");
-        var hostElem, exception;
-        for(var ee=0; ee<exceptionElem.length; ee++) {
-          if (exceptionElem[ee].hasChildNodes()) {
-            hostElem = exceptionElem[ee].getElementsByTagName("host");
-            if (1 == hostElem.length) {
-              exception = {
-                id:   null,
-                host: hostElem[0].textContent
-              };
-              parsedEditorfieldPrefs.exceptionlist.push(exception);
-            }
-          }
-        }
-        
-        // custom save preferences
-        var customSavePrefs = doc.getElementsByTagName("saveFormHistory-configuration");
-        if (customSavePrefs.length > 0) {
-          parsedCustomSavePrefs = {
-            saveEnabled:   this._getTextContentOrNull(doc, "customSaveEnabled"),
-            exceptionlist: []
-          }
-        }
-        
-        // custom save exception list
-        var csExceptionElem = doc.getElementsByTagName("exception");
-        var pageElem, csException;
-        for(var cs=0; cs<csExceptionElem.length; cs++) {
-          if (csExceptionElem[cs].hasChildNodes()) {
-            pageElem = csExceptionElem[cs].getElementsByTagName("pageFilter");
-            if (1 == pageElem.length) {
-              csException = {
-                id:   null,
-                url: pageElem[0].textContent
-              };
-              parsedCustomSavePrefs.exceptionlist.push(csException);
-            }
-          }
-        }        
-        
-        // cleanup preferences
-        parsedCleanupPrefs = {
-          cleanupDaysChecked:  this._getAttributeOrNull(doc,   "daysUsedLimit", "active"),
-          cleanupDays:         this._getTextContentOrNull(doc, "daysUsedLimit"),
-          cleanupTimesChecked: this._getAttributeOrNull(doc,   "timesUsedLimit", "active"),
-          cleanupTimes:        this._getTextContentOrNull(doc, "timesUsedLimit"),
-          cleanupOnShutdown:   this._getTextContentOrNull(doc, "cleanupOnShutdown"),
-          cleanupOnTabClose:   this._getTextContentOrNull(doc, "cleanupOnTabClose")
-        };
-
-        // criteria nameValuePairs
-        var namevalElem = doc.getElementsByTagName("nameValue");
-        var criteria, descrElem, critType;
-        for(var jj=0; jj<namevalElem.length; jj++) {
-          if (namevalElem[jj].hasChildNodes()) {
-            descrElem = namevalElem[jj].getElementsByTagName("description");
-            nameElem = namevalElem[jj].getElementsByTagName("name");
-            valElem = namevalElem[jj].getElementsByTagName("value");
-
-            if (1 == nameElem.length || 1 == valElem.length) {
-
-              critType = "C";
-              if ("protectCriteria" == namevalElem[jj].parentNode.parentNode.tagName) {
-                critType = "P";
-              }
-              criteria = {
-                id:          -1,
-                name:        (1==nameElem.length)  ? this._decode(nameElem[0].textContent)  : "",
-                value:       (1==valElem.length)   ? this._decode(valElem[0].textContent)   : "",
-                description: (1==descrElem.length) ? this._decode(descrElem[0].textContent) : "",
-                nameExact:   (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"exact")  : 0,
-                nameCase:    (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"case")   : 0,
-                nameRegex:   (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"regex")  : 0,
-                valueExact:  (1==valElem.length)   ? this._getIntAttr(valElem[0], "exact")  : 0,
-                valueCase:   (1==valElem.length)   ? this._getIntAttr(valElem[0], "case")   : 0,
-                valueRegex:  (1==valElem.length)   ? this._getIntAttr(valElem[0], "regex")  : 0,
-                critType:    critType
-              };
-
-              if ("C" == criteria.critType) {
-                parsedCleanupCriteria.push(criteria);
-              } else {
-                parsedProtectCriteria.push(criteria);
-              }
-            }
-          }
-        }
-
-        // regular expressions
-        var regexpElem = doc.getElementsByTagName("regularExpression");
-        var catElem, exprElem, useforElem, typeElem;
-        for(var mm=0; mm<regexpElem.length; mm++) {
-          if (regexpElem[mm].hasChildNodes()) {
-            descrElem  = regexpElem[mm].getElementsByTagName("description");
-            catElem    = regexpElem[mm].getElementsByTagName("category");
-            exprElem   = regexpElem[mm].getElementsByTagName("expression");
-            useforElem = regexpElem[mm].getElementsByTagName("useFor");
-            typeElem   = regexpElem[mm].getElementsByTagName("type");
-
-            parsedRegexp.push({
-              id:          -1,
-              description: this._decode(descrElem[0].textContent),
-              category:    this._decode(catElem[0].textContent),
-              regexp:      this._decode(exprElem[0].textContent),
-              useFor:      useforElem[0].textContent,
-              caseSens:    this._getIntAttr(exprElem[0],"exact"),
-              regexpType:  ("built-in" == typeElem[0].textContent ? "b" : "")
-            });
-          }
-        }
-
-        // keyBindings
-        var keyBindingsElem = doc.getElementsByTagName("keyBinding");
-        var bindingId, bindingValue;
-        for(var kk=0; kk<keyBindingsElem.length; kk++) {
-           bindingValue = this._decode(keyBindingsElem[kk].textContent);
-           bindingId = keyBindingsElem[kk].getAttribute("id");
-           parsedKeybindings.push({
-             id:    bindingId,
-             value: bindingValue
-           });
-        }
-        
       }
     } catch(ex) {
       alert("XML parser exception: " + ex);
     }
-    
-    var result = {
-      entries:      parsedEntries,
-      multiline:    parsedEditorfield,
-      multilineCfg: parsedEditorfieldPrefs,
-      custSaveCfg:  parsedCustomSavePrefs,
-      cleanup:      parsedCleanupCriteria,
-      protect:      parsedProtectCriteria,
-      cleanupCfg:   parsedCleanupPrefs,
-      keys:         parsedKeybindings,
-      regexp:       parsedRegexp
-    }
-    return result;
+    return parsedEntries;
   },
 
   /**
-   * Read text data from inputstream into a String.
+   * Serialize the cleanup data/configuration into an XML string representation.
    *
-   * @param  streamIn {nsIInputStream}
-   *         the inputstream (source)
-   *
-   * @return {String}
-   *         text data
-   */
-  _readTextFromStream: function(streamIn) {
-      var lines = "";
-      var str = {};
-      while (streamIn.readString(4096, str) != 0) {
-        lines += str.value;
-      }  
-      return lines;
-  },
-
-  /**
-   * Get the textcontent of the tag with the given tagname.
-   */
-  _getTextContentOrNull: function(doc, tagname) {
-    var elements = doc.getElementsByTagName(tagname);
-    return (elements.length > 0) ? elements[0].textContent : null;
-  },
-
-  /**
-   * Get the requested atribute from the tag with the given tagname.
-   */
-  _getAttributeOrNull: function(doc, tagname, attributename) {
-    var elements = doc.getElementsByTagName(tagname);
-    return (elements.length  > 0) ? elements[0].getAttribute(attributename) : null;
-  },
-
-  /**
-   * Convert the keybindings into a DOM representation.
-   *
-   * @param doc {DOM Document}
-   *        the document object
-   *
-   * @param parentElem {DOM Element}
-   *        the DOM element in which to add the new child elements
-   *
-   * @param  prefHandler {FhcPreferenceHandler}
-   *         the preferenceHandler providing cleanup preferences.
-   */
-  _appendKeybindings: function(doc, parentElem, prefHandler) {
-      var Ids = [
-        "shortcutManager",
-        "shortcutManageThis",
-        "shortcutDeleteValueThis",
-        "shortcutDeleteThis",
-        "shortcutFillMostRecent",
-        "shortcutFillMostUsed",
-        "shortcutShowFormFields",
-        "shortcutClearFields",
-        "shortcutCleanupNow",
-        "shortcutSaveThisField",
-        "shortcutSaveThisPage"];
-      var keyBinding, bindingValueComplex, bindingValue;
-      for (var i=0; i<Ids.length; i++) {
-        bindingValueComplex = prefHandler.getKeybindingValue(Ids[i]);
-        bindingValue = bindingValueComplex ? bindingValueComplex.data : "";
-        keyBinding = this._createKeyBindingElement(doc, Ids[i], bindingValue);
-        parentElem.appendChild(keyBinding);
-      }
-  },
-
-  /**
-   * Convert the cleanup configuration into a DOM representation.
-   *
-   * @param doc {DOM Document}
-   *        the document object
-   *
-   * @param parentElem {DOM Element}
-   *        the DOM element in which to add the new child elements
-   *
-   * @param  prefHandler {FhcPreferenceHandler}
-   *         the preferenceHandler providing cleanup preferences.
-   *        
    * @param  dbHandler {FhcDbHandler}
    *         the database handler
+   *
+   * @param  prefHandler {FhcPreferenceHandler}
+   *         the preferenceHandler providing cleanup preferences.
+   *
+   * @return {String}
+   *         a pretty printed XML string representation of the cleanup
+   *         configuration
    */
-  _appendCleanupConfig: function(doc, parentElem, prefHandler, dbHandler) {
+  cleanupToXMLString: function(dbHandler, prefHandler) {
+    // create a DOM tree
+    var doc = document.implementation.createDocument("", "", null);
+    var rootElem = doc.createElement("formhistory-cleanup");
+    doc.appendChild(rootElem);
+
+    // create a header
+    this._appendHeaderElement(doc, rootElem);
+
     // criteria
     var criteriaElem = doc.createElement("cleanupCriteria");
-    parentElem.appendChild(criteriaElem);
+    rootElem.appendChild(criteriaElem);
 
     // general time/usage criteria from preferences
     var generalElem = doc.createElement("general");
@@ -505,7 +192,7 @@ FhcXmlHandler.prototype = {
 
     // protect criteria
     var protectCriteriaElem = doc.createElement("protectCriteria");
-    parentElem.appendChild(protectCriteriaElem);
+    rootElem.appendChild(protectCriteriaElem);
 
     // name/value pairs
     var namevalPairsProtElem = doc.createElement("nameValuePairs");
@@ -518,74 +205,173 @@ FhcXmlHandler.prototype = {
       namevalPairsProtElem.appendChild(namevalElem);
     }
     protectCriteria = null;
+
+    // regexps
+    var regexpsElem = doc.createElement("regularExpressions");
+    rootElem.appendChild(regexpsElem);
+
+    // regexp
+    var regexpElem;
+    var regexpData = dbHandler.getAllRegexp();
+    for(var kk=0; kk<regexpData.length; kk++) {
+      regexpElem = this._createRegexpElement(doc, regexpData[kk]);
+      regexpsElem.appendChild(regexpElem);
+    }
+    regexpData = null;
+
+    // keyBindings
+    if (prefHandler.isExportConfigKeyBindings()) {
+      var keyBindingsElem = doc.createElement("keyBindings");
+      rootElem.appendChild(keyBindingsElem);
+      var Ids = [
+        "shortcutManager",
+        "shortcutManageThis",
+        "shortcutDeleteValueThis",
+        "shortcutDeleteThis",
+        "shortcutFillMostRecent",
+        "shortcutFillMostUsed",
+        "shortcutShowFormFields",
+        "shortcutClearFields",
+        "shortcutCleanupNow",
+        "shortcutSaveThisField",
+        "shortcutSaveThisPage"];
+      var keyBinding, bindingValueComplex, bindingValue;
+      for (var i=0; i<Ids.length; i++) {
+        bindingValueComplex = prefHandler.getKeybindingValue(Ids[i]);
+        bindingValue = bindingValueComplex ? bindingValueComplex.data : "";
+        keyBinding = this._createKeyBindingElement(doc, Ids[i], bindingValue);
+        keyBindingsElem.appendChild(keyBinding);
+      }
+    }
+
+    // serialize to string (pretty printed)
+    XML.ignoreComments = false;
+    return XML(this.serializer.serializeToString(doc)).toXMLString();
+    //return this.serializer.serializeToString(doc);
   },
 
   /**
-   * Convert the editor backup configuration into a DOM representation.
-   *
-   * @param doc {DOM Document}
-   *        the document object
-   *
-   * @param parentElem {DOM Element}
-   *        the DOM element in which to add the new child elements
-   *
+   * Deserialize a XML inputstream containing clesanup data into an array of
+   * cleanup criteria.
+   * 
+   * @param  streamIn {nsIInputStream}
+   * 
    * @param  prefHandler {FhcPreferenceHandler}
    *         the preferenceHandler providing cleanup preferences.
-   *        
-   * @param  dbHandler {FhcDbHandler}
-   *         the database handler
+   * 
+   * @return {Object}
+   *         an Object containing arrays with the cleanup configuration.
    */
-  _appendMultilineConfig: function(doc, parentElem, prefHandler, dbHandler) {
-    this._appendElement(parentElem, doc.createElement("backupEnabled"), prefHandler.isMultilineBackupEnabled());
-    this._appendElement(parentElem, doc.createElement("saveNewIfOlder"), prefHandler.getMultilineSaveNewIfOlder());
-    this._appendElement(parentElem, doc.createElement("saveNewIfLength"), prefHandler.getMultilineSaveNewIfLength());
-    this._appendElement(parentElem, doc.createElement("deleteIfOlder"), prefHandler.getMultilineDeleteIfOlder());
-    this._appendElement(parentElem, doc.createElement("saveAlways"), prefHandler.isMultilineSaveAlways());
-    this._appendElement(parentElem, doc.createElement("saveEncrypted"), prefHandler.isMultilineSaveEncrypted());
-    this._appendElement(parentElem, doc.createElement("exceptionEnable"), prefHandler.getMultilineException());
-    
-    // add exception list
-    var exceptionsElem = doc.createElement("exceptions");
-    parentElem.appendChild(exceptionsElem);
-    
-    var exceptions = dbHandler.getAllMultilineExceptions();
-    var exceptionElem;
-    for(var jj=0; jj<exceptions.length; jj++) {
-      exceptionElem = this._createMultilineExceptionElement(doc, exceptions[jj]);
-      exceptionsElem.appendChild(exceptionElem);
-    }
-    exceptions = null;
-  },
+  parseCleanupConfig: function(streamIn, prefHandler) {
+    var parsedCleanupCriteria = [];
+    var parsedProtectCriteria = [];
+    var parsedRegexp = [];
 
-  /**
-   * Convert the custom save configuration into a DOM representation.
-   *
-   * @param doc {DOM Document}
-   *        the document object
-   *
-   * @param parentElem {DOM Element}
-   *        the DOM element in which to add the new child elements
-   *
-   * @param  prefHandler {FhcPreferenceHandler}
-   *         the preferenceHandler providing cleanup preferences.
-   *        
-   * @param  dbHandler {FhcDbHandler}
-   *         the database handler
-   */
-  _appendCustomSaveCfg: function(doc, parentElem, prefHandler, dbHandler) {
-    this._appendElement(parentElem, doc.createElement("customSaveEnabled"), prefHandler.getManageFhcException());
-    
-    // add exception list
-    var exceptionsElem = doc.createElement("exceptions");
-    parentElem.appendChild(exceptionsElem);
-    
-    var exceptions = dbHandler.getAllCustomsaveExceptions();
-    var exceptionElem;
-    for(var jj=0; jj<exceptions.length; jj++) {
-      exceptionElem = this._createCustomSaveExceptionElement(doc, exceptions[jj]);
-      exceptionsElem.appendChild(exceptionElem);
+    var parser = new DOMParser();
+    try {
+      var doc = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
+      if ("formhistory-cleanup" == doc.documentElement.nodeName) {
+
+        // general preferences
+        var daysUsed = doc.getElementsByTagName("daysUsedLimit");
+        if (daysUsed.length > 0 ) {
+          var daysUsedActive = daysUsed[0].getAttribute("active");
+          prefHandler.setCleanupDays(daysUsed[0].textContent);
+          prefHandler.setCleanupDaysChecked(("true" == daysUsedActive));
+        }
+        var timesUsed = doc.getElementsByTagName("timesUsedLimit");
+        if (timesUsed.length > 0 ) {
+          var timesUsedActive = timesUsed[0].getAttribute("active");
+          prefHandler.setCleanupTimes(timesUsed[0].textContent);
+          prefHandler.setCleanupTimesChecked(("true" == timesUsedActive));
+        }
+
+        // added to config starting with v1.2.7
+        var cleanupOnShutdown = doc.getElementsByTagName("cleanupOnShutdown");
+        if (cleanupOnShutdown.length > 0) prefHandler.setCleanupOnShutdown("true" == cleanupOnShutdown[0].textContent);
+        var cleanupOnTabClose = doc.getElementsByTagName("cleanupOnTabClose");
+        if (cleanupOnTabClose.length > 0) prefHandler.setCleanupOnTabClose("true" == cleanupOnTabClose[0].textContent);
+
+        // criteria nameValuePairs
+        var namevalElem = doc.getElementsByTagName("nameValue");
+        var criteria, nameElem, valElem, descrElem, critType;
+        for(var ii=0; ii<namevalElem.length; ii++) {
+          if (namevalElem[ii].hasChildNodes()) {
+            descrElem = namevalElem[ii].getElementsByTagName("description");
+            nameElem = namevalElem[ii].getElementsByTagName("name");
+            valElem = namevalElem[ii].getElementsByTagName("value");
+
+            if (1 == nameElem.length || 1 == valElem.length) {
+
+              critType = "C";
+              if ("protectCriteria" == namevalElem[ii].parentNode.parentNode.tagName) {
+                critType = "P";
+              }
+              criteria = {
+                id:          -1,
+                name:        (1==nameElem.length)  ? this._decode(nameElem[0].textContent) : "",
+                value:       (1==valElem.length)   ? this._decode(valElem[0].textContent)   : "",
+                description: (1==descrElem.length) ? this._decode(descrElem[0].textContent) : "",
+                nameExact:   (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"exact")  : 0,
+                nameCase:    (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"case")   : 0,
+                nameRegex:   (1==nameElem.length)  ? this._getIntAttr(nameElem[0],"regex")  : 0,
+                valueExact:  (1==valElem.length)   ? this._getIntAttr(valElem[0], "exact")  : 0,
+                valueCase:   (1==valElem.length)   ? this._getIntAttr(valElem[0], "case")   : 0,
+                valueRegex:  (1==valElem.length)   ? this._getIntAttr(valElem[0], "regex")  : 0,
+                critType:    critType
+              };
+
+              if ("C" == criteria.critType) {
+                parsedCleanupCriteria.push(criteria);
+              } else {
+                parsedProtectCriteria.push(criteria);
+              }
+            }
+          }
+        }
+
+        // regular expressions
+        var regexpElem = doc.getElementsByTagName("regularExpression");
+        var catElem, exprElem, useforElem, typeElem;
+        for(var jj=0; jj<regexpElem.length; jj++) {
+          if (regexpElem[jj].hasChildNodes()) {
+            descrElem  = regexpElem[jj].getElementsByTagName("description");
+            catElem    = regexpElem[jj].getElementsByTagName("category");
+            exprElem   = regexpElem[jj].getElementsByTagName("expression");
+            useforElem = regexpElem[jj].getElementsByTagName("useFor");
+            typeElem   = regexpElem[jj].getElementsByTagName("type");
+
+            parsedRegexp.push({
+              id:          -1,
+              description: this._decode(descrElem[0].textContent),
+              category:    this._decode(catElem[0].textContent),
+              regexp:      this._decode(exprElem[0].textContent),
+              useFor:      useforElem[0].textContent,
+              caseSens:    this._getIntAttr(exprElem[0],"exact"),
+              regexpType:  ("built-in" == typeElem[0].textContent ? "b" : "")
+            });
+          }
+        }
+
+        // keyBindings
+        if (prefHandler.isExportConfigKeyBindings()) {
+          var keyBindingsElem = doc.getElementsByTagName("keyBinding");
+          var bindingId, bindingValue;
+          for(var kk=0; kk<keyBindingsElem.length; kk++) {
+             bindingValue = this._decode(keyBindingsElem[kk].textContent);
+             bindingId = keyBindingsElem[kk].getAttribute("id");
+             prefHandler.setKeybindingValue(bindingId, bindingValue);
+          }
+        }
+      }
+    } catch(ex) {
+      alert("XML parser exception: " + ex);
     }
-    exceptions = null;    
+    return {
+      cleanup: parsedCleanupCriteria,
+      protect: parsedProtectCriteria,
+      regexp: parsedRegexp
+    };
   },
 
   /**
@@ -680,21 +466,13 @@ FhcXmlHandler.prototype = {
    */
   _appendDateElement: function(doc, parentElem, dateElem, uSeconds) {
     if (uSeconds != undefined) {
-
-      if (this.useISOdateFormat) {
-        // ISO date format
-        dateElem.textContent = this.dateHandler.toISOdateString(uSeconds);
-      }
-      else {
-        // uSeconds format
-        var uSecondsElem = doc.createElement("date");
-        uSecondsElem.textContent = uSeconds;
-
-        var commentElem = doc.createComment(this.dateHandler.toFullDateString(uSeconds));
-
-        dateElem.appendChild(commentElem);
-        dateElem.appendChild(uSecondsElem);
-      }
+      var uSecondsElem = doc.createElement("date");
+      uSecondsElem.textContent = uSeconds;
+  
+      var commentElem = doc.createComment(this.dateHandler.toFullDateString(uSeconds));
+  
+      dateElem.appendChild(commentElem);
+      dateElem.appendChild(uSecondsElem);
       
       parentElem.appendChild(dateElem);
     }
@@ -739,11 +517,7 @@ FhcXmlHandler.prototype = {
     var versionElem = doc.createElement("version");
     versionElem.textContent = extHandler.getVersion();
     var dateElem = doc.createElement("exportDate");
-    if (this.useISOdateFormat) {
-      dateElem.textContent = this.dateHandler.getCurrentISOdateString();
-    } else {
-      dateElem.textContent = this.dateHandler.getCurrentDateString();
-    }
+    dateElem.textContent = this.dateHandler.getCurrentDateString();
     
     headerElem.appendChild(appinfoElem);
     headerElem.appendChild(versionElem);
@@ -796,15 +570,8 @@ FhcXmlHandler.prototype = {
   _getElemenDate: function(parentElem, tagName, defaultValue) {
     var result = defaultValue;
     var childElem = parentElem.getElementsByTagName(tagName);
-    if (1 == childElem.length) {
-      if (childElem[0].firstElementChild != null) {
-        // uSeconds format
-        result = this._getElementValue(childElem[0], "date");
-      }
-      else {
-        // ISO format
-        result = this.dateHandler.fromISOdateString(childElem[0].textContent);
-      }
+    if (1 == childElem.length && childElem[0].hasChildNodes()) {
+      result = this._getElementValue(childElem[0], "date");
     }
     return result;
   },
@@ -844,44 +611,6 @@ FhcXmlHandler.prototype = {
   },
 
   /**
-   * Create an Exception element for a multiline exception list.
-   * 
-   * @param doc {DOM-document}
-   *        the document containing DOM-elements
-   *
-   * @param exception {Object}
-   *        the multiline exception object
-   *
-   * @return {DOM element}
-   *         the exception element
-   */
-  _createMultilineExceptionElement: function(doc, exception) {
-    var exceptionElem;
-    exceptionElem = doc.createElement("exception");
-    this._appendElement(exceptionElem, doc.createElement("host"), exception.host);
-    return exceptionElem;
-  },
-
-  /**
-   * Create an Exception element for a custom save exception list.
-   * 
-   * @param doc {DOM-document}
-   *        the document containing DOM-elements
-   *
-   * @param exception {Object}
-   *        the custom save exception object
-   *
-   * @return {DOM element}
-   *         the exception element
-   */
-  _createCustomSaveExceptionElement: function(doc, exception) {
-    var exceptionElem;
-    exceptionElem = doc.createElement("exception");
-    this._appendElement(exceptionElem, doc.createElement("pageFilter"), exception.url);
-    return exceptionElem;
-  },
-
-  /**
    * Create a regexp element for a regular expression.
    *
    * @param doc {DOM-document}
@@ -908,80 +637,10 @@ FhcXmlHandler.prototype = {
     return regExpElem;
   },
 
-
-  /**
-   * Create a keybinding element.
-   *
-   * @param doc {DOM-document}
-   *        the document containing DOM-elements
-   *
-   * @param id {String}
-   *        the id of the keybinding
-   *
-   * @param binding {String}
-   *        the actual keybinding
-   *
-   * @return {DOM element}
-   *         the keybinding element
-   */
   _createKeyBindingElement: function(doc, id, binding) {
     var bindingElem = doc.createElement("keyBinding");
     bindingElem.textContent = this._encode(binding);
     bindingElem.setAttribute("id", id);
     return bindingElem;
-  },
-  
-
-  /**
-   * Create an formfield element.
-   * (cdata for value would be nice but is removed by XML.toXMLString())
-   *
-   * @param doc {DOM-document}
-   *        the document containing DOM-elements
-   *
-   * @param entry {Object}
-   *        the formhistory object
-   *
-   * @return {DOM element}
-   *         the formhistory element
-   */
-  _createFormhistoryElement: function(doc, entry) {
-    var fieldElem = doc.createElement("field");
-    
-    this._appendElement(fieldElem, doc.createElement("name"), entry.name);
-    this._appendElement(fieldElem, doc.createElement("value"), this._encode(entry.value));
-    this._appendElement(fieldElem, doc.createElement("timesUsed"), entry.used);
-    this._appendDateElement(doc, fieldElem, doc.createElement("firstUsed"), entry.first);
-    this._appendDateElement(doc, fieldElem, doc.createElement("lastUsed"),  entry.last);
-    
-    return fieldElem;
-  },
-  
-  /**
-   * Create an editorfield element for a multiline field.
-   *
-   * @param doc {DOM-document}
-   *        the document containing DOM-elements
-   *
-   * @param editorField {Object}
-   *        the multiline object
-   *
-   * @return {DOM element}
-   *         the editorField element
-   */
-  _createEditorfieldElement: function(doc, editorField) {
-    var editorElem = doc.createElement("editorField");
-    
-    this._appendElement(editorElem, doc.createElement("id"), this._encode(editorField.id));
-    this._appendElement(editorElem, doc.createElement("name"), this._encode(editorField.name));
-    this._appendElement(editorElem, doc.createElement("type"), this._encode(editorField.type));
-    this._appendElement(editorElem, doc.createElement("formid"), this._encode(editorField.formid));
-    this._appendElement(editorElem, doc.createElement("host"), this._encode(editorField.host));
-    this._appendElement(editorElem, doc.createElement("url"), this._encode(editorField.url));
-    this._appendDateElement(doc, editorElem, doc.createElement("firstsaved"), editorField.firstsaved);
-    this._appendDateElement(doc, editorElem, doc.createElement("lastsaved"), editorField.lastsaved);
-    this._appendElement(editorElem, doc.createElement("content"), this._encode(editorField.content));
-    
-    return editorElem;
   }
 }

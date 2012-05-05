@@ -48,7 +48,6 @@ const FhcManageFormHistoryOverlay = {
   dbHandler:              null,
   extPreferenceListener:  null,
   mozPreferenceListener:  null,
-  exceptionlistObserver:  null,
   oldURL:                 null,
   currentSaveFormhistory: null,
   timer:                  null,
@@ -64,7 +63,6 @@ const FhcManageFormHistoryOverlay = {
     gBrowser.addProgressListener(this.locationChangeListener);
     this.registerPrefListeners();
     this.registerEarlySubmitObserver();
-    this.registerExceptionlistObserver();
 
     // fallback for SeaMonkey: delete formhistory entries afterwards (if times used == 1)
     if ("SeaMonkey" == FhcUtil.getBrowserName() && "1" == FhcUtil.getGeckoVersion()[0]) {
@@ -73,16 +71,12 @@ const FhcManageFormHistoryOverlay = {
         FhcManageFormHistoryOverlay.onLateFormSubmit()
       }, true);
     }
-    
-    // for the current opened document at startup
-    this.setStatusIcon();
   },
 
   destroy: function() {
     this.destroyTimer();
     this.unregisterPrefListeners();
     this.unregisterEarlySubmitObserver();
-    this.unregisterExceptionlistObserver();
     gBrowser.removeProgressListener(this.locationChangeListener);
 
     // if shutting down while a submit has not finished, restore global preference
@@ -112,22 +106,8 @@ const FhcManageFormHistoryOverlay = {
    * Check FHC settings if "remember formhistory" is enabled for given URI.
    */
   isRememberEnabledByFHC: function(aURI) {
-    var exceptionType = this.prefHandler.getManageFhcException();
-    if ("managefhcnoexception" == exceptionType) {
-      // Use global preference
-      return (this.prefHandler.isGlobalRememberFormEntriesActive() && !FhcUtil.inPrivateBrowsingMode());
-    }
-    else {
-      // blacklist ("managefhcblacklist") or whitelist ("managefhcwhitelist")?
-      var isWhiteList = ("managefhcwhitelist" == exceptionType);
-      
-      var isListed = false;
-      var exceptionList = this.dbHandler.getAllCustomsaveExceptions();
-      for (var it=0; it < exceptionList.length && !isListed; it++) {
-        isListed = (aURI.spec.indexOf(exceptionList[it].url) >= 0);
-      }
-      return (isWhiteList == isListed);
-    }
+    //TODO check if remember formhistory for aURI is enabled or disabled
+    return (aURI.spec.indexOf("com") < 0);
   },
 
   /**
@@ -136,7 +116,6 @@ const FhcManageFormHistoryOverlay = {
    */
   onPrefsChange: function(prefName) {
     // ignore prefchanges while submitting
-    //dump("FhcManageFormhistoryOverlay::onPrefsChange\n");
     if (!this.submitting) {
       this.setStatusIcon();
     }
@@ -154,12 +133,12 @@ const FhcManageFormHistoryOverlay = {
   onFormSubmit: function() {
     //dump("\n=== onFormSubmit ===\n");
     if (this.prefHandler.isManageHistoryByFHCEnabled() && !FhcUtil.inPrivateBrowsingMode()) {
-      //dump("- ManageByFHC is enabled.\n");
+      dump("- ManageByFHC is enabled.\n");
       var URI = gBrowser.selectedBrowser.currentURI;
 
-      //dump("- Checking if 'remember formhistory' should be enabled...\n");
-      //dump("- URL current tab = [" + URI.spec + "]\n");
-      //dump("- Current setting Mozilla formfill.enable=" + this.prefHandler.isGlobalRememberFormEntriesActive() + "\n");
+      dump("- Checking if 'remember formhistory' should be enabled...\n");
+      dump("- URL current tab = [" + URI.spec + "]\n");
+      dump("- Current setting Mozilla formfill.enable=" + this.prefHandler.isGlobalRememberFormEntriesActive() + "\n");
 
       if (!this.submitting) {
         // remember current setting (restore setting after submit is done)
@@ -169,7 +148,7 @@ const FhcManageFormHistoryOverlay = {
         // change global preference as early as possible
         this.doSaveFormhistory = this.isRememberEnabled(URI);
         this.setGlobalSavePreference(this.doSaveFormhistory);
-        //dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
+        dump("- setting global remember pref to " + this.prefHandler.isGlobalRememberFormEntriesActive() + " prior to submit\n");
 
         // restore setting when onSelectNewURL is not triggered after submit
         // which may occur if the submit is cancelled during event bubbling
@@ -179,7 +158,7 @@ const FhcManageFormHistoryOverlay = {
           }, 1000
         );
       }
-      //dump("\n");
+      dump("\n");
     }
   },
 
@@ -191,27 +170,30 @@ const FhcManageFormHistoryOverlay = {
     if (this.submitting) {
       this.cancelRunAfterTimeout();
       if (this.currentSaveFormhistory != null)  {
-        //dump("- restoring global pref back to " + this.currentSaveFormhistory + "...\n");
+        dump("- restoring global pref back to " + this.currentSaveFormhistory + "...\n");
         // restore original preference
         this.setGlobalSavePreference(this.currentSaveFormhistory);
         this.currentSaveFormhistory = null;
       }
       this.submitting = false;
       if (this.checkHistoryDB) {
-        //dump("- check db for entries that should not have been added...\n");
+        dump("- check db for entries that should not have been added...\n");
         this.checkHistoryDB = false;
-        // db cleanup
-        //dump("submitdate was: " + this.submitDate + "\n");
+        //TODO db cleanup
+        dump("submitdate was: " + this.submitDate + "\n");
 //        var sTime = this.submitDate.getHours() + ":" + this.submitDate.getMinutes() + ":" + this.submitDate.getSeconds() + "." + this.submitDate.getMilliseconds();
 //        dump("submit time: " + sTime + "\n");
 //        var now = new Date();
 //        sTime = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "." + now.getMilliseconds();
 //        dump("it is now: " + sTime + "\n");
         // remove entries added max 450ms before submit
-        this.dbHandler.deleteRecentEntriesBetween((this.submitDate - 450) * 1000, this.submitDate * 1000);
+        this.dbHandler.deleteRecentEntriesBetween(
+          (this.submitDate - 450) * 1000,
+          this.submitDate * 1000
+        );
         this.notifyStoreChanged();
       }
-      //dump("\n");
+      dump("\n");
     }
   },
 
@@ -243,7 +225,7 @@ const FhcManageFormHistoryOverlay = {
   onLateFormSubmit: function() {
     //dump("=== onLateFormSubmit ===\n");
     if (this.submitting && !this.doSaveFormhistory) {
-      //dump("new entries have to be deleted after submit...\n\n");
+      dump("new entries have to be deleted after submit...\n\n");
       this.checkHistoryDB = true;
       this.submitDate = new Date();
     }
@@ -276,14 +258,14 @@ const FhcManageFormHistoryOverlay = {
     } else {
       // remember formhistory  managed by FHC
       var URI = gBrowser.selectedBrowser.currentURI;
-      //dump("- ManageByFHC enabled URI[" + URI.spec + "]\n");
+      dump("- ManageByFHC enabled URI[" + URI.spec + "]\n");
       if (this.isRememberEnabledByFHC(URI)) {
         this.setIcons("dosave");
       } else {
         this.setIcons("nosave");
       }
     }
-    //dump("\n");
+    dump("\n");
   },
 
   /**
@@ -330,7 +312,6 @@ const FhcManageFormHistoryOverlay = {
       function(branch, name) {
         switch (name) {
           case "manageFormhistoryByFHC":
-          case "managefhc.exception":
                // adjust local var to reflect new preference value
                FhcManageFormHistoryOverlay.onPrefsChange(name);
                break;
@@ -355,35 +336,6 @@ const FhcManageFormHistoryOverlay = {
       });
     preferenceListener.register();
     return preferenceListener;
-  },
-
-  /**
-   * Register an observer to act upon managefhc exceptionlist changes.
-   */
-  registerExceptionlistObserver: function() {
-    this.exceptionlistObserver = {
-      observe: function(subject, topic, state) {
-        FhcManageFormHistoryOverlay.onPrefsChange(topic);
-      },
-      register: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .addObserver(this, "managefhc-exceptionlist-changed", false);
-      },
-      unregister: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .removeObserver(this, "managefhc-exceptionlist-changed");
-      }
-    };
-    this.exceptionlistObserver.register();
-  },
-  
-  /**
-   * Unregister the Exceptionlist observer.
-   */
-  unregisterExceptionlistObserver: function() {
-    this.exceptionlistObserver.unregister();
   },
 
   /**

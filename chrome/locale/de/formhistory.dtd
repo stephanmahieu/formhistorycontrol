@@ -4,7 +4,6 @@
 <!ENTITY fhwin.historytab.formhistory.accesskey "c">
 <!ENTITY fhwin.historytab.cleanup "Reinigen">
 <!ENTITY fhwin.historytab.cleanup.accesskey "R">
-<!ENTITY fhwin.historytab.multiline "Editor Chronik">
 <!ENTITY fhwin.filter.label "Suche">
 <!ENTITY fhwin.filter.tooltip "Suche nach Formulareinträgen bei denen der Feldname oder der Wert übereinstimmt">
 <!ENTITY fhwin.filter.accesskey "u">
@@ -61,7 +60,6 @@
 <!ENTITY fhwin.button.add.accesskey "i">
 <!ENTITY fhwin.button.edit.label "Editieren">
 <!ENTITY fhwin.button.edit.accesskey "e">
-<!ENTITY fhwin.button.view.label "Ansicht">
 <!ENTITY fhwin.button.closepreview.label "Vorschau schließen">
 <!ENTITY fhwin.button.close.label "Schließen">
 <!ENTITY fhwin.button.close.accesskey "s">
@@ -88,8 +86,10 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Auswahl umkehren">
 <!ENTITY fhwin.menuitem.addcleanup.label "Als Reinigungs Kriterium hinzufügen">
 <!ENTITY fhwin.menuitem.addprotect.label "Als Schutz Kriterium hinzufügen">
-<!ENTITY fhwin.menuitem.exportmanager.label "Export">
-<!ENTITY fhwin.menuitem.importmanager.label "Import">
+<!ENTITY fhwin.menuitem.exportall.label "Alle gespeicherten Formulareinträge exportieren">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Einträge exportieren die dem Suchergebnis entsprechen">
+<!ENTITY fhwin.menuitem.exportselected.label "Nur ausgewählte Einträge exportieren">
+<!ENTITY fhwin.menuitem.import.label "Formulareinträge importieren">
 <!ENTITY fhwin.menuitem.exportcsv.label "Komplette Chronik als CSV exportieren">
 <!ENTITY fhwin.menuitem.reloadview.label "Neu Laden">
 <!ENTITY fhwin.menuitem.close.label "Schließen">
@@ -101,8 +101,6 @@
 <!ENTITY fhwin.cleanup.menuitem.exportcfg.label "Konfiguration exportieren">
 <!ENTITY fhwin.cleanup.menuitem.importcfg.label "Konfiguration importieren">
 <!ENTITY fhwin.cleanup.label "Kriterien für die Entfernung unerwünschter Formulareinträge">
-<!ENTITY fhwin.cleanup.showoptions "Optionen anzeigen">
-<!ENTITY fhwin.cleanup.hideoptions "Optionen ausblenden">
 <!ENTITY fhwin.cleanup.timeusage.group.caption "Zeit/Verwendung">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "Alle Formulareinträge entfernen die in den vergangenen">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "Tagen nicht genutzt wurden">
@@ -128,24 +126,10 @@
 <!ENTITY fhwin.cleanup.button.cleanupall.accesskey "p">
 <!ENTITY fhwin.cleanup.button.preview.label "Vorschau der zutreffenden Einträge">
 <!ENTITY fhwin.cleanup.button.preview.accesskey "V">
-<!ENTITY fhwin.multiline.label "Backup automatisch gespeicherter Editorfelder">
-<!ENTITY fhwin.multiline.treeview.column.firstsaved.label "Erstmals gespeichert">
-<!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "Alter erstmals gespeichert">
-<!ENTITY fhwin.multiline.treeview.column.lastsaved.label "Zuletzt gespeichert">
-<!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "Alter zuletzt gespeichert">
-<!ENTITY fhwin.multiline.treeview.column.fieldid.label "Feld Id">
-<!ENTITY fhwin.multiline.treeview.column.fieldformid.label "Formular Id">
-<!ENTITY fhwin.multiline.treeview.column.fieldname.label "Feldname">
-<!ENTITY fhwin.multiline.treeview.column.content.label "Inhalt">
-<!ENTITY fhwin.multiline.treeview.column.type.label "Typ">
-<!ENTITY fhwin.multiline.treeview.column.host.label "Host">
-<!ENTITY fhwin.multiline.treeview.column.url.label "URL">
-<!ENTITY fhwin.multiline.checkbox.searchhostonly.label "Nur aktueller Host anzeigen">
 <!ENTITY fhmnuovl.menu.main.manager.label "Gespeicherte Formulareinträge">
 <!ENTITY fhmnuovl.menuitem.manager.label "Formulareintrag Manager">
 <!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Aktueller Wert dieses Felds löschen">
 <!ENTITY fhmnuovl.menuitem.deletethis.label "Komplette Historie dieses Felds löschen">
-<!ENTITY fhmnuovl.menuitem.restorethis.label "Editorfeld wiederherstellen">
 <!ENTITY fhmnuovl.menuitem.managethis.label "Einträge für dieses Feld verwalten">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Felder mit den aktuellsten Einträgen füllen">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "Felder mit den häufigsten verwendeten Einträgen füllen">
@@ -209,51 +193,7 @@
 <!ENTITY fhbrowsehistorydlg.older.tooltip "lädt ältere Chronik">
 <!ENTITY fhbrowsehistorydlg.newer.label "Neuer">
 <!ENTITY fhbrowsehistorydlg.newer.tooltip "lädt neuere Chronik">
-<!ENTITY fhcmultilinedlg.windowtitle "Gespeicherter Editortext">
-<!ENTITY fhcmultilinedlg.button.copytoclipboard "In die Zwischenablage kopieren">
-<!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML Ansicht">
-<!ENTITY fhcmultilinedlg.viewtab.textview "Klartext">
-<!ENTITY fhcmultilinedlg.button.showdetails "Details">
-<!ENTITY fhcmultilinedlg.button.hidedetails "Details ausblenden">
-<!ENTITY fhcmultilinedlg.checkbox.hideimages "Bilder ausblenden">
-<!ENTITY fhcmultilinelistdlg.windowtitle "Ausnahmeliste verwalten">
-<!ENTITY fhcmultilinelistdlg.label.blacklist "Feldchronik für unten aufgeführte Hosts nicht speichern.">
-<!ENTITY fhcmultilinelistdlg.button.addcurrenthost "Aktuellen Host hinzufügen">
-<!ENTITY fhcmanagefhclistdlg.windowtitle "Formularchronik speichern verwalten">
-<!ENTITY fhcmanagefhclistdlg.label.blacklist "Formulachronik für Seiten die den gelisteten Kriterien entsprechen nicht speichern">
-<!ENTITY fhcmanagefhclistdlg.label.whitelist "Formularchronik nur für Seiten die den gelisteten Kriterien entsprechen speichern">
-<!ENTITY fhcmanagefhclistdlg.treeview.column.page.label "Seitenfilter">
-<!ENTITY fhcmanagefhclistdlg.button.addcurrentpage "Aktuelle Seite hinzufügen">
 <!ENTITY fhprefs.window.title "Form History Control Einstellungen">
-<!ENTITY fhprefs.prefpane.multiline.label "Editor Felder">
-<!ENTITY fhprefs.multilineinfo.tooltip "Form History Control kann Editorfelder während der Eingabe speichern, so dass eine sicher Wiederherstellung möglich ist falls etwas schief geht.">
-<!ENTITY fhprefs.checkbox.multilineenable "Automatische Sicherung von Editor- und mehrzeiligen Textfelder aktivieren">
-<!ENTITY fhprefs.tab.multiline.configuration "Konfiguration">
-<!ENTITY fhprefs.tab.multiline.exceptions "Ausnahmen">
-<!ENTITY fhprefs.tab.multiline.privacy "Privatsphäre">
-<!ENTITY fhprefs.group.multilineversion.caption "Versionskontrolle">
-<!ENTITY fhprefs.group.multilinecleanup.caption "Reinigung">
-<!ENTITY fhprefs.group.multilineexceptions.caption "Ausnahmen">
-<!ENTITY fhprefs.label.multilinesaveolder "Neue Version speichern wenn die zuletzt gespeicherte Version älter ist als">
-<!ENTITY fhprefs.label.multilinesavelength "Neue Version speichern wenn die Länge des Inhalts sich ändert um mehr als">
-<!ENTITY fhprefs.label.multilinecleanup "Version automatisch löschen wenn sie älter ist als">
-<!ENTITY fhprefs.label.multilinelist.never "nie">
-<!ENTITY fhprefs.label.multilinelist.minute "Minute">
-<!ENTITY fhprefs.label.multilinelist.minutes "Minuten">
-<!ENTITY fhprefs.label.multilinelist.hour "Stunde">
-<!ENTITY fhprefs.label.multilinelist.hours "Stunden">
-<!ENTITY fhprefs.label.multilinelist.day "Tag">
-<!ENTITY fhprefs.label.multilinelist.days "Tage">
-<!ENTITY fhprefs.label.multilinelist.week "Woche">
-<!ENTITY fhprefs.label.multilinelist.weeks "Wochen">
-<!ENTITY fhprefs.label.multilinelist.month "Monat">
-<!ENTITY fhprefs.label.multilinelist.months "Monate">
-<!ENTITY fhprefs.label.multilinelist.characters "Zeichen">
-<!ENTITY fhprefs.radio.multilinenoexception "Keine Ausnahmen">
-<!ENTITY fhprefs.button.managelist "Ausnahmeliste verwalten">
-<!ENTITY fhprefs.prefpane.manageformhistory.label "Chronik verwalten">
-<!ENTITY fhprefs.manageformhistory.tooltip "Form History Control bietet die Möglichkeit 'Formularchronik speichern' beim Besuch bestimmter Seiten sich automatisch ein- und auszuschalten.">
-<!ENTITY fhprefs.manageformhistory.global.tooltip "Nur verfügbar wenn die globale Privatsphäre Option 'Formularchronik speichern' aktiviert ist.">
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Verschiedenes">
 <!ENTITY fhprefs.group.preferences.caption "Einstellungen">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Bei der Suche Groß- und Kleinschreibung berücksichtigen">
@@ -284,7 +224,6 @@
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Rechtsklick auf die Navigations-Symbolleiste und 'Anpassen' wählen. Dort können Sie FormHistory durch Ziehen des Symbols in die Symbolleiste hinzufügen">
 <!ENTITY fhprefs.group.showmenu.caption "Menü">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Versteckt Einträge im Menü Extras">
-<!ENTITY fhprefs.checkbox.hideappmenuitem.label "Versteckt Einträge im App Menü">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Versteckt Kontextmenü Einträge">
 <!ENTITY fhprefs.group.treeskin.caption "Hintergrundfarbe der Liste">
 <!ENTITY fhprefs.label.treeskin.label "Verbessern Sie die Lesbarkeit der Listen">
@@ -307,7 +246,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Werte umschließen mit">
 <!ENTITY fhprefs.textbox.csvexportescape.label "Escape mit Präfix">
 <!ENTITY fhprefs.group.configexport.caption "Konfiguration Im-/Export">
-<!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "Daten ISO formatiert exportieren">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Tastaturkürzel im- und exportieren">
 <!ENTITY fhprefs.prefpane.cleanup.label "Reinigen">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Vor dem Schließen des Browsers Reinigung durchführen">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Wenn Browser-Tab geschlossen ist Reinigung durchführen">
@@ -352,7 +291,7 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Millisekunde">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Formulareinträge anzeigen">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "F">
-<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Lass Form History Control die Formularchronik verwalten">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Lassen Form History Control ihre Formulareinträge verwalten">
 <!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Ob Sie Formulareinträge speichern wird von der Erweiterung Form History Control bestimmt">
 <!ENTITY fhprefovl.privacy.button.rememberoptions.label "Einstellungen">
 <!ENTITY fhabout.label.description "Beschreibung">
@@ -360,37 +299,3 @@
 <!ENTITY fhabout.label.homepage "Besucht meine Homepage">
 <!ENTITY fhabout.label.contributors "Mitwirkende">
 <!ENTITY fhabout.label.translators "Übersetzer">
-<!ENTITY browsehistorywindow.report.gocurrent "Aktuell">
-<!ENTITY browsehistorywindow.report.showurl "URL anzeigen">
-<!ENTITY browsehistorywindow.report.showtitle "Titel anzeigen">
-<!ENTITY browsehistorywindow.report.showhost "Host anzeigen">
-<!ENTITY browsehistorywindow.report.fieldnamelabel "Feldname">
-<!ENTITY browsehistorywindow.report.valuelabel "Wert">
-<!ENTITY browsehistorywindow.report.titlelabel "Titel">
-<!ENTITY browsehistorywindow.report.hostlabel "Host">
-<!ENTITY browsehistorywindow.report.urllabel "URL">
-<!ENTITY fhexportdlg.title "Exportmanager">
-<!ENTITY fhexportdlg.description "Wählen Sie den Typ der zu exportierenden Daten">
-<!ENTITY fhexportdlg.button.export "Export">
-<!ENTITY fhexportdlg.label.exporterrornone "Nichts ausgewählt, nichts zu exportieren.">
-<!ENTITY fhimportdlg.title "Importmanager">
-<!ENTITY fhimportdlg.button.import "Import">
-<!ENTITY fhimportdlg.label.importerrornone "Nichts ausgewählt, nichts zu exportieren.">
-<!ENTITY fhimportexportdlg.checkbox.entries "FormularChronik">
-<!ENTITY fhimportexportdlg.label.items "Einträge">
-<!ENTITY fhimportexportdlg.radio.entries.all "Alle">
-<!ENTITY fhimportexportdlg.radio.entries.selected "Ausgewählte">
-<!ENTITY fhimportexportdlg.radio.entries.search "Suchergebnis">
-<!ENTITY fhimportexportdlg.checkbox.editorhistory "Editorchronik">
-<!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "Editorchronik Einstellungen">
-<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "Editorchronik Ausnahmeliste">
-<!ENTITY fhimportexportdlg.checkbox.customsaveprefs "Chronik Einstellungen speichern">
-<!ENTITY fhimportexportdlg.checkbox.customsaveexceptions "Editorchronik Ausnahmeliste speichern">
-<!ENTITY fhimportexportdlg.checkbox.regularexpressions "Reguläre Ausdrücke">
-<!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "Tastaturkürzel">
-<!ENTITY fhimportexportdlg.checkbox.cleanupconfig "Reinigungs Konfiguration">
-<!ENTITY fhimportstatusdlg.title "Importstatus">
-<!ENTITY fhimportstatusdlg.label.total "Gesamt">
-<!ENTITY fhimportstatusdlg.label.imported "Importiert">
-<!ENTITY fhimportstatusdlg.label.error "Fehler">
-<!ENTITY fhcnotimplemented.label "noch nicht implementiert!">

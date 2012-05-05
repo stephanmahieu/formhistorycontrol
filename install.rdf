@@ -4,9 +4,8 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.0.1pre1</em:version>
+		<em:version>1.2.10.3</em:version>
 		<em:type>2</em:type>
-		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
 		
 		<!-- Target Application this extension can install into. -->
@@ -15,7 +14,7 @@
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>3.0.9</em:minVersion>
-				<em:maxVersion>15.0a1</em:maxVersion>
+				<em:maxVersion>12.0a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
@@ -23,7 +22,7 @@
 			<Description>
 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
 				<em:minVersion>2.0a3</em:minVersion>
-				<em:maxVersion>2.12a1</em:maxVersion>
+				<em:maxVersion>2.9a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<!-- Flock (version 3.* based on google chrome) -->
@@ -34,10 +33,6 @@
 				<em:maxVersion>2.*.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
-
-		<!-- if no locale match, revert to these defaults (en-US) (keep before Localized MetaData) -->
-		<em:name>Form History Control</em:name>
-		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
 		
 		<!-- Localized MetaData -->
 		<em:localized>
@@ -110,6 +105,13 @@
 				<em:description>Form Geçmişi Düzenleme (göster, düzenle, sil, temizle, içe/dışa aktar)</em:description>
 			</Description>
 		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>zh-CN</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
+			</Description>
+		</em:localized>
 
 		<!-- UNFINISHED LOCALES WITH DESCRIPTION -->
 		<em:localized>
@@ -128,7 +130,7 @@
 		</em:localized>
 		<em:localized>
 			<Description>
-				<em:locale>it</em:locale>
+				<em:locale>it-IT</em:locale>
 				<em:name>Form History Control</em:name>
 				<em:description>Gestione della cronologia moduli (visualizzazione, modifica, cancellazione, pulizia, esportazione, importazione)</em:description>
 			</Description>
@@ -140,16 +142,13 @@
 				<em:description>Spravovanie údajov histórie formulárov (zobraziť, upraviť, vymazať, exportovať/importovať)</em:description>
 			</Description>
 		</em:localized>
-		<em:localized>
-			<Description>
-				<em:locale>zh-CN</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
-			</Description>
-		</em:localized>
 		
 	<!-- UNFINISHED DESCRIPTION LOCALES
 	-->
+
+		<!-- if no locale match, revert to these defaults (en-US) -->
+		<em:name>Form History Control</em:name>
+		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
 
 		<!-- Creator -->
 		<em:creator>Stephan Mahieu</em:creator>
@@ -157,24 +156,25 @@
 		<!-- Contributors -->
 		<em:contributor>Mark James [Menu-icons][http://www.famfamfam.com/lab/icons/silk/]</em:contributor>
 		<em:contributor>BabelZilla team [www.babelzilla.org][http://www.babelzilla.org]</em:contributor>
-		<em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>		
+		<em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>
 		<em:translator>Jørgen [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=7215] (da)</em:translator>
 		<em:translator>HorstS [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12281] (de)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (en-US)</em:translator>
 		<em:translator>urko [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=247] (es-ES)</em:translator>
 		<em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
+		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
+		<em:translator>Denis Fomichev [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13297] (ru)</em:translator>
+		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
+		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
+		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
+		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
 
 <!-- unfinished contributions - - >
 		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
 		<em:translator>Gusztin Rudolf [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12288] (hu)</em:translator>
-		<em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it)</em:translator>
-		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
-		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
+		<em:translator>Underpass [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=1046] (it-IT)</em:translator>
 		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
-		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
-		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
-		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
 -->
 
 		<!-- Front End Integration Hooks (used by Extension Manager)-->

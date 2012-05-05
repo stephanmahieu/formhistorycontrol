@@ -86,6 +86,10 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Invertera markering">
 <!ENTITY fhwin.menuitem.addcleanup.label "Lägg till som saneringskriterier">
 <!ENTITY fhwin.menuitem.addprotect.label "Lägg till som skyddskriterier">
+<!ENTITY fhwin.menuitem.exportall.label "Exportera alla historikposter">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Exportera poster som matchar sökresultat">
+<!ENTITY fhwin.menuitem.exportselected.label "Exportera endast markerade poster">
+<!ENTITY fhwin.menuitem.import.label "Importera historik">
 <!ENTITY fhwin.menuitem.exportcsv.label "Exportera hela historiken som CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Uppdatera">
 <!ENTITY fhwin.menuitem.close.label "Stäng">
@@ -242,6 +246,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Omslut värden med">
 <!ENTITY fhprefs.textbox.csvexportescape.label "undanta (escape) med prefix">
 <!ENTITY fhprefs.group.configexport.caption "Konfigurera import/export">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Importera och exportera kortkommandon">
 <!ENTITY fhprefs.prefpane.cleanup.label "Sanering">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Utför sanering när webbläsaren avslutas">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Utför sanering när en webbläsarflik stängs">
@@ -294,12 +299,3 @@
 <!ENTITY fhabout.label.homepage "Besök webbplatsen">
 <!ENTITY fhabout.label.contributors "Medarbetare">
 <!ENTITY fhabout.label.translators "Översättare">
-<!ENTITY browsehistorywindow.report.gocurrent "Aktuell">
-<!ENTITY browsehistorywindow.report.showurl "Visa URL">
-<!ENTITY browsehistorywindow.report.showtitle "Visa rubrik">
-<!ENTITY browsehistorywindow.report.showhost "Visa värd">
-<!ENTITY browsehistorywindow.report.fieldnamelabel "Fältnamn">
-<!ENTITY browsehistorywindow.report.valuelabel "Värde">
-<!ENTITY browsehistorywindow.report.titlelabel "Rubrik">
-<!ENTITY browsehistorywindow.report.hostlabel "Värd">
-<!ENTITY browsehistorywindow.report.urllabel "URL">

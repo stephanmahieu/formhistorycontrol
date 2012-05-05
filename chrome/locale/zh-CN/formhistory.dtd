@@ -86,6 +86,10 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "反向选择">
 <!ENTITY fhwin.menuitem.addcleanup.label "作为清理标准加入">
 <!ENTITY fhwin.menuitem.addprotect.label "作为保护标准加入">
+<!ENTITY fhwin.menuitem.exportall.label "导出所有历史条目">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "导出搜索结果条目">
+<!ENTITY fhwin.menuitem.exportselected.label "导出所选条目">
+<!ENTITY fhwin.menuitem.import.label "导入历史">
 <!ENTITY fhwin.menuitem.exportcsv.label "以 CSV 格式导出完整的历史">
 <!ENTITY fhwin.menuitem.reloadview.label "刷新">
 <!ENTITY fhwin.menuitem.close.label "关闭">
@@ -242,6 +246,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "值包裹符">
 <!ENTITY fhprefs.textbox.csvexportescape.label "使用前缀转义">
 <!ENTITY fhprefs.group.configexport.caption "导入和导出配置">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "导入和导出键盘快捷键">
 <!ENTITY fhprefs.prefpane.cleanup.label "清理">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "浏览器关闭时执行清理">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "标签页关闭时执行清理">

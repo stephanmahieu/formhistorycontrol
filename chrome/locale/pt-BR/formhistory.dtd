@@ -86,6 +86,10 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "Inverter seleção">
 <!ENTITY fhwin.menuitem.addcleanup.label "Adicionar como critério de limpeza">
 <!ENTITY fhwin.menuitem.addprotect.label "Adicionar como critério de proteção">
+<!ENTITY fhwin.menuitem.exportall.label "Exportar todas as entradas de histórico">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Exportar entradas que combinem com a busca">
+<!ENTITY fhwin.menuitem.exportselected.label "Exportar apenas as entradas selecionadas">
+<!ENTITY fhwin.menuitem.import.label "Importar histórico">
 <!ENTITY fhwin.menuitem.exportcsv.label "Exportar o histórico completo como CSV">
 <!ENTITY fhwin.menuitem.reloadview.label "Atualizar">
 <!ENTITY fhwin.menuitem.close.label "Fechar">
@@ -242,6 +246,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "Envolver valores com">
 <!ENTITY fhprefs.textbox.csvexportescape.label "adicionar o prefixo">
 <!ENTITY fhprefs.group.configexport.caption "Configuração Importar/Exportar">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Atalhos de teclados para Importar e Exportar">
 <!ENTITY fhprefs.prefpane.cleanup.label "Limpar">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Fazer limpeza ao fechar o navegador">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Fazer limpeza ao fechar uma aba">
@@ -294,12 +299,3 @@
 <!ENTITY fhabout.label.homepage "Visitar o site">
 <!ENTITY fhabout.label.contributors "Contribuidores">
 <!ENTITY fhabout.label.translators "Tradutores">
-<!ENTITY browsehistorywindow.report.gocurrent "Atual">
-<!ENTITY browsehistorywindow.report.showurl "Exibir URL">
-<!ENTITY browsehistorywindow.report.showtitle "Exibir título">
-<!ENTITY browsehistorywindow.report.showhost "Exibir servidor">
-<!ENTITY browsehistorywindow.report.fieldnamelabel "Nome de campo">
-<!ENTITY browsehistorywindow.report.valuelabel "Valor">
-<!ENTITY browsehistorywindow.report.titlelabel "Título">
-<!ENTITY browsehistorywindow.report.hostlabel "Servidor">
-<!ENTITY browsehistorywindow.report.urllabel "URL">

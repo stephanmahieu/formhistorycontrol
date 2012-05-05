@@ -41,31 +41,6 @@
     </menu> 
   </menupopup>
 
-  <menupopup id="appmenu-popup">
-    <menuitem id="formhistctrl_app_menu"
-              class="menuitem-iconic fh_menu_formhistory"
-              label="&fhmnuovl.menuitem.manager.label;"
-              insertbefore="appmenu_webDeveloper,appmenu-quit"
-              command="fhc_cmd_ShowFormHistoryControl"/>
-    <!--
-    <menu id="formhistctrl_app_menu" class="menu-iconic fh_menu_formhistory"
-          insertbefore="appmenu_webDeveloper,appmenu-quit"
-          label="&fhmnuovl.menu.main.manager.label;">
-      <menupopup>
-        <menuitem id="formhistctrl_menuitem_manager_ff4"
-                  class="menuitem-iconic fh_menuitem_manager"
-                  label="&fhmnuovl.menuitem.manager.label;"
-                  command="fhc_cmd_ShowFormHistoryControl"/>
-        <menuseparator/>
-        <menuitem id="formhistctrl_menuitem_options_ff4"
-                  class="menuitem-iconic fh_menuitem_options"
-                  label="&fhmnuovl.menuitem.options.label;"
-                  command="fhc_cmd_ShowFhcOptions"/>
-      </menupopup>
-    </menu>
-    -->
-  </menupopup>
-
   <popup id="contentAreaContextMenu">
     <menuseparator id="formhistory-sep"/>
     <menu id="formhistctrl_context_menu" class="menu-iconic fh_menu_formhistory"
@@ -88,13 +63,6 @@
                   class="menuitem-iconic fh_menuitem_deletethisfield"
                   label="&fhmnuovl.menuitem.deletethis.label;"
                   command="fhc_cmd_DeleteEntriesThisField"/>
-        <menu id="formhistctrl_restore_submenu"
-              class="menu-iconic fh_menuitem_restorethisfield"
-              label="&fhmnuovl.menuitem.restorethis.label;">
-          <menupopup>
-            <!-- Items are dynamically added here -->
-          </menupopup>
-        </menu>
         <menuseparator/>
         <menuitem id="formhistctrl_context_menuitem_fillmostrecent"
                   class="menuitem-iconic fh_menuitem_fillmostrecent"

@@ -42,15 +42,21 @@
  * Dependencies: -
  */
 function FhcRdfExtensionHandler() {
+  this.rdfs = Components.classes["@mozilla.org/rdf/rdf-service;1"]
+                .getService(Components.interfaces.nsIRDFService);
+  this.extension = this.rdfs.GetResource("urn:mozilla:item:formhistory@yahoo.com");
+  
   if (Components.classes["@mozilla.org/extensions/manager;1"]) {
-    var xmlFile = Components.classes["@mozilla.org/extensions/manager;1"]
-			   .getService(Components.interfaces.nsIExtensionManager)
-			   .getInstallLocation("formhistory@yahoo.com")
-			   .getItemFile("formhistory@yahoo.com", "install.rdf");
-    this.xmlInstall = this._parseXMLFileToDOM(xmlFile);
+    this._useNewAddonManager = false;
+    this.extDS = Components.classes["@mozilla.org/extensions/manager;1"]
+                   .getService(Components.interfaces.nsIExtensionManager)
+                   .datasource;
   }
   else {
-    this.xmlInstall = this._getXMLFile();
+    // Since FF3.7a6pre (4.0)
+    this._useNewAddonManager = true;
+    Components.utils.import("resource://gre/modules/AddonManager.jsm");
+    AddonManager.getAddonByID("formhistory@yahoo.com", this._addonCallBack);
   }
 }
 
@@ -63,7 +69,10 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getName: function() {
-    return this._getByTagname("em:name");
+    if (this._useNewAddonManager) {
+      return this._getAddon().name;
+    }
+    return this._getValue("name");
   },
 
   /**
@@ -71,7 +80,10 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getDescription: function() {
-    return this._getByTagnameLocalized("em:description");
+    if (this._useNewAddonManager) {
+      return this._getAddon().description;
+    }
+    return this._getValue("description");
   },
 
   /**
@@ -79,7 +91,10 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getVersion: function() {
-    return this._getByTagname("em:version");
+    if (this._useNewAddonManager) {
+      return this._getAddon().version;
+    }
+    return this._getValue("version");
   },
 
   /**
@@ -87,6 +102,9 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getHomepageURL: function() {
+    if (this._useNewAddonManager) {
+      return this._getAddon().homepageURL;
+    }
     return this._getByTagname("em:homepageURL");
   },
 
@@ -95,6 +113,9 @@ FhcRdfExtensionHandler.prototype = {
    * @return {String}
    */
   getCreator: function() {
+    if (this._useNewAddonManager) {
+      return this._getAddon().creator;
+    }
     return this._getByTagname("em:creator");
   },
 
@@ -110,22 +131,86 @@ FhcRdfExtensionHandler.prototype = {
    *        empty array of translators to be populated by this metod
    */
   getContributors: function(contributors, translators) {
-    var contrib = this.xmlInstall.getElementsByTagName("em:contributor");
+    var xml = this._getXMLFile();
+
+    var contrib = xml.getElementsByTagName("em:contributor");
     for(var ii=0; ii<contrib.length; ii++) {
       contributors.push(contrib[ii].textContent);
     }
 
-    var transl  = this.xmlInstall.getElementsByTagName("em:translator");
+    var transl  = xml.getElementsByTagName("em:translator");
     for(var jj=0; jj<transl.length; jj++) {
       translators.push(transl[jj].textContent);
     }
   },
 
+
+  /**
+   * Asynchronous callback method, invoked during construction of this class
+   * when the new AddonManager is used; FF >= 3.7a6pre (4.0).
+   *
+   * @param addon {Addon}
+   *        the current installed FormHistoryControl add-on
+   */
+  _addonCallBack: function(addon) {
+    // store the addon object
+    FhcRdfExtensionHandler.fhcAddon = addon;
+  },
+
+  /**
+   * Return the Addon object representing the installed FormHistoryControl.
+   * Only available for FF >= 3.7a6pre (4.0).
+   *
+   * @return {Addon}
+   *         the current installed FormHistoryControl add-on
+   */
+  _getAddon: function() {
+    if (FhcRdfExtensionHandler.fhcAddon == null) {
+      var thread = Components.classes["@mozilla.org/thread-manager;1"]
+                    .getService(Components.interfaces.nsIThreadManager)
+                    .currentThread;
+      var start = new Date();
+      while (FhcRdfExtensionHandler.fhcAddon == null && ((new Date())-start) < 750) {
+        thread.processNextEvent(true);
+      }
+    }
+    return FhcRdfExtensionHandler.fhcAddon;
+  },
+
+  /**
+   * Get a single resource value.
+   *
+   * @param   resourceName {String}
+   *          the name of the resource of the rdf info
+   *
+   * @return {String}
+   *          the resource value
+   */
+  _getValue: function(resourceName) {
+    var targetArc = this.rdfs.GetResource(this._em_namespace(resourceName));
+    var result = this.extDS.GetTarget(this.extension, targetArc, true);
+    if (result)
+      result = result.QueryInterface(Components.interfaces.nsIRDFLiteral).Value;
+    return result;
+  },
+
+  /**
+   * Prefix the rdf namespace to aProperty.
+   *
+   * @param   aProperty {String}
+   *          the property
+   *
+   * @returns {String}
+   *          aProperty prepended with the rdf namespace
+   */
+  _em_namespace: function(aProperty) {
+    return "http://www.mozilla.org/2004/em-rdf#" + aProperty;
+  },
+
   /**
    * Get a single value from the install.rdf directly from the xml.
    * If we would use getValue() we would only get locale dependend info,
-   * thus the information (tagname) must be present in all locale sections.
-   * For example: tag <em:creator> is not present in all locale sections.
+   * thus the information should have to be present in all locale sections.
    *
    * @param tagname {String}
    *        the name of the tag of the install.rdf
@@ -134,71 +219,9 @@ FhcRdfExtensionHandler.prototype = {
    *         the textcontent of the tag
    */
   _getByTagname: function(tagname) {
-    var elem = this.xmlInstall.getElementsByTagName(tagname);
+    var xml = this._getXMLFile();
+    var elem = xml.getElementsByTagName(tagname);
     return elem[0].textContent;
-  },
-
-  /**
-   * Get a single value from the install.rdf directly from the xml.
-   * Try within <em:localized> tags first, it must contain an <em:locale> tag
-   * with the current locale. If nothing found, try to find the tagname from root.
-   *
-   * @param tagname {String}
-   *        the name of the tag of the install.rdf
-   * 
-   * @return {String}
-   *         the textcontent of the tag
-   */
-  _getByTagnameLocalized: function(tagname) {
-    var locale = Components.classes["@mozilla.org/preferences-service;1"]
-           .getService(Components.interfaces.nsIPrefBranch)
-           .getCharPref("general.useragent.locale");
-           
-    var tagValue = this._getByTagnameLocale(tagname, locale);
-    
-    if (tagValue == "" && locale.length > 2) {
-      // try 2 letter locale
-      tagValue = this._getByTagnameLocale(tagname, locale.substr(0,2));
-    }
-    
-    if (tagValue == "") {
-      // no localized tag, try from root, return first match
-      tagValue = this._getByTagname(tagname);
-    }
-    
-    return tagValue;
-  },
-
-
-  /**
-   * Get a single value from the install.rdf directly from the xml.
-   * Try within <em:localized> tags, it must contain an <em:locale> tag
-   * with the given locale. If nothing found, return an empty String.
-   *
-   * @param tagname {String}
-   *        the name of the tag of the install.rdf
-   * 
-   * @param locale {String}
-   *        the locale defined for the tagname
-   * 
-   * @return {String}
-   *         the textcontent of the tag
-   */
-  _getByTagnameLocale: function(tagname, locale) {
-    var elemLocalized = this.xmlInstall.getElementsByTagName("em:localized");
-    for (var ii=0; ii<elemLocalized.length; ii++) {
-      var elmLocale = elemLocalized[ii].getElementsByTagName("em:locale");
-      if (elmLocale.length > 0) {
-        if (elmLocale[0].textContent == locale) {
-          // found a locale match
-          var elem = elemLocalized[ii].getElementsByTagName(tagname);
-          if (elem.length > 0) {
-            return elem[0].textContent;
-          }
-        }
-      }
-    }
-    return "";
   },
 
   /**
@@ -208,17 +231,34 @@ FhcRdfExtensionHandler.prototype = {
    *         the XML DOM representation of the XML file
    */
   _getXMLFile: function() {
-    var dirServiceProp = Components.classes["@mozilla.org/file/directory_service;1"]
-                         .getService(Components.interfaces.nsIProperties);
-    var xmlfile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
-    xmlfile.append("extensions");
-    xmlfile.append("formhistory@yahoo.com");
-    if (xmlfile.isDirectory()) {
-      xmlfile.append("install.rdf");
+    var xmlfile;
+    if (this._useNewAddonManager) {
+      try {
+        var installURI = this._getAddon().getResourceURI("install.rdf");
+        return this._getXMLFromURI(installURI.spec);
+      }
+      catch(ex) {
+        // Probably no getResourceURL method! (SeaMonkey)
+        var dirServiceProp = Components.classes["@mozilla.org/file/directory_service;1"]
+                             .getService(Components.interfaces.nsIProperties);
+        xmlfile = dirServiceProp.get("ProfD", Components.interfaces.nsIFile);
+        xmlfile.append("extensions");
+        xmlfile.append("formhistory@yahoo.com");
+        if (xmlfile.isDirectory()) {
+          xmlfile.append("install.rdf");
+        }
+        else if (xmlfile.isFile()) {
+          xmlfile = this._resolveDevelopmentLocation(xmlfile);
+        }
+      }
     }
-    else if (xmlfile.isFile()) {
-      xmlfile = this._resolveDevelopmentLocation(xmlfile);
+    else {
+      xmlfile = Components.classes["@mozilla.org/extensions/manager;1"]
+                   .getService(Components.interfaces.nsIExtensionManager)
+                   .getInstallLocation("formhistory@yahoo.com")
+                   .getItemFile("formhistory@yahoo.com", "install.rdf");
     }
+
     return this._parseXMLFileToDOM(xmlfile);
   },
 
@@ -235,24 +275,17 @@ FhcRdfExtensionHandler.prototype = {
     var xml = null;
     try {
       // open xml file for reading
-      var fstream = Components.classes["@mozilla.org/network/file-input-stream;1"]
+      var streamIn = Components.classes["@mozilla.org/network/file-input-stream;1"]
                        .createInstance(Components.interfaces.nsIFileInputStream);
-      var cstream = Components.classes["@mozilla.org/intl/converter-input-stream;1"]
-                       .createInstance(Components.interfaces.nsIConverterInputStream);
-      fstream.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
-      cstream.init(fstream, "UTF-8", 0, 0); 
+      streamIn.init(xmlfile, -1/*(PR_RDONLY)*/, -1/*default permission*/, null);
 
       // parse xml
       try {
-        var xmlString = this._readTextFromStream(cstream);
         var parser = new DOMParser();
-        xml = parser.parseFromString(xmlString, "text/xml");
+        xml = parser.parseFromStream(streamIn, "UTF-8", streamIn.available(), "text/xml");
       }
       catch(parseEx) {
         dump('Exception parsing xml:' + parseEx + '\n');
-      }
-      finally {
-        cstream.close();
       }
     }
     catch(streamEx) {
@@ -262,21 +295,43 @@ FhcRdfExtensionHandler.prototype = {
   },
 
   /**
-   * Read text data from inputstream into a String.
+   * Return the DOM of an XML file retrieved by its URI.
    *
-   * @param  streamIn {nsIInputStream}
-   *         the inputstream (source)
+   * @param  uri {nsiURI}
+   *         The uri of an XML file to retrieve.
    *
-   * @return {String}
-   *         text data
+   * @return {DOM}
+   *         the xml file.
    */
-  _readTextFromStream: function(streamIn) {
-      var lines = "";
-      var str = {};
-      while (streamIn.readString(4096, str) != 0) {
-        lines += str.value;
-      }  
-      return lines;
+  _getXMLFromURI: function(uri) {
+    FhcRdfExtensionHandler.fhcInstallRdfXML = "";
+
+    // Asynchronous request
+    var req = new XMLHttpRequest();
+    req.open("GET", uri, true); // retrieve file from local chrome directory
+    req.onreadystatechange = function (aEvt) {
+      if (req.readyState == 4) {
+        if (req.status == 0) {
+          FhcRdfExtensionHandler.fhcInstallRdfXML = req.responseXML;
+        } else {
+          FhcRdfExtensionHandler.fhcInstallRdfXML = "ERR";
+          dump("_getXMLFromURI: Error loading uri!\n");
+        }
+      }
+    };
+    req.send(null);
+
+    // If slow, wait for completion
+    if (FhcRdfExtensionHandler.fhcInstallRdfXML == "") {
+      var thread = Components.classes["@mozilla.org/thread-manager;1"]
+                    .getService(Components.interfaces.nsIThreadManager)
+                    .currentThread;
+      while (FhcRdfExtensionHandler.fhcInstallRdfXML == "") {
+        thread.processNextEvent(true);
+      }
+    }
+
+    return FhcRdfExtensionHandler.fhcInstallRdfXML;
   },
 
   /**

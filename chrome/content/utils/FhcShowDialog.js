@@ -54,8 +54,7 @@ var FhcShowDialog = {
 
     var features = "chrome,titlebar,toolbar,centerscreen,dependent,modal," +
                       (instantApply ? "dialog=no" : "");
-    var paneSelect = {pane: prefPaneSelect};
-    openDialog("chrome://formhistory/content/FhcPreferences.xul", "", features, paneSelect);
+    openDialog("chrome://formhistory/content/FhcPreferences.xul", "", features, prefPaneSelect);
   },
 
   /**
@@ -145,45 +144,6 @@ var FhcShowDialog = {
   },
 
   /**
-   * Open the multiline dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowFhcMultilineItem: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcMultilineDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-
-  /**
-   * Open the multiline exceptionlist dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowMultilineExceptionList: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcMultilineListDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-
-  /**
-   * Open the manage FHC exceptionlist dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowManageFhcExceptionList: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcManageFhcListDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-  
-  /**
    * Open the date/time dialog.
    *
    * @param params {Array}
@@ -192,45 +152,6 @@ var FhcShowDialog = {
   doShowFhcDateTime: function(params) {
     openDialog(
       "chrome://formhistory/content/FhcDateTimeDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-
-  /**
-   * Open the export dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowFhcExport: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcExportDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-
-  /**
-   * Open the import dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowFhcImport: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcImportDialog.xul", "",
-      "centerscreen, chrome, dialog, modal, resizable=yes", params)
-    .focus();
-  },
-
-  /**
-   * Open the import dialog.
-   *
-   * @param params {Array}
-   *        array of input/output parameters
-   */
-  doShowFhcImportStatus: function(params) {
-    openDialog(
-      "chrome://formhistory/content/FhcImportStatusDialog.xul", "",
       "centerscreen, chrome, dialog, modal, resizable=yes", params)
     .focus();
   },
