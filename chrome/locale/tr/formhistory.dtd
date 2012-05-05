@@ -216,8 +216,8 @@
 <!ENTITY fhprefs.group.taskbar.caption "Görev çubuğu">
 <!ENTITY fhprefs.checkbox.showtaskbaricon.label "Simgeyi görev çubuğunda göster">
 <!ENTITY fhprefs.group.toolbar.caption "Araç çubuğu">
-<!ENTITY fhprefs.label.showtoolbaricon.label "FormGeçmişi simgesini eklemek için araç çubuğunun Özelleştir&hellip; seçeneğini kullan">
-<!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Ağ gezgininin araç çubuğunda sağ-tuşla ve Özellesştir&hellip; seç. FormGeçmişini, simgesyi araç çubuğuna sürükleyerek ekleyebilirsin.">
+<!ENTITY fhprefs.label.showtoolbaricon.label "FormGeçmişi simgesini eklemek için araç çubuğunun Özelleştir.. seçeneğini kullan">
+<!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Ağ gezgininin araç çubuğunda sağ-tuşla ve Özellesştir.. seç. FormGeçmişini, simgesyi araç çubuğuna sürükleyerek ekleyebilirsin.">
 <!ENTITY fhprefs.group.showmenu.caption "Menü">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Araçlar menü maddesini gizle">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "İçerik menü maddesini gizle">
