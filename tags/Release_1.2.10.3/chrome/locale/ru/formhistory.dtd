@@ -1,0 +1,301 @@
+<!ENTITY fhwin.window.title "Управление историей поиска и данных форм">
+<!ENTITY historywindow.notification.moreinfo "(больше)">
+<!ENTITY fhwin.historytab.formhistory "Просмотр истории">
+<!ENTITY fhwin.historytab.formhistory.accesskey "п">
+<!ENTITY fhwin.historytab.cleanup "Очистка истории">
+<!ENTITY fhwin.historytab.cleanup.accesskey "о">
+<!ENTITY fhwin.filter.label "Поиск">
+<!ENTITY fhwin.filter.tooltip "Поиск записей, где название поля или значение соответствуют данному поисковому запросу">
+<!ENTITY fhwin.filter.accesskey "п">
+<!ENTITY fhwin.filter.advancedsearch "Расширенный поиск">
+<!ENTITY fhwin.filter.simplesearch "Обычный поиск">
+<!ENTITY fhwin.advancedfilter.fromto.from.label "от">
+<!ENTITY fhwin.advancedfilter.fromto.to.label "до">
+<!ENTITY fhwin.advancedfilter.enterdatetime.tooltip "Введите дату и время">
+<!ENTITY fhwin.advancedfilter.host.label "Домен">
+<!ENTITY fhwin.menuitem.regexpsearch.title "Регулярные выражения">
+<!ENTITY fhwin.menuitem.regexpsearch.tooltip "Выберите из списка предопределенные регулярные выражения">
+<!ENTITY fhwin.menuitem.regexpsearch.manage "Управлять списком...">
+<!ENTITY fhwin.menuitem.urlmenu.tooltip "Меню ссылок">
+<!ENTITY fhwin.menuitem.urlmenu.openurl "Открыть ссылку">
+<!ENTITY fhwin.menuitem.urlmenu.openurlnoparam "Открыть ссылку без параметров">
+<!ENTITY fhwin.menuitem.urlmenu.openurlhost "Открыть домен">
+<!ENTITY fhwin.menuitem.urlmenu.openurlcopy "Копировать адрес ссылки">
+<!ENTITY fhwin.checkbox.matchcase.label "С учетом регистра">
+<!ENTITY fhwin.checkbox.matchcase.accesskey "р">
+<!ENTITY fhwin.treeview.label "На вашем компьютере сохранена история форм для следующих полей">
+<!ENTITY fhwin.treeview.column.description.label "Описание">
+<!ENTITY fhwin.treeview.column.name.label "Название поля">
+<!ENTITY fhwin.treeview.column.value.label "Значение поля">
+<!ENTITY fhwin.treeview.column.used.label "К-во обращений">
+<!ENTITY fhwin.treeview.column.first.label "Создание">
+<!ENTITY fhwin.treeview.column.last.label "Последнее обращение">
+<!ENTITY fhwin.treeview.column.agefirst.label "Возраст">
+<!ENTITY fhwin.treeview.column.agelast.label "Прошло">
+<!ENTITY fhwin.treeview.column.guessed.tooltip "Информация получена из ссылок при просмотре журнала браузера, поэтому может быть не совсем корректна">
+<!ENTITY fhwin.treeview.column.guessedhost.label "Домен (подходящий)">
+<!ENTITY fhwin.treeview.column.guessedurl.label "URL (подходящий)">
+<!ENTITY fhwin.treeview.column.guessedpagetitle.label "Заголовок страницы (подходящий)">
+<!ENTITY fhwin.treeview.column.index.label "Индекс">
+<!ENTITY fhwin.treeview.cleanuppreview.label "Просмотр записей, соответствующих критериям очистки">
+<!ENTITY fhwin.treeview.closecleanuppreview.tooltip "Закрыть просмотр">
+<!ENTITY fhwin.checkbox.searchpageonly.label "Показать только для текущей страницы">
+<!ENTITY fhwin.checkbox.searchpageonly.tooltip "Показать только записи истории и данные форм, соответствующие названиям полей форм текущей HTML-страницы">
+<!ENTITY fhwin.checkbox.searchpageonly.accesskey "с">
+<!ENTITY fhwin.checkbox.searchfieldonly.label "Показать только для текущего поля">
+<!ENTITY fhwin.checkbox.searchfieldonly.tooltip "Показать только записи истории и данные форм, соответствующие названию выбранного (текущего) поля формы">
+<!ENTITY fhwin.checkbox.searchfieldonly.accesskey "п">
+<!ENTITY fhwin.checkbox.searchcleanuponly.label "Показать только соответствующие критериям очистки">
+<!ENTITY fhwin.checkbox.searchcleanuponly.tooltip "Показать только записи истории и данные форм, соответствующие критериям очистки">
+<!ENTITY fhwin.checkbox.searchcleanuponly.accesskey "о">
+<!ENTITY fhwin.button.clear.label "Сбросить">
+<!ENTITY fhwin.button.clear.accesskey "с">
+<!ENTITY fhwin.button.remove.label "Удалить">
+<!ENTITY fhwin.button.remove.accesskey "у">
+<!ENTITY fhwin.button.removeall.label "Удалить все">
+<!ENTITY fhwin.button.removeall.accesskey "в">
+<!ENTITY fhwin.button.cleanup.label "Очистить">
+<!ENTITY fhwin.button.cleanup.accesskey "о">
+<!ENTITY fhwin.button.add.label "Добавить">
+<!ENTITY fhwin.button.add.accesskey "д">
+<!ENTITY fhwin.button.edit.label "Редактировать">
+<!ENTITY fhwin.button.edit.accesskey "Р">
+<!ENTITY fhwin.button.closepreview.label "Закрыть просмотр">
+<!ENTITY fhwin.button.close.label "Закрыть">
+<!ENTITY fhwin.button.close.accesskey "з">
+<!ENTITY fhwin.menu.file.label "Файл">
+<!ENTITY fhwin.menu.file.accesskey "ф">
+<!ENTITY fhwin.menu.edit.label "Правка">
+<!ENTITY fhwin.menu.edit.accesskey "п">
+<!ENTITY fhwin.menu.view.label "Вид">
+<!ENTITY fhwin.menu.view.accesskey "в">
+<!ENTITY fhwin.menu.tools.label "Инструменты">
+<!ENTITY fhwin.menu.tools.accesskey "и">
+<!ENTITY fhwin.menu.help.label "Справка">
+<!ENTITY fhwin.menu.help.accesskey "с">
+<!ENTITY fhwin.menuitem.insert.label "Добавить новую запись">
+<!ENTITY fhwin.menuitem.insert.accelkey "н">
+<!ENTITY fhwin.menuitem.edit.label "Редактировать запись">
+<!ENTITY fhwin.menuitem.edit.accelkey "р">
+<!ENTITY fhwin.menuitem.delete.label "Удалить запись">
+<!ENTITY fhwin.menuitem.deleteallname.label "Удалить все записи с таким же названием">
+<!ENTITY fhwin.menuitem.deleteallvalue.label "Удалить все записи с таким же значением">
+<!ENTITY fhwin.menuitem.selectall.label "Выделить все записи">
+<!ENTITY fhwin.menuitem.selectall.accelkey "в">
+<!ENTITY fhwin.menuitem.selectnone.label "Убрать выделение">
+<!ENTITY fhwin.menuitem.selectinvert.label "Инвертировать выделение">
+<!ENTITY fhwin.menuitem.addcleanup.label "Добавить критерий очистки">
+<!ENTITY fhwin.menuitem.addprotect.label "Добавить критерий зашиты">
+<!ENTITY fhwin.menuitem.exportall.label "Экспорт всех записей истории">
+<!ENTITY fhwin.menuitem.exportdisplayed.label "Экспорт записей, соответствующих результатам поиска">
+<!ENTITY fhwin.menuitem.exportselected.label "Экспорт только выделенных записей">
+<!ENTITY fhwin.menuitem.import.label "Импорт истории">
+<!ENTITY fhwin.menuitem.exportcsv.label "Экспорт всей истории как CSV">
+<!ENTITY fhwin.menuitem.reloadview.label "Обновить">
+<!ENTITY fhwin.menuitem.close.label "Закрыть">
+<!ENTITY fhwin.menuitem.options.label "Настройки">
+<!ENTITY fhwin.menuitem.options.accelkey "н">
+<!ENTITY fhwin.menuitem.help.label "Справка">
+<!ENTITY fhwin.menuitem.releasenotes.label "Информация о версии">
+<!ENTITY fhwin.menuitem.about.label "О Form History Control">
+<!ENTITY fhwin.cleanup.menuitem.exportcfg.label "Экспорт конфигурации критериев очистки">
+<!ENTITY fhwin.cleanup.menuitem.importcfg.label "Импорт конфигурации критериев очистки">
+<!ENTITY fhwin.cleanup.label "Критерии для очистки ненужных записей истории поиска и данных форм">
+<!ENTITY fhwin.cleanup.timeusage.group.caption "Время использования / Количество обращений">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label "Удалить все записи истории поиска и данных форм, не используемых в течение последних">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label2 "дней">
+<!ENTITY fhwin.cleanup.checkbox.daysused.accesskey "д">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label "Удалить все записи истории поиска и данных форм, которые использовались меньше, чем">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label2 "раз">
+<!ENTITY fhwin.cleanup.checkbox.timesused.accesskey "р">
+<!ENTITY fhwin.cleanup.automaticcleanup.group.caption "Автоматическая очистка">
+<!ENTITY fhwin.cleanup.namevalue.group.caption "Название / Значение критерия">
+<!ENTITY fhwin.cleanup.tab.cleanup.label "Очишать">
+<!ENTITY fhwin.cleanup.tab.cleanup.accesskey "о">
+<!ENTITY fhwin.cleanup.tab.protect.label "Никогда не очищать">
+<!ENTITY fhwin.cleanup.tab.protect.accesskey "н">
+<!ENTITY fhwin.cleanup.treeviewprotect.label "Никогда не очищать записи истории поиска и данных форм, соответствующих паре название/значение">
+<!ENTITY fhwin.cleanup.treeview.label "Очищать записи истории поиска и данных форм, соответствующих паре название/значение">
+<!ENTITY fhwin.cleanup.treeview.column.nameexact.label "Точное название">
+<!ENTITY fhwin.cleanup.treeview.column.namecase.label "С учетом регистра">
+<!ENTITY fhwin.cleanup.treeview.column.nameregexp.label "RegExp название">
+<!ENTITY fhwin.cleanup.treeview.column.valueexact.label "Точное значение">
+<!ENTITY fhwin.cleanup.treeview.column.valuecase.label "С учетом регистра">
+<!ENTITY fhwin.cleanup.treeview.column.valueregexp.label "RegExp значение">
+<!ENTITY fhwin.cleanup.button.cleanupall.label "Очистить все совпадающие записи">
+<!ENTITY fhwin.cleanup.button.cleanupall.accesskey "в">
+<!ENTITY fhwin.cleanup.button.preview.label "Просмотр совпадающих записей">
+<!ENTITY fhwin.cleanup.button.preview.accesskey "п">
+<!ENTITY fhmnuovl.menu.main.manager.label "История поиска и данных форм">
+<!ENTITY fhmnuovl.menuitem.manager.label "Управление историей поиска и данных форм">
+<!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Удалить текущее значение для этого поля">
+<!ENTITY fhmnuovl.menuitem.deletethis.label "Удалить всю историю для этого поля">
+<!ENTITY fhmnuovl.menuitem.managethis.label "Управление записями для этого поля">
+<!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Заполнить поля недавними записями">
+<!ENTITY fhmnuovl.menuitem.fillmostused.label "Заполнить поля наиболее часто используемыми записями">
+<!ENTITY fhmnuovl.menuitem.clearfields.label "Очистить заполненные поля">
+<!ENTITY fhmnuovl.menuitem.showformfields.label "Показать имена полей на этой странице">
+<!ENTITY fhmnuovl.menuitem.savethisfield.label "Сохранить текущее значение для этого поля">
+<!ENTITY fhmnuovl.menuitem.savethispage.label "Сохранить значения для всех полей">
+<!ENTITY fhmnuovl.menuitem.cleanupnow.label "Очистить ВСЮ историю поиска и данных форм сейчас">
+<!ENTITY fhmnuovl.menuitem.options.label "Настройки">
+<!ENTITY fhentrydlg.windowtitle "Редактирование записи истории поиска и данных форм">
+<!ENTITY fhentrydlg.edit.description "Редактирование существующей записи истории поиска и данных форм">
+<!ENTITY fhentrydlg.editmultiple.description "Редактирование нескольких записей истории поиска и данных форм">
+<!ENTITY fhentrydlg.add.description "Добавить новую запись истории поиска и данных форм">
+<!ENTITY fhentrydlg.fieldname.label "Название поля">
+<!ENTITY fhentrydlg.value.label "Значение поля">
+<!ENTITY fhentrydlg.timesused.label "К-во обращений">
+<!ENTITY fhentrydlg.firstused.label "Создание">
+<!ENTITY fhentrydlg.firstusedhistory.img.tooltip "Показать браузерную историю просмотра примерно для того же времени, когда это поле формы было создано (впервые введено)">
+<!ENTITY fhentrydlg.lastused.label "Последнее обращение">
+<!ENTITY fhentrydlg.lastusedhistory.img.tooltip "Показать браузерную историю просмотра примерно для того же времени, когда это поле формы было в последний раз использовано (введено)">
+<!ENTITY fhentrydlg.place.group.caption "Последняя посещенная страница">
+<!ENTITY fhentrydlg.pagetitle.label "Заголовок">
+<!ENTITY fhentrydlg.host.label "Домен">
+<!ENTITY fhentrydlg.url.label "URL">
+<!ENTITY fhentrydlg.blankfielderror.label "Не оставляйте никакие поля пустыми">
+<!ENTITY fhentrydlg.existerror.label "Запись истории поиска / данных форм с таким названием и значением уже существует">
+<!ENTITY fhentrydlg.timesusederror.label "Только числовые значения допустимы для указания количества обращений">
+<!ENTITY fhcriteriadlg.windowtitle "Редактирование критерия очистки">
+<!ENTITY fhcriteriadlg.edit.description "Редактирование существующего критерия очистки">
+<!ENTITY fhcriteriadlg.add.description "Добавить новый критерий очистки">
+<!ENTITY fhcriteriapdlg.windowtitle "Редактирование критерия защиты">
+<!ENTITY fhcriteriapdlg.edit.description "Редактирование существующего критерия защиты">
+<!ENTITY fhcriteriapdlg.add.description "Добавить новый критерий защиты">
+<!ENTITY fhcriteriadlg.description.label "Описание">
+<!ENTITY fhcriteriadlg.fieldname.label "Название поля">
+<!ENTITY fhcriteriadlg.value.label "Значение поля">
+<!ENTITY fhcriteriadlg.matchexact.label "Точное соответствие">
+<!ENTITY fhcriteriadlg.matchcase.label "С учетом регистра">
+<!ENTITY fhcriteriadlg.namevaluefieldsemptyerror.label "Не оставляйте поля «Название поля» и «Значение поля» пустыми">
+<!ENTITY fhcriteriadlg.existerror.label "Критерий с этими свойствами уже существет">
+<!ENTITY fhcregexpdlg.windowtitle "Управление регулярными выражениями">
+<!ENTITY fhcregexpdlg.edit.description "Редактировать регулярное выражение">
+<!ENTITY fhcregexpdlg.add.description "Добавить регулярное выражение">
+<!ENTITY fhcregexpdlg.description.label "Описание">
+<!ENTITY fhcregexpdlg.category.label "Категория">
+<!ENTITY fhcregexpdlg.regexp.label "Регулярное выражение">
+<!ENTITY fhcregexpdlg.matchcase.label "С учетом регистра">
+<!ENTITY fhcregexpdlg.usefor.label "Использовать выражение для">
+<!ENTITY fhcregexpdlg.useforname.radiolabel "Названий полей">
+<!ENTITY fhcregexpdlg.useforvalue.radiolabel "Значений полей">
+<!ENTITY fhcregexpdlg.useforboth.radiolabel "Названий и Значений">
+<!ENTITY fhcregexpdlg.emptyerror.label "Не оставляйте поля «Описание» или «Регулярное выражение» пустыми">
+<!ENTITY fhcregexpdlg.existerror.label "Выражение с этими свойствами уже существет">
+<!ENTITY fhdatetimedlg.windowtitle "Дата и время">
+<!ENTITY fhdatetimedlg.description "Установить дату и время">
+<!ENTITY fhdatetimedlg.date.label "Дата">
+<!ENTITY fhdatetimedlg.time.label "Время">
+<!ENTITY fhdatetimedlg.setzerotime.tooltip "Установить время в 0:00:00">
+<!ENTITY fhbrowsehistorydlg.windowtitle "Обзор истории поля формы">
+<!ENTITY fhbrowsehistorydlg.older.label "Более старые записи">
+<!ENTITY fhbrowsehistorydlg.older.tooltip "Дополнительно показать более старые записи истории">
+<!ENTITY fhbrowsehistorydlg.newer.label "Более новые записи">
+<!ENTITY fhbrowsehistorydlg.newer.tooltip "Дополнительно показать более новые записи истории">
+<!ENTITY fhprefs.window.title "Управление настройками Form History">
+<!ENTITY fhprefs.prefpane.miscellaneous.label "Разное">
+<!ENTITY fhprefs.group.preferences.caption "Настройки">
+<!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Поиск с учетом регистра">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.label "Скрыть записи, управляемые менеджером паролей Firefox">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.tooltip "Скрывает имена полей, перечисленных в менеджере паролей, для текущего поля/страницы. При просмотре полной истории, все (возможно, слишком много) названия полей, перечисленных в менеджере паролей, будут скрыты.">
+<!ENTITY fhprefs.group.warnings.caption "Показывать предупреждения">
+<!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Предупреждать перед удалением одной записи">
+<!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Предупреждать перед удалением нескольких записей">
+<!ENTITY fhprefs.group.historyview.caption "Просмотр истории">
+<!ENTITY fhprefs.textbox.exclusions.label "Исключить из просмотра следующие поля форм">
+<!ENTITY fhprefs.textbox.exclusions.tooltip "Названия полей, разделенные запятой">
+<!ENTITY fhprefs.prefpane.manualsave.label "Ручное сохранение">
+<!ENTITY fhprefs.label.manualsaveinfoicon.label "Используйте эту опцию, если в настройках Firefox отключена опция «Помнить историю поиска и данных форм» и Вы хотите сохранять историю поиска и данных форм вручную.">
+<!ENTITY fhprefs.checkbox.manualsave.label "Разрешить мне сохранять историю форм вручную">
+<!ENTITY fhprefs.checkbox.manualsave.tooltip "Включение этой опции добавит дополнительные горячие клавиши и пункты меню для того, чтобы можно было вручную сохранять историю форм одного или нескольких полей.">
+<!ENTITY fhprefs.prefpane.keybindings.label "Горячие клавиши">
+<!ENTITY fhprefs.keybindinginfo.label "Выберите текстовое поле, которое Вы хотите изменить, и введите желаемую комбинацию клавиш. Изменения вступают в силу немедленно.">
+<!ENTITY fhprefs.keybindinginfo.tooltip "Будьте осторожны, не используйте сочетания клавиш, которые также используется браузером или другими расширениями, так как эти комбинации клавиш могут не работать или вызвать неожиданный эффект.">
+<!ENTITY fhprefs.button.keybindingdisable.label "запретить">
+<!ENTITY fhprefs.prefpane.display.label "Отображение">
+<!ENTITY fhprefs.group.formhistoryitemsview.caption "Отображение записей истории поиска и данных форм">
+<!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Использовать собственный формат даты/времени">
+<!ENTITY fhprefs.checkbox.defaultSearchCurrentPageChecked.label "Использовать по умолчанию режим отображения «Показать только для текущей страницы»">
+<!ENTITY fhprefs.group.taskbar.caption "Строка состояния">
+<!ENTITY fhprefs.checkbox.showtaskbaricon.label "Показывать иконку в строке состояния">
+<!ENTITY fhprefs.group.toolbar.caption "Панель инструментов">
+<!ENTITY fhprefs.label.showtoolbaricon.label "Используйте опцию «Настроить...» панели инструментов для добавления иконки FormHistory на панель инструментов.">
+<!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Клик правой кнопкой мыши на панели инструментов браузера, выбираете «Настроить...», далее Вы можете перетянуть иконку FormHistory на панель инструментов.">
+<!ENTITY fhprefs.group.showmenu.caption "Меню">
+<!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Скрыть пункт в меню «Инструменты»">
+<!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Скрыть пункт в контекстном меню">
+<!ENTITY fhprefs.group.treeskin.caption "Цвет фона">
+<!ENTITY fhprefs.label.treeskin.label "Улучшение читаемости списков">
+<!ENTITY fhprefs.image.treeskin.tooltiptext "Выберите один из вариантов, чтобы улучшить читаемость (обычно полезно при использовании темных тем ОС)">
+<!ENTITY fhprefs.radio.treeskin.auto.label "Автоматический">
+<!ENTITY fhprefs.radio.treeskin.light.label "Светлый">
+<!ENTITY fhprefs.radio.treeskin.dark.label "Темный">
+<!ENTITY fhprefs.radio.treeskin.none.label "Нет">
+<!ENTITY fhprefs.prefpane.quickfill.label "Быстрое заполнение">
+<!ENTITY fhprefs.quickfillinfo.label "Выделяет на странице все поля ввода, которые были заполнены самыми последними или наиболее часто используемыми значениями.">
+<!ENTITY fhprefs.group.quickfill.caption "Индикация быстрого заполнения полей форм">
+<!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Изменить цвет фона">
+<!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Изменить цвет рамки">
+<!ENTITY fhprefs.checkbox.quickfillborderwidth.label "Изменить толщину рамки">
+<!ENTITY fhprefs.textbox.quickfillpreviewtest.label "Тест">
+<!ENTITY fhprefs.textbox.quickfillpreviewtext "Просмотр">
+<!ENTITY fhprefs.prefpane.importexport.label "Импорт/Экспорт">
+<!ENTITY fhprefs.group.csvexport.caption "Экспорт в CSV">
+<!ENTITY fhprefs.textbox.csvexportseparator.label "Разделять значения симоволом">
+<!ENTITY fhprefs.textbox.csvexportquote.label "Обрамлять значения символом">
+<!ENTITY fhprefs.textbox.csvexportescape.label "префиксом начала строки является символ">
+<!ENTITY fhprefs.group.configexport.caption "Конфигурация Импорта/Экспорта">
+<!ENTITY fhprefs.checkbox.configexportkeybindings.label "Горячие клавиши для Импорта и Экспорта">
+<!ENTITY fhprefs.prefpane.cleanup.label "Очистка">
+<!ENTITY fhprefs.checkbox.cleanupshutdown.label "Выполнять очистку при закрытии браузера">
+<!ENTITY fhprefs.checkbox.cleanuptabclose.label "Выполнять очистку при закрытии вкладки окна браузера">
+<!ENTITY fhprefs.button.cleanupnow.label "Произвести очистку сейчас">
+<!ENTITY fhprefs.prefpane.search.label "Поиск">
+<!ENTITY fhprefs.label.search.manage "Управление выражениями, используемыми в расширенном поиске">
+<!ENTITY fhprefs.checkbox.names.label "Названия">
+<!ENTITY fhprefs.checkbox.names.tooltip "Показать регулярные выражения для поиска названий полей">
+<!ENTITY fhprefs.checkbox.values.label "Значения">
+<!ENTITY fhprefs.checkbox.values.tooltip "Показать регулярные выражения для поиска значений полей">
+<!ENTITY fhprefs.treeview.column.description.label "Описание">
+<!ENTITY fhprefs.treeview.column.category.label "Категория">
+<!ENTITY fhprefs.treeview.column.regexp.label "Выражение">
+<!ENTITY fhprefs.treeview.column.case.label "Регистр">
+<!ENTITY fhprefs.treeview.column.usefor.label "Название/Значение">
+<!ENTITY fhprefs.treeview.column.index.label "Индекс">
+<!ENTITY fhprefs.prefpane.information.label "Информация">
+<!ENTITY fhprefs.group.information.fhdatabase.caption "База данных истории поиска и данных форм">
+<!ENTITY fhprefs.group.information.cudatabase.caption "База данных критериев очистки">
+<!ENTITY fhprefs.textbox.information.filepath.label "Путь">
+<!ENTITY fhprefs.textbox.information.filesize.label "Размер">
+<!ENTITY fhprefs.textbox.information.databaserows.label "Строк">
+<!ENTITY fhprefs.button.information.createnew.label "Создать новую">
+<!ENTITY fhprefs.button.information.createnew.tooltip "Создать новую базу данных конфигурации критериев очистки, все имеющиеся данные будут утеряны">
+<!ENTITY fhprefs.button.information.recover.label "Создать и восстановить">
+<!ENTITY fhprefs.button.information.recover.tooltip "Создать новую базу данных конфигурации критериев очистки, имеющиеся данные по возможности будут сохранены">
+<!ENTITY fhprefs.button.information.restoreregexp.label "Восстановить регулярные выражения (RegExp)">
+<!ENTITY fhprefs.button.information.restoreregexp.tooltip "Восстановить предопределенные регулярные выражения (используются для расширенного поиска и создания критериев очистки на основе регулярных выражений)">
+<!ENTITY fhpref.tooltiplabel.dateformat.showhelp "Нажмите здесь для получения дополнительной информации">
+<!ENTITY fhpref.tooltiplabel.dateformat.description "Доступные дескрипторы даты/времени:">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptorcolumn "Дескриптор даты">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptioncolumn "Описание">
+<!ENTITY fhpref.tooltiplabel.dateformat.examplescolumn "Примеры">
+<!ENTITY fhpref.tooltiplabel.dateformat.year "Год">
+<!ENTITY fhpref.tooltiplabel.dateformat.month "Месяцы в году">
+<!ENTITY fhpref.tooltiplabel.dateformat.day "Дни в месяце">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour24 "Часы в дне">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour12 "Время в am/pm">
+<!ENTITY fhpref.tooltiplabel.dateformat.ampm "Маркер am/pm">
+<!ENTITY fhpref.tooltiplabel.dateformat.minute "Минуты в часе">
+<!ENTITY fhpref.tooltiplabel.dateformat.second "Секунды в минуте">
+<!ENTITY fhpref.tooltiplabel.dateformat.millisec "Миллисекунды">
+<!ENTITY fhprefovl.privacy.button.showhistory.label "Показать историю">
+<!ENTITY fhprefovl.privacy.button.showhistory.accesskey "п">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Let Form History Control manage form history">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Whether or not to save form history is controlled by the Form History Control add-on">
+<!ENTITY fhprefovl.privacy.button.rememberoptions.label "Настройки">
+<!ENTITY fhabout.label.description "Описание">
+<!ENTITY fhabout.label.creator "Разработчик">
+<!ENTITY fhabout.label.homepage "Посетить домашнюю страницу">
+<!ENTITY fhabout.label.contributors "Помощники">
+<!ENTITY fhabout.label.translators "Переводчики">
