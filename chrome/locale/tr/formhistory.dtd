@@ -203,7 +203,7 @@
 <!ENTITY fhdatetimedlg.description "Tarih ve zamanı ayarlar">
 <!ENTITY fhdatetimedlg.date.label "Tarih">
 <!ENTITY fhdatetimedlg.time.label "Zaman">
-<!ENTITY fhdatetimedlg.setzerotime.tooltip "Zamanı 0:00:00&apos;a ayarla">
+<!ENTITY fhdatetimedlg.setzerotime.tooltip "Zamanı 0:00:00'a ayarla">
 <!ENTITY fhbrowsehistorydlg.windowtitle "Form Alanı için Geçmişe Gözat">
 <!ENTITY fhbrowsehistorydlg.older.label "Eskisi">
 <!ENTITY fhbrowsehistorydlg.older.tooltip "Daha fazla eski geçmiş getir">
@@ -363,7 +363,7 @@
 <!ENTITY fhpref.tooltiplabel.dateformat.millisec "Milisaniye">
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Geçmişi Göster">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
-<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Form History Control&apos;un form geçmişini yönetmesine izin ver">
+<!ENTITY fhprefovl.privacy.checkbox.managebyfhc.label "Form History Control'un form geçmişini yönetmesine izin ver">
 <!ENTITY fhprefovl.privacy.checkbox.managebyfhc.tooltip "Form geçmişisinin kaydedilip kaydedilmeyeceğinin Form History Control eklentisiyle denetlenmesi">
 <!ENTITY fhprefovl.privacy.button.rememberoptions.label "Ayarlar">
 <!ENTITY fhabout.label.description "Tanım">
