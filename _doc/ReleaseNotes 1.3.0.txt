@@ -1,27 +1,27 @@
 User:
-- Available locales (en nl ...)
-- Option to show/hide Formhistory Control in FF app menu (introduced in FF4), default is show
-- Backup multiline fields while typing (editor fields) -> manage from main UI
-- Restore multiline fields
-- Custom save option: only save form history for listed sites
-- Added button to show/hide cleanup options (cleanup tab)
+- New feature: Backup multiline/WYSIWYG (editor)fields while typing (before submit)
+- New feature: Restore multiline/WYSIWYG fields
+- New feature: Customize save formhistory: only save form history for listed sites (either blacklist or whitelist)
+- New feature: Export/Import manager (choose what to export/import)
+- Extra option: show/hide Formhistory Control in FF app menu (default is show)
+- Extra option: export/import dates in ISO format (default is ISO)
+- Extra button to hide cleanup options (cleanup tab)
+- Improved regular expression for Creditcards (to use Restore RegExp)
+- Improved performance
+- Improved browsehistory view
 - Fix: skip duplicate entries from imported xml-file
-- Changed: improved regular expression for Creditcards
-- Added Export/Import manager (choose what to export/import)
-- Added option to export/import dates in ISO format (default)
-
+- Fix: unresponsive script error on slow computers/large history databases (using background timer threads)
+- Available locales for this version: en cs da de es fr nl tr
 
 Technical:
-- MaxVersion FF to ...
+- MaxVersion FF to 16.0a1
 - Getting rid of all threads (processNextEvent)
 - Places lookup query is processed in the background (using a timer-thread ) if it takes more than 250ms
 - Places lookup optimization, only query for dates present in the history table (> earliestVisit date)
 - Refactored DOMParser.parseFromStream (deprecated) to parseFromString
 - Get rid of the new AddonManager (async methods are unusable, threads forbidden), always use the install.rdf file to obtain add-on information.
 - Minor bugfix: formhistorycontrols toolbarmenu or statusbarmenu can be null (fixes: "Error: tbMenu is null")
-- Converted BrowseHistory from HTML-XUL mix (iframe+places.html) into pure XUL
+- Converted BrowseHistory from HTML-XUL mix (iframe+places.html) to pure XUL
 
 ToDo:
-- About dialog: now always shows the english name/description from install.rdf (because it comes first)
 - Prevent formhistory for specific fields (not related to a domain)
-- When importing from xml, import preferences only after okay (and maybe add a checkbox in the import/export dialog)
