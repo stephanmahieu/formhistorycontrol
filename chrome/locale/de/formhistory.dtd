@@ -218,6 +218,7 @@
 <!ENTITY fhcmultilinedlg.checkbox.hideimages "Bilder ausblenden">
 <!ENTITY fhcmultilinelistdlg.windowtitle "Ausnahmeliste verwalten">
 <!ENTITY fhcmultilinelistdlg.label.blacklist "Feldchronik für unten aufgeführte Hosts nicht speichern.">
+<!ENTITY fhcmultilinelistdlg.label.whitelist "Nur an Editor Felder der unten aufgeführten Hosts erinnern">
 <!ENTITY fhcmultilinelistdlg.button.addcurrenthost "Aktuellen Host hinzufügen">
 <!ENTITY fhcmanagefhclistdlg.windowtitle "Formularchronik speichern verwalten">
 <!ENTITY fhcmanagefhclistdlg.label.blacklist "Formulachronik für Seiten die den gelisteten Kriterien entsprechen nicht speichern">
@@ -237,6 +238,7 @@
 <!ENTITY fhprefs.label.multilinesaveolder "Neue Version speichern wenn die zuletzt gespeicherte Version älter ist als">
 <!ENTITY fhprefs.label.multilinesavelength "Neue Version speichern wenn die Länge des Inhalts sich ändert um mehr als">
 <!ENTITY fhprefs.label.multilinecleanup "Version automatisch löschen wenn sie älter ist als">
+<!ENTITY fhprefs.multilinesavewarning.tooltip "Warnung: Das Speichern vieler Versionen ohne Reinigung kann zu sehr großen Datenbanken führen!">
 <!ENTITY fhprefs.label.multilinelist.never "nie">
 <!ENTITY fhprefs.label.multilinelist.minute "Minute">
 <!ENTITY fhprefs.label.multilinelist.minutes "Minuten">
@@ -250,10 +252,19 @@
 <!ENTITY fhprefs.label.multilinelist.months "Monate">
 <!ENTITY fhprefs.label.multilinelist.characters "Zeichen">
 <!ENTITY fhprefs.radio.multilinenoexception "Keine Ausnahmen">
+<!ENTITY fhprefs.radio.multilinewhitelist "Nur für gelistete Hosts aktivieren">
+<!ENTITY fhprefs.radio.multilineblacklist "Immer aktiviert. mit Ausnahme der gelisteten Hosts">
 <!ENTITY fhprefs.button.managelist "Ausnahmeliste verwalten">
+<!ENTITY fhprefs.checkbox.multilinesavealways "Backup der Editor Felder während der Eingabe auch im privaten Modus speichern">
+<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "Bilder in der HTML Vorschau nicht automatisch herunterladen">
+<!ENTITY fhprefs.checkbox.multilinesaveencrypted "Inhalt der Editor Felder in der Datenbank verschlüsseln">
 <!ENTITY fhprefs.prefpane.manageformhistory.label "Chronik verwalten">
+<!ENTITY fhprefs.group.managefhc.caption "Wann Formular Chronik speichern">
 <!ENTITY fhprefs.manageformhistory.tooltip "Form History Control bietet die Möglichkeit 'Formularchronik speichern' beim Besuch bestimmter Seiten sich automatisch ein- und auszuschalten.">
 <!ENTITY fhprefs.manageformhistory.global.tooltip "Nur verfügbar wenn die globale Privatsphäre Option 'Formularchronik speichern' aktiviert ist.">
+<!ENTITY fhprefs.radio.managefhcnoexception "Globale Einstellungen nutzen (immer speichern)">
+<!ENTITY fhprefs.radio.managefhcwhitelist "Nur für Seiten der Ausnahmeliste speichern">
+<!ENTITY fhprefs.radio.managefhcblacklist "Immer speichern mit Ausnahme von Seiten der Ausnahmeliste">
 <!ENTITY fhprefs.prefpane.miscellaneous.label "Verschiedenes">
 <!ENTITY fhprefs.group.preferences.caption "Einstellungen">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Bei der Suche Groß- und Kleinschreibung berücksichtigen">
@@ -374,6 +385,7 @@
 <!ENTITY fhexportdlg.button.export "Export">
 <!ENTITY fhexportdlg.label.exporterrornone "Nichts ausgewählt, nichts zu exportieren.">
 <!ENTITY fhimportdlg.title "Importmanager">
+<!ENTITY fhimportdlg.description "Wählen sie den Typ der zu importierenden Daten">
 <!ENTITY fhimportdlg.button.import "Import">
 <!ENTITY fhimportdlg.label.importerrornone "Nichts ausgewählt, nichts zu exportieren.">
 <!ENTITY fhimportexportdlg.checkbox.entries "FormularChronik">
@@ -392,5 +404,6 @@
 <!ENTITY fhimportstatusdlg.title "Importstatus">
 <!ENTITY fhimportstatusdlg.label.total "Gesamt">
 <!ENTITY fhimportstatusdlg.label.imported "Importiert">
+<!ENTITY fhimportstatusdlg.label.identical "Identisch">
 <!ENTITY fhimportstatusdlg.label.error "Fehler">
 <!ENTITY fhcnotimplemented.label "noch nicht implementiert!">
