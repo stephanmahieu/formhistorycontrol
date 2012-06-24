@@ -4,7 +4,7 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.0.1pre1</em:version>
+		<em:version>1.3.0.1pre2</em:version>
 		<em:type>2</em:type>
 		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
@@ -15,7 +15,7 @@
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>3.0.9</em:minVersion>
-				<em:maxVersion>15.0a1</em:maxVersion>
+				<em:maxVersion>16.0a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<em:targetApplication>
@@ -23,7 +23,7 @@
 			<Description>
 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
 				<em:minVersion>2.0a3</em:minVersion>
-				<em:maxVersion>2.12a1</em:maxVersion>
+				<em:maxVersion>2.13a1</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 		<!-- Flock (version 3.* based on google chrome) -->
@@ -38,7 +38,29 @@
 		<!-- if no locale match, revert to these defaults (en-US) (keep before Localized MetaData) -->
 		<em:name>Form History Control</em:name>
 		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
-		
+
+    <!-- apparently we need this to get preferences in the correct locale (when using QLS) - - >
+    <em:file>
+      <Description>
+        <em:package>content/</em:package>
+        <em:skin>skin/classic/</em:skin>
+        <em:locale>locale/en-US/</em:locale>
+        <em:locale>locale/cs/</em:locale>
+        <em:locale>locale/da/</em:locale>
+        <em:locale>locale/de/</em:locale>
+        <em:locale>locale/en-US/</em:locale>
+        <em:locale>locale/es-ES/</em:locale>
+        <em:locale>locale/fr/</em:locale>
+        <em:locale>locale/nl/</em:locale>
+        <em:locale>locale/pt-BR/</em:locale>
+        <em:locale>locale/ru/</em:locale>
+        <em:locale>locale/sv-SE/</em:locale>
+        <em:locale>locale/tr/</em:locale>
+        <em:locale>locale/zh-CN/</em:locale>
+      </Description>
+    </em:file>
+    -->
+
 		<!-- Localized MetaData -->
 		<em:localized>
 			<Description>
@@ -157,13 +179,16 @@
 		<!-- Contributors -->
 		<em:contributor>Mark James [Menu-icons][http://www.famfamfam.com/lab/icons/silk/]</em:contributor>
 		<em:contributor>BabelZilla team [www.babelzilla.org][http://www.babelzilla.org]</em:contributor>
-		<em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>		
+		<em:translator>Stanislav Horáček [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=14422] (cs)</em:translator>
 		<em:translator>Jørgen [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=7215] (da)</em:translator>
 		<em:translator>HorstS [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12281] (de)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (en-US)</em:translator>
 		<em:translator>urko [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=247] (es-ES)</em:translator>
+		<em:translator>Goofy [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=13] (fr)</em:translator>
 		<em:translator>Jojaba [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=155] (fr)</em:translator>
+		<em:translator>nico@nc [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=3331] (fr)</em:translator>
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
+		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
 
 <!-- unfinished contributions - - >
 		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
@@ -173,7 +198,6 @@
 		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
 		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
 		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
-		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
 		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
 -->
 
