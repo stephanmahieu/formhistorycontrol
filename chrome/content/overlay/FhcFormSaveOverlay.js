@@ -176,8 +176,10 @@ const FhcFormSaveOverlay = {
     else if ("body" == n) {
       // body of iframe
       //dump("keyup from body\n");
-      var e = t.ownerDocument.activeElement;
-      if ("true" == e.contentEditable) {
+      var doc = t.ownerDocument;
+      var e = doc.activeElement;
+      if (("on" == doc.designMode) || this._isContentEditable(e)) {
+        //dump("content is editable\n");
         this._contentChangedHandler("iframe", e);
       }
     }
@@ -460,8 +462,31 @@ const FhcFormSaveOverlay = {
       return aURI.host;
     }
   },
+  
+  /**
+   * Get the effective contentEditable property of an element.
+   *
+   * @param  element {DOM element}
+   * @return {boolean} wether content is editable "true" or not "false"
+   */
+  _isContentEditable: function(element) {
+    if (element.contentEditable == undefined) {
+        return false;
+    }
+    if ("inherit" != element.contentEditable) {
+        return ("true" == element.contentEditable);
+    }
 
-
+    var doc = element.ownerDocument;
+    var effectiveStyle = doc.defaultView.getComputedStyle(element, null);
+    var propertyValue = effectiveStyle.getPropertyValue("contentEditable");
+    if ("inherit" == propertyValue && element.parentNode.style) {
+        return this._isContentEditable(element.parentNode);
+    }
+    return ("true" == propertyValue);
+  },
+  
+  
   //----------------------------------------------------------------------------
   // Preference helper methods
   //----------------------------------------------------------------------------
