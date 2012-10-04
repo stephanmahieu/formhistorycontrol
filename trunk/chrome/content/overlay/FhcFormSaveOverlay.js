@@ -407,16 +407,20 @@ const FhcFormSaveOverlay = {
    */
   _getContent: function(event) {
     var theContent = "";
-    switch(event.type) {
-      case "textarea":
-           theContent = event.node.value;
-           break;
-      case "html":
-           theContent = event.node.body.innerHTML;
-           break;
-      case "iframe":
-           theContent = event.node.innerHTML;
-           break;
+    try {
+      switch(event.type) {
+        case "textarea":
+             theContent = event.node.value;
+             break;
+        case "html":
+             theContent = event.node.body.innerHTML;
+             break;
+        case "iframe":
+             theContent = event.node.innerHTML;
+             break;
+      }
+    } catch(e) {
+      // possible "can't access dead object" TypeError, DOM object destroyed
     }
     return theContent;
   },
