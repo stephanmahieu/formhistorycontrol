@@ -133,13 +133,13 @@ const FhcContextMenu = {
           switch(aEvent.target.id) {
             case "formhistctrl-statusbarmenu":
               // Right click statusbar
-              menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              menuPopup = document.getElementById("fhc.statusbarFhcRightClickMenu");
               position = "before_start";
               break;
 
               // Right click toolbar
             case "formhistctrl-toolbarbutton":
-              menuPopup = document.getElementById("statusbarFhcRightClickMenu");
+              menuPopup = document.getElementById("fhc.statusbarFhcRightClickMenu");
               position = "after_start";
               break;
           }
@@ -1238,8 +1238,8 @@ const FhcContextMenu = {
     if (menuElem && menuElem.attributes) {
       var before = menuElem.attributes.getNamedItem("insertbefore");
       var after = menuElem.attributes.getNamedItem("insertafter");
-      if (before && before.nodeValue) {
-        var beforeItem, beforeIds = before.nodeValue.split(",");
+      if (before && before.value) {
+        var beforeItem, beforeIds = before.value.split(",");
         for (var i=0; i < beforeIds.length; i++) {
           beforeItem = document.getElementById(beforeIds[i]);
           if (beforeItem && beforeItem.previousSibling && fhcId != beforeItem.previousSibling.id) {
@@ -1249,8 +1249,8 @@ const FhcContextMenu = {
           }
         }
       }
-      else if (after && after.nodeValue) {
-        var afterItem, afterIds = after.nodeValue.split(",");
+      else if (after && after.value) {
+        var afterItem, afterIds = after.value.split(",");
         for (var j=0; j < afterIds.length; j++) {
           afterItem = document.getElementById(afterIds[j]);
           if (afterItem && (afterItem.nextSibling == null 
