@@ -139,7 +139,7 @@
     <statusbarpanel id="formhistctrl-statusbarmenu"
                     class="statusbarpanel-menu-iconic"
                     tooltiptext="&fhmnuovl.menuitem.manager.label;"
-                    contextMenu="fhc.statusbarFhcRightClickMenu"
+                    contextMenu="formhistory@yahoo.com.statusbarRightClickMenu"
                     context=""
                     persist="hidden">
       <menupopup id="formhistctrl-statusbarmenu-popup">
@@ -179,7 +179,7 @@
   </statusbar>
 
   <popupset>
-    <menupopup id ="fhc.statusbarFhcRightClickMenu">
+    <menupopup id ="formhistory@yahoo.com.statusbarRightClickMenu">
       <menuitem id="formhistctrl_sbmenuitem_options"
                 class="menuitem-iconic fh_menuitem_options"
                 label="&fhmnuovl.menuitem.options.label;"

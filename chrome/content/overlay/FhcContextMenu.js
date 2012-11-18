@@ -133,13 +133,13 @@ const FhcContextMenu = {
           switch(aEvent.target.id) {
             case "formhistctrl-statusbarmenu":
               // Right click statusbar
-              menuPopup = document.getElementById("fhc.statusbarFhcRightClickMenu");
+              menuPopup = document.getElementById("formhistory@yahoo.com.statusbarRightClickMenu");
               position = "before_start";
               break;
 
               // Right click toolbar
             case "formhistctrl-toolbarbutton":
-              menuPopup = document.getElementById("fhc.statusbarFhcRightClickMenu");
+              menuPopup = document.getElementById("formhistory@yahoo.com.statusbarRightClickMenu");
               position = "after_start";
               break;
           }
