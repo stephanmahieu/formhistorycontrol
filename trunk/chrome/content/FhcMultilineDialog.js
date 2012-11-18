@@ -58,7 +58,7 @@ const FhcMultilineDialog = {
         // content contains html
         var prefHandler = new FhcPreferenceHandler(bundle);
         var doSanitize = prefHandler.isMultilineHTMLSanitized();
-        delete prefHandler;
+        //delete prefHandler;
         
         var dom = FhcUtil.htmlStringToDOM(content, doSanitize);
         document.getElementById("iframeContent").contentWindow.document.body.appendChild(dom);
@@ -86,8 +86,8 @@ const FhcMultilineDialog = {
       //document.getElementById("host").value = this.multilineItem.host;
       document.getElementById("url").value = this.multilineItem.url;
       
-      delete dateHandler;
-      delete bundle;
+      //delete dateHandler;
+      //delete bundle;
     }
   },
 

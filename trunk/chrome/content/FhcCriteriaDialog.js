@@ -234,7 +234,7 @@ const FhcCriteriaDialog = {
       if (0 == regexpData.length) {
         var predefHandler = new FhcPredefinedRegexp(dbHandler, bundle);
         predefHandler.addPredefinedRegexpToDb();
-        delete predefHandler;
+        //delete predefHandler;
         // read again
         regexpData = dbHandler.getAllRegexp();
       }
@@ -249,9 +249,9 @@ const FhcCriteriaDialog = {
 
         Application.storage.set(keyStore, "okay");
       }
-      delete regexpData;
-      delete dbHandler;
-      delete bundle;
+      //delete regexpData;
+      //delete dbHandler;
+      //delete bundle;
       
       regexpMenu.openPopup(txtBoxElem, "after_end", 0, 0, false, false);
       regexpMenu.setAttribute("destinationid", textboxId);

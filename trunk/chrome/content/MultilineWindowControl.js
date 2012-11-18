@@ -395,7 +395,7 @@ const MultilineWindowControl = {
     }
 
     // free bulky overhead
-    delete hashMap;
+    //delete hashMap;
     
     return uniqueEntries;
   },

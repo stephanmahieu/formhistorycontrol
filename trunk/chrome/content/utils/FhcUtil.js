@@ -809,7 +809,7 @@ const FhcUtil = {
     try {
       var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
       var xml = xmlHandler.dataToXMLString(options, preferenceHandler, dbHandler);
-      delete xmlHandler;
+      //delete xmlHandler;
 
       fileOut.write(xml, xml.length);
     } finally {
@@ -846,7 +846,7 @@ const FhcUtil = {
       try {
         var xmlHandler = new FhcXmlHandler(dateHandler, preferenceHandler.isISOdateFormat());
         importedData = xmlHandler.parseXMLdata(cstream);
-        delete xmlHandler;
+        //delete xmlHandler;
       } finally {
         cstream.close();
       }
@@ -880,8 +880,8 @@ const FhcUtil = {
     try {
       var xmlHandler = new FhcXmlHandler(dateHandler, true);
       var xml = xmlHandler.dataToXMLString(exportOptions, preferenceHandler, dbHandler);
-      delete xmlHandler;
-      delete exportOptions;
+      //delete xmlHandler;
+      //delete exportOptions;
 
       fileOut.write(xml, xml.length);
     } finally {
@@ -908,7 +908,7 @@ const FhcUtil = {
     try {
       var xmlHandler = new FhcXmlHandler(dateHandler, true);
         importedConfig = xmlHandler.parseXMLdata(cstream);
-      delete xmlHandler;
+      //delete xmlHandler;
     } finally {
       cstream.close();
     }

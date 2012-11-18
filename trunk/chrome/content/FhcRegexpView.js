@@ -87,7 +87,7 @@ const FhcRegexpView = {
     if (0 == this.alldata.length) {
       var predefHandler = new FhcPredefinedRegexp(aDbHandler, aBundle);
       predefHandler.addPredefinedRegexpToDb();
-      delete predefHandler;
+      //delete predefHandler;
       // read again
       this.alldata = this.dbHandler.getAllRegexp();
     }
@@ -800,6 +800,7 @@ const FhcRegexpView = {
       case "V":return this.bundle.getString("regexpview.usefor.value");
       case "B":return this.bundle.getString("regexpview.usefor.both");
     }
+    return "";
   },
 
   /**
@@ -819,7 +820,7 @@ const FhcRegexpView = {
     for (var it=0; it < this.data.length; it++) {
       this.data[it]._tmpSelected = !(undefined == hashMap[this.data[it].id]);
     }
-    delete hashMap;
+    //delete hashMap;
 
     // restore the selection
     this._restoreSelectionFast();

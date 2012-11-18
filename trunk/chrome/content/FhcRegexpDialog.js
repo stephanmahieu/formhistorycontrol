@@ -101,7 +101,7 @@ const FhcRegexpDialog = {
         listElem.appendChild(this._createMenuItem(categories[it].category));
       }
     }
-    delete dbHandler;
+    //delete dbHandler;
   },
 
   /**

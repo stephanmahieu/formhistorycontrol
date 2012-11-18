@@ -409,7 +409,7 @@ const HistoryWindowControl = {
       if (0 == regexpData.length) {
         var predefHandler = new FhcPredefinedRegexp(this.dbHandler, this.bundle);
         predefHandler.addPredefinedRegexpToDb();
-        delete predefHandler;
+        //delete predefHandler;
         // read again
         regexpData = this.dbHandler.getAllRegexp();
       }
@@ -424,7 +424,7 @@ const HistoryWindowControl = {
 
         Application.storage.set(keyStore, "okay");
       }
-      delete regexpData;
+      //delete regexpData;
 
       regexpMenu.openPopup(txtBoxElem, "after_end", 0, 0, false, false);
       regexpMenu.setAttribute("destinationid", textboxId);

@@ -104,8 +104,8 @@ const AboutFhcDialog = {
     var acceptButton = document.documentElement.getButton("accept");
     acceptButton.label = bundle.getString("aboutwindow.closebutton.label");
 
-    delete extHandler;
-    delete bundle;
+    //delete extHandler;
+    //delete bundle;
   },
   
   /**
