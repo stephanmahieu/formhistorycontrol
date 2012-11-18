@@ -485,6 +485,7 @@ FhcDateHandler.prototype = {
               case 'a':return aDate.getHours() < 12 ? 'am' : 'pm';
               case 'A':return aDate.getHours() < 12 ? 'AM' : 'PM';
             }
+            return "";
         }
     );
     return dateString;

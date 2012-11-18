@@ -234,7 +234,7 @@ HistoryTreeView.prototype = {
     for (var it=0; it < this.data.length; it++) {
       this.data[it]._tmpSelected = !(undefined == hashMap[this.data[it].id]);
     }
-    delete hashMap;
+    //delete hashMap;
 
     // restore the selection
     this._restoreSelectionFast();
@@ -441,7 +441,7 @@ HistoryTreeView.prototype = {
     }
 
     // free bulky overhead
-    delete hashMap;
+    //delete hashMap;
     
     return uniqueEntries;
   },
