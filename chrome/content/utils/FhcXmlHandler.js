@@ -150,12 +150,10 @@ FhcXmlHandler.prototype = {
     }
     
     // serialize to string (pretty printed)
-    XML.ignoreComments = false;
-    return XML(this.serializer.serializeToString(doc)).toXMLString();
     //return this.serializer.serializeToString(doc);
+	return(this._prettyPrintXML(this.serializer.serializeToString(doc), "\t"));
   },
-
-
+ 
   /**
    * Deserialize a XML inputstream containing formhistory data.
    *
@@ -983,5 +981,88 @@ FhcXmlHandler.prototype = {
     this._appendElement(editorElem, doc.createElement("content"), this._encode(editorField.content));
     
     return editorElem;
-  }
+  },
+  
+  /**
+   * Pretty print XML.
+   * Adapted from vkBeautify by Vadim Kiryukhin (http://www.eslinstructor.net/vkbeautify/).
+   *
+   * @param text {String}
+   *        the XML text
+   *
+   * @param indent {String}
+   *        the text to use for indentation
+   *
+   * @return {String}
+   *         pretty printed XML
+   */
+  _prettyPrintXML: function(text, indent) {
+    var shift = ['\n'];
+    var maxNestingLevel = 6;
+    for (var i=0; i<maxNestingLevel; i++) {
+      shift.push(shift[i]+indent); 
+    }
+
+    var ar = text.replace(/>\s{0,}</g,"><")
+                 .replace(/</g,"~::~<")
+                 .replace(/\s*xmlns\:/g,"~::~xmlns:")
+                 .replace(/\s*xmlns\=/g,"~::~xmlns=")
+                 .split('~::~'),
+        len = ar.length,
+        inComment = false,
+        deep = 0,
+        str = '',
+        i = 0;
+
+    for(i=0;i<len;i++) {
+      // start comment or <![CDATA[...]]> or <!DOCTYPE //
+      if(ar[i].search(/<!/) > -1) { 
+        str += shift[deep]+ar[i];
+        inComment = true; 
+        // end comment  or <![CDATA[...]]> //
+        if(ar[i].search(/-->/) > -1 || ar[i].search(/\]>/) > -1 || ar[i].search(/!DOCTYPE/) > -1 ) { 
+          inComment = false; 
+        }
+      } else 
+      // end comment  or <![CDATA[...]]> //
+      if(ar[i].search(/-->/) > -1 || ar[i].search(/\]>/) > -1) { 
+        str += ar[i];
+        inComment = false; 
+      } else 
+      // <elm></elm> //
+      if( /^<\w/.exec(ar[i-1]) && /^<\/\w/.exec(ar[i]) &&
+        /^<[\w:\-\.\,]+/.exec(ar[i-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[i])[0].replace('/','')) { 
+        str += ar[i];
+        if(!inComment) deep--;
+      } else
+       // <elm> //
+      if(ar[i].search(/<\w/) > -1 && ar[i].search(/<\//) == -1 && ar[i].search(/\/>/) == -1 ) {
+        str = !inComment ? str += shift[deep++]+ar[i] : str += ar[i];
+      } else 
+       // <elm>...</elm> //
+      if(ar[i].search(/<\w/) > -1 && ar[i].search(/<\//) > -1) {
+        str = !inComment ? str += shift[deep]+ar[i] : str += ar[i];
+      } else 
+      // </elm> //
+      if(ar[i].search(/<\//) > -1) { 
+        str = !inComment ? str += shift[--deep]+ar[i] : str += ar[i];
+      } else 
+      // <elm/> //
+      if(ar[i].search(/\/>/) > -1 ) { 
+        str = !inComment ? str += shift[deep]+ar[i] : str += ar[i];
+      } else 
+      // <? xml ... ?> //
+      if(ar[i].search(/<\?/) > -1) { 
+        str += shift[deep]+ar[i];
+      } else 
+      // xmlns //
+      if( ar[i].search(/xmlns\:/) > -1  || ar[i].search(/xmlns\=/) > -1) { 
+        str += shift[deep]+ar[i];
+      } 
+      else {
+        str += ar[i];
+      }
+    }
+    return  (str[0] == '\n') ? str.slice(1) : str;
+  }  
 }
