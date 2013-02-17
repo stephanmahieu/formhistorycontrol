@@ -1296,6 +1296,6 @@
       }
     }
     window.addEventListener("DOMContentLoaded", FhcAlignAdvancedSearchLabels, true);
-  ]]>
+  // ]]>
   </script>
 </window>
