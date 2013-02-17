@@ -1206,7 +1206,7 @@
       );
     }
     window.addEventListener("DOMContentLoaded", loadHandler, true);
-  ]]>
+  // ]]>
   </script>
 
 </prefwindow>
