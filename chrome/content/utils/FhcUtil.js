@@ -676,7 +676,14 @@ const FhcUtil = {
    */
   inPrivateBrowsingMode: function() {
     var isPrivate = false;
-    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
+    var loadContext = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                  .getInterface(Components.interfaces.nsIWebNavigation)
+                  .QueryInterface(Components.interfaces.nsILoadContext);
+    if (!(typeof loadContext.usePrivateBrowsing === undefined)) {
+      // started from FF 20, private browsing per window!
+      isPrivate = loadContext.usePrivateBrowsing;
+    }
+    else if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
       try {
         var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
                     .getService(Components.interfaces.nsIPrivateBrowsingService);
