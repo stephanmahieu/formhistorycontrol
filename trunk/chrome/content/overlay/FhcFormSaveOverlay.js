@@ -50,7 +50,6 @@ const FhcFormSaveOverlay = {
   prefHandler:             null,
   observerService:         null,
   preferenceListener:      null,
-  privateBrowsingListener: null,
   exceptionlistListener:   null,
   
   //preferences
@@ -63,9 +62,6 @@ const FhcFormSaveOverlay = {
   saveAlways: false,
   saveEncrypted: false,
   
-  //private browsing
-  isPrivateBrowsing: false,
-  
   //local cache
   hostCache: {host:"", hostEnabled:false},
 
@@ -76,8 +72,6 @@ const FhcFormSaveOverlay = {
     this._initPreferences();
     this._registerPreferenceListener();
     
-    this._initPrivateBrowsing();
-    this._registerPrivateBrowsingListener();
     this._registerExceptionlistListener();
     
     this.observerService = Components.classes["@mozilla.org/observer-service;1"]
@@ -93,7 +87,6 @@ const FhcFormSaveOverlay = {
   
   destroy: function() {
     this._unregisterPreferenceListener();
-    this._unregisterPrivateBrowsingListener();
     this._unregisterExceptionlistListener();
     this.eventQueue = [];
     if (this.maintenanceTimer != null) this.maintenanceTimer.cancel();
@@ -215,7 +208,7 @@ const FhcFormSaveOverlay = {
    */
   _isSaveAllowed: function() {
     if (!this.backupEnabled) return false;
-    if (!this.saveAlways && this.isPrivateBrowsing) return false;
+    if (!this.saveAlways && this._isPrivateBrowsing()) return false;
     return true;
   },
 
@@ -602,59 +595,32 @@ const FhcFormSaveOverlay = {
   //----------------------------------------------------------------------------
 
   /**
-   * Observe changes to the private browsing mode
-   */
-  _registerPrivateBrowsingListener: function() {
-    var thisHwc = this;
-    this.privateBrowsingListener = {
-      observe: function(subject, topic, state) {
-        if ("private-browsing" == topic) {
-          switch (state) {
-            case "enter":
-                 thisHwc.isPrivateBrowsing = true;
-                 break;
-            case "exit":
-                 thisHwc.isPrivateBrowsing = false;
-                 break;              
-          }
-        }
-      },
-      register: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .addObserver(this, "private-browsing", false);
-      },
-      unregister: function() {
-        Components.classes["@mozilla.org/observer-service;1"]
-                  .getService(Components.interfaces.nsIObserverService)
-                  .removeObserver(this, "private-browsing");
-      }
-    };
-    this.privateBrowsingListener.register();
-  },
-  
-  _unregisterPrivateBrowsingListener: function() {
-    this.privateBrowsingListener.unregister();
-  },
-  
-  /**
-   * Detect whether or not the browser is in private-browsing mode.
+   * Determine whether or not the browser-window is in private-browsing mode.
    *
    * @return {boolean} whether or not in private-browsing mode.
    */
-  _initPrivateBrowsing: function() {
-    this.isPrivateBrowsing = false;
-    if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
+  _isPrivateBrowsing: function() {
+    var isPrivateBrowsing = false;
+
+    var loadContext = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
+                  .getInterface(Components.interfaces.nsIWebNavigation)
+                  .QueryInterface(Components.interfaces.nsILoadContext);
+    if (!(typeof loadContext.usePrivateBrowsing === undefined)) {
+      // started from FF 20, private browsing per window!
+      isPrivateBrowsing = loadContext.usePrivateBrowsing;
+    }
+    else if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
       try {
         var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
                     .getService(Components.interfaces.nsIPrivateBrowsingService);
-        this.isPrivateBrowsing = pbs.privateBrowsingEnabled;
+        isPrivateBrowsing = pbs.privateBrowsingEnabled;
       } catch(e) {
         // Seamonkey
-        this.isPrivateBrowsing = false;
+        isPrivateBrowsing = false;
       }
     }
-  }  
+    return isPrivateBrowsing;
+  }
 };
 
 addEventListener("load",
