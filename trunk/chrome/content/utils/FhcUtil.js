@@ -725,7 +725,7 @@ const FhcUtil = {
    */
   getGeckoVersion: function() {
     var str = navigator.userAgent;
-    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d/g);
+    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d+/g);
     return geckoVer;
   },
 
