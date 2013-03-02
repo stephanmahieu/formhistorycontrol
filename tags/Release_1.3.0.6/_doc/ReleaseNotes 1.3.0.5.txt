@@ -1,0 +1,9 @@
+User:
+- 
+
+Technical:
+- Small Fix: FhcPreferences.xul & HistoryWindowControl.xul, added comment before closing <![CDATA[ tag (// ]]>) inside script tags.
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)

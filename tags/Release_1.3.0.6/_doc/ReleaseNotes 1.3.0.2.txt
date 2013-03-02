@@ -1,0 +1,10 @@
+User:
+- Fix: Backup WYSIWYG fields for additional types like Gmail.
+
+Technical:
+- MaxVersion FF to 17.0a1
+- MaxVersion SM to 2.14a1
+- Fix: also check for designMode == "on" on body elements
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
