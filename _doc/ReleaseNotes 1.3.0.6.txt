@@ -4,6 +4,7 @@ User:
 
 Technical:
 - Fix getGeckoVersion() method dealing with double digit gecko version
+- Use mouseenter/mouseleave instead of mousemove/mouseout (prevent performance issues)
 
 
 ToDo:
