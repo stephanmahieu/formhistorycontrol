@@ -1038,8 +1038,8 @@ const FhcContextMenu = {
     div.setAttribute('id', id);
     div.setAttribute('title', this._getFormInfo(sourceElem, false));
     div.setAttribute('style', style);
-    div.addEventListener("mouseover", function(){this.style.opacity=1;this.style.zIndex=1002;}, false);
-    div.addEventListener("mouseout", function(){this.style.opacity=0.75;this.style.zIndex=1001;}, false);
+    div.addEventListener("mouseenter", function(){this.style.opacity=1;this.style.zIndex=1002;}, false);
+    div.addEventListener("mouseleave", function(){this.style.opacity=0.75;this.style.zIndex=1001;}, false);
     div.appendChild(document.createTextNode(fldName));
 
     var innerDiv = document.createElement('div');
