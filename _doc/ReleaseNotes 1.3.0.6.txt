@@ -1,0 +1,11 @@
+User:
+- Support for per-window private browsing introduced in FF 20
+
+
+Technical:
+- Fix getGeckoVersion() method dealing with double digit gecko version
+
+
+ToDo:
+- Save history for radiobuttons/checkboxes
+- Prevent formhistory for specific fields (not related to a domain)
