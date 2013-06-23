@@ -1139,7 +1139,11 @@ const CleanupWindowControl = {
     var aserv = Components.classes["@mozilla.org/atom-service;1"]
               .getService(Components.interfaces.nsIAtomService);
     var styleProp = this.prefHandler.getCustomTreeSkin();
+    if (typeof props == 'undefined') {
+      return aserv.getAtom(styleProp).toString(); // as of gecko 22, return space-separated property names
+    }
     props.AppendElement(aserv.getAtom(styleProp));
+    return "";
 },
 
   getCellProperties: function(row,col,props) {
@@ -1166,11 +1170,17 @@ const CleanupWindowControl = {
     }
     if (na) {
       // not applicable (diabled checkbox)
+      if (typeof props == 'undefined') {
+        return this.atomService.getAtom("na").toString(); // as of gecko 22, return space-separated property names
+      }
       props.AppendElement(this.atomService.getAtom("na"));
     }
+    return "";
   },
 
   getColumnProperties: function(colid,col,props) {
+    // as of gecko 22, props is discarded, return space-separated property names
+    return "";
   },
 
   cycleHeader: function(col) {
