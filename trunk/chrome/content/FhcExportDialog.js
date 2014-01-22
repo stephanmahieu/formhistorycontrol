@@ -94,16 +94,16 @@ const FhcExportDialog = {
     }
 
     var histWhat = "all";
-    if (!document.getElementById("selectedhist").disabled) {
+    if (document.getElementById("selectedhist").selected) {
       histWhat = "selected";
-    } else if (!document.getElementById("searchhist").disabled) {
+    } else if (document.getElementById("searchhist").selected) {
       histWhat = "search";
     }
     
     var multWhat = "all";
-    if (!document.getElementById("selectedmulti").disabled) {
+    if (document.getElementById("selectedmulti").selected) {
       multWhat = "selected";
-    } else if (!document.getElementById("searchmulti").disabled) {
+    } else if (document.getElementById("searchmulti").selected) {
       multWhat = "search";
     }
 
