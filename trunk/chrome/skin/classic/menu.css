@@ -12,23 +12,22 @@
   list-style-image: url('fh_icon_24_neversave.png')
 }
 
-/* Button added to menu panel (Australis) */
-/* TODO: Create 32x32 size icons */
+/* Icons (32x32) for menu panel (Australis) */
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
-  list-style-image: url('fh_icon_24.png');
+  list-style-image: url('fh_icon_32.png');
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='nosave'],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton  {
-  list-style-image: url('fh_icon_24_nosave.png')
+  list-style-image: url('fh_icon_32_nosave.png')
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='dosave'],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton  {
-  list-style-image: url('fh_icon_24_dosave.png')
+  list-style-image: url('fh_icon_32_dosave.png')
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='neversave'] ,
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
-  list-style-image: url('fh_icon_24_neversave.png')
+  list-style-image: url('fh_icon_32_neversave.png')
 }
 
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton {
