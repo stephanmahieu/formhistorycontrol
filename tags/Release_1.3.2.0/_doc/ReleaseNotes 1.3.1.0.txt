@@ -1,0 +1,11 @@
+User:
+- 
+
+
+Technical:
+- Changed in FF 22: `nsITreeView` interface was changed to remove all `nsISupportsArray` usage.
+
+
+ToDo:
+- Save history for radiobuttons/checkboxes
+- Prevent formhistory for specific fields (not related to a domain)

@@ -1,0 +1,11 @@
+User:
+- 
+
+Technical:
+- MaxVersion FF to 22.0
+- MaxVersion SM to 2.19
+- Fix: E4X Deprecated for Firefox 19.*, alternative solution implemented for pretty printing XML-text
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
