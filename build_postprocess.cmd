@@ -1,6 +1,6 @@
 @echo off
 
-set XPI_FILE=formhistory_1320.xpi
+set XPI_FILE=formhistory_1330.xpi
 
 
 rem --(check if xpi exist)-------------------------------------
@@ -20,8 +20,7 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\it ^
           chrome\locale\ru ^
           chrome\locale\sk-SK ^
-          chrome\locale\sv-SE ^
-          chrome\locale\zh-CN
+          chrome\locale\sv-SE
 if errorlevel 1 goto error
 
 rem --(delete all amo.properties)-------------------------------

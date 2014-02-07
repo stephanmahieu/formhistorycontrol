@@ -4,6 +4,7 @@
 <!ENTITY fhwin.historytab.formhistory.accesskey "w">
 <!ENTITY fhwin.historytab.cleanup "清理历史">
 <!ENTITY fhwin.historytab.cleanup.accesskey "U">
+<!ENTITY fhwin.historytab.multiline "编辑历史">
 <!ENTITY fhwin.filter.label "搜索">
 <!ENTITY fhwin.filter.tooltip "搜索表单项的名或值匹配给定文本的历史项目">
 <!ENTITY fhwin.filter.accesskey "s">
@@ -60,6 +61,7 @@
 <!ENTITY fhwin.button.add.accesskey "i">
 <!ENTITY fhwin.button.edit.label "编辑">
 <!ENTITY fhwin.button.edit.accesskey "d">
+<!ENTITY fhwin.button.view.label "查看">
 <!ENTITY fhwin.button.closepreview.label "关闭预览">
 <!ENTITY fhwin.button.close.label "关闭">
 <!ENTITY fhwin.button.close.accesskey "c">
@@ -86,6 +88,8 @@
 <!ENTITY fhwin.menuitem.selectinvert.label "反向选择">
 <!ENTITY fhwin.menuitem.addcleanup.label "作为清理标准加入">
 <!ENTITY fhwin.menuitem.addprotect.label "作为保护标准加入">
+<!ENTITY fhwin.menuitem.exportmanager.label "导出">
+<!ENTITY fhwin.menuitem.importmanager.label "导入">
 <!ENTITY fhwin.menuitem.exportcsv.label "以 CSV 格式导出完整的历史">
 <!ENTITY fhwin.menuitem.reloadview.label "刷新">
 <!ENTITY fhwin.menuitem.close.label "关闭">
@@ -97,6 +101,8 @@
 <!ENTITY fhwin.cleanup.menuitem.exportcfg.label "导出配置">
 <!ENTITY fhwin.cleanup.menuitem.importcfg.label "导入配置">
 <!ENTITY fhwin.cleanup.label "用来清理不需要的表单历史条目的标准">
+<!ENTITY fhwin.cleanup.showoptions "显示选项">
+<!ENTITY fhwin.cleanup.hideoptions "隐藏选项">
 <!ENTITY fhwin.cleanup.timeusage.group.caption "时间/使用标准">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label "删除所有在过去这些天内没有使用的表单历史条目">
 <!ENTITY fhwin.cleanup.checkbox.daysused.label2 "天">
@@ -122,10 +128,24 @@
 <!ENTITY fhwin.cleanup.button.cleanupall.accesskey "A">
 <!ENTITY fhwin.cleanup.button.preview.label "预览匹配条目">
 <!ENTITY fhwin.cleanup.button.preview.accesskey "P">
+<!ENTITY fhwin.multiline.label "已自动保存的可编辑表单项的备份">
+<!ENTITY fhwin.multiline.treeview.column.firstsaved.label "首次保存">
+<!ENTITY fhwin.multiline.treeview.column.agefirstsaved.label "距首次保存的时间">
+<!ENTITY fhwin.multiline.treeview.column.lastsaved.label "最后保存">
+<!ENTITY fhwin.multiline.treeview.column.agelastsaved.label "距最后保存的时间">
+<!ENTITY fhwin.multiline.treeview.column.fieldid.label "表单项 Id">
+<!ENTITY fhwin.multiline.treeview.column.fieldformid.label "表单 Id">
+<!ENTITY fhwin.multiline.treeview.column.fieldname.label "字段名称">
+<!ENTITY fhwin.multiline.treeview.column.content.label "内容">
+<!ENTITY fhwin.multiline.treeview.column.type.label "类型">
+<!ENTITY fhwin.multiline.treeview.column.host.label "站点">
+<!ENTITY fhwin.multiline.treeview.column.url.label "URL">
+<!ENTITY fhwin.multiline.checkbox.searchhostonly.label "只显示当前站点">
 <!ENTITY fhmnuovl.menu.main.manager.label "表单历史">
 <!ENTITY fhmnuovl.menuitem.manager.label "Form History Control">
-<!ENTITY fhmnuovl.menuitem.deletevaluethis.label "删除这个表单项的当前值">
+<!ENTITY fhmnuovl.menuitem.deletevaluethis.label "删除这个表单项的当前的值">
 <!ENTITY fhmnuovl.menuitem.deletethis.label "删除这个表单项的完整历史">
+<!ENTITY fhmnuovl.menuitem.restorethis.label "恢复可编辑表单项">
 <!ENTITY fhmnuovl.menuitem.managethis.label "管理这个表单项的历史条目">
 <!ENTITY fhmnuovl.menuitem.fillmostrecent.label "使用最近的条目填充表单项">
 <!ENTITY fhmnuovl.menuitem.fillmostused.label "使用最常用条目填充表单项">
@@ -189,7 +209,62 @@
 <!ENTITY fhbrowsehistorydlg.older.tooltip "获取额外的更早的历史">
 <!ENTITY fhbrowsehistorydlg.newer.label "更新的">
 <!ENTITY fhbrowsehistorydlg.newer.tooltip "获得额外的更新的历史">
+<!ENTITY fhcmultilinedlg.windowtitle "可保持的可编辑文本">
+<!ENTITY fhcmultilinedlg.button.copytoclipboard "复制到剪贴板">
+<!ENTITY fhcmultilinedlg.viewtab.htmlview "HTML 视图">
+<!ENTITY fhcmultilinedlg.viewtab.textview "普通文本">
+<!ENTITY fhcmultilinedlg.button.showdetails "详细信息">
+<!ENTITY fhcmultilinedlg.button.hidedetails "隐藏详细信息">
+<!ENTITY fhcmultilinedlg.checkbox.hideimages "隐藏图片">
+<!ENTITY fhcmultilinelistdlg.windowtitle "管理例外列表">
+<!ENTITY fhcmultilinelistdlg.label.blacklist "不记住下列站点的可编辑表单项历史">
+<!ENTITY fhcmultilinelistdlg.label.whitelist "只记住下列站点的可编辑表单项历史">
+<!ENTITY fhcmultilinelistdlg.button.addcurrenthost "添加当前站点">
+<!ENTITY fhcmanagefhclistdlg.windowtitle "管理">
+<!ENTITY fhcmanagefhclistdlg.label.blacklist "不记住匹配所列标准的站点表单历史">
+<!ENTITY fhcmanagefhclistdlg.label.whitelist "只记住匹配所列标准的站点表单历史">
+<!ENTITY fhcmanagefhclistdlg.treeview.column.page.label "页面筛选">
+<!ENTITY fhcmanagefhclistdlg.button.addcurrentpage "添加当前页面">
 <!ENTITY fhprefs.window.title "Form History Control 首选项">
+<!ENTITY fhprefs.prefpane.multiline.label "可编辑表单项">
+<!ENTITY fhprefs.multilineinfo.tooltip "Form History Control 可以安全地保存您在可编辑表单项中键入的文本，并在出错的时候将其安全恢复">
+<!ENTITY fhprefs.checkbox.multilineenable "启用自动保存可编辑表单项和多行文本框">
+<!ENTITY fhprefs.tab.multiline.configuration "配置">
+<!ENTITY fhprefs.tab.multiline.exceptions "例外">
+<!ENTITY fhprefs.tab.multiline.privacy "隐私">
+<!ENTITY fhprefs.group.multilineversion.caption "版本控制">
+<!ENTITY fhprefs.group.multilinecleanup.caption "清理表单历史">
+<!ENTITY fhprefs.group.multilineexceptions.caption "例外">
+<!ENTITY fhprefs.label.multilinesaveolder "保存一个新版本，如果距上次保存的版本超过">
+<!ENTITY fhprefs.label.multilinesavelength "保存一个新版本，如果文本长度变化超过">
+<!ENTITY fhprefs.label.multilinecleanup "自动删除旧版本，如果时间超过">
+<!ENTITY fhprefs.multilinesavewarning.tooltip "警告：如果保存很多版本却未定期清理，可能会导致数据库文件过大！">
+<!ENTITY fhprefs.label.multilinelist.never "永不">
+<!ENTITY fhprefs.label.multilinelist.minute "分钟">
+<!ENTITY fhprefs.label.multilinelist.minutes "分钟">
+<!ENTITY fhprefs.label.multilinelist.hour "小时">
+<!ENTITY fhprefs.label.multilinelist.hours "小时">
+<!ENTITY fhprefs.label.multilinelist.day "天">
+<!ENTITY fhprefs.label.multilinelist.days "天">
+<!ENTITY fhprefs.label.multilinelist.week "周">
+<!ENTITY fhprefs.label.multilinelist.weeks "周">
+<!ENTITY fhprefs.label.multilinelist.month "月">
+<!ENTITY fhprefs.label.multilinelist.months "月">
+<!ENTITY fhprefs.label.multilinelist.characters "个字符">
+<!ENTITY fhprefs.radio.multilinenoexception "不允许例外">
+<!ENTITY fhprefs.radio.multilinewhitelist "只允许所列出的站点">
+<!ENTITY fhprefs.radio.multilineblacklist "始终允许，除了列出的站点">
+<!ENTITY fhprefs.button.managelist "管理例外列表">
+<!ENTITY fhprefs.checkbox.multilinesavealways "即使处于隐私浏览模式也备份在可编辑表单项键入的文本">
+<!ENTITY fhprefs.checkbox.multilinesanitizehtmlpreview "在 HTML 视图下不自动下载图片">
+<!ENTITY fhprefs.checkbox.multilinesaveencrypted "加密数据库中的可编辑表单项内容">
+<!ENTITY fhprefs.prefpane.manageformhistory.label "管理表单历史">
+<!ENTITY fhprefs.group.managefhc.caption "在保存表单历史时">
+<!ENTITY fhprefs.manageformhistory.tooltip "Form History Control 允许自定义特定站点是否可'记住表单历史'，在访问这些站点时自动打开或关闭这项功能。">
+<!ENTITY fhprefs.manageformhistory.global.tooltip "只在启用'记住表单历史'这个全局隐私选项时方可生效。">
+<!ENTITY fhprefs.radio.managefhcnoexception "使用全局首选项（始终保存）">
+<!ENTITY fhprefs.radio.managefhcwhitelist "只保存例外列表中站点的表单历史">
+<!ENTITY fhprefs.radio.managefhcblacklist "始终保存表单历史，除了例外列表中的站点">
 <!ENTITY fhprefs.prefpane.miscellaneous.label "杂项">
 <!ENTITY fhprefs.group.preferences.caption "配置">
 <!ENTITY fhprefs.checkbox.searchCaseSensitive.label "搜索是大小写敏感的">
@@ -220,6 +295,7 @@
 <!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "右键单击浏览器工具栏并选择“定制...”，你可以通过拖拽图标到工具栏来添加表单历史图标。">
 <!ENTITY fhprefs.group.showmenu.caption "菜单">
 <!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "隐藏工具菜单条目">
+<!ENTITY fhprefs.checkbox.hideappmenuitem.label "隐藏应用程序按钮菜单项">
 <!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "隐藏页面右键菜单条目">
 <!ENTITY fhprefs.group.treeskin.caption "背景颜色列表">
 <!ENTITY fhprefs.label.treeskin.label "提升列表的可读性">
@@ -242,6 +318,7 @@
 <!ENTITY fhprefs.textbox.csvexportquote.label "值包裹符">
 <!ENTITY fhprefs.textbox.csvexportescape.label "使用前缀转义">
 <!ENTITY fhprefs.group.configexport.caption "导入和导出配置">
+<!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "导出日期为 ISO 格式">
 <!ENTITY fhprefs.prefpane.cleanup.label "清理">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "浏览器关闭时执行清理">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "标签页关闭时执行清理">
@@ -294,3 +371,39 @@
 <!ENTITY fhabout.label.homepage "访问主页">
 <!ENTITY fhabout.label.contributors "贡献者">
 <!ENTITY fhabout.label.translators "翻译者">
+<!ENTITY browsehistorywindow.report.gocurrent "当前">
+<!ENTITY browsehistorywindow.report.showurl "显示 URL">
+<!ENTITY browsehistorywindow.report.showtitle "显示标题">
+<!ENTITY browsehistorywindow.report.showhost "显示站点">
+<!ENTITY browsehistorywindow.report.fieldnamelabel "字段名">
+<!ENTITY browsehistorywindow.report.valuelabel "字段值">
+<!ENTITY browsehistorywindow.report.titlelabel "标题">
+<!ENTITY browsehistorywindow.report.hostlabel "站点">
+<!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportdlg.title "导出管理器">
+<!ENTITY fhexportdlg.description "选择要导出的数据类型">
+<!ENTITY fhexportdlg.button.export "导出">
+<!ENTITY fhexportdlg.label.exporterrornone "未做选择，无法导出。">
+<!ENTITY fhimportdlg.title "导入管理器">
+<!ENTITY fhimportdlg.description "选择要导入的数据类型">
+<!ENTITY fhimportdlg.button.import "导入">
+<!ENTITY fhimportdlg.label.importerrornone "未做选择，无法导入。">
+<!ENTITY fhimportexportdlg.checkbox.entries "表单历史条目">
+<!ENTITY fhimportexportdlg.label.items "项">
+<!ENTITY fhimportexportdlg.radio.entries.all "全部">
+<!ENTITY fhimportexportdlg.radio.entries.selected "选中的">
+<!ENTITY fhimportexportdlg.radio.entries.search "搜索结果">
+<!ENTITY fhimportexportdlg.checkbox.editorhistory "可编辑表单历史">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryprefs "可编辑表单历史首选项">
+<!ENTITY fhimportexportdlg.checkbox.editorhistoryexceptions "可编辑表单历史例外列表">
+<!ENTITY fhimportexportdlg.checkbox.customsaveprefs "保存表单历史首选项">
+<!ENTITY fhimportexportdlg.checkbox.customsaveexceptions "保存表单历史例外列表">
+<!ENTITY fhimportexportdlg.checkbox.regularexpressions "正则表达式">
+<!ENTITY fhimportexportdlg.checkbox.keybordshortcuts "键盘快捷键">
+<!ENTITY fhimportexportdlg.checkbox.cleanupconfig "清理配置">
+<!ENTITY fhimportstatusdlg.title "导入状态">
+<!ENTITY fhimportstatusdlg.label.total "总计">
+<!ENTITY fhimportstatusdlg.label.imported "已导入">
+<!ENTITY fhimportstatusdlg.label.identical "完全相同的">
+<!ENTITY fhimportstatusdlg.label.error "错误">
+<!ENTITY fhcnotimplemented.label "尚未实现！">
