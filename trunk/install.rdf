@@ -4,7 +4,7 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.3.2.0</em:version>
+		<em:version>1.3.3.0</em:version>
 		<em:type>2</em:type>
 		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
@@ -38,28 +38,6 @@
 		<!-- if no locale match, revert to these defaults (en-US) (keep before Localized MetaData) -->
 		<em:name>Form History Control</em:name>
 		<em:description>Manage Form History (view, edit, delete, clean-up, export/import)</em:description>
-
-    <!-- apparently we need this to get preferences in the correct locale (when using QLS) - - >
-    <em:file>
-      <Description>
-        <em:package>content/</em:package>
-        <em:skin>skin/classic/</em:skin>
-        <em:locale>locale/en-US/</em:locale>
-        <em:locale>locale/cs/</em:locale>
-        <em:locale>locale/da/</em:locale>
-        <em:locale>locale/de/</em:locale>
-        <em:locale>locale/en-US/</em:locale>
-        <em:locale>locale/es-ES/</em:locale>
-        <em:locale>locale/fr/</em:locale>
-        <em:locale>locale/nl/</em:locale>
-        <em:locale>locale/pt-BR/</em:locale>
-        <em:locale>locale/ru/</em:locale>
-        <em:locale>locale/sv-SE/</em:locale>
-        <em:locale>locale/tr/</em:locale>
-        <em:locale>locale/zh-CN/</em:locale>
-      </Description>
-    </em:file>
-    -->
 
 		<!-- Localized MetaData -->
 		<em:localized>
@@ -132,6 +110,13 @@
 				<em:description>Form Geçmişi Düzenleme (göster, düzenle, sil, temizle, içe/dışa aktar)</em:description>
 			</Description>
 		</em:localized>
+		<em:localized>
+			<Description>
+				<em:locale>zh-CN</em:locale>
+				<em:name>Form History Control</em:name>
+				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
+			</Description>
+		</em:localized>
 
 		<!-- UNFINISHED LOCALES WITH DESCRIPTION -->
 		<em:localized>
@@ -162,13 +147,6 @@
 				<em:description>Spravovanie údajov histórie formulárov (zobraziť, upraviť, vymazať, exportovať/importovať)</em:description>
 			</Description>
 		</em:localized>
-		<em:localized>
-			<Description>
-				<em:locale>zh-CN</em:locale>
-				<em:name>Form History Control</em:name>
-				<em:description>管理表单历史（查看、编辑、删除、清理、导入/导出）</em:description>
-			</Description>
-		</em:localized>
 		
 	<!-- UNFINISHED DESCRIPTION LOCALES
 	-->
@@ -190,6 +168,8 @@
 		<em:translator>Stephan Mahieu [Home][http://www.formhistory.blogspot.com] (nl)</em:translator>
 		<em:translator>Marcelo Ghelman [ghelman.net][http://ghelman.net/] (pt-BR)</em:translator>
 		<em:translator>Sinan Kaan Yerli [skyerli.org][http://skyerli.org] (tr)</em:translator>
+		<em:translator>fang5566 [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=353] (zh-CN)</em:translator>
+		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
 
 <!-- unfinished contributions - - >
 		<em:translator>ExaFlop [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=11291] (bg-BG)</em:translator>
@@ -198,7 +178,6 @@
 		<em:translator>Vinser [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=16529] (ru)</em:translator>
 		<em:translator>Jozef Gaal [www.mayday.sk][www.mayday.sk] (sk-SK)</em:translator>
 		<em:translator>Mikael Hiort af Ornäs [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=12983] (sv-SE)</em:translator>
-		<em:translator>techlivezheng [BabelZilla][http://www.babelzilla.org/forum/index.php?showuser=17904] (zh-CN)</em:translator>
 -->
 
 		<!-- Front End Integration Hooks (used by Extension Manager)-->
