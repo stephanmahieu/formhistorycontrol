@@ -1,0 +1,27 @@
+- Changes
+  - FhcRdfExtensionHandler
+    Extension manager replaced in FF 3.7a6pre (4.0) by new AddonManager
+    Now using Components.utils.import("resource://gre/modules/AddonManager.jsm") instead of Components.classes["@mozilla.org/extensions/manager;1"])
+    
+  - AboutFHC.js
+    New AddonManager in FF 3.7a6pre (4.0)
+    
+  - FhcPreferences.js
+    New AddonManager in FF 3.7a6pre (4.0) (only getVersion)
+  
+  - FhcFormSaveOverlay.js
+    Started work on saving multiline textfields
+  
+- Added locale pt-BR
+
+- install.rdf
+  changed maxversion to 3.7a6pre
+  
+  
+
+- Locales unfinished
+  not (completely) translated yet: hu-HU, ru-RU, sk-SK, tr-TR, zh-CN
+  still in progress: bg-BG, it-IT
+
+- Locales present in this release:
+  cs-CZ, de-DE, en-US, es-ES, fr, it-IT, nl, pt-BR

@@ -1,0 +1,10 @@
+User:
+- Added Chinese (zh-CN) translation
+
+Technical:
+-
+
+
+ToDo:
+- Save history for radiobuttons/checkboxes
+- Prevent formhistory for specific fields (not related to a domain)
