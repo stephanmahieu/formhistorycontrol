@@ -319,7 +319,7 @@
 <!ENTITY fhprefs.textbox.csvexportescape.label "adicionar o prefixo">
 <!ENTITY fhprefs.group.configexport.caption "Configuração Importar/Exportar">
 <!ENTITY fhprefs.checkbox.configexportXmlIsoDate.label "Exportar datas formatadas como ISO">
-<!ENTITY fhprefs.prefpane.cleanup.label "Limpar">
+<!ENTITY fhprefs.prefpane.cleanup.label "Limpeza">
 <!ENTITY fhprefs.checkbox.cleanupshutdown.label "Fazer limpeza ao fechar o navegador">
 <!ENTITY fhprefs.checkbox.cleanuptabclose.label "Fazer limpeza ao fechar uma aba">
 <!ENTITY fhprefs.button.cleanupnow.label "Limpar agora">
