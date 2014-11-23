@@ -86,7 +86,7 @@
 			<Description>
 				<em:locale>pt-BR</em:locale>
 				<em:name>Form History Control</em:name>
-				<em:description>Gerenciar o histórico de formulários (visualizar, editar, apagar, limpar, exportar/importar)</em:description>
+				<em:description>Gerencia o histórico de formulários (visualiza, edita, apaga, limpa, exporta/importa)</em:description>
 			</Description>
 		</em:localized>
 		<em:localized>
