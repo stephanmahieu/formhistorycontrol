@@ -93,7 +93,7 @@
 				<td><input type="url" id="fhc_html5_url" style="background-color: #FFEEEE;" 
 					placeholder="URL"
 					required
-			    /></td>
+				/></td>
 			</tr>
 			<tr>
 				<td>Email (html5)</td>
@@ -108,6 +108,41 @@
 					placeholder="date/time"
 				/></td>
 			</tr -->
+			<tr>
+				<td>Radio</td>
+				<td><input type="radio" id="fhc_radio1" name="radiogroup1" checked>One</input>
+					<input type="radio" id="fhc_radio2" name="radiogroup1">Two</input>
+					<input type="radio" id="fhc_radio3" name="radiogroup1">Three</input>
+				</td>
+			</tr>
+			<tr>
+				<td>Checkbox</td>
+				<td><input type="checkbox" id="fhc_check1" name="check1" checked>Option I</input>
+					<input type="checkbox" id="fhc_check2" name="check2">Option II</input>
+					<input type="checkbox" id="fhc_check3" name="check3">Option III</input>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td>Select multiple</td>
+				<td>
+					<select name="multiple-select-list" multiple>
+						<option value="one">One</option>
+						<option value="two">Two</option>
+						<option value="three">Three</option>
+						<option value="four">Four</option>
+					</select>
+				</td>
+			<tr>
+				<td>Select single</td>
+				<td>
+					<select name="single-select-list">
+						<option>Een</option>
+						<option>Twee</option>
+						<option>Drie</option>
+						<option>Vier</option>
+					</select>
+				</td>
+			</tr>
 			<tr>
 				<td></td>
 				<td><input type="submit" value="Submit form" /> <input type="reset" value="Reset form" /> <a href="" onclick="document.forms['testform'].submit();">Submit from javascript</a></td>
