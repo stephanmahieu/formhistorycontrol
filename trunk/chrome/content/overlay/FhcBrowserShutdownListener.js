@@ -86,6 +86,7 @@ const FhcBrowserShutdownListener = {
         if (this.prefHandler.isCleanupOnShutdown()) {
           this.cleanupFormHistory();
         }
+        this.cleanupFormElementsHistory();
         window.removeEventListener("unload", FhcBrowserShutdownListener, false);
         this.destroy();
         break;
@@ -120,6 +121,20 @@ const FhcBrowserShutdownListener = {
     allEntries = null;
   },
 
+  /**
+   * Cleanup the formelements database.
+   */
+  cleanupFormElementsHistory: function() {
+    // re-use the expiration preference for textfields (default 180 days)
+    var expireDays = this.prefHandler.getGlobalFormfillExpireDays();
+
+    var d = new Date();
+    var now = d.getTime() * 1000;
+    var treshold = now - (expireDays * 24 * 60 * 60 * 1000 * 1000);
+    
+    this.dbHandler.deleteFormElementsOlder(treshold);
+  },
+  
   /**
    * Send notification to observers that the formhistory store has changed.
    */
