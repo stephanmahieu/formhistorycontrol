@@ -2357,7 +2357,7 @@ FhcDbHandler.prototype = {
    *         formelement if found, null otherwise
    */
   findFormElement:function(formElementToFind) {
-    dump("@@@findFormElement, host=" + formElementToFind.host + " formId=" + formElementToFind.formid + " id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
+    //dump("@@@findFormElement, host=" + formElementToFind.host + " formId=" + formElementToFind.formid + " id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
     var mDBConn = this._getDbCleanupConnection();
     var itemFound = null;
     try {
