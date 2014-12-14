@@ -797,8 +797,8 @@ const FhcContextMenu = {
   },
 
   /**
-   * Set formfields of type radio, checkbox or select with data from the
-   * formhistory.
+   * Set formfields of type radio, checkbox, select or textare with data from
+   * the formhistory.
    *
    * @param document {DOM Document}
    *        the HTML document containing zero or more inputfields
@@ -819,6 +819,7 @@ const FhcContextMenu = {
         
         for (var i=0; i<formElements.length; i++) {
           formField = formElements[i];
+          //dump("###formfield id=" + formField.id + " name=" + formField.name + " type=" + formField.type + "\n");
           var formElementToFind = {
             host:   host,
             formid: this._getId(form),
@@ -852,6 +853,19 @@ const FhcContextMenu = {
                       if (storedElement && !(storedElement.selected === option.selected)) {
                         option.selected = storedElement.selected;
                       }
+                    }
+                  }
+                  break;
+                  
+            case "textarea":
+                  if (!formField.value || "" === formField.value) {
+                    //dump("--- updating textarea uri=" + uri.spec + "\n");
+                    formElementToFind.name = this._getId(formField);
+                    //dump("!!! formfield formid=" + formElementToFind.formid + "  id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
+                    storedElement = this.dbHandler.findLastsavedItem(formElementToFind);
+                    if (storedElement && storedElement.content) {
+                      //dump("!!! FOUND! content=" + storedElement.content + "\n");
+                      formField.value = storedElement.content;
                     }
                   }
                   break;
