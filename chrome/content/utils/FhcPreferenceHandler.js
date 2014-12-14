@@ -348,6 +348,12 @@ FhcPreferenceHandler.prototype = {
            .setBoolPref("browser.formfill.enable", newBoolPref);
   },
 
+  getGlobalFormfillExpireDays: function() {
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefBranch)
+           .getIntPref("browser.formfill.expire_days");
+  },
+
   getCurrentLocale: function() {
     return Components.classes["@mozilla.org/preferences-service;1"]
            .getService(Components.interfaces.nsIPrefBranch)
