@@ -292,6 +292,18 @@ const FhcUtil = {
                     fieldList, document.defaultView.frames[jj].document);
     }
   },
+  
+  /**
+   * Get all form elements of a given document.
+   * 
+   * @param  document {DOM Document}
+   * @return {Array} an array with all formElements for the given document.
+   */
+  getAllFormElements: function(document) {
+    var formElems = [];
+    this._getAllFormElements(document, formElems);
+    return formElems;
+  },  
 
   /**
    * Get all loginmanaged fieldnames.
@@ -399,6 +411,28 @@ const FhcUtil = {
       }
     }
     return false;
+  },
+
+  /**
+   * Determine whether or not a DOM element is a radiobox, checkbox or select
+   * element.
+   * 
+   * @param  element {DOM element}
+   * @return {Boolean} whether or not a DOM element is a radiobox, checkbox or
+   *          select element
+   */
+  isRadioCheckOrSelectElement: function(element) {
+    if (!element) return false
+    var result = false;
+    switch(element.type){
+      case "radio":
+      case "checkbox":
+      case "select":
+      case "select-multiple":
+      case "select-one":
+           result = true;
+    }
+    return result;
   },
 
   /**
