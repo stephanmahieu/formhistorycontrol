@@ -312,6 +312,7 @@ const FhcContextMenu = {
   menuFillFormFieldsRecent: function() {
     var mainDocument = window.getBrowser().contentDocument;
     this._fillEmptyInputFields(mainDocument, "recent");
+    this._setFormElements(mainDocument);
   },
 
   /**
@@ -320,6 +321,7 @@ const FhcContextMenu = {
   menuFillFormFieldsUsed: function() {
     var mainDocument = window.getBrowser().contentDocument;
     this._fillEmptyInputFields(mainDocument, "often");
+    this._setFormElements(mainDocument);
   },
 
   /**
@@ -794,6 +796,71 @@ const FhcContextMenu = {
     return (inputFields.length > 0);
   },
 
+  /**
+   * Set formfields of type radio, checkbox or select with data from the
+   * formhistory.
+   *
+   * @param document {DOM Document}
+   *        the HTML document containing zero or more inputfields
+   *        
+   */
+  _setFormElements: function(document) {
+    var formElements = FhcUtil.getAllFormElements(document);
+    
+    var form, formElements, uri, host, formField, storedElement;
+    for (var i=0; i<formElements.length; i++) {
+      form = formElements[i];
+      //dump("###form id=" + form.id + " name=" + form.name + "\n");
+           
+      if (form && form.elements) {
+        formElements = form.elements;
+        uri = form.ownerDocument.documentURIObject;
+        host = this._getHost(uri);
+        
+        for (var i=0; i<formElements.length; i++) {
+          formField = formElements[i];
+          var formElementToFind = {
+            host:   host,
+            formid: this._getId(form),
+            id:     this._getId(formField),
+            name:   null,
+            type:   formField.type
+          };
+
+          switch(formField.type){
+            case "radio":
+            case "checkbox":
+                  formElementToFind.name = (formField.name) ? formField.name : "";
+                  storedElement = this.dbHandler.findFormElement(formElementToFind);
+                  if (storedElement && !(storedElement.selected === formField.checked)) {
+                    // only check a radiobutton, never uncheck
+                    if (! (formField.type==="radio" && !storedElement.selected)) {
+                      formField.checked = storedElement.selected;
+                    }
+                  }
+                  break;
+                  
+            case "select":
+            case "select-multiple":
+            case "select-one":
+                  if (formField.options) {
+                    var option;
+                    for (var j=0; j<formField.options.length; j++) {
+                      option = formField.options[j];
+                      formElementToFind.name = option.value;
+                      storedElement = this.dbHandler.findFormElement(formElementToFind);
+                      if (storedElement && !(storedElement.selected === option.selected)) {
+                        option.selected = storedElement.selected;
+                      }
+                    }
+                  }
+                  break;
+          }
+        }
+      }
+    }
+  },
+
 
   /**
    * Fill empty input fields with data from the formhistory.
@@ -1097,6 +1164,17 @@ const FhcContextMenu = {
       }
     }
     return result;
+  },
+  
+  /**
+   * Get the id of a HTML element, if id not present return the name.
+   * If neither is present return an empty string.
+   * 
+   * @param  element {HTML Element}
+   * @return {String} id, name or empty string
+   */
+  _getId: function(element) {
+    return (element.id) ? element.id : ((element.name) ? element.name : "");
   },
 
   /**

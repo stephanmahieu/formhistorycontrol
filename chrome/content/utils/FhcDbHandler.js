@@ -2188,6 +2188,201 @@ FhcDbHandler.prototype = {
   
 
 
+
+  //----------------------------------------------------------------------------
+  // FormElement methods
+  //----------------------------------------------------------------------------
+
+  /**
+   * Save or update a formElement item.
+   * 
+   * @param  item {Object}
+   *         the formElement object to save
+   * 
+   */
+  saveFormElement: function(item) {
+    var mDBConn = this._getDbCleanupConnection();
+    try {
+      var itemFound = this._findFormElement(mDBConn, item);
+      if (itemFound) {
+        this._updateFormElement(mDBConn, item);
+      } else {
+        this._addFormElement(mDBConn, item);
+      }
+    } finally {
+      this._closeDbConnection(mDBConn, true);
+    }
+  },
+
+  /**
+   * Add a formElement item.
+   * 
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @param  item {Object}
+   *         the formElement object to add
+   * 
+   * @return {Boolean}
+   *         whether or not adding succeeded
+   */
+  _addFormElement: function(mDBConnection, item) {
+    var result = false, statement;
+    try {
+      statement = mDBConnection.createStatement(
+        "INSERT INTO formelements (" +
+                "id, name, type, formid, selected, " +
+                "host, url, firstsaved, lastsaved) " +
+        "VALUES (:id, :name, :type, :formid, :selected, " +
+                ":host, :url, :saved, :saved)");
+      statement.params.id         = item.id;
+      statement.params.name       = item.name;
+      statement.params.type       = item.type;
+      statement.params.formid     = item.formid;
+      statement.params.selected   = item.selected;
+      statement.params.host       = item.host;
+      statement.params.url        = item.url;
+      statement.params.saved      = item.saved;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('_addFormElement:Exception: ' + ex);
+    } finally {
+      return result;
+    }
+  },
+
+  /**
+   * Update a formElement item.
+   * 
+   * @param  mDBConnection {mozIStorageConnection}
+   *         the database connection
+   *
+   * @param  item {Object}
+   *         the formElement object to update
+   * 
+   * @return {Boolean}
+   *         whether or not updating succeeded
+   */
+  _updateFormElement: function(mDBConnection, item) {
+    var result = false, statement;
+    try {
+      statement = mDBConnection.createStatement(
+        "UPDATE formelements" +
+        "   SET selected  = :selected," +
+        "       lastsaved = :saved" +
+        " WHERE host   = :host" +
+        "   AND formid = :formid" +
+        "   AND id     = :id" +
+        "   AND name   = :name" +
+        "   AND type   = :type");
+      statement.params.host     = item.host;
+      statement.params.formid   = item.formid;
+      statement.params.id       = item.id;
+      statement.params.name     = item.name;
+      statement.params.type     = item.type;
+      statement.params.selected = item.selected;
+      statement.params.saved    = item.saved;
+      result = this._executeStatement(statement);
+    } catch(ex) {
+      dump('_addFormElement:Exception: ' + ex);
+    } finally {
+      return result;
+    }
+  },
+
+  /**
+   * Find a saved formelement.
+   * 
+   * @param  formElementToFind {Object}
+   * 
+   * @return {Object}
+   *         formelement if found, null otherwise
+   */
+  findFormElement:function(formElementToFind) {
+    dump("@@@findFormElement, host=" + formElementToFind.host + " formId=" + formElementToFind.formid + " id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
+    var mDBConn = this._getDbCleanupConnection();
+    var itemFound = null;
+    try {
+      itemFound = this._findFormElement(mDBConn, formElementToFind);
+    } catch(ex) {
+      dump('findFormElement:Exception: ' + ex);
+    } finally {
+      this._closeDbConnection(mDBConn, true);
+      return itemFound;
+    }
+  },
+
+  _findFormElement:function(mDBConn, formElementToFind) {
+    var statement, itemFound = null;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT host, formid, url, type," +
+          "       id, name, selected, lastsaved" +
+          "  FROM formelements" +
+          " WHERE host   = :host" +
+          "   AND formid = :formid" +
+          "   AND id     = :id" +
+          "   AND name   = :name" +
+          "   AND type   = :type" +
+          " LIMIT 1");
+      statement.params.host   = formElementToFind.host;
+      statement.params.formid = formElementToFind.formid;
+      statement.params.id     = formElementToFind.id;
+      statement.params.name   = formElementToFind.name;
+      statement.params.type   = formElementToFind.type;
+      if (statement.executeStep()) {
+        itemFound = {
+          id:        statement.row.id,
+          name:      statement.row.name,
+          type:      statement.row.type,
+          formid:    statement.row.formid,
+          selected:  (statement.row.selected === 0) ? false : true,
+          host:      statement.row.host,
+          url:       statement.row.url,
+          saved:     statement.row.lastsaved
+        };
+      }
+    } catch(ex) {
+      dump('_findFormElement:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      return itemFound;
+    }
+  },
+  
+
+  /**
+   * Delete all formElement items for a specific form on a specific host,
+   * return true on succes.
+   *
+   * @param  host {String}
+   * @param  formId {String}
+   *
+   * @return {Boolean}
+   *         whether or not deleting succeeded
+   */
+  deleteFormElements: function(host, formId) {
+    var mDBConn = this._getDbCleanupConnection();
+
+    var result = false, statement;
+    try {
+      statement = mDBConn.createStatement(
+        "DELETE" +
+        "  FROM formelements" +
+        " WHERE host   = :host" +
+        "   AND formid = :formid");
+      statement.params.host   = host;
+      statement.params.formid = formId;
+      result = this._executeStatement(statement);
+    } finally {
+      this._closeDbConnection(mDBConn, result);
+    }
+    return result;
+  },
+
+
+
+
   //----------------------------------------------------------------------------
   // Customsave methods
   //----------------------------------------------------------------------------
@@ -2704,6 +2899,28 @@ FhcDbHandler.prototype = {
       }
       catch(e) {
         dump("Migrate: Adding table customsave failed!\n\n" + e);
+        return false;
+      }
+    }
+    // check formelements table (new since 1.3.0)
+    colCount = this._getNoOfColumns(mDBConnection, "formelements");
+    if (0 == colCount) {
+      try {
+        mDBConnection.executeSimpleSQL(
+          "CREATE TABLE IF NOT EXISTS formelements " +
+          "(host        TEXT," +
+          " url         TEXT," +
+          " formid      TEXT," +
+          " type        TEXT," +
+          " id          TEXT," +          
+          " name        TEXT," +
+          " selected    BOOL," +
+          " firstsaved  INTEGER," +
+          " lastsaved   INTEGER)"
+        );
+      }
+      catch(e) {
+        dump("Migrate: Adding table formelements failed!\n\n" + e);
         return false;
       }
     }

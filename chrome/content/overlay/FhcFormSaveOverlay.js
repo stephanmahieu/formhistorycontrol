@@ -139,6 +139,79 @@ const FhcFormSaveOverlay = {
   onSubmit: function(event) {
     if (!this._isSaveAllowed()) return;
     //dump("FhcFormSaveOverlay::Form submit?\n");
+
+    var form = this._findForm(event.target);
+    if (form && form.elements){
+      var formElements = form.elements;
+      var uri = form.ownerDocument.documentURIObject;
+      //dump("form id: " + form.id + "\n");
+      //dump("form uri: " + uri.spec + "\n");
+      //dump("formElements #: " + formElements.length + "\n");
+      
+      var d = new Date();
+      var now = d.getTime() * 1000;
+              
+      var formField;
+      var formElement = {
+        id: null,
+        name: null,
+        type: null,
+        selected: 0,
+        formid: this._getId(form),
+        host: this._getHost(uri),
+        url: uri.spec,
+        saved: now
+      };
+      
+      // clear previous formhistory
+      //this.dbHandler.deleteFormElements(formElement.host, formElement.formid);
+      
+      for (var i=0; i<formElements.length; i++) {
+        formField = formElements[i];
+        //dump("###field id=" + formField.id + " type=" + formField.type + "\n");
+        switch(formField.type){
+          case "radio":
+          case "checkbox":
+                //dump("field id=" + formField.id + " type=" + formField.type + " checked=" + formField.checked + "\n");
+                formElement.id = this._getId(formField);
+                formElement.name = (formField.name) ? formField.name : "";
+                formElement.type = formField.type;
+                formElement.selected = formField.checked;
+                this.dbHandler.saveFormElement(formElement);
+                break;
+          case "select":
+          case "select-multiple":
+          case "select-one":
+                dump("select field:\n");
+                if (formField.options) {
+                  var option;
+                  for (var j=0; j<formField.options.length; j++) {
+                    option = formField.options[j];
+                    // option may contain attribute label and/or value, if both missing use the text-content
+                    //dump("- option id=" + option.id + " value=" + option.value + " selected=" + option.selected + "\n");
+                    formElement.id = this._getId(formField);
+                    formElement.name = option.value;
+                    formElement.type = formField.type;
+                    formElement.selected = option.selected;
+                    this.dbHandler.saveFormElement(formElement);
+                  }
+                }
+                break;
+         }
+      }
+    }
+    //dump("FhcFormSaveOverlay::onSubmit done.\n");
+  },
+
+  _findForm: function(element) {
+    var form = element;
+    while (form.parentNode && form.localName != 'form') {
+      form = form.parentNode;
+    } 
+    if (form && form.localName == 'form') {
+      return form;
+    }
+    return null;
   },
 
   onReset: function(event) {
