@@ -1935,6 +1935,59 @@ FhcDbHandler.prototype = {
   },
 
   /**
+   * Find the last saved item matching the itemprops field properties.
+   * 
+   * @param  itemprops {Object}
+   *         the multiline object to find
+   * 
+   * @return {Object}
+   *         item if found, null otherwise
+   */
+  findLastsavedItem: function(itemprops) {
+    var mDBConn = this._getDbCleanupConnection(false);
+
+    var statement, itemFound = null;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT id, name, type, formid," +
+          "       content, host, url," +
+          "       firstsaved, lastsaved" +
+          "  FROM multiline" +
+          " WHERE host   = :host" +
+          "   AND type   = :type" +
+          "   AND id     = :id" +
+          "   AND name   = :name" +
+          "   AND formid = :formid" +
+          " ORDER BY lastsaved DESC" +
+          " LIMIT 1");
+      statement.params.host   = itemprops.host;
+      statement.params.type   = itemprops.type;
+      statement.params.id     = itemprops.id;
+      statement.params.name   = itemprops.name;
+      statement.params.formid = itemprops.formid;
+      if (statement.executeStep()) {
+        itemFound = {
+          id:         statement.row.id,
+          name:       statement.row.name,
+          type:       statement.row.type,
+          formid:     statement.row.formid,
+          content:    statement.row.content,
+          host:       statement.row.host,
+          url:        statement.row.url,
+          firstsaved: statement.row.firstsaved,
+          lastsaved:  statement.row.lastsaved
+        }
+      }
+    } catch(ex) {
+      dump('findLastsavedItemException: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    return itemFound;
+  },
+
+  /**
    * Find the last 10 saved items matching the given properties.
    * 
    * @param  itemprops {Object}
@@ -2205,8 +2258,10 @@ FhcDbHandler.prototype = {
     try {
       var itemFound = this._findFormElement(mDBConn, item);
       if (itemFound) {
+        item.timesused = itemFound.timesused + 1;
         this._updateFormElement(mDBConn, item);
       } else {
+        item.timesused = 1;
         this._addFormElement(mDBConn, item);
       }
     } finally {
@@ -2232,9 +2287,9 @@ FhcDbHandler.prototype = {
       statement = mDBConnection.createStatement(
         "INSERT INTO formelements (" +
                 "id, name, type, formid, selected, " +
-                "host, url, firstsaved, lastsaved) " +
+                "host, url, timesused, firstsaved, lastsaved) " +
         "VALUES (:id, :name, :type, :formid, :selected, " +
-                ":host, :url, :saved, :saved)");
+                ":host, :url, :timesused, :saved, :saved)");
       statement.params.id         = item.id;
       statement.params.name       = item.name;
       statement.params.type       = item.type;
@@ -2242,6 +2297,7 @@ FhcDbHandler.prototype = {
       statement.params.selected   = item.selected;
       statement.params.host       = item.host;
       statement.params.url        = item.url;
+      statement.params.timesused  = item.timesused;
       statement.params.saved      = item.saved;
       result = this._executeStatement(statement);
     } catch(ex) {
@@ -2269,6 +2325,7 @@ FhcDbHandler.prototype = {
       statement = mDBConnection.createStatement(
         "UPDATE formelements" +
         "   SET selected  = :selected," +
+        "       timesused = :timesused," +
         "       lastsaved = :saved" +
         " WHERE host   = :host" +
         "   AND formid = :formid" +
@@ -2281,6 +2338,7 @@ FhcDbHandler.prototype = {
       statement.params.name     = item.name;
       statement.params.type     = item.type;
       statement.params.selected = item.selected;
+      statement.params.timesused= item.timesused;
       statement.params.saved    = item.saved;
       result = this._executeStatement(statement);
     } catch(ex) {
@@ -2317,7 +2375,7 @@ FhcDbHandler.prototype = {
     try {
       statement = mDBConn.createStatement(
           "SELECT host, formid, url, type," +
-          "       id, name, selected, lastsaved" +
+          "       id, name, selected, timesused, lastsaved" +
           "  FROM formelements" +
           " WHERE host   = :host" +
           "   AND formid = :formid" +
@@ -2339,6 +2397,7 @@ FhcDbHandler.prototype = {
           selected:  (statement.row.selected === 0) ? false : true,
           host:      statement.row.host,
           url:       statement.row.url,
+          timesused: statement.row.timesused,
           saved:     statement.row.lastsaved
         };
       }
@@ -2349,35 +2408,47 @@ FhcDbHandler.prototype = {
       return itemFound;
     }
   },
-  
 
   /**
-   * Delete all formElement items for a specific form on a specific host,
-   * return true on succes.
+   * Delete all formelements with lastsaved older than the number
+   * of provided minutes.
+   * 
+   * @param deleteIfOlder {Integer}
+   *        the lastsaved treshold in uSeconds, anything older will be deleted
    *
-   * @param  host {String}
-   * @param  formId {String}
-   *
-   * @return {Boolean}
-   *         whether or not deleting succeeded
+   * @return {Integer}
+   *         total number of deleted items
    */
-  deleteFormElements: function(host, formId) {
-    var mDBConn = this._getDbCleanupConnection();
+  deleteFormElementsOlder: function(deleteIfOlder) {
+    var mDBConn = this._getDbCleanupConnection(false);
 
-    var result = false, statement;
+    var result = false, count = 0, statement;
     try {
       statement = mDBConn.createStatement(
-        "DELETE" +
+        "SELECT count(*)" +
         "  FROM formelements" +
-        " WHERE host   = :host" +
-        "   AND formid = :formid");
-      statement.params.host   = host;
-      statement.params.formid = formId;
-      result = this._executeStatement(statement);
+        " WHERE lastsaved < :lastsaved");
+      statement.params.lastsaved = deleteIfOlder;
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
     } finally {
-      this._closeDbConnection(mDBConn, result);
+      this._closeStatement(statement);
     }
-    return result;
+    
+    if (count > 0) {
+      try {
+        statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM formelements" +
+          " WHERE lastsaved < :lastsaved");
+        statement.params.lastsaved = deleteIfOlder;
+        result = this._executeStatement(statement);
+      } finally {
+        this._closeDbConnection(mDBConn, result);
+      }
+    }
+    return result ? count : 0;
   },
 
 
@@ -2912,9 +2983,10 @@ FhcDbHandler.prototype = {
           " url         TEXT," +
           " formid      TEXT," +
           " type        TEXT," +
-          " id          TEXT," +          
+          " id          TEXT," +
           " name        TEXT," +
           " selected    BOOL," +
+          " timesused   INTEGER," +
           " firstsaved  INTEGER," +
           " lastsaved   INTEGER)"
         );
