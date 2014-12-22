@@ -227,26 +227,26 @@ const FhcFormSaveOverlay = {
 
     var t = event.originalTarget;
     var n = t.nodeName.toLowerCase();
-    if ("textarea" == n) {
+    if ("textarea" === n) {
       //var id = (t.id) ? t.id : t.name;
       //dump("textarea with id: " + id + "\n");
       this._contentChangedHandler("textarea", t);
     }
-    else if ("html" == n) {
+    else if ("html" === n) {
       //dump("keyup from html\n");
       var p = t.parentNode;
-      if (p && "on" == p.designMode) {
+      if (p && "on" === p.designMode) {
         this._contentChangedHandler("html", p);
       }
     }
-    else if ("body" == n) {
+    else if ("body" === n || "div" === n) {
       // body of iframe
       //dump("keyup from body\n");
       var doc = t.ownerDocument;
       var e = doc.activeElement;
-      if (("on" == doc.designMode) || this._isContentEditable(e)) {
+      if (("on" === doc.designMode) || this._isContentEditable(e)) {
         //dump("content is editable\n");
-        this._contentChangedHandler("iframe", e);
+        this._contentChangedHandler("body" === n ? "iframe" : "div", e);
       }
     }
   },
@@ -264,6 +264,7 @@ const FhcFormSaveOverlay = {
       case "html":
         uri = node.documentURIObject;
         break;
+      case "div":
       case "iframe":
         uri = node.ownerDocument.documentURIObject;
         break;
@@ -481,6 +482,7 @@ const FhcFormSaveOverlay = {
         case "html":
              theContent = event.node.body.innerHTML;
              break;
+        case "div":
         case "iframe":
              theContent = event.node.innerHTML;
              break;

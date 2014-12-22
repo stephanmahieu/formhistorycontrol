@@ -18,6 +18,10 @@
 			timer = setTimeout(fadefhcSaveMessageFields,3000,1);
 		}
 	</script>
+        <style media="screen" type="text/css">
+            [contenteditable="true"] { padding: 2px; outline: 2px dashed #CCC; }
+            [contenteditable="true"]:hover { outline: 2px dashed #0090D2; background-color: #FFD;}
+        </style>        
 </head>
 <body>
 	
@@ -60,11 +64,16 @@
 			<tr valign="top">
 				<td valign="top">textarea</td>
 				<td><textarea id="simpleTextArea" cols="40" rows="5">Enter text here...</textarea></td>
-				<td rowspan="2"><iframe name="ifrm" id="ifrm" scrolling="no" src="./iframe.html" frameborder="1" height="158"></iframe></td>
+				<td><iframe name="ifrm" id="ifrm" scrolling="no" src="./iframe.html" frameborder="1" height="105"></iframe></td>
 			</tr>
 			<tr>
 				<td valign="top">no name/id</td>
 				<td><textarea cols="40" rows="2">More text here...</textarea></td>
+                                <td>
+                                    <div id="contenteditable-div" contenteditable="true">
+                                        <p>Editable div for <code>HTML5</code> enabled browsers.</p>
+                                    </div>
+                                </td>
 			</tr>
 			<tr>
 				<td>Test field 1</td>
