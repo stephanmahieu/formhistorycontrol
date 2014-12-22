@@ -1,0 +1,9 @@
+User:
+- 
+
+Technical:
+- Also store (multiline) text typed into divs with contenteditable attribute set to true
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
