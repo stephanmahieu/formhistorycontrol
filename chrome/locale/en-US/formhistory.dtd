@@ -437,6 +437,9 @@
 <!ENTITY browsehistorywindow.report.hostlabel "Host">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
 
+<!ENTITY fhexportcsvdlg.description "Export Complete Form History as CSV (Comma delimited)">
+<!ENTITY fhexportcsvdlg.alert "Warning: The CSV export can not be used for import!">
+
 <!ENTITY fhexportdlg.title "Export manager">
 <!ENTITY fhexportdlg.description "Select the type of data to export">
 <!ENTITY fhexportdlg.button.export "Export">

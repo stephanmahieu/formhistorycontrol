@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Název">
 <!ENTITY browsehistorywindow.report.hostlabel "Server">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "Exportovat úplnou historii formuláře jako CSV (data oddělená čárkou)">
+<!ENTITY fhexportcsvdlg.alert "Varování: Data exportovaná jako CSV nelze importovat!">
 <!ENTITY fhexportdlg.title "Správce exportu">
 <!ENTITY fhexportdlg.description "Vyberte typ dat pro export">
 <!ENTITY fhexportdlg.button.export "Exportovat">

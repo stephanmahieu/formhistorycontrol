@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "标题">
 <!ENTITY browsehistorywindow.report.hostlabel "站点">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "完整导出表单历史为 CSV（逗号分隔）">
+<!ENTITY fhexportcsvdlg.alert "警告：CSV 格式的导出不能被再次导入！">
 <!ENTITY fhexportdlg.title "导出管理器">
 <!ENTITY fhexportdlg.description "选择要导出的数据类型">
 <!ENTITY fhexportdlg.button.export "导出">

@@ -195,3 +195,5 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Покажи историята">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "о">
 <!ENTITY fhabout.label.description "Описание">
+<!ENTITY fhexportcsvdlg.description "Изнасяне на цялата Форма на историята като CSV (разделени със запетая)">
+<!ENTITY fhexportcsvdlg.alert "Внимание: Изнасянето на CSV не може да се използва за внасяне!">

@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Başlık">
 <!ENTITY browsehistorywindow.report.hostlabel "Sunucu">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "Form Geçmişinin Tümünü CSV (Virgülle ayrılmış) Biçiminde Dışa Aktar">
+<!ENTITY fhexportcsvdlg.alert "Uyarı: CSV dışa aktarımı, içe aktarmada kullanılamaz!">
 <!ENTITY fhexportdlg.title "Dışa aktarma yöneticisi">
 <!ENTITY fhexportdlg.description "Dışa aktarılacak veri türünü seçin">
 <!ENTITY fhexportdlg.button.export "Dışa aktar">

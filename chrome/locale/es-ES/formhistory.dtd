@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Título">
 <!ENTITY browsehistorywindow.report.hostlabel "Servidor">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "Exportar todo el Historial de fomularios como CSV (separación con comas)">
+<!ENTITY fhexportcsvdlg.alert "AVISO: El CSV exportado no puede usarse para importar.">
 <!ENTITY fhexportdlg.title "Administrador de exportación">
 <!ENTITY fhexportdlg.description "Seleccionar el tipo de datos a exportar">
 <!ENTITY fhexportdlg.button.export "Exportar">

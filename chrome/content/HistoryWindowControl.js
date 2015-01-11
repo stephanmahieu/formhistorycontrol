@@ -1347,18 +1347,33 @@ const HistoryWindowControl = {
     }
   },
 
-  // Export all data to a user specified file
+  // Export CSV data to a user specified file
   exportActionCSV: function() {
-    //dump('exportActionCSV!\n');
-    FhcUtil.alertDialog(
-      this.bundle.getString("historywindow.prompt.alert.exportcsv.title"),
-      this.bundle.getString("historywindow.prompt.alert.exportcsv.message")
-    );
+    var selectedHist = 0 < this.treeView.getSelectCount();
+    var filteredHist = this.treeView.isDataFiltered() && (0 < this.treeView.rowCount);
+    
+    var params = {
+          inn: {haveSelectedHist: selectedHist,
+                haveFilteredHist: filteredHist
+               },
+          out: null
+        };
+    FhcShowDialog.doShowFhcExportCSV(params);
+    
+    if (params.out) {
+      var historyEntries  = [];
+      switch (params.out.exportHistoryWhat) {
+        case "all":      historyEntries = this.treeView.getAll();break;
+        case "selected": historyEntries = this.treeView.getSelected();break;
+        case "search":   historyEntries = this.treeView.getAllDisplayed();break;
+      }
 
-    FhcUtil.exportEntriesCSV(
-      this.bundle.getString("historywindow.prompt.exportdialog.title"),
-      this.treeView.getAll(),
-      this.preferences);
+      FhcUtil.exportEntriesCSV(
+        this.bundle.getString("historywindow.prompt.exportdialog.title"),
+        historyEntries,
+        this.preferences
+      );
+    }
   },
 
   // Return the treeView

@@ -230,3 +230,5 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Visualizza cronologia">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "O">
 <!ENTITY fhabout.label.description "Descrizione">
+<!ENTITY fhexportcsvdlg.description "Esportazione cronologia completa come file CSV (testo separato da virgola)">
+<!ENTITY fhexportcsvdlg.alert "Attenzione: il file CSV ottenuto dall'operazione di esportazione non può essere utilizzato per l'importazione.">
