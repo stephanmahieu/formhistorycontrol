@@ -5,7 +5,7 @@ User:
    (checkbox) was not saved (option could only be changed from the add-ons preferences).
 
 Technical:
-- Also store (multiline) text typed into divs with contenteditable attribute set to true
+- 
 
 
 ToDo:
