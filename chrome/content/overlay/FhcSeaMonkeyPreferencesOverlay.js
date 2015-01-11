@@ -72,6 +72,8 @@ const FhcSeaMonkeyPreferencesOverlay = {
   },
 
   _onManageFormsClick: function() {
+    var manageCheckbox = document.getElementById("preferencesFormHistoryControlCheckboxManage");
+    this._setManageHistoryByFHCEnabled(manageCheckbox.checked);
     this._initControls();
   },
 
@@ -82,9 +84,25 @@ const FhcSeaMonkeyPreferencesOverlay = {
 
     if (!rememberFormsCheckbox.checked) {
       manageCheckbox.checked = false;
+    } else {
+      manageCheckbox.checked = this._isManageHistoryByFHCEnabled();
     }
     manageCheckbox.disabled = !rememberFormsCheckbox.checked;
     settingsButton.disabled = !rememberFormsCheckbox.checked || !manageCheckbox.checked;
+  },
+  
+  _isManageHistoryByFHCEnabled: function() {
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefService)
+           .getBranch("extensions.formhistory.")
+           .getBoolPref("manageFormhistoryByFHC");
+  },
+  
+  _setManageHistoryByFHCEnabled: function(newBoolPref) {
+    return Components.classes["@mozilla.org/preferences-service;1"]
+           .getService(Components.interfaces.nsIPrefService)
+           .getBranch("extensions.formhistory.")
+           .setBoolPref("manageFormhistoryByFHC", newBoolPref);
   },
 
   // Add a button to the privacy pane after the rememberForms checkbox
