@@ -437,6 +437,9 @@
 <!ENTITY browsehistorywindow.report.hostlabel "Bron">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
 
+<!ENTITY fhexportcsvdlg.description "Exporteer de Complete Form Historie als CSV (Komma gescheiden)">
+<!ENTITY fhexportcsvdlg.alert "Het CSV exportbestand kan niet gebruikt worden voor het importeren!">
+
 <!ENTITY fhexportdlg.title "Export beheer">
 <!ENTITY fhexportdlg.description "Selecteer de te exporteren data types">
 <!ENTITY fhexportdlg.button.export "Exporteer">

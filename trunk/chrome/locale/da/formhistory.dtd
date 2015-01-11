@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Titel">
 <!ENTITY browsehistorywindow.report.hostlabel "Vært">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "Eksporter den samlede formularhistorik som CSV (Kommasepareret)">
+<!ENTITY fhexportcsvdlg.alert "Advarsel: Den CSV-eksporterede fil kan ikke bruges til import!">
 <!ENTITY fhexportdlg.title "Håndtering af export">
 <!ENTITY fhexportdlg.description "Vælg den type data der skal eksporteres">
 <!ENTITY fhexportdlg.button.export "Eksporter">

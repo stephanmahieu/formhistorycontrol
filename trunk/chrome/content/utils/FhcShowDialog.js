@@ -236,6 +236,19 @@ var FhcShowDialog = {
   },
 
   /**
+   * Open the CSV-export dialog.
+   *
+   * @param params {Array}
+   *        array of input/output parameters
+   */
+  doShowFhcExportCSV: function(params) {
+    openDialog(
+      "chrome://formhistory/content/FhcExportCSVDialog.xul", "",
+      "centerscreen, chrome, dialog, modal, resizable=yes", params)
+    .focus();
+  },
+
+  /**
    * Open the Browse History dialog.
    *
    * @param params {Array}

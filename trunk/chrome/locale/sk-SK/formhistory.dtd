@@ -189,3 +189,5 @@
 <!ENTITY fhprefovl.privacy.button.showhistory.label "Zobraziť históriu">
 <!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
 <!ENTITY fhabout.label.description "Popis">
+<!ENTITY fhexportcsvdlg.description "Exportovať kompletnú históriu formulárov ako CSV (oddelené čiarkou)">
+<!ENTITY fhexportcsvdlg.alert "Pozor: CSV export nemôže byť použitý pre importovanie!">

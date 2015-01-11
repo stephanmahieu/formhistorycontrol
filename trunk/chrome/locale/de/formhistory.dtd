@@ -380,6 +380,8 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Titel">
 <!ENTITY browsehistorywindow.report.hostlabel "Host">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "komplette Formular-Chronik als CSV (Komma getrennt) exportieren">
+<!ENTITY fhexportcsvdlg.alert "Achtung: Der CSV-Export kann nicht für den Import genutzt werden!">
 <!ENTITY fhexportdlg.title "Exportmanager">
 <!ENTITY fhexportdlg.description "Wählen Sie den Typ der zu exportierenden Daten">
 <!ENTITY fhexportdlg.button.export "Export">

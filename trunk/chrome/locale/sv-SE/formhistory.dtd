@@ -303,3 +303,5 @@
 <!ENTITY browsehistorywindow.report.titlelabel "Rubrik">
 <!ENTITY browsehistorywindow.report.hostlabel "Värd">
 <!ENTITY browsehistorywindow.report.urllabel "URL">
+<!ENTITY fhexportcsvdlg.description "Exportera hela formulärhistoriken som CSV (kommateckenseparerade)">
+<!ENTITY fhexportcsvdlg.alert "Varning: CSV-exporten kan inte användas för import!">

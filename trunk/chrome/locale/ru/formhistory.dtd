@@ -294,3 +294,5 @@
 <!ENTITY fhabout.label.homepage "Посетить домашнюю страницу">
 <!ENTITY fhabout.label.contributors "Помощники">
 <!ENTITY fhabout.label.translators "Переводчики">
+<!ENTITY fhexportcsvdlg.description "Экспорт всей истории как CSV (разделители - запятые)">
+<!ENTITY fhexportcsvdlg.alert "Предупреждение: экспорт CSV не может быть использован для последующего импорта!">
