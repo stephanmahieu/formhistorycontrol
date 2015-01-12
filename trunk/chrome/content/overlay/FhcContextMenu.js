@@ -805,21 +805,21 @@ const FhcContextMenu = {
    *        
    */
   _setFormElements: function(document) {
-    var formElements = FhcUtil.getAllFormElements(document);
-    
+    //dump("_setFormElements()\n");
+    //var start = new Date();
+    var allForms = FhcUtil.getAllFormElements(document);
+
     var form, formElements, uri, host, formField, storedElement;
-    for (var i=0; i<formElements.length; i++) {
-      form = formElements[i];
-      //dump("###form id=" + form.id + " name=" + form.name + "\n");
+    for (var i=0; i<allForms.length; i++) {
+      form = allForms[i];
            
       if (form && form.elements) {
         formElements = form.elements;
         uri = form.ownerDocument.documentURIObject;
         host = this._getHost(uri);
         
-        for (var i=0; i<formElements.length; i++) {
-          formField = formElements[i];
-          //dump("###formfield id=" + formField.id + " name=" + formField.name + " type=" + formField.type + "\n");
+        for (var f=0; f<formElements.length; f++) {
+          formField = formElements[f];
           var formElementToFind = {
             host:   host,
             formid: this._getId(form),
@@ -859,12 +859,9 @@ const FhcContextMenu = {
                   
             case "textarea":
                   if (!formField.value || "" === formField.value) {
-                    //dump("--- updating textarea uri=" + uri.spec + "\n");
                     formElementToFind.name = this._getId(formField);
-                    //dump("!!! formfield formid=" + formElementToFind.formid + "  id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
                     storedElement = this.dbHandler.findLastsavedItem(formElementToFind);
                     if (storedElement && storedElement.content) {
-                      //dump("!!! FOUND! content=" + storedElement.content + "\n");
                       formField.value = storedElement.content;
                     }
                   }
@@ -873,6 +870,8 @@ const FhcContextMenu = {
         }
       }
     }
+    //var end = new Date();
+    //dump("_setFormElements finished, duration:" + (end.getTime() - start.getTime()) + " ms\n");
   },
 
 
