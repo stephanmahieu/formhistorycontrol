@@ -904,29 +904,20 @@ const MultilineWindowControl = {
     return null;
   },
 
-  // as of gecko 22, props is discarded, return space-separated property names
-  getRowProperties: function(row,props) {
+  getRowProperties: function(row) {
     var aserv = Components.classes["@mozilla.org/atom-service;1"]
               .getService(Components.interfaces.nsIAtomService);
     var styleProp = this.prefHandler.getCustomTreeSkin();
-    if (typeof props == 'undefined') {
-      return aserv.getAtom(styleProp).toString(); // as of gecko 22, return space-separated property names
-    }
-    props.AppendElement(aserv.getAtom(styleProp));
-    return "";
+    return aserv.getAtom(styleProp).toString(); 
 },
 
-  // as of gecko 22, props is discarded, return space-separated property names
-  getCellProperties: function(row,col,props) {
+  getCellProperties: function(row,col) {
     var aserv;
     switch(col.id) {
       case "mlurlCol":
         aserv=Components.classes["@mozilla.org/atom-service;1"]
                   .getService(Components.interfaces.nsIAtomService);
-        if (typeof props == 'undefined') {
-          return aserv.getAtom("urlColumn").toString(); // as of gecko 22, return space-separated property names
-        }
-        props.AppendElement(aserv.getAtom("urlColumn"));
+        return aserv.getAtom("urlColumn").toString();
         break;
       default:
         break;
@@ -934,8 +925,7 @@ const MultilineWindowControl = {
     return "";
   },
 
-  // as of gecko 22, props is discarded, return space-separated property names
-  getColumnProperties: function(colid,col,props) {
+  getColumnProperties: function(colid,col) {
     return "";
   },
 

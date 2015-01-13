@@ -704,29 +704,15 @@ const FhcUtil = {
   },
 
   /**
-   * Detect whether or not the browser is in private-browsing mode.
+   * Detect whether or not the browser is in private browsing mode.
    *
-   * @return {boolean} whether or not in private-browsing mode.
+   * @return {boolean} whether or not in private browsing mode.
    */
   inPrivateBrowsingMode: function() {
-    var isPrivate = false;
     var loadContext = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
                   .getInterface(Components.interfaces.nsIWebNavigation)
                   .QueryInterface(Components.interfaces.nsILoadContext);
-    if (!(typeof loadContext.usePrivateBrowsing === undefined)) {
-      // started from FF 20, private browsing per window!
-      isPrivate = loadContext.usePrivateBrowsing;
-    }
-    else if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
-      try {
-        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
-                    .getService(Components.interfaces.nsIPrivateBrowsingService);
-        isPrivate = pbs.privateBrowsingEnabled;
-      } catch(e) {
-        // Seamonkey
-      }
-    }
-    return isPrivate;
+    return loadContext.usePrivateBrowsing;
   },
 
   /**
@@ -1015,7 +1001,7 @@ const FhcUtil = {
     var prefService = Components.classes["@mozilla.org/preferences-service;1"]
                         .getService(Components.interfaces.nsIPrefService);
     var branch = prefService.getBranch(branchName);
-    branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+    branch.QueryInterface(Components.interfaces.nsIPrefBranch);
 
     this.register = function() {
       branch.addObserver("", this, false);

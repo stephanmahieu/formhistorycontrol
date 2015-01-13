@@ -860,39 +860,26 @@ HistoryTreeView.prototype = {
     return null;
   },
   
-  // as of gecko 22, props is discarded, return space-separated property names
-  getRowProperties: function(row,props) {
+  getRowProperties: function(row) {
     var aserv = Components.classes["@mozilla.org/atom-service;1"]
               .getService(Components.interfaces.nsIAtomService);
     var styleProp = this.prefHandler.getCustomTreeSkin();
-    
-    if (typeof props == 'undefined') {
-      return aserv.getAtom(styleProp).toString(); // as of gecko 22, return space-separated property names
-    }
-    props.AppendElement(aserv.getAtom(styleProp));
-    return "";
+    return aserv.getAtom(styleProp).toString();
   },
   
-  // as of gecko 22, props is discarded, return space-separated property names
-  getCellProperties: function(row,col,props) {
+  getCellProperties: function(row,col) {
     var aserv;
     switch(col.id) {
       case "hostCol":
       case "pagetitleCol":
         aserv=Components.classes["@mozilla.org/atom-service;1"]
                   .getService(Components.interfaces.nsIAtomService);
-        if (typeof props == 'undefined') {
-          return aserv.getAtom("placeColumn").toString(); // as of gecko 22, return space-separated property names
-        }
-        props.AppendElement(aserv.getAtom("placeColumn"));
+        return aserv.getAtom("placeColumn").toString();
         break;
       case "urlCol":
         aserv=Components.classes["@mozilla.org/atom-service;1"]
                   .getService(Components.interfaces.nsIAtomService);
-        if (typeof props == 'undefined') {
-          return aserv.getAtom("placeUrlColumn").toString(); // as of gecko 22, return space-separated property names
-        }
-        props.AppendElement(aserv.getAtom("placeUrlColumn"));
+        return aserv.getAtom("placeUrlColumn").toString();
         break;
       default:
         break;
@@ -901,14 +888,13 @@ HistoryTreeView.prototype = {
     if (col.id=='hostCol' || col.id=='urlCol' || col.id=='pagetitleCol') {
       var aserv=Components.classes["@mozilla.org/atom-service;1"]
                 .getService(Components.interfaces.nsIAtomService);
-      props.AppendElement(aserv.getAtom("placeColumn"));
+      return aserv.getAtom("placeColumn").toString();
     }
     */
     return "";
   },
   
-  // as of gecko 22, props is discarded, return space-separated property names
-  getColumnProperties: function(colid,col,props) {
+  getColumnProperties: function(colid,col) {
     return "";
   },
   

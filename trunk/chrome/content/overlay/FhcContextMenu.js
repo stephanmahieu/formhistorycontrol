@@ -1116,7 +1116,7 @@ const FhcContextMenu = {
 
     var div = document.createElement('div');
     div.setAttribute('id', id);
-    div.setAttribute('title', this._getFormInfo(sourceElem, false));
+    div.setAttribute('title', this._getFormInfoText(sourceElem));
     div.setAttribute('style', style);
     div.addEventListener("mouseenter", function(){this.style.opacity=1;this.style.zIndex=1002;}, false);
     div.addEventListener("mouseleave", function(){this.style.opacity=0.75;this.style.zIndex=1001;}, false);
@@ -1140,7 +1140,7 @@ const FhcContextMenu = {
       'display:none; background-color:#FFDCCF; margin:5px; padding:5px; ' +
       'font-weight: normal; border:1px inset #FFDCCF; ' +
       '' + shadow + ': inset 0 0 8px rgba(55, 20, 7, 0.5)');
-    innerDiv.innerHTML = this._getFormInfo(sourceElem, true);
+    innerDiv.appendChild(this._getFormInfoHTML(sourceElem, document));
 
     return div;
   },
@@ -1152,16 +1152,58 @@ const FhcContextMenu = {
    * @param element {DOM Element}
    *        the inputfield
    *
-   * @param asHTML {Boolean}
-   *        return output formatted with HTML-tags (true) or without (false)
+   * @param {DOM Document}
+   *        the HTML document object
+   *
+   * @return {DOM}
+   *         info about element and form
+   */
+  _getFormInfoHTML: function(element, document) {
+    var info = document.createElement('div');
+    
+    var inputBold = document.createElement('b');
+    inputBold.textContent = '<INPUT>';
+    info.appendChild(inputBold);
+    
+    info.appendChild(document.createElement('br'));
+
+    for (var j = 0; j < element.attributes.length; j++) {
+      info.appendChild(document.createTextNode(element.attributes[j].name + '=' + element.attributes[j].value));
+      info.appendChild(document.createElement('br'));
+    }
+
+    var form = element;
+    while (form.parentNode && form.localName != 'form') {
+      form = form.parentNode;
+    } 
+    if (form && form.localName == 'form') {
+      info.appendChild(document.createElement('br'));
+      var formBold = document.createElement('b');
+      formBold.textContent = '<FORM>';
+      info.appendChild(formBold);
+      info.appendChild(document.createElement('br'));
+      for (var i = 0; i < form.attributes.length; i++) {
+        info.appendChild(document.createTextNode(form.attributes[i].name + '=' + form.attributes[i].value));
+        info.appendChild(document.createElement('br'));
+      }
+    }
+    return info;
+  },
+
+  /**
+   * Collect the attributes for the element and its form container and
+   * return as String.
+   *
+   * @param element {DOM Element}
+   *        the inputfield
    *
    * @return {String}
    *         info about element and form
    */
-  _getFormInfo: function(element, asHTML) {
-    var sep = asHTML ? '<br/>' : ' ';
+  _getFormInfoText: function(element) {
+    var sep = ' ';
 
-    var result = asHTML ? '<b>&lt;INPUT&gt;</b><br/>' : 'INPUT: ';
+    var result = 'INPUT: ';
     for (var j = 0; j < element.attributes.length; j++) {
       result += element.attributes[j].name + '=' + element.attributes[j].value + sep;
     }
@@ -1171,7 +1213,7 @@ const FhcContextMenu = {
       form = form.parentNode;
     } 
     if (form && form.localName == 'form') {
-      result += (asHTML ? '<br/><b>&lt;FORM&gt;</b><br/>' : ' # FORM: ');
+      result += ' # FORM: ';
       for (var i = 0; i < form.attributes.length; i++) {
         result += form.attributes[i].name + '=' + form.attributes[i].value + sep;
       }

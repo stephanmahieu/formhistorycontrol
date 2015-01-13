@@ -618,7 +618,7 @@ const FhcFormSaveOverlay = {
         var prefService = Components.classes["@mozilla.org/preferences-service;1"]
                             .getService(Components.interfaces.nsIPrefService);
         this.branch = prefService.getBranch("extensions.formhistory.multiline.");
-        this.branch.QueryInterface(Components.interfaces.nsIPrefBranch2);
+        this.branch.QueryInterface(Components.interfaces.nsIPrefBranch);
         this.branch.addObserver("", this, false);
       },
       unregister: function() {
@@ -675,31 +675,15 @@ const FhcFormSaveOverlay = {
   //----------------------------------------------------------------------------
 
   /**
-   * Determine whether or not the browser-window is in private-browsing mode.
+   * Determine whether or not the browser-window is in private browsing mode.
    *
-   * @return {boolean} whether or not in private-browsing mode.
+   * @return {boolean} whether or not in private browsing mode.
    */
   _isPrivateBrowsing: function() {
-    var isPrivateBrowsing = false;
-
     var loadContext = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor)
                   .getInterface(Components.interfaces.nsIWebNavigation)
                   .QueryInterface(Components.interfaces.nsILoadContext);
-    if (!(typeof loadContext.usePrivateBrowsing === undefined)) {
-      // started from FF 20, private browsing per window!
-      isPrivateBrowsing = loadContext.usePrivateBrowsing;
-    }
-    else if (Components.classes["@mozilla.org/privatebrowsing;1"]) {
-      try {
-        var pbs = Components.classes["@mozilla.org/privatebrowsing;1"]
-                    .getService(Components.interfaces.nsIPrivateBrowsingService);
-        isPrivateBrowsing = pbs.privateBrowsingEnabled;
-      } catch(e) {
-        // Seamonkey
-        isPrivateBrowsing = false;
-      }
-    }
-    return isPrivateBrowsing;
+    return loadContext.usePrivateBrowsing;
   }
 };
 

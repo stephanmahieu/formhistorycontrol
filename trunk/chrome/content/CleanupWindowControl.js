@@ -1135,18 +1135,14 @@ const CleanupWindowControl = {
     return null;
   },
 
-  getRowProperties: function(row,props) {
+  getRowProperties: function(row) {
     var aserv = Components.classes["@mozilla.org/atom-service;1"]
               .getService(Components.interfaces.nsIAtomService);
     var styleProp = this.prefHandler.getCustomTreeSkin();
-    if (typeof props == 'undefined') {
-      return aserv.getAtom(styleProp).toString(); // as of gecko 22, return space-separated property names
-    }
-    props.AppendElement(aserv.getAtom(styleProp));
-    return "";
+    return aserv.getAtom(styleProp).toString();
 },
 
-  getCellProperties: function(row,col,props) {
+  getCellProperties: function(row,col) {
     var critObj = this.data[row];
     var na = false;
     switch(col.id) {
@@ -1170,16 +1166,12 @@ const CleanupWindowControl = {
     }
     if (na) {
       // not applicable (diabled checkbox)
-      if (typeof props == 'undefined') {
-        return this.atomService.getAtom("na").toString(); // as of gecko 22, return space-separated property names
-      }
-      props.AppendElement(this.atomService.getAtom("na"));
+      return this.atomService.getAtom("na").toString();
     }
     return "";
   },
 
-  getColumnProperties: function(colid,col,props) {
-    // as of gecko 22, props is discarded, return space-separated property names
+  getColumnProperties: function(colid,col) {
     return "";
   },
 
