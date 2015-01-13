@@ -4,7 +4,7 @@
 		 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>formhistory@yahoo.com</em:id>
-		<em:version>1.4.0.0pre4</em:version>
+		<em:version>1.4.0.0pre5</em:version>
 		<em:type>2</em:type>
 		<!-- Unpack false will break reading install.rdf in FhcRdfExtensionHandler.js -->
 		<em:unpack>true</em:unpack>
@@ -14,7 +14,7 @@
 			<!-- Firefox -->
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>3.0.9</em:minVersion>
+				<em:minVersion>22.0</em:minVersion>
 				<em:maxVersion>38.0</em:maxVersion>
 			</Description>
 		</em:targetApplication>
@@ -22,7 +22,7 @@
 			<!-- SeaMonkey -->
 			<Description>
 				<em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
-				<em:minVersion>2.0a3</em:minVersion>
+				<em:minVersion>2.19</em:minVersion>
 				<em:maxVersion>2.35</em:maxVersion>
 			</Description>
 		</em:targetApplication>

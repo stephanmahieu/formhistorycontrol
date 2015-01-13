@@ -283,12 +283,12 @@ FhcRdfExtensionHandler.prototype = {
    * Instead of the xpi or directory, a file can be used containing one line
    * of text describing the actual location of the extension (development use).
    * This method reads the first line of the file and returns the location as
-   * a new nsILocalFile object.
+   * a new nsIFile object.
    *
-   * @param  shortcutFile {nsILocalFile}
+   * @param  shortcutFile {nsIFile}
    *         file containing a string describing the actual location.
    *
-   * @return {nsILocalFile}
+   * @return {nsIFile}
    *         The actual location.
    */
   _resolveDevelopmentLocation: function(shortcutFile) {
@@ -309,7 +309,7 @@ FhcRdfExtensionHandler.prototype = {
     if (developLocation && developLocation.value) {
       // try linked location
       xmlfile = Components.classes["@mozilla.org/file/local;1"]
-                      .createInstance(Components.interfaces.nsILocalFile);
+                      .createInstance(Components.interfaces.nsIFile);
       xmlfile.initWithPath(developLocation.value);
       xmlfile.append("install.rdf");
     }
