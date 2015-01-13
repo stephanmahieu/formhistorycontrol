@@ -1928,7 +1928,6 @@ FhcDbHandler.prototype = {
         statement.params.lastsaved = deleteIfOlder;
         result = this._executeStatement(statement);
       } finally {
-        this._closeStatement(statement);
         this._closeDbConnection(mDBConn, result);
       }
     }
@@ -2439,7 +2438,6 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('_addFormElement:Exception: ' + ex);
     } finally {
-      this._closeStatement(statement);
       return result;
     }
   },
@@ -2481,7 +2479,6 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('_updateFormElement:Exception: ' + ex);
     } finally {
-      this._closeStatement(statement);
       return result;
     }
   },
