@@ -1928,6 +1928,7 @@ FhcDbHandler.prototype = {
         statement.params.lastsaved = deleteIfOlder;
         result = this._executeStatement(statement);
       } finally {
+        this._closeStatement(statement);
         this._closeDbConnection(mDBConn, result);
       }
     }
@@ -2247,28 +2248,163 @@ FhcDbHandler.prototype = {
   //----------------------------------------------------------------------------
 
   /**
-   * Save or update a formElement item.
+   * Save or update all formElement items.
    * 
-   * @param  item {Object}
+   * @param  allFormElements {Array}
    *         the formElement object to save
-   * 
    */
-  saveFormElement: function(item) {
-    var mDBConn = this._getDbCleanupConnection();
+  saveFormElements: function(allFormElements) {
+    if (75 < allFormElements.length) {
+      this._saveFormElementsFast(allFormElements);
+    } else {
+      this._saveFormElementsSlow(allFormElements);
+    }
+  },
+  
+  /**
+   * Save or update all formElement items wether selected or not.
+   * Can be slow if many items are involved.
+   * 
+   * @param  allFormElements {Array}
+   *         the formElement object to save
+   */
+  _saveFormElementsSlow: function(allFormElements) {
+    //dump("_saveFormElementsSlow start\n");
+    //var start = new Date();
+    var mDBConn = this._getDbCleanupConnection();  
     try {
-      var itemFound = this._findFormElement(mDBConn, item);
-      if (itemFound) {
-        item.timesused = itemFound.timesused + 1;
-        this._updateFormElement(mDBConn, item);
-      } else {
-        item.timesused = 1;
-        this._addFormElement(mDBConn, item);
+      var itemFound, item;
+      for(var ii=0; ii < allFormElements.length; ii++) {
+        item = allFormElements[ii];
+        itemFound = this._findFormElement(mDBConn, item);
+        if (itemFound) {
+          item.timesused = itemFound.timesused + 1;
+          this._updateFormElement(mDBConn, item);
+        } else {
+          item.timesused = 1;
+          this._addFormElement(mDBConn, item);
+        } 
       }
+    } catch(ex) {
+      dump('_saveFormElementsSlow:Exception: ' + ex);
     } finally {
       this._closeDbConnection(mDBConn, true);
     }
+    //var end = new Date();
+    //dump("_saveFormElementsSlow finished, duration:" + (end.getTime() - start.getTime()) + " ms for " + allFormElements.length + "items\n");
   },
 
+  /**
+   * Save all formElement items fast by deleting all current items of the same
+   * Host and Form prior to saving only the new selected items.
+   * In this scenario the history of each item (timesused, firstsaved) is not
+   * stored in order to do the administration as fast as possible.
+   * 
+   * @param  allFormElements {Array}
+   *         the formElement object to save
+   */
+  _saveFormElementsFast: function(allFormElements) {
+    //dump("_saveFormElementsFast start\n");
+    //var start = new Date();
+    var statement;
+    var mDBConn = this._getDbCleanupConnection();
+
+    if (1500 < allFormElements.length) {
+      // Delete ALL previous items (if present) from ALL(!) forms on this host.
+      // Will delete many items fast but we may loose items from other forms
+      // if multiple forms on this host have the same (or no) id.
+      try {
+        statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM formelements" +
+          " WHERE host   = :host" +
+          "   AND formid = :formid");
+        var deleteFormElements = this._getUniqueFormElements(allFormElements);
+        for(var ii=0; ii < deleteFormElements.length; ii++) {
+          statement.params.host   = deleteFormElements[ii].host;
+          statement.params.formid = deleteFormElements[ii].formid;
+          this._executeReusableStatement(statement);
+        }
+      } catch(ex) {
+        dump('_saveFormElementsFast:Exception: ' + ex);
+      } finally {
+        this._closeStatement(statement);
+      }        
+    } else {
+      // delete all individual items (if present)
+      try {
+        statement = mDBConn.createStatement(
+          "DELETE" +
+          "  FROM formelements" +
+          " WHERE host   = :host" +
+          "   AND formid = :formid" +
+          "   AND id     = :id" +
+          "   AND name   = :name" +
+          "   AND type   = :type");
+        for(var ii=0; ii < allFormElements.length; ii++) {
+          statement.params.host     = allFormElements[ii].host;
+          statement.params.formid   = allFormElements[ii].formid;
+          statement.params.id       = allFormElements[ii].id;
+          statement.params.name     = allFormElements[ii].name;
+          statement.params.type     = allFormElements[ii].type;
+          this._executeReusableStatement(statement);
+        }
+      } catch(ex) {
+        dump('_saveFormElementsFast:Exception: ' + ex);
+      } finally {
+        this._closeStatement(statement);
+      }        
+    }
+    
+    // insert all selected items
+    try {
+      statement = mDBConn.createStatement(
+        "INSERT INTO formelements (" +
+                "id, name, type, formid, selected, " +
+                "host, url, timesused, firstsaved, lastsaved) " +
+        "VALUES (:id, :name, :type, :formid, :selected, " +
+                ":host, :url, :timesused, :saved, :saved)");
+      for(var ii=0; ii < allFormElements.length; ii++) {
+        if (allFormElements[ii].selected) {
+          statement.params.id         = allFormElements[ii].id;
+          statement.params.name       = allFormElements[ii].name;
+          statement.params.type       = allFormElements[ii].type;
+          statement.params.formid     = allFormElements[ii].formid;
+          statement.params.selected   = allFormElements[ii].selected;
+          statement.params.host       = allFormElements[ii].host;
+          statement.params.url        = allFormElements[ii].url;
+          statement.params.timesused  = 1;
+          statement.params.saved      = allFormElements[ii].saved;
+          this._executeReusableStatement(statement);
+        }
+      }
+    } catch(ex) {
+      dump('_saveFormElementsFast:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+      //var end = new Date();
+      //dump("_saveFormElementsFast finished, duration:" + (end.getTime() - start.getTime()) + " ms for " + allFormElements.length + "items\n");
+    } 
+  },
+  
+  _getUniqueFormElements: function(allFormElements) {
+    var uniqueElems = [], found;
+    for(var ii=0; ii < allFormElements.length; ii++) {
+      found = false;
+      for(var jj=0; jj < uniqueElems.length && !found; jj++) {
+        found = (uniqueElems[jj].host === allFormElements[ii].host) && (uniqueElems[jj].formid === allFormElements[ii].formid);
+      }
+      if (!found) {
+        uniqueElems.push({
+          host: allFormElements[ii].host,
+          formid: allFormElements[ii].formid
+        });
+      }
+    }
+    return uniqueElems;
+  },
+  
   /**
    * Add a formElement item.
    * 
@@ -2303,6 +2439,7 @@ FhcDbHandler.prototype = {
     } catch(ex) {
       dump('_addFormElement:Exception: ' + ex);
     } finally {
+      this._closeStatement(statement);
       return result;
     }
   },
@@ -2342,8 +2479,9 @@ FhcDbHandler.prototype = {
       statement.params.saved    = item.saved;
       result = this._executeStatement(statement);
     } catch(ex) {
-      dump('_addFormElement:Exception: ' + ex);
+      dump('_updateFormElement:Exception: ' + ex);
     } finally {
+      this._closeStatement(statement);
       return result;
     }
   },
@@ -2357,7 +2495,6 @@ FhcDbHandler.prototype = {
    *         formelement if found, null otherwise
    */
   findFormElement:function(formElementToFind) {
-    //dump("@@@findFormElement, host=" + formElementToFind.host + " formId=" + formElementToFind.formid + " id=" + formElementToFind.id + " name=" + formElementToFind.name + " type=" + formElementToFind.type + "\n");
     var mDBConn = this._getDbCleanupConnection();
     var itemFound = null;
     try {
@@ -2445,6 +2582,7 @@ FhcDbHandler.prototype = {
         statement.params.lastsaved = deleteIfOlder;
         result = this._executeStatement(statement);
       } finally {
+        this._closeStatement(statement);
         this._closeDbConnection(mDBConn, result);
       }
     }
@@ -2989,6 +3127,10 @@ FhcDbHandler.prototype = {
           " timesused   INTEGER," +
           " firstsaved  INTEGER," +
           " lastsaved   INTEGER)"
+        );
+        mDBConnection.executeSimpleSQL(
+          "CREATE INDEX IF NOT EXISTS formelements_index_multi " +
+          "ON multiline (host, formid, id, name, type)"
         );
       }
       catch(e) {

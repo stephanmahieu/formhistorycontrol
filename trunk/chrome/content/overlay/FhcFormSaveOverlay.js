@@ -150,22 +150,12 @@ const FhcFormSaveOverlay = {
       
       var d = new Date();
       var now = d.getTime() * 1000;
-              
-      var formField;
-      var formElement = {
-        id: null,
-        name: null,
-        type: null,
-        selected: 0,
-        formid: this._getId(form),
-        host: this._getHost(uri),
-        url: uri.spec,
-        saved: now
-      };
+      var formFormid = this._getId(form);
+      var formHost = this._getHost(uri);
       
       // clear previous formhistory
       //this.dbHandler.deleteFormElements(formElement.host, formElement.formid);
-      
+      var formField, allFormElements = [];
       for (var i=0; i<formElements.length; i++) {
         formField = formElements[i];
         //dump("###field id=" + formField.id + " type=" + formField.type + "\n");
@@ -173,31 +163,46 @@ const FhcFormSaveOverlay = {
           case "radio":
           case "checkbox":
                 //dump("field id=" + formField.id + " type=" + formField.type + " checked=" + formField.checked + "\n");
-                formElement.id = this._getId(formField);
-                formElement.name = (formField.name) ? formField.name : "";
-                formElement.type = formField.type;
-                formElement.selected = formField.checked;
-                this.dbHandler.saveFormElement(formElement);
+                allFormElements.push({
+                  id: this._getId(formField),
+                  name: (formField.name) ? formField.name : "",
+                  type: formField.type,
+                  selected: formField.checked,
+                  formid: formFormid,
+                  host: formHost,
+                  url: uri.spec,
+                  saved: now
+                });
                 break;
           case "select":
           case "select-multiple":
           case "select-one":
-                dump("select field:\n");
+                //dump("select field:\n");
                 if (formField.options) {
                   var option;
                   for (var j=0; j<formField.options.length; j++) {
                     option = formField.options[j];
                     // option may contain attribute label and/or value, if both missing use the text-content
                     //dump("- option id=" + option.id + " value=" + option.value + " selected=" + option.selected + "\n");
-                    formElement.id = this._getId(formField);
-                    formElement.name = option.value;
-                    formElement.type = formField.type;
-                    formElement.selected = option.selected;
-                    this.dbHandler.saveFormElement(formElement);
+                    allFormElements.push({
+                      id: this._getId(formField),
+                      name: option.value,
+                      type: formField.type,
+                      selected: option.selected,
+                      formid: formFormid,
+                      host: formHost,
+                      url: uri.spec,
+                      saved: now
+                    });
                   }
                 }
                 break;
          }
+      }
+      
+      if (0 < allFormElements.length) {
+        this.dbHandler.saveFormElements(allFormElements);
+        allFormElements = [];
       }
     }
     //dump("FhcFormSaveOverlay::onSubmit done.\n");
