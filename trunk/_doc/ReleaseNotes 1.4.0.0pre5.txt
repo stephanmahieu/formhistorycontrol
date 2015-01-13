@@ -1,0 +1,14 @@
+User:
+- 
+
+Technical:
+- Resolve Mozilla validation warnings:
+  - nsITreeView interface change
+  - unsafe use of innerHTML
+  - deprecated nsIPrefBranch2, nsILocalFile and nsIPrivateBrowsingService
+- minVersion Firefox from 3.0.9 to 22.0
+- minVersion SeaMonkey from 2.0a3 to 2.19 (gecko 22)
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
