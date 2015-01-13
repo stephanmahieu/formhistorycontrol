@@ -2579,7 +2579,6 @@ FhcDbHandler.prototype = {
         statement.params.lastsaved = deleteIfOlder;
         result = this._executeStatement(statement);
       } finally {
-        this._closeStatement(statement);
         this._closeDbConnection(mDBConn, result);
       }
     }
