@@ -200,11 +200,6 @@ const FhcUtil = {
   showTrayMessage: function(id, infoMessage, showTime) {
     var document = window.getBrowser().contentDocument;
 
-    // when to use css property -moz-border-radius or border-radius (2.0)
-    var geckoVer = FhcUtil.getGeckoVersion();
-    var radius = ('2' == geckoVer[0]) ? 'border-radius' : '-moz-border-radius';
-    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
-
     // outer div
     var div = document.createElement('div');
     div.setAttribute('id', id);
@@ -212,8 +207,8 @@ const FhcUtil = {
       'position:fixed; z-index:20000; cursor:default; ' +
       'bottom:0; right:0; padding:0px; margin:0 10px 10px 0;' +
       'background-color:#000; opacity: 0.70;' +
-      '' + shadow + ': 3px 3px 3px rgba(0, 0, 0, 0.4);' +
-      '' + radius + ': 5px; border:2px outset #585B5C');
+      'box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);' +
+      'border-radius: 5px; border:2px outset #585B5C');
     div.addEventListener("click", function(){this.style.display='none';}, false);
 
     // inner div holding the message with an image
