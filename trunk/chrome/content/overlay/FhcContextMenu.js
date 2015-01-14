@@ -1090,14 +1090,10 @@ const FhcContextMenu = {
       fldName = '\u00a0'; //&nbsp;
     }
 
-    // when to use css property -moz-border-radius or border-radius (2.0)
-    var geckoVer = FhcUtil.getGeckoVersion();
-    var shadow = ('2' == geckoVer[0]) ? 'box-shadow' : '-moz-box-shadow';
-
     var style = 'display:block; border:1px solid #000; padding: 0 4px; ' +
       'background-color:#FFFFAA; color:#000; opacity: 0.75; ' +
       'font: bold 11px sans-serif; text-decoration:none; text-align:left; ' +
-      'z-index: 1000; cursor:default; ' + shadow + ': 3px 3px 2px black; ';
+      'z-index: 1000; cursor:default; box-shadow: 3px 3px 2px black; ';
 
     var compstyle = document.defaultView.getComputedStyle(sourceElem, null);
     var width = parseInt(compstyle.getPropertyValue("width").replace('px', ''));
