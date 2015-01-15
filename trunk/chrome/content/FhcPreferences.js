@@ -347,17 +347,19 @@ const FhcPreferences = {
     try {
       document.getElementById("fhc-size").value = this.dbHandler.cleanupFile.fileSize + " bytes";
       document.getElementById("fhc-datacount1").value =
-        "criteria::" + this.dbHandler.getNoOfCleanupAndProtectItems();
+        "criteria: " + this.dbHandler.getNoOfCleanupAndProtectItems();
       document.getElementById("fhc-datacount2").value =
-        "regexp::" + this.dbHandler.getNoOfRegexpItems();
+        "regexp: " + this.dbHandler.getNoOfRegexpItems();
       document.getElementById("fhc-datacount3").value =
-        "multiline::" + this.dbHandler.getNoOfMultilineItems();
+        "multiline: " + this.dbHandler.getNoOfMultilineItems();
       document.getElementById("fhc-datacount4").value =
-        "customsave::" + this.dbHandler.getNoOfCustomsaveItems();
+        "customsave: " + this.dbHandler.getNoOfCustomsaveItems();
+      document.getElementById("fhc-datacount5").value =
+        "formelements: " + this.dbHandler.getNoOfFormelementItems();
     }
     catch(ex) {
-      // when preferences is shown but the extension itself has never been opened yet,
-      // the cleanupFile does not exist yet causing an exception reading the  fileSize .
+      // when preferences is shown but the add-on itself has never been opened yet,
+      // the cleanupFile does not exist yet causing an exception reading fileSizes.
     }
   },
 
