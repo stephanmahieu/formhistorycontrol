@@ -2237,8 +2237,7 @@ FhcDbHandler.prototype = {
       this._closeDbConnection(mDBConn, true);
     }
     return count > 0;
-  },
-  
+  },  
 
 
 
@@ -2585,6 +2584,31 @@ FhcDbHandler.prototype = {
     return result ? count : 0;
   },
 
+  /**
+   * Return the total number of formelements entries in the database.
+   *
+   * @return {Integer}
+   *         the total number of formelements entries in the database
+   */
+  getNoOfFormelementItems: function() {
+    var mDBConn = this._getDbCleanupConnection();
+    
+    var count = 0, statement;
+    try {
+      statement = mDBConn.createStatement(
+          "SELECT count(*)" +
+          "  FROM formelements");
+      if (statement.executeStep()) {
+        count = statement.getInt64(0);
+      }
+    } catch(ex) {
+      dump('getNoOfFormelementItems:Exception: ' + ex);
+    } finally {
+      this._closeStatement(statement);
+      this._closeDbConnection(mDBConn, true);
+    }
+    return count;
+  },
 
 
 
