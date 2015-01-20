@@ -131,12 +131,18 @@ const FhcMultilineListDialog = {
   },
 
   selectAll: function() {
-    this._getSelection().selectAll();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.selectAll();
+    }
     this.initEditButtons();
   },
   
   selectNone: function() {
-    this._getSelection().clearSelection();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.clearSelection();
+    }
     this.initEditButtons();
   },
 
@@ -168,8 +174,10 @@ const FhcMultilineListDialog = {
       this.treeBox.rowCountChanged(this.data.length-1, 1);
 
       // select new item
-      var selection = this._getSelection()
-      selection.select(this.data.length-1);
+      var selection = this._getSelection();
+      if (selection) {
+        selection.select(this.data.length-1);
+      }
 
       // re-apply sort
       this._sortColumn();
@@ -227,7 +235,9 @@ const FhcMultilineListDialog = {
         curSelectedIndex = this.data.length-1;
       }
       var selection = this._getSelection();
-      selection.select(curSelectedIndex);
+      if (selection) {
+        selection.select(curSelectedIndex);
+      }
     }
 
     this.initEditButtons();
@@ -283,7 +293,10 @@ const FhcMultilineListDialog = {
     // select and scroll edited item (back) into view
     var index = this._getDataIndex(item);
     if (-1 < index) {
-      this._getSelection().select(index);
+      var selection = this._getSelection();
+      if (selection) {
+        selection.select(index);
+      }
       this.treeBox.ensureRowIsVisible(index);
     }
     
@@ -423,6 +436,9 @@ const FhcMultilineListDialog = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return 0;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -444,6 +460,9 @@ const FhcMultilineListDialog = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return selected;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -487,7 +506,10 @@ const FhcMultilineListDialog = {
    */
   _restoreSelectionFast: function() {
     var selection = this._getSelection();
-
+    if (!selection) {
+      return;
+    }
+    
     // clear the current selection
     selection.clearSelection();
 
@@ -517,10 +539,12 @@ const FhcMultilineListDialog = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
-    var rangeCount = selection.getRangeCount();
-    if (rangeCount > 0) {
-      selection.getRangeAt(0,start,end);
-      return start.value;
+    if (selection) {
+      var rangeCount = selection.getRangeCount();
+      if (rangeCount > 0) {
+        selection.getRangeAt(0,start,end);
+        return start.value;
+      }
     }
     return 0;
   },
@@ -534,7 +558,10 @@ const FhcMultilineListDialog = {
   _getSelection: function() {
     var tbox = this.treeBox;
     var view = tbox.view;
-    return view.selection;
+    if (view.selection) {
+      return view.selection;
+    }
+    return null;
   },
 
   /**

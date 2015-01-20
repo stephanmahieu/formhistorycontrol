@@ -267,14 +267,20 @@ const MultilineWindowControl = {
    * Select all items.
    */
   selectAll: function() {
-    this._getSelection().selectAll();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.selectAll();
+    }
   },
   
   /**
    * Deselect all items.
    */
   selectNone: function() {
-    this._getSelection().clearSelection();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.clearSelection();
+    }
   },
 
   /**
@@ -473,6 +479,9 @@ const MultilineWindowControl = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return selected;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -504,6 +513,9 @@ const MultilineWindowControl = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return 0;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -541,7 +553,10 @@ const MultilineWindowControl = {
   _getSelection: function() {
     var tbox = this.treeBox;
     var view = tbox.view;
-    return view.selection;
+    if (view.selection) {
+      return view.selection;
+    }
+    return null;
   },
   
   /**
