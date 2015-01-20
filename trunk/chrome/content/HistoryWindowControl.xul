@@ -19,6 +19,7 @@
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/CleanupProtectView.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/MultilineWindowControl.js" />
+  <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcAlignFieldsHistoryWindowControl.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcCleanupFilter.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcDbHandler.js" />
   <script type="application/x-javascript" src="chrome://formhistory/content/utils/FhcBundle.js" />
@@ -1254,48 +1255,7 @@
 
   <script type="application/x-javascript">
   <![CDATA[
-    // align lefthand labels of advanced search (can't use grid there)
-    function FhcAlignAdvancedSearchLabels(event) {
-      var labelLeftIds = new Array(
-        "adv_fieldname_label",
-        "adv_fieldvalue_label",
-        "adv_times_from_label",
-        "adv_usedfirst_from_label",
-        "adv_usedlast_from_label"
-      );
-      var advSearchBox = document.getElementById("advanced-search");
-      var smpSearchBox = document.getElementById("simple-search");
-      var oldHidden = advSearchBox.hidden;
-      
-      // display advanced search (if hidden, clientSize is reported as 0)
-      if (advSearchBox.hidden) {
-        advSearchBox.hidden = false;
-      }
-
-      var maxWidth = 0;
-      for (var it=0; it<labelLeftIds.length; it++) {
-        maxWidth = Math.max(maxWidth, document.getElementById(labelLeftIds[it]).clientWidth);
-      }
-      if (0 < maxWidth) {
-        for (var id=0; id<labelLeftIds.length; id++) {
-          document.getElementById(labelLeftIds[id]).width = String(maxWidth);
-        }
-      }
-
-      // adjust height of search textbox (type autocomplete) to match search-textbox
-      // document.getElementById("adv_fieldname").height =
-      //    String(document.getElementById("adv_fieldvalue").clientHeight);
-
-      if (oldHidden) {
-        advSearchBox.hidden = oldHidden;
-      }
-
-      // make sure we have always one box visible: advanced/simple
-      if (smpSearchBox.hidden == oldHidden) {
-        smpSearchBox.hidden = !oldHidden;
-      }
-    }
-    window.addEventListener("DOMContentLoaded", FhcAlignAdvancedSearchLabels, true);
+    window.addEventListener("DOMContentLoaded", FhcAlignFieldsHistoryWindowControl.alignSearchLabelsAdvancedSearch, true);
   // ]]>
   </script>
 </window>
