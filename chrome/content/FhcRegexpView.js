@@ -190,14 +190,20 @@ const FhcRegexpView = {
    * Select all items.
    */
   selectAll: function() {
-    this._getSelection().selectAll();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.selectAll();
+    }
   },
   
   /**
    * Deselect all items.
    */
   selectNone: function() {
-    this._getSelection().clearSelection();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.clearSelection();
+    }
   },
 
   /**
@@ -261,6 +267,9 @@ const FhcRegexpView = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return selected;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -290,6 +299,9 @@ const FhcRegexpView = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+      return 0;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -362,7 +374,10 @@ const FhcRegexpView = {
   _getSelection: function() {
     var tbox = this.treeBox;
     var view = tbox.view;
-    return view.selection;
+    if (view.selection) {
+      return view.selection;
+    }
+    return null;
   },
 
   _applyFilter: function() {
@@ -474,7 +489,10 @@ const FhcRegexpView = {
         // select and scroll new item into view
         var index = this._findRegexpIndex(newRegexp.id);
         if (-1 < index) {
-          this._getSelection().select(index);
+          var selection = this._getSelection();
+          if (selection) {
+            selection.select(index);
+          }
           this.treeBox.ensureRowIsVisible(index);
         }
       }
@@ -539,7 +557,10 @@ const FhcRegexpView = {
             // select and scroll edited item into view
             index = this._findRegexpIndex(editRegexp.id);
             if (-1 < index) {
-              this._getSelection().select(index);
+              var selection = this._getSelection();
+              if (selection) {
+                selection.select(index);
+              }
               this.treeBox.ensureRowIsVisible(index);
             }
           }
@@ -615,7 +636,10 @@ const FhcRegexpView = {
     // select and scroll edited item (back) into view
     var index = this._findRegexpIndex(regexp.id);
     if (-1 < index) {
-      this._getSelection().select(index);
+      var selection = this._getSelection();
+      if (selection) {
+        selection.select(index);
+      }
       this.treeBox.ensureRowIsVisible(index);
     }
   },
@@ -833,7 +857,9 @@ const FhcRegexpView = {
    */
   _restoreSelectionFast: function() {
     var selection = this._getSelection();
-
+    if (!selection) {
+      return;
+    }
     // clear the current selection
     selection.clearSelection();
 

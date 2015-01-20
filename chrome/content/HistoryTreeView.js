@@ -193,7 +193,11 @@ HistoryTreeView.prototype = {
 
   // Get the current selected column
   getSelectedColumn: function() {
-    return this._getSelection().currentColumn;
+    var selection = this._getSelection();
+    if (selection) {
+      return selection.currentColumn;
+    }
+    return null;
   },
 
   // get selected entries
@@ -202,6 +206,9 @@ HistoryTreeView.prototype = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+        return selected;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -246,6 +253,9 @@ HistoryTreeView.prototype = {
     var start = new Object();
     var end = new Object();
     var selection = this._getSelection();
+    if (!selection) {
+        return 0;
+    }
     var rangeCount = selection.getRangeCount();
     for (var r = 0; r < rangeCount; r++) {
       selection.getRangeAt(r,start,end);
@@ -265,7 +275,10 @@ HistoryTreeView.prototype = {
     // if new item is visible (not filterd out), select and scroll into view
     var index = this._getDataIndex(entry.id);
     if (-1 < index) {
-      this._getSelection().select(index);
+      var selection = this._getSelection();
+      if (selection) {
+        selection.select(index);
+      }
       this.treeBox.ensureRowIsVisible(index);
     }
   },
@@ -310,7 +323,10 @@ HistoryTreeView.prototype = {
     }
     if (index < this.rowCount) {
       this.treeBox.ensureRowIsVisible(index);
-      this._getSelection().toggleSelect(index);
+      var selection = this._getSelection();
+      if (selection) {
+        selection.toggleSelect(index);
+      }
     }
   },
   
@@ -343,67 +359,79 @@ HistoryTreeView.prototype = {
   // Select al entries in the tree with the given value
   selectEntriesByValue: function(aValue) {
     var selection = this._getSelection();
-    var firstSelect;
-    
-    // iterate over all entries
-    for (var it=0; it < this.data.length; it++) {
-      if (this.data[it].value == aValue) {
-        selection.toggleSelect(it);
-        if (!firstSelect) firstSelect = it;
+    if (selection) {
+      var firstSelect;
+
+      // iterate over all entries
+      for (var it=0; it < this.data.length; it++) {
+        if (this.data[it].value == aValue) {
+          selection.toggleSelect(it);
+          if (!firstSelect) firstSelect = it;
+        }
       }
-    }
-    if (firstSelect) {
-      this.treeBox.ensureRowIsVisible(firstSelect);
+      if (firstSelect) {
+        this.treeBox.ensureRowIsVisible(firstSelect);
+      }
     }
   },
 
   // Select al entries in the tree by Index from the aIndices array
   selectEntriesByIndex: function(aIndices) {
     var selection = this._getSelection();
-    var firstSelect;
+    if (selection) {
+      var firstSelect;
 
-    // iterate over all indices
-    for (var it=0; it < aIndices.length; it++) {
-      selection.toggleSelect(aIndices[it]);
-      if (!firstSelect) firstSelect = aIndices[it];
-    }
-    if (firstSelect) {
-      this.treeBox.ensureRowIsVisible(firstSelect);
+      // iterate over all indices
+      for (var it=0; it < aIndices.length; it++) {
+        selection.toggleSelect(aIndices[it]);
+        if (!firstSelect) firstSelect = aIndices[it];
+      }
+      if (firstSelect) {
+        this.treeBox.ensureRowIsVisible(firstSelect);
+      }
     }
   },
   
   // Select all
   selectAll: function() {
-    this._getSelection().selectAll();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.selectAll();
+    }
   },
   
   // Deselect all
   selectNone: function() {
-    this._getSelection().clearSelection();
+    var selection = this._getSelection();
+    if (selection) {
+      selection.clearSelection();
+    }
   },
   
   // Invert selection
   selectInvert: function() {
     var selection = this._getSelection();
-    // method selection.invertSelection() is not implemented!
-    this.beginBatch();
+    if (selection) {
+      // method selection.invertSelection() is not implemented!
+      this.beginBatch();
 
-    var beginRange, isSelected;
-    for (var it=0; it < this.data.length; it++) {
-      //selection.toggleSelect(it);
-      isSelected = selection.isSelected(it);
-      beginRange = it;
-      while(it+1<this.data.length && isSelected==selection.isSelected(it+1)) {
-        ++it;
+      var beginRange, isSelected;
+      for (var it=0; it < this.data.length; it++) {
+        //selection.toggleSelect(it);
+        isSelected = selection.isSelected(it);
+        beginRange = it;
+        while(it+1<this.data.length && isSelected==selection.isSelected(it+1)) {
+          ++it;
+        }
+        if (isSelected) {
+          selection.clearRange(beginRange, it);
+        } else {
+          selection.rangedSelect(beginRange, it, true);
+        }
       }
-      if (isSelected) {
-        selection.clearRange(beginRange, it);
-      } else {
-        selection.rangedSelect(beginRange, it, true);
-      }
+      
+      this.endBatch();
     }
-
-    this.endBatch();
   },
 
   // Test if a given entry already exists
@@ -489,7 +517,10 @@ HistoryTreeView.prototype = {
   _getSelection: function() {
     var tbox = this.treeBox;
     var view = tbox.view;
-    return view.selection;
+    if (view.selection) {
+        return view.selection;
+    }
+    return null;
   },
 
   // Store data for viewing/filtering + extra backup store (unfiltered)
@@ -693,8 +724,10 @@ HistoryTreeView.prototype = {
   // restore the selection very fast later on
   _saveSelectionFast: function() {
     var selection = this._getSelection();
-    for (var ii=0; ii < this.data.length; ii++) {
-      this.data[ii]._tmpSelected = selection.isSelected(ii);
+    if (selection) {
+      for (var ii=0; ii < this.data.length; ii++) {
+        this.data[ii]._tmpSelected = selection.isSelected(ii);
+      }
     }
   },
 
@@ -703,6 +736,9 @@ HistoryTreeView.prototype = {
   // Only works when the data itself is not changed between save & restore!
   _restoreSelectionFast: function() {
     var selection = this._getSelection();
+    if (!selection) {
+        return;
+    }
 
     // clear the current selection
     selection.clearSelection();
