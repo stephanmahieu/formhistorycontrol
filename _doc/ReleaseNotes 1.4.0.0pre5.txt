@@ -1,5 +1,7 @@
 User:
-- 
+- Improvement: Adjust orientation (vertical) of menu dropdown-arrow of fhc-icon
+  when inserted into the menu-panel
+  (see  https://developer.mozilla.org/en-US/Firefox/Australis_add-on_compat)
 
 Technical:
 - Resolve Mozilla validation warnings:

@@ -1,59 +1,71 @@
 
 #formhistctrl-toolbarbutton {
-  list-style-image: url('fh_icon_24.png')
+  list-style-image: url('fh_icon_24.png');
+  -moz-box-orient: horizontal;
 }
 #formhistctrl-toolbarbutton[savestate='nosave'] {
-  list-style-image: url('fh_icon_24_nosave.png')
+  list-style-image: url('fh_icon_24_nosave.png');
+  -moz-box-orient: horizontal;
 }
 #formhistctrl-toolbarbutton[savestate='dosave'] {
-  list-style-image: url('fh_icon_24_dosave.png')
+  list-style-image: url('fh_icon_24_dosave.png');
+  -moz-box-orient: horizontal;
 }
 #formhistctrl-toolbarbutton[savestate='neversave'] {
-  list-style-image: url('fh_icon_24_neversave.png')
+  list-style-image: url('fh_icon_24_neversave.png');
+  -moz-box-orient: horizontal;
 }
 
 /* Icons (32x32) for menu panel (Australis) */
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon_32.png');
+  -moz-box-orient: vertical;
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='nosave'],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton  {
-  list-style-image: url('fh_icon_32_nosave.png')
+  list-style-image: url('fh_icon_32_nosave.png');
+  -moz-box-orient: vertical;
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='dosave'],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton  {
-  list-style-image: url('fh_icon_32_dosave.png')
+  list-style-image: url('fh_icon_32_dosave.png');
+  -moz-box-orient: vertical;
 }
 #formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='neversave'] ,
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
-  list-style-image: url('fh_icon_32_neversave.png')
+  list-style-image: url('fh_icon_32_neversave.png');
+  -moz-box-orient: vertical;
 }
 
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon.png');
+  -moz-box-orient: horizontal;
 }
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='nosave'] {
-  list-style-image: url('fh_icon_nosave.png')
+  list-style-image: url('fh_icon_nosave.png');
+  -moz-box-orient: horizontal;
 }
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='dosave'] {
-  list-style-image: url('fh_icon_dosave.png')
+  list-style-image: url('fh_icon_dosave.png');
+  -moz-box-orient: horizontal;
 }
 toolbar[iconsize="small"] #formhistctrl-toolbarbutton[savestate='neversave'] {
-  list-style-image: url('fh_icon_neversave.png')
+  list-style-image: url('fh_icon_neversave.png');
+  -moz-box-orient: horizontal;
 }
 
 #formhistctrl-statusbarmenu {
-  list-style-image: url('fh_icon.png')
+  list-style-image: url('fh_icon.png');
 }
 #formhistctrl-statusbarmenu[savestate='nosave'] {
-  list-style-image: url('fh_icon_nosave.png')
+  list-style-image: url('fh_icon_nosave.png');
 }
 #formhistctrl-statusbarmenu[savestate='dosave'] {
-  list-style-image: url('fh_icon_dosave.png')
+  list-style-image: url('fh_icon_dosave.png');
 }
 #formhistctrl-statusbarmenu[savestate='neversave'] {
-  list-style-image: url('fh_icon_neversave.png')
+  list-style-image: url('fh_icon_neversave.png');
 }
 
 
