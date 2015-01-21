@@ -197,8 +197,7 @@
                    type="menu"
                    context=""
                    label="&fhmnuovl.menu.main.manager.label;"
-                   tooltiptext="&fhmnuovl.menuitem.manager.label;"
-                   orient="horizontal">
+                   tooltiptext="&fhmnuovl.menuitem.manager.label;">
       <menupopup id="formhistctrl-toolbarmenu-popup">
         <menuitem id="formhistctrl_tbmenuitem_manager"
                   class="menuitem-iconic fh_menuitem_manager"
