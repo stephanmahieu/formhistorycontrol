@@ -14,22 +14,40 @@
   list-style-image: url('fh_icon_24_neversave.png');
 }
 
-/* Icons (32x32) for menu panel (and customization palette) (Australis) */
-#formhistctrl-toolbarbutton[cui-areatype="menu-panel"],
+/* Icons (32x32) for menu panel (Australis) */
+#formhistctrl-toolbarbutton[cui-areatype="menu-panel"] {
+  list-style-image: url('fh_icon_32.png');
+  -moz-image-region: rect(32px 32px 64px 0px);
+}
+#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='nosave'] {
+  list-style-image: url('fh_icon_32_nosave.png');
+  -moz-image-region: rect(32px 32px 64px 0px);
+}
+#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='dosave'] {
+  list-style-image: url('fh_icon_32_dosave.png');
+  -moz-image-region: rect(32px 32px 64px 0px);
+}
+#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='neversave']{
+  list-style-image: url('fh_icon_32_neversave.png');
+  -moz-image-region: rect(32px 32px 64px 0px);
+}
+
+/* Gray icons (32x32) for customization palette (Australis) */
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon_32.png');
+  -moz-image-region: rect(0px 32px 32px 0px);
 }
-#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='nosave'],
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='nosave'] {
   list-style-image: url('fh_icon_32_nosave.png');
+  -moz-image-region: rect(0px 32px 32px 0px);
 }
-#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='dosave'],
-toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton[savestate='dosave'] {
+toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='dosave'] {
   list-style-image: url('fh_icon_32_dosave.png');
+  -moz-image-region: rect(0px 32px 32px 0px);
 }
-#formhistctrl-toolbarbutton[cui-areatype="menu-panel"][savestate='neversave'],
-toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton[savestate='neversave'] {
+toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='neversave']{
   list-style-image: url('fh_icon_32_neversave.png');
+  -moz-image-region: rect(0px 32px 32px 0px);
 }
 
 toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton dropmarker {
