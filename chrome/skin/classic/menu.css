@@ -37,15 +37,15 @@ toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton {
   list-style-image: url('fh_icon_32.png');
   -moz-image-region: rect(0px 32px 32px 0px);
 }
-toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='nosave'] {
+toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton[savestate='nosave'] {
   list-style-image: url('fh_icon_32_nosave.png');
   -moz-image-region: rect(0px 32px 32px 0px);
 }
-toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='dosave'] {
+toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton[savestate='dosave'] {
   list-style-image: url('fh_icon_32_dosave.png');
   -moz-image-region: rect(0px 32px 32px 0px);
 }
-toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton [savestate='neversave']{
+toolbarpaletteitem[place="palette"] > #formhistctrl-toolbarbutton[savestate='neversave']{
   list-style-image: url('fh_icon_32_neversave.png');
   -moz-image-region: rect(0px 32px 32px 0px);
 }
