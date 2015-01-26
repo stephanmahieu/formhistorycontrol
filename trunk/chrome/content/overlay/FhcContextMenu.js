@@ -1145,7 +1145,7 @@ const FhcContextMenu = {
     innerDiv.setAttribute('style', 
       'display:none; background-color:#FFDCCF; margin:5px; padding:5px; ' +
       'font-weight: normal; border:1px inset #FFDCCF; ' +
-      '' + shadow + ': inset 0 0 8px rgba(55, 20, 7, 0.5)');
+      'box-shadow: inset 0 0 8px rgba(55, 20, 7, 0.5)');
     innerDiv.appendChild(this._getFormInfoHTML(sourceElem, document));
 
     return div;
