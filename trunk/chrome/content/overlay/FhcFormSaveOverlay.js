@@ -160,6 +160,21 @@ const FhcFormSaveOverlay = {
         formField = formElements[i];
         //dump("###field id=" + formField.id + " type=" + formField.type + "\n");
         switch(formField.type){
+          case "number":
+          case "range":
+          case "color":
+                allFormElements.push({
+                  id: this._getId(formField),
+                  name: (formField.name) ? formField.name : "",
+                  type: formField.type,
+                  selected: 1,
+                  value: formField.value,
+                  formid: formFormid,
+                  host: formHost,
+                  url: uri.spec,
+                  saved: now
+                });
+                break;          
           case "radio":
           case "checkbox":
                 //dump("field id=" + formField.id + " type=" + formField.type + " checked=" + formField.checked + "\n");
@@ -168,6 +183,7 @@ const FhcFormSaveOverlay = {
                   name: (formField.name) ? formField.name : "",
                   type: formField.type,
                   selected: formField.checked,
+                  value: null,
                   formid: formFormid,
                   host: formHost,
                   url: uri.spec,
@@ -189,6 +205,7 @@ const FhcFormSaveOverlay = {
                       name: option.value,
                       type: formField.type,
                       selected: option.selected,
+                      value: null,
                       formid: formFormid,
                       host: formHost,
                       url: uri.spec,

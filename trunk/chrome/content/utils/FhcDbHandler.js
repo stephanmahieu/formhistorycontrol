@@ -2237,7 +2237,7 @@ FhcDbHandler.prototype = {
       this._closeDbConnection(mDBConn, true);
     }
     return count > 0;
-  },  
+  },
 
 
 
@@ -2358,9 +2358,9 @@ FhcDbHandler.prototype = {
     try {
       statement = mDBConn.createStatement(
         "INSERT INTO formelements (" +
-                "id, name, type, formid, selected, " +
+                "id, name, type, formid, selected, value, " +
                 "host, url, timesused, firstsaved, lastsaved) " +
-        "VALUES (:id, :name, :type, :formid, :selected, " +
+        "VALUES (:id, :name, :type, :formid, :selected, :value, " +
                 ":host, :url, :timesused, :saved, :saved)");
       for(var ii=0; ii < allFormElements.length; ii++) {
         if (allFormElements[ii].selected) {
@@ -2369,6 +2369,7 @@ FhcDbHandler.prototype = {
           statement.params.type       = allFormElements[ii].type;
           statement.params.formid     = allFormElements[ii].formid;
           statement.params.selected   = allFormElements[ii].selected;
+          statement.params.value      = allFormElements[ii].value;
           statement.params.host       = allFormElements[ii].host;
           statement.params.url        = allFormElements[ii].url;
           statement.params.timesused  = 1;
@@ -2420,15 +2421,16 @@ FhcDbHandler.prototype = {
     try {
       statement = mDBConnection.createStatement(
         "INSERT INTO formelements (" +
-                "id, name, type, formid, selected, " +
+                "id, name, type, formid, selected, value," +
                 "host, url, timesused, firstsaved, lastsaved) " +
-        "VALUES (:id, :name, :type, :formid, :selected, " +
+        "VALUES (:id, :name, :type, :formid, :selected, :value, " +
                 ":host, :url, :timesused, :saved, :saved)");
       statement.params.id         = item.id;
       statement.params.name       = item.name;
       statement.params.type       = item.type;
       statement.params.formid     = item.formid;
       statement.params.selected   = item.selected;
+      statement.params.value      = item.value;
       statement.params.host       = item.host;
       statement.params.url        = item.url;
       statement.params.timesused  = item.timesused;
@@ -2459,6 +2461,7 @@ FhcDbHandler.prototype = {
       statement = mDBConnection.createStatement(
         "UPDATE formelements" +
         "   SET selected  = :selected," +
+        "       value     = :value," +
         "       timesused = :timesused," +
         "       lastsaved = :saved" +
         " WHERE host   = :host" +
@@ -2472,6 +2475,7 @@ FhcDbHandler.prototype = {
       statement.params.name     = item.name;
       statement.params.type     = item.type;
       statement.params.selected = item.selected;
+      statement.params.value    = item.value;
       statement.params.timesused= item.timesused;
       statement.params.saved    = item.saved;
       result = this._executeStatement(statement);
@@ -2508,7 +2512,7 @@ FhcDbHandler.prototype = {
     try {
       statement = mDBConn.createStatement(
           "SELECT host, formid, url, type," +
-          "       id, name, selected, timesused, lastsaved" +
+          "       id, name, selected, value, timesused, lastsaved" +
           "  FROM formelements" +
           " WHERE host   = :host" +
           "   AND formid = :formid" +
@@ -2528,6 +2532,7 @@ FhcDbHandler.prototype = {
           type:      statement.row.type,
           formid:    statement.row.formid,
           selected:  (statement.row.selected === 0) ? false : true,
+          value:     statement.row.value,
           host:      statement.row.host,
           url:       statement.row.url,
           timesused: statement.row.timesused,
@@ -3144,17 +3149,35 @@ FhcDbHandler.prototype = {
           " id          TEXT," +
           " name        TEXT," +
           " selected    BOOL," +
+          " value       TEXT," +
           " timesused   INTEGER," +
           " firstsaved  INTEGER," +
           " lastsaved   INTEGER)"
         );
         mDBConnection.executeSimpleSQL(
-          "CREATE INDEX IF NOT EXISTS formelements_index_multi " +
-          "ON multiline (host, formid, id, name, type)"
+          "CREATE INDEX IF NOT EXISTS formelements_index2_multi " +
+          "ON formelements (host, formid, id, name, type)"
         );
       }
       catch(e) {
         dump("Migrate: Adding table formelements failed!\n\n" + e);
+        return false;
+      }
+    }
+    else if (10 == colCount) {
+      // Upgrade from version 1.1.4
+      dump("Migrate: Adding 1 column and index to the formelements table...\n");
+      try {
+        mDBConnection.executeSimpleSQL(
+          "ALTER TABLE formelements" +
+          "  ADD value TEXT DEFAULT null");
+        mDBConnection.executeSimpleSQL(
+          "CREATE INDEX IF NOT EXISTS formelements_index2_multi " +
+          "ON formelements (host, formid, id, name, type)"
+        );
+      }
+      catch(e) {
+        dump("Migrate: Adding 1 column to formelements failed!\n\n" + e);
         return false;
       }
     }
@@ -3180,12 +3203,12 @@ FhcDbHandler.prototype = {
     var mDBConnection = Components.classes["@mozilla.org/satchel/form-history;1"]
             .getService(Components.interfaces.nsIFormHistory2)
             .DBConnection;
-
+    
     if (transactional && true == transactional) {
       // Start a transaction
       this._startTransaction(mDBConnection);
     }
-
+    
     return mDBConnection;
   },
 
