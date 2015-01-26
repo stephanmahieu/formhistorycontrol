@@ -829,6 +829,16 @@ const FhcContextMenu = {
           };
 
           switch(formField.type){
+            case "number":
+            case "range":
+            case "color":
+                  formElementToFind.name = (formField.name) ? formField.name : "";
+                  storedElement = this.dbHandler.findFormElement(formElementToFind);
+                  if (storedElement) {
+                    formField.value = storedElement.value;
+                  }
+                  break;
+                  
             case "radio":
             case "checkbox":
                   formElementToFind.name = (formField.name) ? formField.name : "";
