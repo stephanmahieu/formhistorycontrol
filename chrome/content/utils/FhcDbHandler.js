@@ -83,6 +83,10 @@ function FhcDbHandler() {
   // Get the storageService
   this.storageService = Components.classes["@mozilla.org/storage/service;1"]
                           .getService(Components.interfaces.mozIStorageService);
+
+  // TODO Use the asynchronous FormHistory.jsm module where possible
+  // Get the FormHistory service (async access to db)
+  Components.utils.import('resource://gre/modules/FormHistory.jsm');
 }
 
 
@@ -109,24 +113,18 @@ FhcDbHandler.prototype = {
    */
   formhistoryDbReady: function() {
     if (!this.formHistoryFile.exists()) {
-      // try to force creation of database
       try {
-        var dummy = "dummy~";
-        var fhcDB = Components.classes["@mozilla.org/satchel/form-history;1"]
-              .getService(Components.interfaces.nsIFormHistory2);
-        fhcDB.addEntry(dummy, dummy);
-
+        // hopefully this triggers (async) creation of the db
+        FormHistory.update({op: "add", fieldname: "dummy", value: "dummy"});
+        
         // wait till db has been created or more than 500ms elapsed
-        //var main = Components.classes["@mozilla.org/thread-manager;1"]
-        //           .getService().mainThread;
         var start = new Date();
         while(!this.formHistoryFile.exists() && ((new Date())-start) < 500) {
           // XXX main.process Next Event(true);
         }
-        // cleanup
-        fhcDB.removeEntry(dummy, dummy);
       }
       finally {
+        FormHistory.update({op: "remove", fieldname: "dummy", value: "dummy"});
         return this.formHistoryFile.exists();
       }
     }
@@ -3200,9 +3198,7 @@ FhcDbHandler.prototype = {
    *         a databaseconnection to the database, null if connection failed
    */
   _getHistDbConnection: function(transactional) {
-    var mDBConnection = Components.classes["@mozilla.org/satchel/form-history;1"]
-            .getService(Components.interfaces.nsIFormHistory2)
-            .DBConnection;
+    var mDBConnection = this.storageService.openDatabase(this.formHistoryFile);
     
     if (transactional && true == transactional) {
       // Start a transaction
@@ -3223,10 +3219,7 @@ FhcDbHandler.prototype = {
    *        rolled back, if true the transaction is committed
    */
   _endHistDbConnection: function(mDBConnection, result) {
-    if (mDBConnection.transactionInProgress) {
-      // end transaction
-      this._endTransaction(mDBConnection, result);
-    }
+    this._closeDbConnection(mDBConnection, result);
   },
 
 
