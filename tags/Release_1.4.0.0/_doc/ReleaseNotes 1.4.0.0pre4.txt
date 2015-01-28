@@ -1,0 +1,10 @@
+User:
+- Fix: Faster save mechanism storing history for radiobuttons/checkboxes/selects (prevent unresponsive script error for forms with a very large amount of select options)
+- Fix: Not all elements within a form were saved
+
+Technical:
+- Fix: Additional index on formelements table
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)

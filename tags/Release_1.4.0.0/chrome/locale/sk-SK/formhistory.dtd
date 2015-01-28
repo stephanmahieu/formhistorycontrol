@@ -1,0 +1,193 @@
+<!ENTITY fhwin.window.title "Kontrola histórie formulárov">
+<!ENTITY fhwin.historytab.formhistory "Zobraziť históriu">
+<!ENTITY fhwin.historytab.formhistory.accesskey "Z">
+<!ENTITY fhwin.historytab.cleanup "Vyčistiť">
+<!ENTITY fhwin.historytab.cleanup.accesskey "V">
+<!ENTITY fhwin.filter.label "Hľadať">
+<!ENTITY fhwin.filter.tooltip "Hľadať položky histórie, kde názov poľa alebo hodnota zodpovedá hľadanému výrazu">
+<!ENTITY fhwin.filter.accesskey "H">
+<!ENTITY fhwin.filter.advancedsearch "Pokročilé vyhľadávanie">
+<!ENTITY fhwin.filter.simplesearch "Jednoduché vyhľadávanie">
+<!ENTITY fhwin.advancedfilter.fromto.from.label "od">
+<!ENTITY fhwin.advancedfilter.fromto.to.label "do">
+<!ENTITY fhwin.advancedfilter.enterdatetime.tooltip "Vložte dátum a čas">
+<!ENTITY fhwin.checkbox.matchcase.label "Rozlišovať veľkosť písmen">
+<!ENTITY fhwin.checkbox.matchcase.accesskey "r">
+<!ENTITY fhwin.treeview.label "Položky histórie formulárov pre nasledujúce polia sú uložené vo vašom počítači">
+<!ENTITY fhwin.treeview.column.description.label "Popis">
+<!ENTITY fhwin.treeview.column.name.label "Názov poľa">
+<!ENTITY fhwin.treeview.column.value.label "Hodnota">
+<!ENTITY fhwin.treeview.column.used.label "Počet použití">
+<!ENTITY fhwin.treeview.column.first.label "Prvé použitie">
+<!ENTITY fhwin.treeview.column.last.label "Naposledy použité">
+<!ENTITY fhwin.treeview.column.agefirst.label "Vek prvého použitia">
+<!ENTITY fhwin.treeview.column.agelast.label "Vek posledného použitia">
+<!ENTITY fhwin.treeview.column.index.label "Index">
+<!ENTITY fhwin.checkbox.searchpageonly.label "Zobraziť iba z aktuálnej stránky">
+<!ENTITY fhwin.checkbox.searchpageonly.tooltip "Zobrazí iba položky histórie formulárov zhodujúcich sa s poliami z aktuálne zobrazenej HTML-stránky">
+<!ENTITY fhwin.checkbox.searchpageonly.accesskey "s">
+<!ENTITY fhwin.checkbox.searchfieldonly.label "Zobraziť iba z aktuálneho poľa">
+<!ENTITY fhwin.checkbox.searchfieldonly.tooltip "Zobrazí iba položky histórie formulárov zhodujúcich sa s názvami aktuálne vybraného poľa">
+<!ENTITY fhwin.checkbox.searchfieldonly.accesskey "a">
+<!ENTITY fhwin.checkbox.searchcleanuponly.label "Zobraziť iba vyhovujúce kritériám vyčistenia">
+<!ENTITY fhwin.checkbox.searchcleanuponly.tooltip "Zobrazí iba položky histórie formulárov vyhovujúcich kritériám vyčistenia">
+<!ENTITY fhwin.checkbox.searchcleanuponly.accesskey "v">
+<!ENTITY fhwin.button.clear.label "Vyčistiť">
+<!ENTITY fhwin.button.clear.accesskey "i">
+<!ENTITY fhwin.button.remove.label "Odstrániť">
+<!ENTITY fhwin.button.remove.accesskey "O">
+<!ENTITY fhwin.button.removeall.label "Odstrániť všetko">
+<!ENTITY fhwin.button.removeall.accesskey "v">
+<!ENTITY fhwin.button.add.label "Vložiť">
+<!ENTITY fhwin.button.add.accesskey "V">
+<!ENTITY fhwin.button.edit.label "Upraviť">
+<!ENTITY fhwin.button.edit.accesskey "U">
+<!ENTITY fhwin.button.close.label "Zavrieť">
+<!ENTITY fhwin.button.close.accesskey "a">
+<!ENTITY fhwin.menu.file.label "Súbor">
+<!ENTITY fhwin.menu.file.accesskey "S">
+<!ENTITY fhwin.menu.edit.label "Upraviť">
+<!ENTITY fhwin.menu.edit.accesskey "U">
+<!ENTITY fhwin.menu.view.label "Zobraziť">
+<!ENTITY fhwin.menu.view.accesskey "Z">
+<!ENTITY fhwin.menu.tools.label "Nástroje">
+<!ENTITY fhwin.menu.tools.accesskey "N">
+<!ENTITY fhwin.menu.help.label "Pomoc">
+<!ENTITY fhwin.menu.help.accesskey "P">
+<!ENTITY fhwin.menuitem.insert.label "Vložiť nový">
+<!ENTITY fhwin.menuitem.insert.accelkey "N">
+<!ENTITY fhwin.menuitem.edit.label "Upraviť">
+<!ENTITY fhwin.menuitem.edit.accelkey "U">
+<!ENTITY fhwin.menuitem.delete.label "Vymazať">
+<!ENTITY fhwin.menuitem.deleteallname.label "Vymazať všetky s rovnakým názvom">
+<!ENTITY fhwin.menuitem.deleteallvalue.label "Vymazať všetky s rovnakou hodnotou">
+<!ENTITY fhwin.menuitem.selectall.label "Vybrať všetko">
+<!ENTITY fhwin.menuitem.selectall.accelkey "V">
+<!ENTITY fhwin.menuitem.selectnone.label "Zrušiť výber">
+<!ENTITY fhwin.menuitem.selectinvert.label "Obrátiť výber">
+<!ENTITY fhwin.menuitem.addcleanup.label "Pridať ako kritériá vyčistenia">
+<!ENTITY fhwin.menuitem.addprotect.label "Pridať ako ochranné kritériá">
+<!ENTITY fhwin.menuitem.exportcsv.label "Exportovať kompletnú históriu ako CSV">
+<!ENTITY fhwin.menuitem.reloadview.label "Obnoviť">
+<!ENTITY fhwin.menuitem.close.label "Zavrieť">
+<!ENTITY fhwin.menuitem.options.label "Možnosti">
+<!ENTITY fhwin.menuitem.options.accelkey "M">
+<!ENTITY fhwin.menuitem.help.label "Obsah pomoci">
+<!ENTITY fhwin.menuitem.releasenotes.label "Poznámky k vydaniu">
+<!ENTITY fhwin.menuitem.about.label "O Kontrola histórie formulárov">
+<!ENTITY fhwin.cleanup.label "Kritériá pre odstránenie nežiadúcich údajov histórie formulárov">
+<!ENTITY fhwin.cleanup.timeusage.group.caption "Kritériá času/použitia">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label "Odstrániť všetky údaje histórie formulárov nepoužívaných v minulosti">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label2 "dní">
+<!ENTITY fhwin.cleanup.checkbox.daysused.accesskey "d">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label "Odstrániť všetky údaje histórie formulárov použitých menej ako">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label2 "krát">
+<!ENTITY fhwin.cleanup.checkbox.timesused.accesskey "k">
+<!ENTITY fhwin.cleanup.namevalue.group.caption "Názov/Hodnota kritéria">
+<!ENTITY fhwin.cleanup.tab.cleanup.label "Vyčistiť">
+<!ENTITY fhwin.cleanup.tab.cleanup.accesskey "č">
+<!ENTITY fhwin.cleanup.tab.protect.label "Nikdy nečistiť">
+<!ENTITY fhwin.cleanup.tab.protect.accesskey "N">
+<!ENTITY fhwin.cleanup.treeviewprotect.label "Nikdy neodstraňovať údaje histórie formulárov vyhovujúce párom názov/pole">
+<!ENTITY fhwin.cleanup.treeview.label "Odstrániť všetky údaje histórie vyhovujúce párom názov/pole">
+<!ENTITY fhwin.cleanup.treeview.column.nameexact.label "Presný názov">
+<!ENTITY fhwin.cleanup.treeview.column.namecase.label "Rozlišovanie v názve">
+<!ENTITY fhwin.cleanup.treeview.column.nameregexp.label "Názov RegExp">
+<!ENTITY fhwin.cleanup.treeview.column.valueexact.label "Presná hodnota">
+<!ENTITY fhwin.cleanup.treeview.column.valuecase.label "Rozlišovanie v hodnote">
+<!ENTITY fhwin.cleanup.treeview.column.valueregexp.label "Hodnota RegExp">
+<!ENTITY fhwin.cleanup.button.cleanupall.label "Vyčistiť všetky vyhovujúce údaje">
+<!ENTITY fhwin.cleanup.button.cleanupall.accesskey "y">
+<!ENTITY fhmnuovl.menu.main.manager.label "História formulára">
+<!ENTITY fhmnuovl.menuitem.manager.label "Kontrola histórie formulárov">
+<!ENTITY fhmnuovl.menuitem.deletevaluethis.label "Vymazať súčasnú hodnotu pre toto pole">
+<!ENTITY fhmnuovl.menuitem.deletethis.label "Vymazať kompletnú históriu pre toto pole">
+<!ENTITY fhmnuovl.menuitem.managethis.label "Spravovať položky pre toto pole">
+<!ENTITY fhmnuovl.menuitem.fillmostrecent.label "Vyplniť polia s najnovšími údajmi">
+<!ENTITY fhmnuovl.menuitem.fillmostused.label "Vyplniť polia s najčastejšími údajmi">
+<!ENTITY fhmnuovl.menuitem.clearfields.label "Vyčistiť všetky polia">
+<!ENTITY fhmnuovl.menuitem.cleanupnow.label "Vyčistiť históriu formulárov teraz">
+<!ENTITY fhmnuovl.menuitem.options.label "Možnosti">
+<!ENTITY fhentrydlg.windowtitle "Upraviť">
+<!ENTITY fhentrydlg.edit.description "Pridať existujúci údaj histórie formulárov">
+<!ENTITY fhentrydlg.add.description "Vložiť nový údaj histórie formulárov">
+<!ENTITY fhentrydlg.fieldname.label "Názov poľa">
+<!ENTITY fhentrydlg.value.label "Hodnota">
+<!ENTITY fhentrydlg.timesused.label "Počet použití">
+<!ENTITY fhentrydlg.firstused.label "Prvé použitie">
+<!ENTITY fhentrydlg.lastused.label "Naposledy použité">
+<!ENTITY fhentrydlg.blankfielderror.label "Nenechajte žiadne polia prázdne">
+<!ENTITY fhentrydlg.existerror.label "Položka histórie formulára s týmto menom a hodnotou už existuje">
+<!ENTITY fhcriteriadlg.windowtitle "Upraviť kritériá vyčistenia">
+<!ENTITY fhcriteriadlg.edit.description "Upraviť existujúce kritériá vyčistenia">
+<!ENTITY fhcriteriadlg.add.description "Vložiť nové kritériá vyčistenia">
+<!ENTITY fhcriteriadlg.description.label "Popis">
+<!ENTITY fhcriteriadlg.fieldname.label "Názov poľa">
+<!ENTITY fhcriteriadlg.value.label "Hodnota">
+<!ENTITY fhcriteriadlg.matchexact.label "Presná zhoda">
+<!ENTITY fhcriteriadlg.matchcase.label "Rozlišovať malé/veľké">
+<!ENTITY fhcriteriadlg.namevaluefieldsemptyerror.label "Vyplňte polia Názov poľa a Hodnota">
+<!ENTITY fhcriteriadlg.existerror.label "Kritériá s týmito vlastnosťami už existujú">
+<!ENTITY fhdatetimedlg.windowtitle "Dátum a čas">
+<!ENTITY fhdatetimedlg.description "Nastaviť dátum a čas">
+<!ENTITY fhdatetimedlg.date.label "Dátum">
+<!ENTITY fhdatetimedlg.time.label "Čas">
+<!ENTITY fhdatetimedlg.setzerotime.tooltip "Nastaviť čas na 0:00:00">
+<!ENTITY fhprefs.window.title "Predvoľby Kontroly histórie formulárov">
+<!ENTITY fhprefs.prefpane.miscellaneous.label "Rôzne">
+<!ENTITY fhprefs.group.preferences.caption "Predvoľby">
+<!ENTITY fhprefs.checkbox.searchCaseSensitive.label "Hľadanie rozlišuje malé a veľké písmená">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.label "Skryť históriu položiek spravovaných Firefox Login Manager-om">
+<!ENTITY fhprefs.checkbox.hideLoginmanagedFields.tooltip "Skryť názvy polí zapísaných v loginmanagerovi pre súčasné pole/stránku. Pri zobrazení celkovej histórie, všetky (možno príliš veľa) názvy polí zapísaných v loginmanagerovi budú skryté.">
+<!ENTITY fhprefs.group.warnings.caption "Zobraziť upozornenia">
+<!ENTITY fhprefs.checkbox.warnOnDeleteOne.label "Upozorniť pred vymazaním jednej položky">
+<!ENTITY fhprefs.checkbox.warnOnDeleteMultiple.label "Upozorniť pred vymazaním viacerých položiek">
+<!ENTITY fhprefs.prefpane.display.label "Zobraziť">
+<!ENTITY fhprefs.group.formhistoryitemsview.caption "Zobrazenie položiek histórie formulárov">
+<!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Použiť vlastný formát dátumu a času">
+<!ENTITY fhprefs.checkbox.defaultSearchCurrentPageChecked.label "Predvolená voľba zobrazenia je 'Hľadať iba na aktuálnej stránke'">
+<!ENTITY fhprefs.group.taskbar.caption "Panel úloh">
+<!ENTITY fhprefs.checkbox.showtaskbaricon.label "Zobraziť ikonu v systémovom paneli">
+<!ENTITY fhprefs.group.toolbar.caption "Panel nástrojov">
+<!ENTITY fhprefs.label.showtoolbaricon.label "Použite možnosť panela nástrojov Prispôsobiť.. pre pridanie ikony histórie formulárov">
+<!ENTITY fhprefs.image.showtoolbaricon.tooltiptext "Kliknite pravým tlačidlo na panel nástroj prehliadača a vyberte Prispôsobiť.. Môžete pridať Históriu formulárov pretiahnutím ikony na panel nástrojov.">
+<!ENTITY fhprefs.prefpane.quickfill.label "Rýchle vyplnenie">
+<!ENTITY fhprefs.group.quickfill.caption "Signalizácia rýchleho vyplnenia polí formulára">
+<!ENTITY fhprefs.checkbox.quickfillbgcolor.label "Zmeniť farbu pozadia">
+<!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Zmeniť farbu orámovania">
+<!ENTITY fhprefs.checkbox.quickfillborderwidth.label "Zmeniť hrúbku orámovania">
+<!ENTITY fhprefs.textbox.quickfillpreviewtest.label "Test">
+<!ENTITY fhprefs.textbox.quickfillpreviewtext "Náhľad">
+<!ENTITY fhprefs.prefpane.importexport.label "Import/Export">
+<!ENTITY fhprefs.group.csvexport.caption "CSV exportovanie">
+<!ENTITY fhprefs.textbox.csvexportseparator.label "Oddeľovač hodnôt">
+<!ENTITY fhprefs.textbox.csvexportquote.label "Obklopiť hodnoty s">
+<!ENTITY fhprefs.textbox.csvexportescape.label "escape s predponou">
+<!ENTITY fhprefs.prefpane.cleanup.label "Vyčistiť">
+<!ENTITY fhprefs.checkbox.cleanupshutdown.label "Vykonať vyčistenie pri ukončení prehliadača">
+<!ENTITY fhprefs.button.cleanupnow.label "Vyčistiť teraz">
+<!ENTITY fhprefs.prefpane.information.label "Informácie">
+<!ENTITY fhprefs.group.information.fhdatabase.caption "Databáza histórie formulárov">
+<!ENTITY fhprefs.group.information.cudatabase.caption "Vyčistiť databázu">
+<!ENTITY fhprefs.textbox.information.filepath.label "Cesta">
+<!ENTITY fhprefs.textbox.information.filesize.label "Veľkosť">
+<!ENTITY fhprefs.textbox.information.databaserows.label "Rady">
+<!ENTITY fhpref.tooltiplabel.dateformat.showhelp "Kliknite sem pre viac informácií">
+<!ENTITY fhpref.tooltiplabel.dateformat.description "Dostupné popisovače dátumu a času">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptorcolumn "Popisovač dátumu">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptioncolumn "Popis">
+<!ENTITY fhpref.tooltiplabel.dateformat.examplescolumn "Príklady">
+<!ENTITY fhpref.tooltiplabel.dateformat.year "Rok">
+<!ENTITY fhpref.tooltiplabel.dateformat.month "Mesiac v roku">
+<!ENTITY fhpref.tooltiplabel.dateformat.day "Deň v mesiaci">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour24 "Hodina v dni">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour12 "Hodina dopoludnia/popoludní">
+<!ENTITY fhpref.tooltiplabel.dateformat.ampm "označenie dopoludnia/popoludní">
+<!ENTITY fhpref.tooltiplabel.dateformat.minute "Minúta v hodine">
+<!ENTITY fhpref.tooltiplabel.dateformat.second "Sekunda v hodine">
+<!ENTITY fhpref.tooltiplabel.dateformat.millisec "Milisekunda">
+<!ENTITY fhprefovl.privacy.button.showhistory.label "Zobraziť históriu">
+<!ENTITY fhprefovl.privacy.button.showhistory.accesskey "o">
+<!ENTITY fhabout.label.description "Popis">
+<!ENTITY fhexportcsvdlg.description "Exportovať kompletnú históriu formulárov ako CSV (oddelené čiarkou)">
+<!ENTITY fhexportcsvdlg.alert "Pozor: CSV export nemôže byť použitý pre importovanie!">

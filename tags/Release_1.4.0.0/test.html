@@ -1,0 +1,287 @@
+<html>
+<head>
+	<title>Test form</title>
+	<script language="JavaScript">
+		var timer = null;
+		function changeBG(element){
+			document.body.style.backgroundColor = element.style.backgroundColor;
+		}
+		function showMessage(icon, info) {
+			if (timer) clearTimeout(timer);
+			var msg = document.getElementById('fhcSaveMessageFieldsTest');
+			msg.style.opacity = 0.70;
+			msg.style.display='';
+			var infoDiv = document.getElementById('tstInfo');
+			infoDiv.textContent = 'This is ' + info + ' message';
+			var img = document.getElementById('tstImg');
+			img.src = 'chrome://formhistory/skin/' + icon;
+			timer = setTimeout(fadefhcSaveMessageFields,3000,1);
+		}
+	</script>
+        <style media="screen" type="text/css">
+            [contenteditable="true"] { padding: 2px; outline: 2px dashed #CCC; }
+            [contenteditable="true"]:hover { outline: 2px dashed #0090D2; background-color: #FFD;}
+        </style>        
+</head>
+<body>
+	
+	<h3>Test form</h3>
+	
+	<form id="testform" name="Just a test">
+		<table border="0">
+			<tr>
+				<td>username</td>
+				<td><input type="text" id="username" /></td>
+			</tr>
+			<tr>
+				<td>query</td>
+				<td><input type="text" id="q" style="background-color: #E0E0FF;" /></td>
+			</tr>
+			<tr>
+				<td>disabled</td>
+				<td><input type="text" id="ingangsDatum" disabled="disabled" /></td>
+			</tr>
+			<tr>
+				<td>autocomplete off</td>
+				<td><input type="text" id="autocomplete" autocomplete="off" /></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td><input type="password" id="password" autocomplete="off" /></td>
+			</tr>
+			<tr>
+				<td>hidden</td>
+				<td><input type="text" id="hidden-field" style="visibility: hidden" /></td>
+			</tr>
+			<tr>
+				<td>parent hidden</td>
+				<td><div style="visibility: hidden"><input type="text" id="hidden-parent-field" /></div></td>
+			</tr>
+			<tr>
+				<td>no name/id</td>
+				<td><input type="text"/></td>
+			</tr>
+			<tr valign="top">
+				<td valign="top">textarea</td>
+				<td><textarea id="simpleTextArea" cols="40" rows="5">Enter text here...</textarea></td>
+				<td><iframe name="ifrm" id="ifrm" scrolling="no" src="./iframe.html" frameborder="1" height="105"></iframe></td>
+			</tr>
+			<tr>
+				<td valign="top">no name/id</td>
+				<td><textarea cols="40" rows="2">More text here...</textarea></td>
+                                <td>
+                                    <div id="contenteditable-div" contenteditable="true">
+                                        <p>Editable div for <code>HTML5</code> enabled browsers.</p>
+                                    </div>
+                                </td>
+			</tr>
+			<tr>
+				<td>Test field 1</td>
+				<td><input type="text" id="fhc_testfield1" style="background-color: #ECE0CF;" /></td>
+			</tr>
+			<tr>
+				<td>Test field 2</td>
+				<td><input type="text" id="fhc_testfield2" style="background-color: #ECE0CF;" /></td>
+			</tr>
+			<tr>
+				<td>Search (html5)</td>
+				<td><input type="search" id="fhc_html5_search" style="background-color: #FFEEEE;"
+					placeholder="search for..."
+				/></td>
+			</tr>
+			<tr>
+				<td>Tel (html5)</td>
+				<td><input type="tel" id="fhc_html5_tel" style="background-color: #FFEEEE;" 
+					pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})$"
+					placeholder="telephone number"
+					required
+				/></td>
+			</tr>
+			<tr>
+				<td>URL (html5)</td>
+				<td><input type="url" id="fhc_html5_url" style="background-color: #FFEEEE;" 
+					placeholder="URL"
+					required
+				/></td>
+			</tr>
+			<tr>
+				<td>Email (html5)</td>
+				<td><input type="email" id="fhc_html5_email" style="background-color: #FFEEEE;"
+					placeholder="email address"
+					required
+				/></td>
+			</tr>
+			<tr>
+				<td>Number (html5)</td>
+				<td><input type="number" id="fhc_html5_number" style="background-color: #FFEEEE;"
+					pattern="[0-9]*" maxlength="6" min="1"
+					required
+				/></td>
+			</tr>
+			<tr>
+				<td>Range (html5)</td>
+				<td><input id="fhc_html5_range" type="range" min="1" max="100" value="0">
+				</td>
+			</tr>
+			<tr>
+				<td>Color (html5)</td>
+				<td><input id="fhc_html5_color" type="color">
+				</td>
+			</tr>
+			<!-- tr>
+				<td>DateTime (html5)</td>
+				<td><input type="datetime" id="fhc_html5_datetime" style="background-color: #FFEEEE;"
+					placeholder="date/time"
+				/></td>
+			</tr -->
+			<tr>
+				<td>Radio</td>
+				<td><input type="radio" id="fhc_radio1" name="radiogroup1" checked>One</input>
+					<input type="radio" id="fhc_radio2" name="radiogroup1">Two</input>
+					<input type="radio" id="fhc_radio3" name="radiogroup1">Three</input>
+				</td>
+			</tr>
+			<tr>
+				<td>Checkbox</td>
+				<td><input type="checkbox" id="fhc_check1" name="check1" checked>Option I</input>
+					<input type="checkbox" id="fhc_check2" name="check2">Option II</input>
+					<input type="checkbox" id="fhc_check3" name="check3">Option III</input>
+				</td>
+			</tr>
+			<tr valign="top">
+				<td>Select multiple</td>
+				<td>
+					<select name="multiple-select-list" multiple>
+						<option value="one">One</option>
+						<option value="two">Two</option>
+						<option value="three">Three</option>
+						<option value="four">Four</option>
+					</select>
+				</td>
+			<tr>
+				<td>Select single</td>
+				<td>
+					<select name="single-select-list">
+						<option>Een</option>
+						<option>Twee</option>
+						<option>Drie</option>
+						<option>Vier</option>
+					</select>
+                                        <select name="single-select-list_large">
+                                            <option value="0">Nul</option>
+                                            <option value="1">Een</option>
+                                            <option value="2">Twee</option>
+                                            <option value="3">Drie</option>
+                                            <option value="4">Vier</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">1</option>
+                                            <option value="12">12</option>
+                                            <option value="13">13</option>
+                                            <option value="14">14</option>
+                                            <option value="15">15</option>
+                                            <option value="16">16</option>
+                                            <option value="17">17</option>
+                                            <option value="18">18</option>
+                                            <option value="19">19</option>
+                                            <option value="20">20</option>
+                                            <option value="21">21</option>
+                                            <option value="22">22</option>
+                                            <option value="23">23</option>
+                                            <option value="24">24</option>
+                                            <option value="25">25</option>
+                                            <option value="26">26</option>
+                                            <option value="27">27</option>
+                                            <option value="28">28</option>
+                                            <option value="29">29</option>
+                                            <option value="30">30</option>
+                                            <option value="31">31</option>
+                                            <option value="32">32</option>
+                                            <option value="33">33</option>
+                                            <option value="34">34</option>
+                                            <option value="35">35</option>
+                                            <option value="36">36</option>
+                                            <option value="37">37</option>
+                                            <option value="38">38</option>
+                                            <option value="39">39</option>
+                                            <option value="40">40</option>
+                                            <option value="41">41</option>
+                                            <option value="42">42</option>
+                                            <option value="43">43</option>
+                                            <option value="44">44</option>
+                                            <option value="45">45</option>
+                                            <option value="46">46</option>
+                                            <option value="47">47</option>
+                                            <option value="48">48</option>
+                                            <option value="49">49</option>
+                                            <option value="50">50</option>
+                                            <option value="9999">Veel</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Submit form" /> <input type="reset" value="Reset form" /> <a href="" onclick="document.forms['testform'].submit();">Submit from javascript</a></td>
+			</tr>
+		</table>
+	</form>
+	<hr/>
+	
+	<p>
+	<span style="font-weight: bold">Images from chrome://formhistory/skin</span><br/>
+	<span style="cursor: pointer">
+		<img src="chrome://formhistory/skin/okay16.png" onclick="showMessage('okay16.png', 'a confirmation')"/>
+		<img src="chrome://formhistory/skin/warning16.png" onclick="showMessage('warning16.png', 'a warning')"/>
+		<img src="chrome://formhistory/skin/error16.png" onclick="showMessage('error16.png', 'an error')"/>
+		<img src="chrome://formhistory/skin/info16.png" onclick="showMessage('info16.png', 'an info')"/>
+	</span>
+	<img src="chrome://formhistory/skin/save22.png"/>
+	<img src="chrome://formhistory/skin/savegrey22.png"/>
+	
+	<p>
+	<span>
+		<table style="border: 1px solid #C0C0C0; margin-right: auto"><tr>
+			<td>Background</td>
+			<td style="background-color:#000; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#444; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#888; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#CCC; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FFF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FDD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DFD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DDF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FFD; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#DFF; width:20px;" onclick="changeBG(this)"/>
+			<td style="background-color:#FDF; width:20px;" onclick="changeBG(this)"/>
+		</tr></table>
+	</span>
+
+	<div id="fhcSaveMessageFieldsTest"
+       style="position:fixed; z-index:20000; cursor:default;
+              bottom:0; right:0; padding:0px; margin:0 10px 10px 0;
+              background-color: rgb(0, 0, 0); opacity: 0.70;
+              -moz-box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+              -moz-border-radius: 5px; border:2px outset #585B5C;"
+		onclick="this.style.display='none';">
+		<div style="overflow: hidden; padding: 10px; text-align: left; font: bold 16px sans-serif; color: rgb(255, 255, 255);">
+		  <img id="tstImg" style="vertical-align: middle; margin-right: 8px;" src="chrome://formhistory/skin/okay16.png">
+		  <span id="tstInfo">Page loaded...</span>
+		</div>
+		<script language="JavaScript">
+		  function fadefhcSaveMessageFields(i){
+			var el = document.getElementById('fhcSaveMessageFieldsTest');
+			if (el){
+			  el.style.opacity = (10-i)/20;
+			  if (++i<=10) timer = setTimeout(fadefhcSaveMessageFields,30,i);
+			}
+		  }
+		  timer = setTimeout(fadefhcSaveMessageFields,3000,1);
+		</script>
+	</div>
+  
+</body>
+</html>
