@@ -1,0 +1,11 @@
+User:
+- Re-enabled Saving formhistory of additional formfields after fixing performance issue.
+
+Technical:
+- Made bulk-insert of formelements transactional to drastically speedup multiple inserts.
+
+
+ToDo:
+- Preferences overlay does not work in FF >= 36.0 (is no longer a dialog, is opened inside tab)\
+- Many changes needed to support Multiprocess Firefox (https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox)
+- Prevent formhistory for specific fields (not related to a domain)
