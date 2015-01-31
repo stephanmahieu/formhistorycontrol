@@ -1,0 +1,14 @@
+User:
+- Fix: occasional TypeError: can't access dead object
+- Update: Added pt-BR translation
+
+Technical:
+- MaxVersion FF to 19.0
+- MaxVersion SM to 2.16
+- Fix: Set prefix on statusbar-DOM-id (statusbarFhcRightClickMenu) to avoid compatibility problems with other add-ons
+- Fix: Warning: anonyous function does not always returm a value
+- Fix: Warning: syntaxError: applying the 'delete' operator to an unqualified name is deprecated
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)

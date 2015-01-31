@@ -1,0 +1,12 @@
+User:
+- Export to CSV: added option to export All entries, Selected entries or the entire Search result
+
+- Bugfix: Change in the Global Privacy Options to let FHC manage the formhistory
+   (checkbox) was not saved (option could only be changed from the add-ons preferences).
+
+Technical:
+- 
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)

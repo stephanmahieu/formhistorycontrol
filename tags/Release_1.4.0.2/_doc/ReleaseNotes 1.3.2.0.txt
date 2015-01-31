@@ -1,0 +1,12 @@
+User:
+- Bugfix: export selection (all/selected/search) was not correctly identified
+
+
+Technical:
+- Added 32x32 Icons for menu panel (Australis)
+- Update maxVersion Firefox/SeaMonkey
+
+
+ToDo:
+- Save history for radiobuttons/checkboxes
+- Prevent formhistory for specific fields (not related to a domain)

@@ -1,0 +1,17 @@
+User:
+- Improvement: Adjust orientation (vertical) of menu dropdown-arrow of fhc-icon
+  when inserted into the menu-panel
+  (see  https://developer.mozilla.org/en-US/Firefox/Australis_add-on_compat)
+
+Technical:
+- Resolve Mozilla validation warnings:
+  - nsITreeView interface change
+  - unsafe use of innerHTML
+  - deprecated nsIPrefBranch2, nsILocalFile and nsIPrivateBrowsingService
+- Replace deprecated nsIFormHistory2 with custom implementation
+- minVersion Firefox from 3.0.9 to 22.0
+- minVersion SeaMonkey from 2.0a3 to 2.19 (gecko 22)
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)
