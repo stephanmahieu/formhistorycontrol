@@ -1,0 +1,26 @@
+User:
+- Update pt-BR locale
+- Update nl locale
+- Save history for radiobuttons/checkboxes/selects
+- Formfill now also restores radiobuttons, checkboxes, selects and the html5 inputs: range, number and color
+- Export to CSV: added option to export All entries, Selected entries or the entire Search result
+- Bugfix: Change in the Global Privacy Options to let FHC manage the formhistory
+   (checkbox) was not saved (option could only be changed from the add-ons preferences).
+- Bugfix: Also store (multiline) text typed into divs with contenteditable attribute set to true
+- Improvement: Adjust orientation (vertical) of menu (dropdown-arrow) of fhc-icon
+  when inserted into the menu-panel (see  https://developer.mozilla.org/en-US/Firefox/Australis_add-on_compat)
+
+Technical:
+- Resolve Mozilla validation warnings:
+  - nsITreeView interface change
+  - unsafe use of innerHTML
+  - deprecated nsIPrefBranch2, nsILocalFile and nsIPrivateBrowsingService
+- Replace deprecated nsIFormHistory2 with custom implementation
+- minVersion Firefox from 3.0.9 to 22.0
+- minVersion SeaMonkey from 2.0a3 to 2.19 (gecko 22)
+
+
+ToDo:
+- Preferences overlay does not work in FF >= 36.0 (is no longer a dialog, is opened inside tab)\
+- Many changes needed to support Multiprocess Firefox (https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox)
+- Prevent formhistory for specific fields (not related to a domain)

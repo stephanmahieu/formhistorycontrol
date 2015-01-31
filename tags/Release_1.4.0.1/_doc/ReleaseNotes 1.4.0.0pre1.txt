@@ -1,0 +1,11 @@
+User:
+- Update pt-BR locale
+- Update nl locale
+- Save history for radiobuttons/checkboxes/selects
+
+Technical:
+-
+
+
+ToDo:
+- Prevent formhistory for specific fields (not related to a domain)

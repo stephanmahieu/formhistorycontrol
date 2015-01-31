@@ -1,0 +1,199 @@
+<!ENTITY fhwin.window.title "Управление на Историята на формата">
+<!ENTITY historywindow.notification.moreinfo "(още)">
+<!ENTITY fhwin.historytab.formhistory "Покажи Историята">
+<!ENTITY fhwin.historytab.formhistory.accesskey "w">
+<!ENTITY fhwin.historytab.cleanup "Почисти">
+<!ENTITY fhwin.historytab.cleanup.accesskey "U">
+<!ENTITY fhwin.filter.label "Търси">
+<!ENTITY fhwin.filter.tooltip "Търсене на позиции в историята, за които името на полето или стойността съответства на дадения текст за търсене">
+<!ENTITY fhwin.filter.accesskey "s">
+<!ENTITY fhwin.filter.advancedsearch "Разширено търсене">
+<!ENTITY fhwin.filter.simplesearch "Упростено търсене">
+<!ENTITY fhwin.advancedfilter.fromto.from.label "от">
+<!ENTITY fhwin.advancedfilter.fromto.to.label "към">
+<!ENTITY fhwin.advancedfilter.enterdatetime.tooltip "Въведете дата и час">
+<!ENTITY fhwin.advancedfilter.host.label "Хост">
+<!ENTITY fhwin.menuitem.regexpsearch.title "Въведете дата и час">
+<!ENTITY fhwin.menuitem.regexpsearch.tooltip "Изберете от предварително дефинираните регулярни изрази">
+<!ENTITY fhwin.menuitem.regexpsearch.manage "Управление...">
+<!ENTITY fhwin.menuitem.urlmenu.openurlnoparam "Отвори линка без параметри">
+<!ENTITY fhwin.menuitem.urlmenu.openurlhost "Отвори хоста">
+<!ENTITY fhwin.checkbox.matchcase.label "Съвпадащ регистър">
+<!ENTITY fhwin.checkbox.matchcase.accesskey "m">
+<!ENTITY fhwin.treeview.column.description.label "Описание">
+<!ENTITY fhwin.treeview.column.name.label "Име на поле">
+<!ENTITY fhwin.treeview.column.value.label "Стойност">
+<!ENTITY fhwin.treeview.column.used.label "Брой използвания">
+<!ENTITY fhwin.treeview.column.first.label "Използвано за първи път">
+<!ENTITY fhwin.treeview.column.last.label "Последно използвано">
+<!ENTITY fhwin.treeview.column.agefirst.label "Възраст на първото използвано">
+<!ENTITY fhwin.treeview.column.agelast.label "Възраст на последното използвано">
+<!ENTITY fhwin.treeview.column.guessedhost.label "Хост (най-добро предположение)">
+<!ENTITY fhwin.treeview.column.guessedurl.label "URL (най-добро предположение)">
+<!ENTITY fhwin.treeview.column.guessedpagetitle.label "Заглавие на страница (най-добро # предположение)">
+<!ENTITY fhwin.treeview.column.index.label "Индекс">
+<!ENTITY fhwin.treeview.cleanuppreview.label "Преглед на записите, съответстващи на критерия за почистване">
+<!ENTITY fhwin.treeview.closecleanuppreview.tooltip "Затвори прегледа">
+<!ENTITY fhwin.checkbox.searchpageonly.label "Покажи само текущата страница">
+<!ENTITY fhwin.checkbox.searchpageonly.accesskey "p">
+<!ENTITY fhwin.checkbox.searchfieldonly.label "Показвай само текущото поле">
+<!ENTITY fhwin.checkbox.searchfieldonly.tooltip "Показване само записите във формата на историята, съвпадащи с името на текущото фокусирано поле от фомата">
+<!ENTITY fhwin.checkbox.searchcleanuponly.label "Покажи само съвпадащите критерии за почистване">
+<!ENTITY fhwin.checkbox.searchcleanuponly.tooltip "Покажи само записите в формата на историята, съвпадащи с критериите за почистване">
+<!ENTITY fhwin.checkbox.searchcleanuponly.accesskey "с">
+<!ENTITY fhwin.button.clear.label "Изчисти">
+<!ENTITY fhwin.button.clear.accesskey "ч">
+<!ENTITY fhwin.button.remove.label "Премахни">
+<!ENTITY fhwin.button.remove.accesskey "п">
+<!ENTITY fhwin.button.removeall.label "Премахни всички">
+<!ENTITY fhwin.button.removeall.accesskey "в">
+<!ENTITY fhwin.button.cleanup.label "Почистване">
+<!ENTITY fhwin.button.cleanup.accesskey "и">
+<!ENTITY fhwin.button.add.label "Вмъкни">
+<!ENTITY fhwin.button.add.accesskey "м">
+<!ENTITY fhwin.button.edit.label "Редакция">
+<!ENTITY fhwin.button.edit.accesskey "д">
+<!ENTITY fhwin.button.closepreview.label "Затвори Прегледа">
+<!ENTITY fhwin.button.close.label "Затвори">
+<!ENTITY fhwin.button.close.accesskey "з">
+<!ENTITY fhwin.menu.file.label "Файл">
+<!ENTITY fhwin.menu.file.accesskey "ф">
+<!ENTITY fhwin.menu.edit.label "Редакция">
+<!ENTITY fhwin.menu.edit.accesskey "е">
+<!ENTITY fhwin.menu.view.label "Изглед">
+<!ENTITY fhwin.menu.view.accesskey "и">
+<!ENTITY fhwin.menu.tools.label "Инструменти">
+<!ENTITY fhwin.menu.tools.accesskey "и">
+<!ENTITY fhwin.menu.help.label "Помощ">
+<!ENTITY fhwin.menu.help.accesskey "п">
+<!ENTITY fhwin.menuitem.insert.label "Вмъкни нов">
+<!ENTITY fhwin.menuitem.insert.accelkey "Н">
+<!ENTITY fhwin.menuitem.edit.label "Редакция">
+<!ENTITY fhwin.menuitem.edit.accelkey "Р">
+<!ENTITY fhwin.menuitem.delete.label "Изтрий">
+<!ENTITY fhwin.menuitem.deleteallname.label "Изтрий всички с еднакво име">
+<!ENTITY fhwin.menuitem.deleteallvalue.label "Изтрий всички с еднаква стойност">
+<!ENTITY fhwin.menuitem.selectall.label "Изберете всички">
+<!ENTITY fhwin.menuitem.selectall.accelkey "в">
+<!ENTITY fhwin.menuitem.selectnone.label "Не избирай нищо">
+<!ENTITY fhwin.menuitem.selectinvert.label "Обърни избора">
+<!ENTITY fhwin.menuitem.addcleanup.label "Добави като критерий за почистване">
+<!ENTITY fhwin.menuitem.addprotect.label "Добавяне като защитен критерий">
+<!ENTITY fhwin.menuitem.exportcsv.label "Експорт на цялата История като CSV">
+<!ENTITY fhwin.menuitem.reloadview.label "Презареди">
+<!ENTITY fhwin.menuitem.close.label "Затвори">
+<!ENTITY fhwin.menuitem.options.label "Опции">
+<!ENTITY fhwin.menuitem.options.accelkey "О">
+<!ENTITY fhwin.cleanup.menuitem.exportcfg.label "Изнасяне на Конфигурация">
+<!ENTITY fhwin.cleanup.menuitem.importcfg.label "Внасяне на Конфигурация">
+<!ENTITY fhwin.cleanup.label "Критерий за премахване на нежелани записи от формата на историята">
+<!ENTITY fhwin.cleanup.checkbox.daysused.label2 "дни">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label "Премахване на всички записи от формата на историята, използвани по-малко от">
+<!ENTITY fhwin.cleanup.checkbox.timesused.label2 "пъти">
+<!ENTITY fhwin.cleanup.automaticcleanup.group.caption "Автоматично почистване">
+<!ENTITY fhwin.cleanup.tab.cleanup.label "Почисти">
+<!ENTITY fhwin.cleanup.tab.protect.label "Никога не почиствай">
+<!ENTITY fhwin.cleanup.tab.protect.accesskey "Н">
+<!ENTITY fhwin.cleanup.button.cleanupall.label "Изчисти всички съвпадащи записи">
+<!ENTITY fhwin.cleanup.button.cleanupall.accesskey "в">
+<!ENTITY fhmnuovl.menu.main.manager.label "История на формата">
+<!ENTITY fhmnuovl.menuitem.manager.label "Управление на историята на формата">
+<!ENTITY fhmnuovl.menuitem.options.label "Настройк">
+<!ENTITY fhentrydlg.fieldname.label "Име на полето">
+<!ENTITY fhentrydlg.value.label "Стойност">
+<!ENTITY fhentrydlg.timesused.label "Брой употреби">
+<!ENTITY fhentrydlg.lastused.label "Последно използвано">
+<!ENTITY fhentrydlg.pagetitle.label "Заглавие">
+<!ENTITY fhentrydlg.host.label "Хост">
+<!ENTITY fhentrydlg.url.label "URL">
+<!ENTITY fhentrydlg.blankfielderror.label "Не оставяй никое от полетата празни">
+<!ENTITY fhentrydlg.existerror.label "Запис с такова име и стойност вече съществува в историята на формата">
+<!ENTITY fhcriteriadlg.windowtitle "Редактиране на критериите за почистване">
+<!ENTITY fhcriteriadlg.edit.description "Редактиране на съществуващите критерии за почистване">
+<!ENTITY fhcriteriadlg.add.description "Въвеждане на нов критерий за почистване">
+<!ENTITY fhcriteriapdlg.windowtitle "Редактиране критериите на проекта">
+<!ENTITY fhcriteriapdlg.edit.description "Редактиране на съществуващ защитен критерий">
+<!ENTITY fhcriteriapdlg.add.description "Въведете нов защитен критерий">
+<!ENTITY fhcriteriadlg.description.label "Описание">
+<!ENTITY fhcriteriadlg.fieldname.label "Име на поле">
+<!ENTITY fhcriteriadlg.value.label "Стойност">
+<!ENTITY fhcriteriadlg.matchexact.label "Точно съвпадащ">
+<!ENTITY fhcriteriadlg.matchcase.label "Регистрово чувствителен">
+<!ENTITY fhcriteriadlg.namevaluefieldsemptyerror.label "Не отавяйте празни полетата за име и стойност">
+<!ENTITY fhcriteriadlg.existerror.label "Критерий с тези свойства вече съществува">
+<!ENTITY fhcregexpdlg.windowtitle "Управление на регулярен израз">
+<!ENTITY fhcregexpdlg.edit.description "Реедактиране на регулярен израз">
+<!ENTITY fhcregexpdlg.add.description "Добавяне на регулярен израз">
+<!ENTITY fhcregexpdlg.description.label "Описание">
+<!ENTITY fhcregexpdlg.category.label "Категория">
+<!ENTITY fhcregexpdlg.useforname.radiolabel "Име на поле">
+<!ENTITY fhcregexpdlg.useforvalue.radiolabel "Стойност на полето">
+<!ENTITY fhcregexpdlg.useforboth.radiolabel "И двете">
+<!ENTITY fhcregexpdlg.existerror.label "Израз с тези стойности вече съществува">
+<!ENTITY fhdatetimedlg.windowtitle "Дата и час">
+<!ENTITY fhdatetimedlg.date.label "Дата">
+<!ENTITY fhdatetimedlg.time.label "Час">
+<!ENTITY fhdatetimedlg.setzerotime.tooltip "Установи часа на 0:00:00">
+<!ENTITY fhprefs.prefpane.miscellaneous.label "Разни">
+<!ENTITY fhprefs.group.preferences.caption "Преференции">
+<!ENTITY fhprefs.group.formhistoryitemsview.caption "Изглед на записите в историята на формата">
+<!ENTITY fhprefs.checkbox.useCustomDateTimeFormat.label "Използване на потребителски формат за дата/час">
+<!ENTITY fhprefs.group.taskbar.caption "Лента със задачи">
+<!ENTITY fhprefs.checkbox.showtaskbaricon.label "Показвай икона в лентата със задачи">
+<!ENTITY fhprefs.group.toolbar.caption "Лента с инструменти">
+<!ENTITY fhprefs.group.showmenu.caption "Меню">
+<!ENTITY fhprefs.checkbox.hidetoolsmenuitem.label "Скрий реда от менюто Инструменти">
+<!ENTITY fhprefs.checkbox.hidecontextmenuitem.label "Скрий реда от контекстното меню">
+<!ENTITY fhprefs.prefpane.quickfill.label "Бързо попълване">
+<!ENTITY fhprefs.checkbox.quickfillbordercolor.label "Смяна цвета на рамката">
+<!ENTITY fhprefs.checkbox.quickfillborderwidth.label "Смяна дебелината на рамката">
+<!ENTITY fhprefs.textbox.quickfillpreviewtest.label "Тест">
+<!ENTITY fhprefs.textbox.quickfillpreviewtext "Преглед">
+<!ENTITY fhprefs.prefpane.importexport.label "Внос/Износ">
+<!ENTITY fhprefs.textbox.csvexportseparator.label "Разделител на стойностите">
+<!ENTITY fhprefs.textbox.csvexportquote.label "Обгради стойностите с">
+<!ENTITY fhprefs.prefpane.cleanup.label "Почистване">
+<!ENTITY fhprefs.checkbox.cleanupshutdown.label "Извърши почистването при изключване на браузъра">
+<!ENTITY fhprefs.checkbox.cleanuptabclose.label "Извърши почистване, когато таб в браузъра се затваря">
+<!ENTITY fhprefs.button.cleanupnow.label "Почисти сега">
+<!ENTITY fhprefs.prefpane.search.label "Търси">
+<!ENTITY fhprefs.checkbox.names.label "Имена">
+<!ENTITY fhprefs.checkbox.names.tooltip "Покажи регулярния израз за търсене за FieldNames">
+<!ENTITY fhprefs.checkbox.values.label "Стойности">
+<!ENTITY fhprefs.checkbox.values.tooltip "Покажи регулярния израз за търсене за FieldValues">
+<!ENTITY fhprefs.treeview.column.description.label "Описание">
+<!ENTITY fhprefs.treeview.column.category.label "Категория">
+<!ENTITY fhprefs.treeview.column.regexp.label "Израз">
+<!ENTITY fhprefs.treeview.column.usefor.label "Име/Стойност">
+<!ENTITY fhprefs.treeview.column.index.label "Индекс">
+<!ENTITY fhprefs.prefpane.information.label "Информация">
+<!ENTITY fhprefs.group.information.fhdatabase.caption "Базяа данни на историята на формата">
+<!ENTITY fhprefs.group.information.cudatabase.caption "Изчистване на базата данни">
+<!ENTITY fhprefs.textbox.information.filepath.label "Път">
+<!ENTITY fhprefs.textbox.information.filesize.label "Размер">
+<!ENTITY fhprefs.textbox.information.databaserows.label "Редове">
+<!ENTITY fhprefs.button.information.createnew.label "Създай нова">
+<!ENTITY fhprefs.button.information.createnew.tooltip "Създаване на нова база данни за конфигурацията. Всички данни ще бъдат изгубеени">
+<!ENTITY fhprefs.button.information.recover.label "Създаване и Възстановяване">
+<!ENTITY fhprefs.button.information.recover.tooltip "Създаване на нова конфигурация на базата данни. Съществуващите данни ще бъдат запазени, доколкото е възможно.">
+<!ENTITY fhprefs.button.information.restoreregexp.label "Възстанови RegExp">
+<!ENTITY fhprefs.button.information.restoreregexp.tooltip "Възстановяване на предварително определени регулярни изрази (разширено търсене)">
+<!ENTITY fhpref.tooltiplabel.dateformat.showhelp "Щракнете тук за да видите повече информация">
+<!ENTITY fhpref.tooltiplabel.dateformat.description "Достъпни описатели за дата/час">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptorcolumn "Описател на дата">
+<!ENTITY fhpref.tooltiplabel.dateformat.descriptioncolumn "Описание">
+<!ENTITY fhpref.tooltiplabel.dateformat.examplescolumn "Примери">
+<!ENTITY fhpref.tooltiplabel.dateformat.year "Година">
+<!ENTITY fhpref.tooltiplabel.dateformat.month "Месец в годината">
+<!ENTITY fhpref.tooltiplabel.dateformat.day "Ден в месеца">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour24 "час в деня">
+<!ENTITY fhpref.tooltiplabel.dateformat.hour12 "Час в am/pm">
+<!ENTITY fhpref.tooltiplabel.dateformat.ampm "am/pm маркер">
+<!ENTITY fhpref.tooltiplabel.dateformat.minute "Минута в час">
+<!ENTITY fhpref.tooltiplabel.dateformat.second "Секунда в минута">
+<!ENTITY fhpref.tooltiplabel.dateformat.millisec "Милисекунда">
+<!ENTITY fhprefovl.privacy.button.showhistory.label "Покажи историята">
+<!ENTITY fhprefovl.privacy.button.showhistory.accesskey "о">
+<!ENTITY fhabout.label.description "Описание">
+<!ENTITY fhexportcsvdlg.description "Изнасяне на цялата Форма на историята като CSV (разделени със запетая)">
+<!ENTITY fhexportcsvdlg.alert "Внимание: Изнасянето на CSV не може да се използва за внасяне!">
