@@ -1,0 +1,12 @@
+User:
+- Temporarily disabled saving formhistory of additional formfields like checkboxes and selects,
+  in order to investigate reported performance issues.
+
+Technical:
+- 
+
+
+ToDo:
+- Preferences overlay does not work in FF >= 36.0 (is no longer a dialog, is opened inside tab)\
+- Many changes needed to support Multiprocess Firefox (https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox)
+- Prevent formhistory for specific fields (not related to a domain)

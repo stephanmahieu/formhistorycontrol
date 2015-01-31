@@ -2267,7 +2267,7 @@ FhcDbHandler.prototype = {
   _saveFormElementsSlow: function(allFormElements) {
     //dump("_saveFormElementsSlow start\n");
     //var start = new Date();
-    var mDBConn = this._getDbCleanupConnection();  
+    var mDBConn = this._getDbCleanupConnection(true);
     try {
       var itemFound, item;
       for(var ii=0; ii < allFormElements.length; ii++) {
@@ -2303,7 +2303,7 @@ FhcDbHandler.prototype = {
     //dump("_saveFormElementsFast start\n");
     //var start = new Date();
     var statement;
-    var mDBConn = this._getDbCleanupConnection();
+    var mDBConn = this._getDbCleanupConnection(true);
 
     if (1500 < allFormElements.length) {
       // Delete ALL previous items (if present) from ALL(!) forms on this host.

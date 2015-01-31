@@ -137,13 +137,8 @@ const FhcFormSaveOverlay = {
   //----------------------------------------------------------------------------
 
   onSubmit: function(event) {
-    // WARNING: one user experienced performance issues (delay of 4 sec submitting a form)
-    // temporarily disable saving formhistory of these fields
-    return;
-    /*
     if (!this._isSaveAllowed()) return;
     //dump("FhcFormSaveOverlay::Form submit?\n");
-
     var form = this._findForm(event.target);
     if (form && form.elements){
       var formElements = form.elements;
@@ -227,7 +222,6 @@ const FhcFormSaveOverlay = {
       }
     }
     //dump("FhcFormSaveOverlay::onSubmit done.\n");
-    */
   },
 
   _findForm: function(element) {
