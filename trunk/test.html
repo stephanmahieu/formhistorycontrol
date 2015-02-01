@@ -1,5 +1,7 @@
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8"/>
 	<title>Test form</title>
 	<script language="JavaScript">
 		var timer = null;
@@ -75,159 +77,179 @@
                                     </div>
                                 </td>
 			</tr>
-			<tr>
-				<td>Test field 1</td>
-				<td><input type="text" id="fhc_testfield1" style="background-color: #ECE0CF;" /></td>
-			</tr>
-			<tr>
-				<td>Test field 2</td>
-				<td><input type="text" id="fhc_testfield2" style="background-color: #ECE0CF;" /></td>
-			</tr>
-			<tr>
-				<td>Search (html5)</td>
-				<td><input type="search" id="fhc_html5_search" style="background-color: #FFEEEE;"
-					placeholder="search for..."
-				/></td>
-			</tr>
-			<tr>
-				<td>Tel (html5)</td>
-				<td><input type="tel" id="fhc_html5_tel" style="background-color: #FFEEEE;" 
-					pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})$"
-					placeholder="telephone number"
-					required
-				/></td>
-			</tr>
-			<tr>
-				<td>URL (html5)</td>
-				<td><input type="url" id="fhc_html5_url" style="background-color: #FFEEEE;" 
-					placeholder="URL"
-					required
-				/></td>
-			</tr>
-			<tr>
-				<td>Email (html5)</td>
-				<td><input type="email" id="fhc_html5_email" style="background-color: #FFEEEE;"
-					placeholder="email address"
-					required
-				/></td>
-			</tr>
-			<tr>
-				<td>Number (html5)</td>
-				<td><input type="number" id="fhc_html5_number" style="background-color: #FFEEEE;"
-					pattern="[0-9]*" maxlength="6" min="1"
-					required
-				/></td>
-			</tr>
-			<tr>
-				<td>Range (html5)</td>
-				<td><input id="fhc_html5_range" type="range" min="1" max="100" value="0">
-				</td>
-			</tr>
-			<tr>
-				<td>Color (html5)</td>
-				<td><input id="fhc_html5_color" type="color">
-				</td>
-			</tr>
-			<!-- tr>
-				<td>DateTime (html5)</td>
-				<td><input type="datetime" id="fhc_html5_datetime" style="background-color: #FFEEEE;"
-					placeholder="date/time"
-				/></td>
-			</tr -->
-			<tr>
-				<td>Radio</td>
-				<td><input type="radio" id="fhc_radio1" name="radiogroup1" checked>One</input>
-					<input type="radio" id="fhc_radio2" name="radiogroup1">Two</input>
-					<input type="radio" id="fhc_radio3" name="radiogroup1">Three</input>
-				</td>
-			</tr>
-			<tr>
-				<td>Checkbox</td>
-				<td><input type="checkbox" id="fhc_check1" name="check1" checked>Option I</input>
-					<input type="checkbox" id="fhc_check2" name="check2">Option II</input>
-					<input type="checkbox" id="fhc_check3" name="check3">Option III</input>
-				</td>
-			</tr>
-			<tr valign="top">
-				<td>Select multiple</td>
-				<td>
-					<select name="multiple-select-list" multiple>
-						<option value="one">One</option>
-						<option value="two">Two</option>
-						<option value="three">Three</option>
-						<option value="four">Four</option>
-					</select>
-				</td>
-			<tr>
-				<td>Select single</td>
-				<td>
-					<select name="single-select-list">
-						<option>Een</option>
-						<option>Twee</option>
-						<option>Drie</option>
-						<option>Vier</option>
-					</select>
-                                        <select name="single-select-list_large">
-                                            <option value="0">Nul</option>
-                                            <option value="1">Een</option>
-                                            <option value="2">Twee</option>
-                                            <option value="3">Drie</option>
-                                            <option value="4">Vier</option>
-                                            <option value="5">5</option>
-                                            <option value="6">6</option>
-                                            <option value="7">7</option>
-                                            <option value="8">8</option>
-                                            <option value="9">9</option>
-                                            <option value="10">10</option>
-                                            <option value="11">1</option>
-                                            <option value="12">12</option>
-                                            <option value="13">13</option>
-                                            <option value="14">14</option>
-                                            <option value="15">15</option>
-                                            <option value="16">16</option>
-                                            <option value="17">17</option>
-                                            <option value="18">18</option>
-                                            <option value="19">19</option>
-                                            <option value="20">20</option>
-                                            <option value="21">21</option>
-                                            <option value="22">22</option>
-                                            <option value="23">23</option>
-                                            <option value="24">24</option>
-                                            <option value="25">25</option>
-                                            <option value="26">26</option>
-                                            <option value="27">27</option>
-                                            <option value="28">28</option>
-                                            <option value="29">29</option>
-                                            <option value="30">30</option>
-                                            <option value="31">31</option>
-                                            <option value="32">32</option>
-                                            <option value="33">33</option>
-                                            <option value="34">34</option>
-                                            <option value="35">35</option>
-                                            <option value="36">36</option>
-                                            <option value="37">37</option>
-                                            <option value="38">38</option>
-                                            <option value="39">39</option>
-                                            <option value="40">40</option>
-                                            <option value="41">41</option>
-                                            <option value="42">42</option>
-                                            <option value="43">43</option>
-                                            <option value="44">44</option>
-                                            <option value="45">45</option>
-                                            <option value="46">46</option>
-                                            <option value="47">47</option>
-                                            <option value="48">48</option>
-                                            <option value="49">49</option>
-                                            <option value="50">50</option>
-                                            <option value="9999">Veel</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><input type="submit" value="Submit form" /> <input type="reset" value="Reset form" /> <a href="" onclick="document.forms['testform'].submit();">Submit from javascript</a></td>
-			</tr>
 		</table>
+		
+		<!-- two columns -->
+		<table border="0">
+		  <tr>
+			<!-- Left column -->
+			<td>
+				<table border="0">
+					<tr>
+						<td>Test field 1</td>
+						<td><input type="text" id="fhc_testfield1" style="background-color: #ECE0CF;" /></td>
+					</tr>
+					<tr>
+						<td>Test field 2</td>
+						<td><input type="text" id="fhc_testfield2" style="background-color: #ECE0CF;" /></td>
+					</tr>
+					<tr>
+						<td>Test field 3</td>
+						<td><input type="text" id="fhc_testfield3" style="background-color: #ECE0CF;" /></td>
+					</tr>
+					<tr>
+						<td>Search (html5)</td>
+						<td><input type="search" id="fhc_html5_search" style="background-color: #FFEEEE;"
+							placeholder="search for..."
+						/></td>
+					</tr>
+					<tr>
+						<td>Tel (html5)</td>
+						<td><input type="tel" id="fhc_html5_tel" style="background-color: #FFEEEE;" 
+							pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})$"
+							placeholder="telephone number"
+							required
+						/></td>
+					</tr>
+					<tr>
+						<td>URL (html5)</td>
+						<td><input type="url" id="fhc_html5_url" style="background-color: #FFEEEE;" 
+							placeholder="URL"
+							required
+						/></td>
+					</tr>
+					<tr>
+						<td>Email (html5)</td>
+						<td><input type="email" id="fhc_html5_email" style="background-color: #FFEEEE;"
+							placeholder="email address"
+							required
+						/></td>
+					</tr>
+					<tr>
+						<td>Number (html5)</td>
+						<td><input type="number" id="fhc_html5_number" style="background-color: #FFEEEE;"
+							pattern="[0-9]*" maxlength="6" min="1"
+							required
+						/></td>
+					</tr>
+				</table>
+				
+			<!-- Right column -->
+			</td><td>
+
+				<table border="0">
+					<tr>
+						<td>Range (html5)</td>
+						<td><input id="fhc_html5_range" type="range" min="1" max="100" value="0">
+						</td>
+					</tr>
+					<tr>
+						<td>Color (html5)</td>
+						<td><input id="fhc_html5_color" type="color">
+						</td>
+					</tr>
+					<!-- tr>
+						<td>DateTime (html5)</td>
+						<td><input type="datetime" id="fhc_html5_datetime" style="background-color: #FFEEEE;"
+							placeholder="date/time"
+						/></td>
+					</tr -->
+					<tr>
+						<td>Radio</td>
+						<td><input type="radio" id="fhc_radio1" name="radiogroup1" checked>One</input>
+							<input type="radio" id="fhc_radio2" name="radiogroup1">Two</input>
+							<input type="radio" id="fhc_radio3" name="radiogroup1">Three</input>
+						</td>
+					</tr>
+					<tr>
+						<td>Checkbox</td>
+						<td><input type="checkbox" id="fhc_check1" name="check1" checked>Option I</input>
+							<input type="checkbox" id="fhc_check2" name="check2">Option II</input>
+							<input type="checkbox" id="fhc_check3" name="check3">Option III</input>
+						</td>
+					</tr>
+					<tr valign="top">
+						<td>Select multiple</td>
+						<td>
+							<select name="multiple-select-list" multiple>
+								<option value="one">One</option>
+								<option value="two">Two</option>
+								<option value="three">Three</option>
+								<option value="four">Four</option>
+							</select>
+						</td>
+					<tr>
+						<td>Select single</td>
+						<td>
+							<select name="single-select-list">
+								<option>Een</option>
+								<option>Twee</option>
+								<option>Drie</option>
+								<option>Vier</option>
+							</select>
+							<select name="single-select-list_large">
+								<option value="0">Nul</option>
+								<option value="1">Een</option>
+								<option value="2">Twee</option>
+								<option value="3">Drie</option>
+								<option value="4">Vier</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">1</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+								<option value="24">24</option>
+								<option value="25">25</option>
+								<option value="26">26</option>
+								<option value="27">27</option>
+								<option value="28">28</option>
+								<option value="29">29</option>
+								<option value="30">30</option>
+								<option value="31">31</option>
+								<option value="32">32</option>
+								<option value="33">33</option>
+								<option value="34">34</option>
+								<option value="35">35</option>
+								<option value="36">36</option>
+								<option value="37">37</option>
+								<option value="38">38</option>
+								<option value="39">39</option>
+								<option value="40">40</option>
+								<option value="41">41</option>
+								<option value="42">42</option>
+								<option value="43">43</option>
+								<option value="44">44</option>
+								<option value="45">45</option>
+								<option value="46">46</option>
+								<option value="47">47</option>
+								<option value="48">48</option>
+								<option value="49">49</option>
+								<option value="50">50</option>
+								<option value="9999">Veel</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</td>
+		  </tr>
+	    </table>
+		
+		<input type="submit" value="Submit form" /> <input type="reset" value="Reset form" /> <a href="" onclick="document.forms['testform'].submit();">Submit from javascript</a>
+	  
 	</form>
 	<hr/>
 	
