@@ -2244,29 +2244,30 @@ FhcDbHandler.prototype = {
   //----------------------------------------------------------------------------
 
   /**
-   * Save or update all formElement items.
+   * Save or update all formElement items asynchronously.
    * 
    * @param  allFormElements {Array}
    *         the formElement object to save
    */
   saveFormElements: function(allFormElements) {
-    if (75 < allFormElements.length) {
-      this._saveFormElementsFast(allFormElements);
-    } else {
-      this._saveFormElementsSlow(allFormElements);
+    var thisDbHandler = this;
+    var timerCallback = {
+      notify: function(timer) {
+        thisDbHandler._saveFormElements(allFormElements);
+      }
     }
+    this._setAsyncTimer(timerCallback, 5);
   },
-  
+
   /**
    * Save or update all formElement items wether selected or not.
-   * Can be slow if many items are involved.
    * 
    * @param  allFormElements {Array}
    *         the formElement object to save
    */
-  _saveFormElementsSlow: function(allFormElements) {
-    //dump("_saveFormElementsSlow start\n");
-    //var start = new Date();
+  _saveFormElements: function(allFormElements) {
+    dump("_saveFormElements start\n");
+    var start = new Date();
     var mDBConn = this._getDbCleanupConnection(true);
     try {
       var itemFound, item;
@@ -2282,124 +2283,12 @@ FhcDbHandler.prototype = {
         } 
       }
     } catch(ex) {
-      dump('_saveFormElementsSlow:Exception: ' + ex);
+      dump('_saveFormElements:Exception: ' + ex);
     } finally {
       this._closeDbConnection(mDBConn, true);
     }
-    //var end = new Date();
-    //dump("_saveFormElementsSlow finished, duration:" + (end.getTime() - start.getTime()) + " ms for " + allFormElements.length + "items\n");
-  },
-
-  /**
-   * Save all formElement items fast by deleting all current items of the same
-   * Host and Form prior to saving only the new selected items.
-   * In this scenario the history of each item (timesused, firstsaved) is not
-   * stored in order to do the administration as fast as possible.
-   * 
-   * @param  allFormElements {Array}
-   *         the formElement object to save
-   */
-  _saveFormElementsFast: function(allFormElements) {
-    //dump("_saveFormElementsFast start\n");
-    //var start = new Date();
-    var statement;
-    var mDBConn = this._getDbCleanupConnection(true);
-
-    if (1500 < allFormElements.length) {
-      // Delete ALL previous items (if present) from ALL(!) forms on this host.
-      // Will delete many items fast but we may loose items from other forms
-      // if multiple forms on this host have the same (or no) id.
-      try {
-        statement = mDBConn.createStatement(
-          "DELETE" +
-          "  FROM formelements" +
-          " WHERE host   = :host" +
-          "   AND formid = :formid");
-        var deleteFormElements = this._getUniqueFormElements(allFormElements);
-        for(var ii=0; ii < deleteFormElements.length; ii++) {
-          statement.params.host   = deleteFormElements[ii].host;
-          statement.params.formid = deleteFormElements[ii].formid;
-          this._executeReusableStatement(statement);
-        }
-      } catch(ex) {
-        dump('_saveFormElementsFast:Exception: ' + ex);
-      } finally {
-        this._closeStatement(statement);
-      }        
-    } else {
-      // delete all individual items (if present)
-      try {
-        statement = mDBConn.createStatement(
-          "DELETE" +
-          "  FROM formelements" +
-          " WHERE host   = :host" +
-          "   AND formid = :formid" +
-          "   AND id     = :id" +
-          "   AND name   = :name" +
-          "   AND type   = :type");
-        for(var ii=0; ii < allFormElements.length; ii++) {
-          statement.params.host     = allFormElements[ii].host;
-          statement.params.formid   = allFormElements[ii].formid;
-          statement.params.id       = allFormElements[ii].id;
-          statement.params.name     = allFormElements[ii].name;
-          statement.params.type     = allFormElements[ii].type;
-          this._executeReusableStatement(statement);
-        }
-      } catch(ex) {
-        dump('_saveFormElementsFast:Exception: ' + ex);
-      } finally {
-        this._closeStatement(statement);
-      }        
-    }
-    
-    // insert all selected items
-    try {
-      statement = mDBConn.createStatement(
-        "INSERT INTO formelements (" +
-                "id, name, type, formid, selected, value, " +
-                "host, url, timesused, firstsaved, lastsaved) " +
-        "VALUES (:id, :name, :type, :formid, :selected, :value, " +
-                ":host, :url, :timesused, :saved, :saved)");
-      for(var ii=0; ii < allFormElements.length; ii++) {
-        if (allFormElements[ii].selected) {
-          statement.params.id         = allFormElements[ii].id;
-          statement.params.name       = allFormElements[ii].name;
-          statement.params.type       = allFormElements[ii].type;
-          statement.params.formid     = allFormElements[ii].formid;
-          statement.params.selected   = allFormElements[ii].selected;
-          statement.params.value      = allFormElements[ii].value;
-          statement.params.host       = allFormElements[ii].host;
-          statement.params.url        = allFormElements[ii].url;
-          statement.params.timesused  = 1;
-          statement.params.saved      = allFormElements[ii].saved;
-          this._executeReusableStatement(statement);
-        }
-      }
-    } catch(ex) {
-      dump('_saveFormElementsFast:Exception: ' + ex);
-    } finally {
-      this._closeStatement(statement);
-      this._closeDbConnection(mDBConn, true);
-      //var end = new Date();
-      //dump("_saveFormElementsFast finished, duration:" + (end.getTime() - start.getTime()) + " ms for " + allFormElements.length + "items\n");
-    } 
-  },
-  
-  _getUniqueFormElements: function(allFormElements) {
-    var uniqueElems = [], found;
-    for(var ii=0; ii < allFormElements.length; ii++) {
-      found = false;
-      for(var jj=0; jj < uniqueElems.length && !found; jj++) {
-        found = (uniqueElems[jj].host === allFormElements[ii].host) && (uniqueElems[jj].formid === allFormElements[ii].formid);
-      }
-      if (!found) {
-        uniqueElems.push({
-          host: allFormElements[ii].host,
-          formid: allFormElements[ii].formid
-        });
-      }
-    }
-    return uniqueElems;
+    var end = new Date();
+    dump("_saveFormElements finished, duration: " + (end.getTime() - start.getTime()) + "ms for " + allFormElements.length + " items\n");
   },
   
   /**
@@ -3391,5 +3280,20 @@ FhcDbHandler.prototype = {
       this._closeStatement(statement);
     }
     return count;
+  },
+  
+  /**
+   * Create a timer which can be used to call methods asynchronously.
+   * 
+   * @param {nsITimerCallback} aCallback
+   *        An nsITimerCallback interface to call when timer expires.
+   * 
+   * @param {Number} aDelay
+   *        Timeout delay in milliseconds.
+   */
+  _setAsyncTimer: function(aCallback, aDelay) {
+    var timer = Components.classes["@mozilla.org/timer;1"]
+                    .createInstance(Components.interfaces.nsITimer);
+    timer.initWithCallback(aCallback, aDelay, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   }
 }
