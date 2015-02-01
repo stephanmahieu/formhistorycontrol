@@ -2266,8 +2266,8 @@ FhcDbHandler.prototype = {
    *         the formElement object to save
    */
   _saveFormElements: function(allFormElements) {
-    dump("_saveFormElements start\n");
-    var start = new Date();
+    //dump("_saveFormElements start\n");
+    //var start = new Date();
     var mDBConn = this._getDbCleanupConnection(true);
     try {
       var itemFound, item;
@@ -2287,8 +2287,8 @@ FhcDbHandler.prototype = {
     } finally {
       this._closeDbConnection(mDBConn, true);
     }
-    var end = new Date();
-    dump("_saveFormElements finished, duration: " + (end.getTime() - start.getTime()) + "ms for " + allFormElements.length + " items\n");
+    //var end = new Date();
+    //dump("_saveFormElements finished, duration: " + (end.getTime() - start.getTime()) + "ms for " + allFormElements.length + " items\n");
   },
   
   /**
