@@ -1,0 +1,1 @@
+An extension to View and Manage form history entries (view, edit, delete, selective clean-up, export/import)
