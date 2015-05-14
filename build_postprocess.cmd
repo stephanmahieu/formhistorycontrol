@@ -1,6 +1,6 @@
 @echo off
 
-set XPI_FILE=formhistory_1403.xpi
+set XPI_FILE=formhistory_1404.xpi
 
 
 rem --(check if xpi exist)-------------------------------------
@@ -18,7 +18,6 @@ rem --(delete incomplete locales)-------------------------------
           chrome\locale\bg-BG ^
           chrome\locale\hu ^
           chrome\locale\it ^
-          chrome\locale\ru ^
           chrome\locale\sk-SK ^
           chrome\locale\sv-SE
 if errorlevel 1 goto error
