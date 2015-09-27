@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Smazat">
 <!ENTITY fhwin.menuitem.deleteallname.label "Smazat všechno se stejným názvem">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Smazat všechno se stejnou hodnotou">
+<!ENTITY fhwin.menuitem.copyvalue.label "Kopírovat do schránky">
 <!ENTITY fhwin.menuitem.selectall.label "Vybrat vše">
 <!ENTITY fhwin.menuitem.selectall.accelkey "v">
 <!ENTITY fhwin.menuitem.selectnone.label "Zrušit výběr">

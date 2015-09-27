@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Löschen">
 <!ENTITY fhwin.menuitem.deleteallname.label "Alle gleichen Namens löschen">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Alle mit gleichem Wert löschen">
+<!ENTITY fhwin.menuitem.copyvalue.label "In die Zwischenablage kopieren">
 <!ENTITY fhwin.menuitem.selectall.label "Alle auswählen">
 <!ENTITY fhwin.menuitem.selectall.accelkey "A">
 <!ENTITY fhwin.menuitem.selectnone.label "Keine auswählen">

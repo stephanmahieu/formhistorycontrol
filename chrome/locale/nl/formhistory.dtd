@@ -96,6 +96,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Verwijderen">
 <!ENTITY fhwin.menuitem.deleteallname.label "Verwijder alles met dezelfde naam">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Verwijder alles met dezelfde waarde">
+<!ENTITY fhwin.menuitem.copyvalue.label "Kopieer naar klembord">
 <!ENTITY fhwin.menuitem.selectall.label "Selecteer Alles">
 <!ENTITY fhwin.menuitem.selectall.accelkey "A">
 <!ENTITY fhwin.menuitem.selectnone.label "Selecteer Niets">

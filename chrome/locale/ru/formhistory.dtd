@@ -96,6 +96,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Удалить">
 <!ENTITY fhwin.menuitem.deleteallname.label "Удалить всё с тем же именем">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Удалить всё с тем же значением">
+<!ENTITY fhwin.menuitem.copyvalue.label "Копировать в буфер обмена">
 <!ENTITY fhwin.menuitem.selectall.label "Выделить всё">
 <!ENTITY fhwin.menuitem.selectall.accelkey "в">
 <!ENTITY fhwin.menuitem.selectnone.label "Отменить выбор">

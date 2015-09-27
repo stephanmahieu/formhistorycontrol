@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Sil">
 <!ENTITY fhwin.menuitem.deleteallname.label "Aynı adlıların tümünü sil">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Aynı değerlilerin tümünü sil">
+<!ENTITY fhwin.menuitem.copyvalue.label "Taşıma panosuna kopyala">
 <!ENTITY fhwin.menuitem.selectall.label "Tümünü Seç">
 <!ENTITY fhwin.menuitem.selectall.accelkey "A">
 <!ENTITY fhwin.menuitem.selectnone.label "Seçimi Kaldır">

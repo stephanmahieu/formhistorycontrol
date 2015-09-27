@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Apagar">
 <!ENTITY fhwin.menuitem.deleteallname.label "Apagar todas com o mesmo nome">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Apagar todas com o mesmo valor">
+<!ENTITY fhwin.menuitem.copyvalue.label "Copiar para área de transferência">
 <!ENTITY fhwin.menuitem.selectall.label "Selecionar tudo">
 <!ENTITY fhwin.menuitem.selectall.accelkey "t">
 <!ENTITY fhwin.menuitem.selectnone.label "Selecionar nada">

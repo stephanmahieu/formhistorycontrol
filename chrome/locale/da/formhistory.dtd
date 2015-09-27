@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Slet">
 <!ENTITY fhwin.menuitem.deleteallname.label "Slet alle med samme navn">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Slet alle med samme værdi">
+<!ENTITY fhwin.menuitem.copyvalue.label "Kopier til udklipsholder">
 <!ENTITY fhwin.menuitem.selectall.label "Vælg alle">
 <!ENTITY fhwin.menuitem.selectall.accelkey "a">
 <!ENTITY fhwin.menuitem.selectnone.label "Vælg ingen">

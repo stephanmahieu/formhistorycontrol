@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Supprimer">
 <!ENTITY fhwin.menuitem.deleteallname.label "Supprimer tous les éléments ayant le même nom">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Supprimer tous les éléments ayant la même valeur">
+<!ENTITY fhwin.menuitem.copyvalue.label "Copier dans le presse-papiers">
 <!ENTITY fhwin.menuitem.selectall.label "Tout sélectionner">
 <!ENTITY fhwin.menuitem.selectall.accelkey "u">
 <!ENTITY fhwin.menuitem.selectnone.label "Ne rien sélectionner">

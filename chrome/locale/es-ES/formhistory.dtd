@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Borrar">
 <!ENTITY fhwin.menuitem.deleteallname.label "Borrar todos los que tengan este nombre">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Borrar todos los que tengan este valor">
+<!ENTITY fhwin.menuitem.copyvalue.label "Copiar a portapapeles">
 <!ENTITY fhwin.menuitem.selectall.label "Seleccionar todos">
 <!ENTITY fhwin.menuitem.selectall.accelkey "l">
 <!ENTITY fhwin.menuitem.selectnone.label "No seleccionar ninguno">

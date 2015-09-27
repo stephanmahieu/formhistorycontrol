@@ -90,6 +90,10 @@
               id="mnDelete" disabled="true"
               class="menuitem-iconic fh_menuitem_delete"
               oncommand="HistoryWindowControl.editAction('Delete');"/>
+    <menuitem label="&fhwin.menuitem.copyvalue.label;"
+              id="mnCopyValue" disabled="true"
+              class="menuitem-iconic fh_menuitem_copyvalue"
+              oncommand="HistoryWindowControl.editAction('CopyValue');"/>
     <menuseparator/>
     <menuitem label="&fhwin.menuitem.deleteallname.label;"
               id="mnDeleteName" disabled="true"
@@ -270,6 +274,10 @@
                   id="mnbarFhDelete" disabled="true" key="delete-key"
                   class="menuitem-iconic fh_menuitem_delete"
                   oncommand="HistoryWindowControl.editAction('Delete');"/>
+        <menuitem label="&fhwin.menuitem.copyvalue.label;"
+                  id="mnbarFhCopyValue" disabled="true"
+                  class="menuitem-iconic fh_menuitem_copyvalue"
+                  oncommand="HistoryWindowControl.editAction('CopyValue');"/>
         <menuseparator id="mnbarFhSep1"/>
         <menuitem label="&fhwin.menuitem.deleteallname.label;"
                   id="mnbarFhDeleteName" disabled="true"

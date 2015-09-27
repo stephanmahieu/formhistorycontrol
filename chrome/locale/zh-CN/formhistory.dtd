@@ -82,6 +82,7 @@
 <!ENTITY fhwin.menuitem.delete.label "删除">
 <!ENTITY fhwin.menuitem.deleteallname.label "删除所有相同名称">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "删除所有相同的值">
+<!ENTITY fhwin.menuitem.copyvalue.label "复制到剪贴板">
 <!ENTITY fhwin.menuitem.selectall.label "全部选择">
 <!ENTITY fhwin.menuitem.selectall.accelkey "A">
 <!ENTITY fhwin.menuitem.selectnone.label "全部取消">

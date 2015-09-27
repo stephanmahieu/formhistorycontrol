@@ -555,6 +555,7 @@ const HistoryWindowControl = {
     document.getElementById("mnDelete").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnDeleteName").setAttribute("disabled", 1 != selected.length);
     document.getElementById("mnDeleteValue").setAttribute("disabled", 1 != selected.length);
+    document.getElementById("mnCopyValue").setAttribute("disabled", 1 != selected.length);
     document.getElementById("mnAddCleanup").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnAddProtect").setAttribute("disabled", 0 == selected.length);
     return true;
@@ -567,6 +568,7 @@ const HistoryWindowControl = {
     document.getElementById("mnbarFhDelete").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnbarFhDeleteName").setAttribute("disabled", 1 != selected.length);
     document.getElementById("mnbarFhDeleteValue").setAttribute("disabled", 1 != selected.length);
+    document.getElementById("mnbarFhCopyValue").setAttribute("disabled", 1 != selected.length);
     document.getElementById("mnbarFhAddCleanup").setAttribute("disabled", 0 == selected.length);
     document.getElementById("mnbarFhAddProtect").setAttribute("disabled", 0 == selected.length);
 
@@ -635,6 +637,9 @@ const HistoryWindowControl = {
           break;
         case "DeleteValue":
           this._removeAllWithValue(selected[0].value);
+          break;
+      case "CopyValue":
+          this._copyValueToClipboard(selected[0].value);
           break;
       }
     }
@@ -2274,6 +2279,13 @@ const HistoryWindowControl = {
       var entries = this.treeView.getEntriesByValue(value);
       this._deleteEntries(entries);
     }
+  },
+  
+  // copy a value to the clipboard
+  _copyValueToClipboard: function(value) {
+    var gClipboardHelper = Components.classes["@mozilla.org/widget/clipboardhelper;1"]
+                           .getService(Components.interfaces.nsIClipboardHelper);
+    gClipboardHelper.copyString(value);
   },
   
   // Delete entries

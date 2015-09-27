@@ -96,6 +96,7 @@
 <!ENTITY fhwin.menuitem.delete.label "Delete">
 <!ENTITY fhwin.menuitem.deleteallname.label "Delete all with same name">
 <!ENTITY fhwin.menuitem.deleteallvalue.label "Delete all with same value">
+<!ENTITY fhwin.menuitem.copyvalue.label "Copy to clipboard">
 <!ENTITY fhwin.menuitem.selectall.label "Select All">
 <!ENTITY fhwin.menuitem.selectall.accelkey "A">
 <!ENTITY fhwin.menuitem.selectnone.label "Select None">
