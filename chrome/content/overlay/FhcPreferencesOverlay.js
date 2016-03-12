@@ -42,7 +42,7 @@
  *
  * Dependencies: -
  */
-const FhcPreferencesOverlay = {
+var FhcPreferencesOverlay = {
   
   // implementation of EventListener Interface for listening to events
   handleEvent: function(aEvent) {

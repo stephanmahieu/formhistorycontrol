@@ -36,11 +36,11 @@
 
 
 /**
- * Handler for the contentAreaContextMenu an the statusbar menu.
- * The contentAreaContextMenu menu popups when right-clicking from within a
+ * Handler for the contentAreaContextMenu and the statusbar menu.
+ * The contentAreaContextMenu menu pops up when right-clicking from within a
  * browser window (html page).
  * The handlers attaches its own handleEvent method, so each time the
- * contentAreaContextMenu or statusbar popups, the contextmenuPopup() method is
+ * contentAreaContextMenu or statusbar pops up, the contextmenuPopup() method is
  * called.
  * The contextmenuPopup method enables/disables the relevant menu-items and also
  * contains methods for deleting the history directly without invoking the GUI.
@@ -50,7 +50,7 @@
  *   FhcBundle.js, FhcDateHandler.js, FhcCleanupFilter.js
  *   
  */
-const FhcContextMenu = {
+var FhcContextMenu = {
   dbHandler: null,
   bundle: null,
   preferences: null,
@@ -652,14 +652,18 @@ const FhcContextMenu = {
     div.addEventListener("click", function(){this.style.display='none';}, false);
     div.setAttribute('style', style);
 
-    var img = document.createElement('img');
+    var innerDiv = document.createElement('div');
+    style = "width:22px; height:22px; color:white; text-align:center;";
     if (isNew) {
-      img.setAttribute('src', 'chrome://formhistory/skin/save22.png');
+      style += " background-color:black;";
     } else {
-      img.setAttribute('src', 'chrome://formhistory/skin/savegrey22.png');
+      style += " background-color:gray;";
     }
-    div.appendChild(img);
-    
+    innerDiv.setAttribute("style", style);
+    innerDiv.appendChild(document.createTextNode("✔"));
+
+    div.appendChild(innerDiv);
+
     return div;
   },
 

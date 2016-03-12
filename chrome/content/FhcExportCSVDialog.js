@@ -40,7 +40,7 @@
  *
  * Dependencies: FhcExportCSVDialog.xul
  */
-const FhcExportCSVDialog = {
+var FhcExportCSVDialog = {
   haveSelectedHist: false,
   haveFilteredHist: false,
   

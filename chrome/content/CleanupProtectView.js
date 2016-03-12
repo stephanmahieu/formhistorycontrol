@@ -43,7 +43,7 @@
  *   FhcDbHandler.js
  *
  */
-const CleanupProtectView = {
+var CleanupProtectView = {
   // nsITreeView attributes
   treeBox: null,
   rowCount: 0,

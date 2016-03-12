@@ -40,7 +40,7 @@
  * Dependencies: FhcMultilineDialog.js, FhcUtil.js, FhcDateHandler.js,
  *               FhcBundle.js, FhcPreferenceHandler.js
  */
-const FhcMultilineDialog = {
+var FhcMultilineDialog = {
   multilineItem: null,
   
   /**

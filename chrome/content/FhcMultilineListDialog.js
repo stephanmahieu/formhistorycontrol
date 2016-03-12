@@ -40,7 +40,7 @@
  * Dependencies: FhcMultilineListDialog.js, FhcUtil.js, FhcDbHandler.js, 
  *               FhcPreferenceHandler.js
  */
-const FhcMultilineListDialog = {
+var FhcMultilineListDialog = {
   treeBox: null,
   rowCount: 0,
   

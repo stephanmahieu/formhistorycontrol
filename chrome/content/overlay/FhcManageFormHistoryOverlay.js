@@ -42,7 +42,7 @@
  *   FhcUtil.js, FhcPreferenceHandler.js, FhcDbHandler.js
  */
 
-const FhcManageFormHistoryOverlay = {
+var FhcManageFormHistoryOverlay = {
   observerService:        null,
   prefHandler:            null,
   dbHandler:              null,

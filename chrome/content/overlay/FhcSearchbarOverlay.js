@@ -43,7 +43,7 @@
  * Dependencies: FhcShowDialog.js, FhcBundle.js.
  */
 
-const FhcSearchbarOverlay = {
+var FhcSearchbarOverlay = {
 
   init: function() {
     var searchbar = document.getElementById("searchbar");

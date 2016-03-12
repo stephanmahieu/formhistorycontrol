@@ -43,7 +43,7 @@
  *
  * Dependencies: AboutFHC.xul, FhcRdfExtensionHandler.js, FhcBundle.js
  */
-const AboutFhcDialog = {
+var AboutFhcDialog = {
 
   /**
    * Initialize the About Dialog.

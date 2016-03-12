@@ -40,7 +40,7 @@
  * Dependencies: FhcManageFhcListDialog.js, FhcUtil.js, FhcDbHandler.js, 
  *               FhcPreferenceHandler.js
  */
-const FhcManageFhcListDialog = {
+var FhcManageFhcListDialog = {
   treeBox: null,
   rowCount: 0,
   

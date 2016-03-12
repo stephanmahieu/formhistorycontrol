@@ -76,8 +76,8 @@ var FhcShowDialog = {
     var keyStore = "FhcGlobalWindowObjectReference";
     var FHCWindowObjectReference;
 
-    // allow only 1 instance (using global storage in the FUEL Application object)
-    var ref = Application.storage.get(keyStore, "");
+    // allow only 1 instance (using global session storage)
+    var ref = sessionStore.get(keyStore, "");
     if ("" != ref) {
       FHCWindowObjectReference = ref;
     }
@@ -95,13 +95,13 @@ var FhcShowDialog = {
       FHCWindowObjectReference = openDialog(
         "chrome://formhistory/content/HistoryWindowControl.xul", "",
         "centerscreen,dialog=no,chrome,resizable", params);
-      Application.storage.set(keyStore, FHCWindowObjectReference);
+      sessionStore.set(keyStore, FHCWindowObjectReference);
     } else {
       // open a new instance of the extension without parameters
       FHCWindowObjectReference = openDialog(
         "chrome://formhistory/content/HistoryWindowControl.xul", "",
         "centerscreen,dialog=no,chrome,resizable");
-      Application.storage.set(keyStore, FHCWindowObjectReference);
+      sessionStore.set(keyStore, FHCWindowObjectReference);
     }
   },
 
@@ -260,4 +260,6 @@ var FhcShowDialog = {
       "centerscreen, chrome, dialog, modal, resizable=yes", params)
     .focus();
   }
-}
+};
+
+Components.utils.import("chrome://formhistory/content/utils/FhcSessionStorage.jsm", FhcShowDialog);

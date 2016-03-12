@@ -43,7 +43,7 @@
  *   FhcDbHandler.js, FhcShowDialog.js.
  *
  */
-const MultilineWindowControl = {
+var MultilineWindowControl = {
   // nsITreeView attributes
   treeBox: null,
   rowCount: 0,

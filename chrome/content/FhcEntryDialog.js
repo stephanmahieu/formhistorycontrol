@@ -40,7 +40,7 @@
  *
  * Dependencies: FhcEntryDialog.xul, FhcShowDialog.js
  */
-const FhcEntryDialog = {
+var FhcEntryDialog = {
 
   /** Global var to hold callback function (null if not set). */
   checkEntryExistsFunction: null,

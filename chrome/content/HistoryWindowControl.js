@@ -49,7 +49,7 @@
  *   FhcBrowsingListener, FhcShowDialog.js,
  *   FhcPredefinedRegexp.js
  */
-const HistoryWindowControl = {
+var HistoryWindowControl = {
   treeView: null,
   countLabel: 0,
   selectCountLabel: "",
@@ -416,13 +416,13 @@ const HistoryWindowControl = {
 
       // check if regexp menu needs rebuild
       var keyStore = "FhcGlobalRegexpListDirty";
-      var ref = Application.storage.get(keyStore, "");
+      var ref = sessionStore.get(keyStore, "");
       if ("okay" != ref || regexpMenu.childNodes.length <= 4) {
         // menu never built before ("") or dirty ("dirty"), rebuild both menus
         this._rebuildRegexpMenu(regexpData, "N", document.getElementById("regexp-namelist-menu"));
         this._rebuildRegexpMenu(regexpData, "V", document.getElementById("regexp-list-menu"));
 
-        Application.storage.set(keyStore, "okay");
+        sessionStore.set(keyStore, "okay");
       }
       //delete regexpData;
 
@@ -2469,4 +2469,6 @@ const HistoryWindowControl = {
       this.browserListener = null;
     }
   }
-}
+};
+
+Components.utils.import("chrome://formhistory/content/utils/FhcSessionStorage.jsm", HistoryWindowControl);

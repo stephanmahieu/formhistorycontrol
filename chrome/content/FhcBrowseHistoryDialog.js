@@ -42,7 +42,7 @@
  *               FhcBundle.js, FhcDateHandler.js, FhcUtil.js
  *
  */
-const FhcBrowseHistoryDialog = {
+var FhcBrowseHistoryDialog = {
   LOOKUP_COUNT:  10,
   dbHandler:     null,
   bundle:        null,

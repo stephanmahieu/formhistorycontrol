@@ -40,7 +40,7 @@
  *
  * Dependencies: FhcImportStatusDialog.xul
  */
-const FhcImportStatusDialog = {
+var FhcImportStatusDialog = {
   
   /**
    * Initialize dialog

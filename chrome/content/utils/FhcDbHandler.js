@@ -87,6 +87,9 @@ function FhcDbHandler() {
   // TODO Use the asynchronous FormHistory.jsm module where possible
   // Get the FormHistory service (async access to db)
   Components.utils.import('resource://gre/modules/FormHistory.jsm');
+
+  // global session keystore
+  Components.utils.import("chrome://formhistory/content/utils/FhcSessionStorage.jsm");
 }
 
 
@@ -2769,9 +2772,9 @@ FhcDbHandler.prototype = {
    */
   _setDirtyRegexpFlag: function() {
     var keyStore = "FhcGlobalRegexpListDirty";
-    var ref = Application.storage.get(keyStore, "");
+    var ref = sessionStore.get(keyStore, "");
     if ("dirty" != ref) {
-      Application.storage.set(keyStore, "dirty");
+      sessionStore.set(keyStore, "dirty");
     }
   },
 
@@ -2857,7 +2860,7 @@ FhcDbHandler.prototype = {
    *        created or migrated.
    */
   _setCheckedCleanupDB: function(isChecked) {
-    Application.storage.set("FhcCleanupDBSate", isChecked);
+    sessionStore.set("FhcCleanupDBSate", isChecked);
   },
 
   /**
@@ -2867,7 +2870,7 @@ FhcDbHandler.prototype = {
    *         whether or not the database is ready to be used.
    */
   _hasCheckedCleanupDB: function() {
-    var globalState = Application.storage.get("FhcCleanupDBSate", false);
+    var globalState = sessionStore.get("FhcCleanupDBSate", false);
     return (true == globalState);
   },
 

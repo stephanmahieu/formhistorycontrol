@@ -41,7 +41,7 @@
  * Dependencies:
  *   FhcPreferenceHandler.js
  */
-const FhcBrowserShutdownListener = {
+var FhcBrowserShutdownListener = {
   prefHandler: null,
   dbHandler: null,
   dateHandler: null,

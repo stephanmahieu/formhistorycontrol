@@ -43,7 +43,7 @@
  *   FhcDbHandler.js, FhcShowDialog.js, FhcCleanupFilter.
  *
  */
-const CleanupWindowControl = {
+var CleanupWindowControl = {
   // nsITreeView attributes
   treeBox: null,
   rowCount: 0,

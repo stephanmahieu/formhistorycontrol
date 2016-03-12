@@ -39,7 +39,7 @@
  *
  * Dependencies: FhcXmlHandler
  */
-const FhcUtil = {
+var FhcUtil = {
   /**
    * Property to determine whether or not searching is Case Sensitive.
    */
@@ -215,11 +215,11 @@ const FhcUtil = {
     var msgDiv = document.createElement('div');
     div.appendChild(msgDiv);
     msgDiv.setAttribute('style',
-      'overflow:hidden; padding:10px; text-align:center; ' +
-      'font:bold 16px sans-serif; color:#FFF');
-    var img = document.createElement('img');
-    img.setAttribute('style', 'vertical-align:middle; margin-right:8px');
-    img.setAttribute('src', 'chrome://formhistory/skin/okay16.png')
+      'overflow:hidden; padding:10px; text-align:center; font:bold 16px sans-serif; color:#FFF');
+    var img = document.createElement('span');
+    img.setAttribute('style',
+      'width:16px; height:16px; color:white; text-align:center; background-color:black; margin-right:8px');
+    img.appendChild(document.createTextNode("✔"));
     msgDiv.appendChild(img);
     msgDiv.appendChild(document.createTextNode(infoMessage));
 

@@ -43,7 +43,7 @@
  *    FhcRdfExtensionHandler.js, FhcUtil.js, FhcBundle.js,
  *    FhcCleanupFilter.js, FhcDateHandler.js
  */
-const FhcPreferences = {
+var FhcPreferences = {
   prefHandler:   null,
   dbHandler:     null,
   extHandler:    null,
@@ -521,7 +521,7 @@ const FhcPreferences = {
       oldDbfile.moveTo(null, "cleanup.sqlite.org");
 
       // Re-Create by triggering a lookup (and set checked flag to false)
-      Application.storage.set("FhcCleanupDBSate", false);
+      sessionStore.set("FhcCleanupDBSate", false);
       this.dbHandler.getNoOfCleanupAndProtectItems();
 
       // check presence of re-created file
@@ -744,7 +744,7 @@ const FhcPreferences = {
     var statusBox = document.getElementById("cleanup-status");
 
     // display statusbox for max. 10 seconds
-    statusLbl.value = statusTextd
+    statusLbl.value = statusText;
     statusBox.height = 2;
     statusBox.collapsed = false;
     this._showCleanupStatus();
@@ -914,4 +914,6 @@ const FhcPreferences = {
        timeMillisec,
        Components.interfaces.nsITimer.TYPE_ONE_SHOT);
   }
-}
+};
+
+Components.utils.import("chrome://formhistory/content/utils/FhcSessionStorage.jsm", FhcPreferences);

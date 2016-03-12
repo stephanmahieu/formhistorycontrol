@@ -39,7 +39,7 @@
  *
  * Dependencies: FhcRegexpDialog.xul
  */
-const FhcRegexpDialog = {
+var FhcRegexpDialog = {
   /** Global var to hold callback function (null if not set). */
   checkRegexpExistsFunction: null,
 

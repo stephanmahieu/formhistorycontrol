@@ -41,7 +41,7 @@
  * Dependencies: FhcCriteriaDialog.xul, FhcUtil.js, FhcDbHandler.js,
  *               FhcBundle.js, FhcPredefinedRegexp.js
  */
-const FhcCriteriaDialog = {
+var FhcCriteriaDialog = {
   /** Global var to hold callback function (null if not set). */
   checkCriteriaExistsFunction: null,
 
@@ -241,13 +241,13 @@ const FhcCriteriaDialog = {
 
       // check if regexp menu needs rebuild
       var keyStore = "FhcGlobalRegexpListDirty";
-      var ref = Application.storage.get(keyStore, "");
+      var ref = sessionStore.get(keyStore, "");
       if ("okay" != ref || regexpMenu.childNodes.length <= 2) {
         // menu never built before ("") or dirty ("dirty"), rebuild both menus
         this._rebuildRegexpMenu(regexpData, "N", document.getElementById("regexp-namelist-menu"));
         this._rebuildRegexpMenu(regexpData, "V", document.getElementById("regexp-list-menu"));
 
-        Application.storage.set(keyStore, "okay");
+        sessionStore.set(keyStore, "okay");
       }
       //delete regexpData;
       //delete dbHandler;
@@ -406,4 +406,6 @@ const FhcCriteriaDialog = {
     }
     return errMsg;
   }
-}
+};
+
+Components.utils.import("chrome://formhistory/content/utils/FhcSessionStorage.jsm", FhcCriteriaDialog);

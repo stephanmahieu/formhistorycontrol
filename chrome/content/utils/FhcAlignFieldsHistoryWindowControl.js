@@ -41,7 +41,7 @@
  *   HistoryWindowControl.xul
  * 
  */
-const FhcAlignFieldsHistoryWindowControl = {
+var FhcAlignFieldsHistoryWindowControl = {
     
     // align lefthand labels of advanced search (can't use grid there)
     alignSearchLabelsAdvancedSearch: function(event) {

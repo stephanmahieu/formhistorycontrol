@@ -40,7 +40,7 @@
  *
  * Dependencies: FhcExportDialog.xul
  */
-const FhcExportDialog = {
+var FhcExportDialog = {
   haveSelectedHist: false,
   haveFilteredHist: false,
   haveSelectedMulti: false,

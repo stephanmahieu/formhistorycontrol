@@ -42,7 +42,7 @@
  * Dependencies: FhcDbHandler.js, FhcPreferenceHandler.js
  */
 
-const FhcFormSaveOverlay = {
+var FhcFormSaveOverlay = {
   timer:                   null,
   maintenanceTimer:        null,
   eventQueue:              [],

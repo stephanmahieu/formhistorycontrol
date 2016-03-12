@@ -39,7 +39,7 @@
  *
  * Dependencies: FhcDateTimeDialog.xul
  */
-const FhcDateTimeDialog = {
+var FhcDateTimeDialog = {
 
   /**
    * Initialize dialog for add or edit.

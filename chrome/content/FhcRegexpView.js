@@ -43,7 +43,7 @@
  *   FhcDbHandler.js, FhcPredefinedRegexp.js
  *
  */
-const FhcRegexpView = {
+var FhcRegexpView = {
   // nsITreeView attributes
   treeBox: null,
   rowCount: 0,

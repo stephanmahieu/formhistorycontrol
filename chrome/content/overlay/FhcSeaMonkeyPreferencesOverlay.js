@@ -42,7 +42,7 @@
  *
  * Dependencies: -
  */
-const FhcSeaMonkeyPreferencesOverlay = {
+var FhcSeaMonkeyPreferencesOverlay = {
   
   // implementation of EventListener Interface for listening to events
   handleEvent: function(aEvent) {
