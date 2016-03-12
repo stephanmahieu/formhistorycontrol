@@ -1,0 +1,15 @@
+User:
+- Many small bugfixes for FF 45.0
+
+Technical:
+- global keystore deprecated (Application.storage.get/set) replaced by JS code module
+- many const to var
+- typo in js code (FhcPreferences.js)
+- images displayed in html-page from chrome URL (when storing fields manually) replaced by pure css
+- resolve severe mozilla validator warning: obsolete extension manager interface removed
+- renamed "sessionstore-state-write" (removed) to the more appropriate "sessionstore-state-write-complete"
+
+ToDo:
+- Preferences overlay does not work in FF >= 36.0 (is no longer a dialog, is opened inside tab)\
+- Many changes needed to support Multiprocess Firefox (https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox)
+- Prevent formhistory for specific fields (not related to a domain)
