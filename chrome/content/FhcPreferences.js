@@ -872,7 +872,7 @@ var FhcPreferences = {
   _notifyStoreChanged: function() {
     var observerService = Components.classes["@mozilla.org/observer-service;1"]
                             .getService(Components.interfaces.nsIObserverService);
-    observerService.notifyObservers(null, "sessionstore-state-write", "");
+    observerService.notifyObservers(null, "sessionstore-state-changed", "");
   },
 
 

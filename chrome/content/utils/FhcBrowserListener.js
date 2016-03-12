@@ -59,7 +59,7 @@ FhcBrowserListener.prototype = {
                             .getService(Components.interfaces.nsIObserverService);
     // topic fires on cleaning "browsing and download history" or updates to
     // the formhistory storage
-    this._observerService.addObserver(this, "sessionstore-state-write", false);
+    this._observerService.addObserver(this, "sessionstore-state-changed", false);
 
     // topic fires when the cleanup-db has changed (recreate)
     this._observerService.addObserver(this, "cleanup-db-changed", false);
@@ -70,7 +70,7 @@ FhcBrowserListener.prototype = {
    * may result in memory leaks.
    */
   destroy: function() {
-    this._observerService.removeObserver(this, "sessionstore-state-write");
+    this._observerService.removeObserver(this, "sessionstore-state-changed");
     this._observerService.removeObserver(this, "cleanup-db-changed");
   },
 
@@ -91,7 +91,7 @@ FhcBrowserListener.prototype = {
   observe: function (aSubject, aTopic, aData) {
     if (this._watcherObject) {
       switch(aTopic) {
-        case "sessionstore-state-write":
+        case "sessionstore-state-changed":
              if ("onSessionStoreChange" in this._watcherObject) {
                this._watcherObject.onSessionStoreChange();
              }
