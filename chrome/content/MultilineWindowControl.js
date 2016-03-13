@@ -174,6 +174,7 @@ var MultilineWindowControl = {
    */
   menubarPopup: function(event) {
     var selectCount = this.getSelectCount();
+    document.getElementById("mnbarMlCopyToClipboard").setAttribute("disabled", 1 != selectCount);
     document.getElementById("mnbarMlDelete").setAttribute("disabled", 0 == selectCount);
     return true;
   },
@@ -503,10 +504,10 @@ var MultilineWindowControl = {
   },
 
   /**
-   * Get the number of selected cleanup criteria.
+   * Get the number of selected multiline criteria.
    *
    * @returns {number}
-   *          the number of selected cleanup criteria items
+   *          the number of selected multiline criteria items
    */
   getSelectCount: function() {
     var selected = 0;

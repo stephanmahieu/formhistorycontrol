@@ -90,6 +90,7 @@
               id="mnDelete" disabled="true"
               class="menuitem-iconic fh_menuitem_delete"
               oncommand="HistoryWindowControl.editAction('Delete');"/>
+    <menuseparator/>
     <menuitem label="&fhwin.menuitem.copyvalue.label;"
               id="mnCopyValue" disabled="true"
               class="menuitem-iconic fh_menuitem_copyvalue"
@@ -176,14 +177,14 @@
   </menupopup>
 
   <menupopup id="multilinePopup">
-    <menuitem id="mnCopyMultilineToClipboard" class="menuitem-iconic fh_menuitem_copyclip"
-              label="&fhcmultilinedlg.button.copytoclipboard;"
-              oncommand="MultilineWindowControl.copyToClipboardAction()"/>
-    <menuseparator/>
     <menuitem label="&fhwin.menuitem.delete.label;"
               id="mnDeleteMultiline" disabled="true"
               class="menuitem-iconic fh_menuitem_delete"
               oncommand="MultilineWindowControl.editAction('Delete');"/>
+    <menuseparator/>
+    <menuitem id="mnCopyMultilineToClipboard" class="menuitem-iconic fh_menuitem_copyclip"
+              label="&fhcmultilinedlg.button.copytoclipboard;"
+              oncommand="MultilineWindowControl.copyToClipboardAction()"/>
     <menuseparator/>
     <menuitem label="&fhwin.menuitem.selectall.label;"
               id="mnSelectAll"
@@ -274,6 +275,7 @@
                   id="mnbarFhDelete" disabled="true" key="delete-key"
                   class="menuitem-iconic fh_menuitem_delete"
                   oncommand="HistoryWindowControl.editAction('Delete');"/>
+        <menuseparator id="mnbarFhSep0"/>
         <menuitem label="&fhwin.menuitem.copyvalue.label;"
                   id="mnbarFhCopyValue" disabled="true"
                   class="menuitem-iconic fh_menuitem_copyvalue"
@@ -343,6 +345,12 @@
                   oncommand="MultilineWindowControl.editAction('Delete');"
                   hidden='true'/>
         <menuseparator id="mnbarMlSep" hidden='true'/>
+        <menuitem label="&fhcmultilinedlg.button.copytoclipboard;"
+                  id="mnbarMlCopyToClipboard" disabled="true"
+                  class="menuitem-iconic fh_menuitem_copyclip"
+                  oncommand="MultilineWindowControl.copyToClipboardAction()"
+                  hidden='true'/>
+        <menuseparator id="mnbarMlSep2" hidden='true'/>
         <menuitem label="&fhwin.menuitem.selectall.label;"
                   id="mnbarMlSelectAll" key="selectall-key"
                   class="menuitem-iconic fh_menuitem_selectall"
