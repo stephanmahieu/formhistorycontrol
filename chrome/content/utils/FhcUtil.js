@@ -739,8 +739,9 @@ var FhcUtil = {
    * @return {Array} the Gecko version, [0] = major, [1] = minor, etc.
    */
   getGeckoVersion: function() {
-    var str = navigator.userAgent;
-    var geckoVer = str.match(/rv:[\d\.]+/g)[0].replace('rv:', '').match(/\d+/g);
+    var info = Components.classes["@mozilla.org/xre/app-info;1"]
+               .getService(Components.interfaces.nsIXULAppInfo);
+    var geckoVer = info.platformVersion.split(/\./g);
     return geckoVer;
   },
 
