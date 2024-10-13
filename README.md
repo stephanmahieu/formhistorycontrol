@@ -1,4 +1,9 @@
 # Form History Control
+
+:warning: __This is the Original version of Form History Control and is deprecated as of 2016.__
+
+:warning: __Find the latest version of Form History Control in repo [formhistorycontrol-2](https://github.com/stephanmahieu/formhistorycontrol-2)__
+
 ### A Firefox Add-On to View and Manage form history entries (view, edit, delete, selective clean-up, export/import) 
 
 * The Form History Control Add-on is hosted at Mozilla: [Mozilla addons form-history-control](https://addons.mozilla.org/nl/firefox/addon/form-history-control/)
